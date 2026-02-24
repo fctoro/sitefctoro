@@ -1,0 +1,35 @@
+import type { Metadata } from 'next'
+import { Poppins } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
+import './globals.css'
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-poppins',
+  display: 'swap',
+})
+
+export const metadata: Metadata = {
+  title: 'FC TORO HAITI - MACHE SOU YO',
+  description: 'La #1 Academie de Football en Haiti U7-U19. Puissance, Fierte, Ambition.',
+  generator: 'v0.app',
+  icons: {
+    icon: '/fc-toro-logo.png',
+  },
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="fr">
+      <body className={`${poppins.variable} font-sans antialiased bg-white text-zinc-900`}>
+        {children}
+        <Analytics />
+      </body>
+    </html>
+  )
+}
