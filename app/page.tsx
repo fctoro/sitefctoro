@@ -5,13 +5,14 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
-  ArrowRight,
-  Crown,
-  ShieldCheck,
-  Sparkles,
-  Trophy,
-  Users,
-} from 'lucide-react'
+  RiArrowRightLine,
+  RiCalendarEventLine,
+  RiShieldCheckLine,
+  RiSparkling2Line,
+  RiTeamLine,
+  RiTrophyLine,
+  RiVipCrown2Line,
+} from '@remixicon/react'
 import { Header } from './header'
 import { Button } from '../components/ui/button'
 
@@ -23,17 +24,17 @@ const heroStats = [
 
 const pillars = [
   {
-    icon: Users,
+    icon: RiTeamLine,
     title: 'Academie structurante',
     description: 'De U7 a U19, nous formons des joueurs complets avec exigence et methode.',
   },
   {
-    icon: ShieldCheck,
+    icon: RiShieldCheckLine,
     title: 'Culture de discipline',
     description: 'Un cadre pro, un collectif fort et une intensite constante a chaque seance.',
   },
   {
-    icon: Trophy,
+    icon: RiTrophyLine,
     title: 'Ambition de titres',
     description: 'Chaque saison est construite pour performer, gagner et representer Haiti.',
   },
@@ -45,24 +46,30 @@ const highlights = [
   { title: 'Forme', value: '7 victoires', note: 'Serie en cours a domicile' },
 ]
 
+const clubOverviewCards = [
+  {
+    title: 'Depuis 2012',
+    description:
+      'FC TORO, founded on September 1st 2012, is now one of the leading football clubs in Haiti for boys and girls from 2 to 19 years old.',
+  },
+  {
+    title: 'Formation complete',
+    description:
+      'Our players receive diversified training all year: individual skill development, communication, team play, leadership and composure under pressure.',
+  },
+  {
+    title: 'Ambition continue',
+    description:
+      'With staff, parents and sponsors, our players train without interruption and compete in events like Vertieres Cup and Flag Day Tournament.',
+  },
+]
+
 export default function HomePage() {
   const [showIntro, setShowIntro] = useState(true)
-  const [coverImageSrc, setCoverImageSrc] = useState('/toro.png')
 
   const handleIntroEnd = () => {
     setShowIntro(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  const handleCoverImageError = () => {
-    if (coverImageSrc === '/toro.png') {
-      setCoverImageSrc('/toro.webp')
-      return
-    }
-
-    if (coverImageSrc === '/toro.webp') {
-      setCoverImageSrc('/fc-toro-logo.png')
-    }
   }
 
   if (showIntro) {
@@ -102,7 +109,7 @@ export default function HomePage() {
 
         <section className="relative border-b border-zinc-200/80">
 
-          <div className="relative mx-auto grid max-w-[1360px] gap-10 px-4 pb-16 pt-10 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:pt-14">
+          <div className="relative mx-auto grid max-w-[1360px] gap-10 px-4 pb-10 pt-6 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:pt-8">
             <motion.div
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
@@ -110,7 +117,7 @@ export default function HomePage() {
               className="space-y-8"
             >
               <p className="inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-700">
-                <Sparkles className="h-4 w-4 text-primary" />
+                <RiSparkling2Line className="h-4 w-4 text-primary" />
                 Saison 2026 - FC TORO Haiti
               </p>
 
@@ -128,7 +135,7 @@ export default function HomePage() {
                 <Link href="/inscription">
                   <Button className="h-12 rounded-full bg-primary px-7 text-base font-semibold text-white shadow-[0_14px_40px_rgba(237,28,36,0.35)] hover:bg-primary/90">
                     Rejoindre le club
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <RiArrowRightLine className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
                 <Link href="/club/calendrier">
@@ -137,6 +144,15 @@ export default function HomePage() {
                     className="h-12 rounded-full border-zinc-300 bg-white px-7 text-base font-semibold text-zinc-900 hover:bg-zinc-100"
                   >
                     Voir le calendrier
+                  </Button>
+                </Link>
+                <Link href="/club/calendrier#evenements">
+                  <Button
+                    variant="outline"
+                    className="h-12 rounded-full border-zinc-300 bg-white px-6 text-base font-semibold text-zinc-900 hover:bg-zinc-100"
+                  >
+                    <RiCalendarEventLine className="mr-2 h-4 w-4 text-primary" />
+                    Evenements
                   </Button>
                 </Link>
               </div>
@@ -161,31 +177,99 @@ export default function HomePage() {
               className="relative"
             >
               <div className="relative px-2 pt-4 sm:px-4">
-                <div>
+                <div className="flex items-center justify-between gap-3">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-600">Match center</p>
-                  <h2 className="mt-2 text-2xl font-semibold text-zinc-900 sm:text-3xl">FC TORO vs Real Montagne</h2>
+                  <div className="flex items-center gap-2">
+                    <span className="rounded-full border border-zinc-300 bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-600">
+                      Categorie U15
+                    </span>
+                    <span className="rounded-full border border-zinc-300 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700">
+                      J-4
+                    </span>
+                  </div>
                 </div>
+                <h2 className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2 text-2xl font-semibold text-zinc-900 sm:text-3xl">
+                  <span className="inline-flex items-center gap-2">
+                    <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full border border-zinc-300">
+                      <Image src="/fc-toro-logo.png" alt="FC TORO" fill sizes="32px" className="object-cover" />
+                    </span>
+                    FC TORO
+                  </span>
+                  <span className="text-zinc-500">vs</span>
+                  <span className="inline-flex items-center gap-2">
+                    <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full border border-zinc-300">
+                      <Image src="/slg.webp" alt="SLG Academie" fill sizes="32px" className="object-cover" />
+                    </span>
+                    SLG Academie
+                  </span>
+                </h2>
 
-                <div className="relative mx-auto mt-6 h-[260px] w-full max-w-[560px] sm:h-[340px]">
+                <div className="relative mx-auto mt-5 h-[280px] w-full max-w-[600px] sm:h-[350px] lg:ml-auto lg:mr-0 lg:max-w-[660px]">
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(237,28,36,0.22),transparent_64%)] blur-xl" />
-                  <Image
-                    src={coverImageSrc}
-                    alt="Joueur FC TORO"
-                    fill
-                    sizes="(min-width: 1024px) 560px, (min-width: 640px) 460px, 92vw"
-                    className={`object-contain p-2 drop-shadow-[0_20px_35px_rgba(0,0,0,0.35)] ${
-                      coverImageSrc === '/toro.png' ? 'mix-blend-darken contrast-125 saturate-110' : ''
-                    }`}
-                    priority
-                    onError={handleCoverImageError}
-                  />
+                  <div className="absolute inset-y-0 left-0 w-[52%] sm:w-[50%]">
+                    <Image
+                      src="/toro.png"
+                      alt="Joueur FC TORO gauche"
+                      fill
+                      sizes="(min-width: 1024px) 340px, (min-width: 640px) 280px, 44vw"
+                      className="object-contain object-left p-1 drop-shadow-[0_20px_35px_rgba(0,0,0,0.35)] mix-blend-darken contrast-125 saturate-110 scale-[1.02]"
+                      priority
+                    />
+                  </div>
+                  <div className="absolute inset-y-0 right-0 w-[50%] sm:w-[48%]">
+                    <Image
+                      src="/toro1.png"
+                      alt="Joueur FC TORO droite"
+                      fill
+                      sizes="(min-width: 1024px) 320px, (min-width: 640px) 260px, 42vw"
+                      className="object-contain object-right p-1 drop-shadow-[0_20px_35px_rgba(0,0,0,0.35)] mix-blend-darken contrast-125 saturate-110 scale-[0.96] translate-x-1"
+                    />
+                  </div>
                 </div>
               </div>
             </motion.aside>
           </div>
         </section>
 
-        <section className="px-4 pt-14 sm:px-6 lg:px-8">
+        <section className="px-4 pt-8 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.45 }}
+            className="mx-auto max-w-[1360px]"
+          >
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">Football Club Toro</p>
+                <h3 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
+                  FC TORO
+                </h3>
+              </div>
+              <Link
+                href="/club/about"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-700 transition-colors hover:text-primary"
+              >
+                En savoir plus
+                <RiArrowRightLine className="h-4 w-4" />
+              </Link>
+            </div>
+
+            <div className="mt-5 grid gap-4 md:grid-cols-3">
+              {clubOverviewCards.map((item) => (
+                <article
+                  key={item.title}
+                  className="rounded-2xl border border-zinc-200/80 bg-white/85 p-5 shadow-sm backdrop-blur-[2px]"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">{item.title}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-zinc-700">{item.description}</p>
+                </article>
+              ))}
+            </div>
+          </motion.div>
+        </section>
+
+        <section className="px-4 pt-10 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1360px]">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
@@ -199,7 +283,7 @@ export default function HomePage() {
                 className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-700 transition-colors hover:text-primary"
               >
                 Voir le projet sportif
-                <ArrowRight className="h-4 w-4" />
+                <RiArrowRightLine className="h-4 w-4" />
               </Link>
             </div>
 
@@ -229,7 +313,7 @@ export default function HomePage() {
             <div className="grid gap-8 px-6 py-10 lg:grid-cols-[0.92fr_1.08fr] lg:px-10">
               <div>
                 <p className="inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-700">
-                  <Crown className="h-4 w-4 text-primary" />
+                  <RiVipCrown2Line className="h-4 w-4 text-primary" />
                   Bloc performance
                 </p>
                 <h3 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -271,7 +355,7 @@ export default function HomePage() {
               <Link href="/inscription">
                 <Button className="h-12 rounded-full bg-primary px-8 text-base font-semibold text-white hover:bg-primary/90">
                   Devenir membre
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <RiArrowRightLine className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </div>

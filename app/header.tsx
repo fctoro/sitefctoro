@@ -76,17 +76,17 @@ export function Header() {
             </div>
           </Link>
 
-          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 lg:ml-12 lg:flex">
+          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 lg:left-[54%] lg:ml-[80px] lg:flex xl:left-1/2 xl:gap-8">
             <Link
               href="/"
-              className="text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="whitespace-nowrap text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
               onMouseEnter={closeMenuNow}
             >
               Accueil
             </Link>
             <Link
               href="/club/about"
-              className="text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="whitespace-nowrap text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
               onMouseEnter={closeMenuNow}
             >
               Le Club
@@ -94,7 +94,7 @@ export function Header() {
 
             <button
               type="button"
-              className="inline-flex items-center gap-1 text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="inline-flex whitespace-nowrap items-center gap-1 text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
               onMouseEnter={() => openMenu('equipes')}
               aria-expanded={openDropdown === 'equipes'}
               aria-controls="equipes-dropdown"
@@ -105,14 +105,21 @@ export function Header() {
 
             <Link
               href="/club/calendrier"
-              className="text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="whitespace-nowrap text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
               onMouseEnter={closeMenuNow}
             >
               Matchs
             </Link>
             <Link
+              href="/club/calendrier#evenements"
+              className="whitespace-nowrap text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              onMouseEnter={closeMenuNow}
+            >
+              Evenements
+            </Link>
+            <Link
               href="/classement"
-              className="text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="whitespace-nowrap text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
               onMouseEnter={closeMenuNow}
             >
               Classement
@@ -120,7 +127,7 @@ export function Header() {
 
             <button
               type="button"
-              className="inline-flex items-center gap-1 text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="inline-flex whitespace-nowrap items-center gap-1 text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
               onMouseEnter={() => openMenu('rejoindre')}
               aria-expanded={openDropdown === 'rejoindre'}
               aria-controls="rejoindre-dropdown"
@@ -259,6 +266,13 @@ export function Header() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Matchs
+              </Link>
+              <Link
+                href="/club/calendrier#evenements"
+                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Evenements
               </Link>
               <Link
                 href="/classement"
