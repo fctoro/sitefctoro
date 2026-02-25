@@ -66,7 +66,7 @@ export default function HomePage() {
     return (
       <div className="fixed inset-0 z-[100] flex items-center justify-center bg-white px-4">
         <video
-          className="w-full max-w-[340px] object-contain"
+          className="w-full max-w-[260px] object-contain sm:max-w-[280px]"
           autoPlay
           muted
           playsInline
