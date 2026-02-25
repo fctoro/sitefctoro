@@ -1,71 +1,106 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
   RiArrowRightLine,
   RiCalendarEventLine,
-  RiShieldCheckLine,
-  RiSparkling2Line,
-  RiTeamLine,
+  RiMedalLine,
+  RiPlayCircleLine,
+  RiShieldStarLine,
   RiTrophyLine,
-  RiVipCrown2Line,
 } from '@remixicon/react'
-import { Header } from './header'
-import { Button } from '../components/ui/button'
 
-const heroStats = [
-  { value: '11', label: 'Titres nationaux' },
-  { value: '124', label: 'Joueurs formes' },
-  { value: '48K', label: 'Supporters actifs' },
+const navItems = ['Actualites', 'Videos', 'Calendrier', 'Alertes Matchs', 'Contact']
+
+const standings = [
+  { rank: 1, team: 'Racing Club de Lens', pts: 52 },
+  { rank: 2, team: 'Olympique Lyonnais', pts: 45 },
+  { rank: 3, team: 'FC TORO', pts: 40, highlight: true },
+  { rank: 4, team: 'LOSC Lille', pts: 37 },
+  { rank: 5, team: 'Stade Rennais FC', pts: 37 },
 ]
 
-const pillars = [
+const newsCards = [
   {
-    icon: RiTeamLine,
-    title: 'Academie structurante',
-    description: 'De U7 a U19, nous formons des joueurs complets avec exigence et methode.',
+    title: 'FC TORO - Dernieres places',
+    category: 'Billetterie',
+    image: '/toro1.png',
+    large: true,
   },
   {
-    icon: RiShieldCheckLine,
-    title: 'Culture de discipline',
-    description: 'Un cadre pro, un collectif fort et une intensite constante a chaque seance.',
+    title: 'Promo billetterie: -40%',
+    category: 'Billetterie',
+    image: '/toro.png',
   },
   {
-    icon: RiTrophyLine,
-    title: 'Ambition de titres',
-    description: 'Chaque saison est construite pour performer, gagner et representer Haiti.',
+    title: 'La seance du 24 fevrier 2026',
+    category: 'Entrainement',
+    image: '/toro.webp',
+  },
+  {
+    title: 'Communique officiel',
+    category: 'Club',
+    image: '/fc-toro-logo.png',
+  },
+  {
+    title: 'Le succes de la saison 2013-14',
+    category: 'Retro',
+    image: '/slg.webp',
   },
 ]
 
-const highlights = [
-  { title: 'Classement', value: '1re place', note: '61 points en Ligue Elite' },
-  { title: 'Difference', value: '+38 buts', note: 'Meilleure defense du championnat' },
-  { title: 'Forme', value: '7 victoires', note: 'Serie en cours a domicile' },
+const heroSlides = [
+  {
+    label: 'Feminine',
+    title: 'La prise du vel',
+    cta: 'Voir la suite',
+    image: '/toro1.png',
+  },
+  {
+    label: 'Academie',
+    title: 'Le futur commence ici',
+    cta: 'Decouvrir',
+    image: '/toro.png',
+  },
+  {
+    label: 'Equipe Pro',
+    title: 'Mission victoire',
+    cta: 'Voir l actu',
+    image: '/toro.webp',
+  },
 ]
 
-const clubOverviewCards = [
-  {
-    title: 'Depuis 2012',
-    description:
-      'FC TORO, founded on September 1st 2012, is now one of the leading football clubs in Haiti for boys and girls from 2 to 19 years old.',
-  },
-  {
-    title: 'Formation complete',
-    description:
-      'Our players receive diversified training all year: individual skill development, communication, team play, leadership and composure under pressure.',
-  },
-  {
-    title: 'Ambition continue',
-    description:
-      'With staff, parents and sponsors, our players train without interruption and compete in events like Vertieres Cup and Flag Day Tournament.',
-  },
+const trophies = [
+  { icon: RiTrophyLine, label: 'Ligue des Champions', value: '1' },
+  { icon: RiShieldStarLine, label: 'Championnat', value: '11' },
+  { icon: RiMedalLine, label: 'Coupes Nationales', value: '10' },
+]
+
+const sponsors = [
+  { name: 'Coca-Cola', logo: '/sponsors/coca-cola.svg' },
+  { name: 'INTERSPORT', logo: '/sponsors/intersport.svg' },
+  { name: 'McDonalds', logo: '/sponsors/mcdonalds.svg' },
+  { name: 'eToro', logo: '/sponsors/etoro.svg' },
+  { name: 'ONET', logo: '/sponsors/onet.svg' },
+  { name: 'PUMA', logo: '/sponsors/puma.svg' },
+  { name: 'HEIWA', logo: '/sponsors/heiwa.svg' },
+  { name: 'OKI', logo: '/sponsors/oki.svg' },
 ]
 
 export default function HomePage() {
   const [showIntro, setShowIntro] = useState(true)
+  const [activeHero, setActiveHero] = useState(0)
+
+  useEffect(() => {
+    if (showIntro) return
+    const interval = window.setInterval(() => {
+      setActiveHero((prev) => (prev + 1) % heroSlides.length)
+    }, 4200)
+    return () => window.clearInterval(interval)
+  }, [showIntro])
 
   const handleIntroEnd = () => {
     setShowIntro(false)
@@ -90,284 +125,268 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#eef2f6] text-[#0f172a]">
-      <Header />
+    <div className="min-h-screen bg-[#eceff3] text-[#0a1d3a]">
+      <header className="border-b border-[#d6dce4] bg-white">
+       
 
-      <main className="relative overflow-hidden pb-20">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-44 top-[-9rem] h-[24rem] w-[24rem] rounded-full bg-primary/18 blur-3xl" />
-          <div className="absolute -right-36 top-14 h-[22rem] w-[22rem] rounded-full bg-secondary/16 blur-3xl" />
-          <div className="absolute left-1/2 top-[34rem] h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
-          <div
-            className="absolute inset-0 opacity-[0.08]"
-            style={{
-              backgroundImage:
-                'repeating-linear-gradient(90deg, rgba(15,23,42,0.35) 0, rgba(15,23,42,0.35) 1px, transparent 1px, transparent 40px)',
-            }}
-          />
+        <div className="mx-auto flex max-w-[1360px] items-center gap-6 px-4 py-4 sm:px-6 lg:px-8">
+          <Link href="/" className="flex items-center gap-3">
+            <Image src="/fc-toro-logo.png" alt="FC TORO" width={50} height={50} className="h-10 w-auto" priority />
+            <div>
+              <p className="text-lg font-black uppercase tracking-tight text-[#0a1d3a]">FC TORO</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#ef233c]">Mache sou yo</p>
+            </div>
+          </Link>
+
+          <nav className="ml-auto hidden items-center gap-7 lg:flex">
+            {navItems.map((item) => (
+              <Link key={item} href="#" className="text-sm font-bold uppercase tracking-[0.06em] text-[#0a1d3a] transition-colors hover:text-[#ef233c]">
+                {item}
+              </Link>
+            ))}
+            <Link href="/inscription" className="text-sm font-bold uppercase tracking-[0.06em] text-[#e51f36] transition-colors hover:text-[#ef233c]">
+              Rejoindre
+            </Link>
+          </nav>
         </div>
+      </header>
 
-        <section className="relative border-b border-zinc-200/80">
+      <main>
+        <section className="relative overflow-hidden border-b border-[#d6dce4] bg-[#0f2a4b]">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_40%,rgba(7,150,211,0.35),transparent_45%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,18,40,0.85)_0%,rgba(6,18,40,0.35)_48%,rgba(6,18,40,0.88)_100%)]" />
 
-          <div className="relative mx-auto grid max-w-[1360px] gap-10 px-4 pb-10 pt-6 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:pt-8">
+          <div className="relative mx-auto grid min-h-[620px] max-w-[1360px] items-end px-4 pb-0 pt-8 sm:px-6 lg:px-8">
             <motion.div
-              initial={{ opacity: 0, y: 22 }}
-              animate={{ opacity: 1, y: 0 }}
+              key={activeHero}
+              initial={{ opacity: 0.25, scale: 1.04 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.55 }}
-              className="space-y-8"
+              className="absolute inset-0"
             >
-              <p className="inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-700">
-                <RiSparkling2Line className="h-4 w-4 text-primary" />
-                Saison 2026 - FC TORO Haiti
-              </p>
-
-              <div className="space-y-5">
-                <h1 className="max-w-3xl text-5xl font-semibold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
-                  Le club qui met la ville en mouvement
-                </h1>
-                <p className="max-w-2xl text-base leading-relaxed text-zinc-600 sm:text-lg">
-                  FC TORO rassemble la passion, le travail et la fierte locale. Nous construisons une equipe
-                  competitive aujourd hui et une generation solide pour demain.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3">
-                <Link href="/inscription">
-                  <Button className="h-12 rounded-full bg-primary px-7 text-base font-semibold text-white shadow-[0_14px_40px_rgba(237,28,36,0.35)] hover:bg-primary/90">
-                    Rejoindre le club
-                    <RiArrowRightLine className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-                <Link href="/club/calendrier">
-                  <Button
-                    variant="outline"
-                    className="h-12 rounded-full border-zinc-300 bg-white px-7 text-base font-semibold text-zinc-900 hover:bg-zinc-100"
-                  >
-                    Voir le calendrier
-                  </Button>
-                </Link>
-                <Link href="/club/calendrier#evenements">
-                  <Button
-                    variant="outline"
-                    className="h-12 rounded-full border-zinc-300 bg-white px-6 text-base font-semibold text-zinc-900 hover:bg-zinc-100"
-                  >
-                    <RiCalendarEventLine className="mr-2 h-4 w-4 text-primary" />
-                    Evenements
-                  </Button>
-                </Link>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-3">
-                {heroStats.map((item) => (
-                  <div
-                    key={item.label}
-                    className="rounded-2xl border border-zinc-200/80 bg-white/85 px-4 py-5 shadow-sm backdrop-blur-[2px]"
-                  >
-                    <p className="text-3xl font-semibold tracking-tight text-primary">{item.value}</p>
-                    <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">{item.label}</p>
-                  </div>
-                ))}
-              </div>
+              <Image
+                src={heroSlides[activeHero].image}
+                alt={heroSlides[activeHero].title}
+                fill
+                sizes="100vw"
+                className="object-cover opacity-70"
+                priority
+              />
             </motion.div>
 
-            <motion.aside
-              initial={{ opacity: 0, y: 26 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.62, delay: 0.08 }}
-              className="relative"
-            >
-              <div className="relative px-2 pt-4 sm:px-4">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-600">Match center</p>
-                  <div className="flex items-center gap-2">
-                    <span className="rounded-full border border-zinc-300 bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-600">
-                      Categorie U15
-                    </span>
-                    <span className="rounded-full border border-zinc-300 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700">
-                      J-4
-                    </span>
-                  </div>
-                </div>
-                <h2 className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2 text-2xl font-semibold text-zinc-900 sm:text-3xl">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full border border-zinc-300">
-                      <Image src="/fc-toro-logo.png" alt="FC TORO" fill sizes="32px" className="object-cover" />
-                    </span>
-                    FC TORO
-                  </span>
-                  <span className="text-zinc-500">vs</span>
-                  <span className="inline-flex items-center gap-2">
-                    <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full border border-zinc-300">
-                      <Image src="/slg.webp" alt="SLG Academie" fill sizes="32px" className="object-cover" />
-                    </span>
-                    SLG Academie
-                  </span>
-                </h2>
+            <div className="relative z-10 max-w-[620px] pb-14">
+              <p className="inline-flex items-center rounded bg-[#ef233c] px-5 py-2 text-sm font-black uppercase tracking-[0.1em] text-white">
+                {heroSlides[activeHero].label}
+              </p>
+              <h1 className="mt-6 text-5xl font-black uppercase leading-[0.95] text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.25)] sm:text-7xl">
+                {heroSlides[activeHero].title}
+              </h1>
+              <Link href="#" className="mt-8 inline-flex items-center border border-white/70 px-7 py-3 text-sm font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-white hover:text-[#0a1d3a]">
+                {heroSlides[activeHero].cta}
+              </Link>
 
-                <div className="relative mx-auto mt-5 h-[280px] w-full max-w-[600px] sm:h-[350px] lg:ml-auto lg:mr-0 lg:max-w-[660px]">
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(237,28,36,0.22),transparent_64%)] blur-xl" />
-                  <div className="absolute inset-y-0 left-0 w-[52%] sm:w-[50%]">
-                    <Image
-                      src="/toro.png"
-                      alt="Joueur FC TORO gauche"
-                      fill
-                      sizes="(min-width: 1024px) 340px, (min-width: 640px) 280px, 44vw"
-                      className="object-contain object-left p-1 drop-shadow-[0_20px_35px_rgba(0,0,0,0.35)] mix-blend-darken contrast-125 saturate-110 scale-[1.02]"
-                      priority
-                    />
-                  </div>
-                  <div className="absolute inset-y-0 right-0 w-[50%] sm:w-[48%]">
-                    <Image
-                      src="/toro1.png"
-                      alt="Joueur FC TORO droite"
-                      fill
-                      sizes="(min-width: 1024px) 320px, (min-width: 640px) 260px, 42vw"
-                      className="object-contain object-right p-1 drop-shadow-[0_20px_35px_rgba(0,0,0,0.35)] mix-blend-darken contrast-125 saturate-110 scale-[0.96] translate-x-1"
-                    />
-                  </div>
-                </div>
+              <div className="mt-6 flex items-center gap-2">
+                {heroSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => setActiveHero(index)}
+                    className={`h-2.5 rounded-full transition-all ${activeHero === index ? 'w-8 bg-white' : 'w-2.5 bg-white/45 hover:bg-white/70'}`}
+                    aria-label={`Slide ${index + 1}`}
+                  />
+                ))}
               </div>
-            </motion.aside>
+            </div>
+
+            <div className="relative z-10 grid gap-4 border-t border-white/25 bg-[rgba(7,19,43,0.82)] p-5 lg:grid-cols-[1.2fr_0.8fr]">
+              <div className="flex items-center gap-4">
+                <Image src="/fc-toro-logo.png" alt="FC TORO" width={44} height={44} className="h-11 w-auto" />
+                <p className="text-3xl font-black text-white">2 - 0</p>
+                <p className="text-sm font-bold uppercase tracking-[0.08em] text-white/85">Vivre le match</p>
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-xs font-bold uppercase tracking-[0.08em] text-white">
+                <div className="border border-white/25 p-3">Seance du 24 fev</div>
+                <div className="border border-white/25 p-3">Promo billetterie</div>
+                <div className="border border-white/25 p-3">La prise du vel</div>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="px-4 pt-8 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 22 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.45 }}
-            className="mx-auto max-w-[1360px]"
-          >
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">Football Club Toro</p>
-                <h3 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
-                  FC TORO
-                </h3>
+        <section className="px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto grid max-w-[1360px] gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+            <motion.article
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              className="rounded bg-[#f2f5f8] p-6"
+            >
+              <div className="flex items-center justify-between">
+                <h2 className="text-5xl font-black uppercase leading-[0.9] text-[#16357c]">Prochain match a domicile</h2>
+                <Link href="/club/calendrier" className="text-xs font-black uppercase tracking-[0.08em] text-[#0a1d3a]">
+                  Voir le calendrier <RiArrowRightLine className="ml-1 inline h-4 w-4" />
+                </Link>
               </div>
-              <Link
-                href="/club/about"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-700 transition-colors hover:text-primary"
-              >
-                En savoir plus
-                <RiArrowRightLine className="h-4 w-4" />
+
+              <div className="mt-6 rounded border border-[#d4dde7] bg-white p-6">
+                <div className="flex items-center justify-between border-b border-[#d4dde7] pb-2 text-sm">
+                  <p className="font-black uppercase text-[#0a1d3a]">Ligue 1 | J24</p>
+                  <p className="text-[#4a5c78]">Stade FC TORO</p>
+                </div>
+
+                <div className="mt-6 grid items-center gap-4 text-center sm:grid-cols-3">
+                  <div>
+                    <Image src="/fc-toro-logo.png" alt="FC TORO" width={80} height={80} className="mx-auto h-20 w-auto" />
+                    <p className="mt-2 text-xl font-black uppercase text-[#0a1d3a]">FC TORO</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.08em] text-[#0a1d3a]">Dimanche 20:45</p>
+                    <p className="mt-1 text-4xl font-black text-black">01/03/2026</p>
+                    <p className="mt-2 inline-flex rounded bg-[#ef233c] px-3 py-1 text-sm font-black uppercase text-white">Ligue 1+</p>
+                  </div>
+                  <div>
+                    <Image src="/slg.webp" alt="Adversaire" width={80} height={80} className="mx-auto h-20 w-auto rounded" />
+                    <p className="mt-2 text-xl font-black uppercase text-[#0a1d3a]">SLG Academie</p>
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                  <button className="rounded border border-[#ef233c] px-4 py-2.5 text-sm font-bold text-[#0a1d3a]">Fiche de match</button>
+                  <button className="rounded border border-[#ef233c] px-4 py-2.5 text-sm font-bold text-[#0a1d3a]">Parions sport</button>
+                </div>
+                <button className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded bg-[#ef233c] px-4 py-2.5 text-sm font-black uppercase text-white">
+                  <RiCalendarEventLine className="h-4 w-4" /> Billetterie
+                </button>
+              </div>
+            </motion.article>
+
+            <motion.article
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              className="rounded bg-[#f2f5f8] p-6"
+            >
+              <div className="flex items-center justify-between">
+                <h2 className="text-5xl font-black uppercase leading-[0.95] text-[#16357c]">Classement Ligue 1</h2>
+                <Link href="#" className="text-xs font-black uppercase tracking-[0.08em] text-[#0a1d3a]">
+                  Classement complet <RiArrowRightLine className="ml-1 inline h-4 w-4" />
+                </Link>
+              </div>
+
+              <div className="mt-6 space-y-1">
+                {standings.map((row) => (
+                  <div key={row.team} className={`grid grid-cols-[46px_1fr_auto] items-center gap-3 px-3 py-3 ${row.highlight ? 'bg-[#b8def1]' : 'bg-transparent'}`}>
+                    <p className="text-2xl font-black text-black">{row.rank}</p>
+                    <p className="text-xl font-black uppercase text-[#0a1d3a]">{row.team}</p>
+                    <p className="text-lg font-black text-black">{row.pts} PTS</p>
+                  </div>
+                ))}
+              </div>
+            </motion.article>
+          </div>
+        </section>
+
+        <section className="px-4 pb-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1360px]">
+            <div className="mb-6 flex items-center justify-between">
+              <h3 className="text-5xl font-black uppercase text-[#0a1d3a]">Actualites</h3>
+              <Link href="#" className="text-xs font-black uppercase tracking-[0.08em] text-[#0a1d3a]">
+                Voir toutes les actus <RiArrowRightLine className="ml-1 inline h-4 w-4" />
               </Link>
             </div>
 
-            <div className="mt-5 grid gap-4 md:grid-cols-3">
-              {clubOverviewCards.map((item) => (
-                <article
-                  key={item.title}
-                  className="rounded-2xl border border-zinc-200/80 bg-white/85 p-5 shadow-sm backdrop-blur-[2px]"
-                >
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">{item.title}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-zinc-700">{item.description}</p>
+            <div className="grid gap-4 md:grid-cols-3">
+              {newsCards.map((card) => (
+                <article key={card.title} className={card.large ? 'md:col-span-2' : ''}>
+                  <div className="relative h-[210px] overflow-hidden bg-[#0f2a4b] md:h-[250px]">
+                    <Image src={card.image} alt={card.title} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover opacity-90" />
+                  </div>
+                  <div className="bg-white px-4 py-4">
+                    <p className="inline-flex bg-[#ef233c] px-3 py-1 text-xs font-black uppercase tracking-[0.08em] text-white">{card.category}</p>
+                    <h4 className="mt-3 text-3xl font-black uppercase leading-tight text-[#0a1d3a]">{card.title}</h4>
+                  </div>
                 </article>
               ))}
             </div>
-          </motion.div>
-        </section>
-
-        <section className="px-4 pt-10 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1360px]">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">Identite</p>
-                <h3 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
-                  ADN du <span className="text-primary">club</span>
-                </h3>
-              </div>
-              <Link
-                href="/club/about"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-700 transition-colors hover:text-primary"
-              >
-                Voir le projet sportif
-                <RiArrowRightLine className="h-4 w-4" />
-              </Link>
-            </div>
-
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {pillars.map((item, index) => (
-                <motion.article
-                  key={item.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.25 }}
-                  transition={{ duration: 0.45, delay: index * 0.08 }}
-                  className="rounded-2xl border border-zinc-200/80 bg-white/85 p-6 shadow-sm backdrop-blur-[2px] transition-all hover:-translate-y-1 hover:shadow-md"
-                >
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-primary/35 bg-primary/10">
-                    <item.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <h4 className="mt-5 text-xl font-semibold text-zinc-900">{item.title}</h4>
-                  <p className="mt-3 text-sm leading-relaxed text-zinc-600">{item.description}</p>
-                </motion.article>
-              ))}
-            </div>
           </div>
         </section>
 
-        <section className="px-4 pt-12 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1360px] overflow-hidden rounded-[28px] border border-zinc-200/80 bg-white/85 text-zinc-900 shadow-[0_24px_70px_rgba(15,23,42,0.16)] backdrop-blur-[2px]">
-            <div className="grid gap-8 px-6 py-10 lg:grid-cols-[0.92fr_1.08fr] lg:px-10">
-              <div>
-                <p className="inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-700">
-                  <RiVipCrown2Line className="h-4 w-4 text-primary" />
-                  Bloc performance
-                </p>
-                <h3 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-                  Une equipe construite pour durer
-                </h3>
-                <p className="mt-4 max-w-lg text-sm leading-relaxed text-zinc-600 sm:text-base">
-                  Staff technique, cellule analytique et groupe competitif: chaque unite pousse dans la meme direction.
-                  C est cette coherence qui fait la difference semaine apres semaine.
-                </p>
-              </div>
+        <section className="relative overflow-hidden bg-[#17395f] px-4 py-14 sm:px-6 lg:px-8">
+          <div className="absolute left-[-120px] top-[-100px] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,rgba(7,150,211,0.65),rgba(7,150,211,0)_70%)]" />
 
-              <div className="grid gap-4 sm:grid-cols-3">
-                {highlights.map((item) => (
-                  <div key={item.title} className="rounded-2xl border border-zinc-200 bg-white p-5">
-                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.17em] text-zinc-500">{item.title}</p>
-                    <p className="mt-3 text-2xl font-semibold text-zinc-900">{item.value}</p>
-                    <p className="mt-2 text-sm text-zinc-600">{item.note}</p>
+          <div className="relative mx-auto grid max-w-[1360px] gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <h3 className="text-4xl font-black uppercase text-white">Histoire du club</h3>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <article className="border border-white/25 p-3 text-white">
+                  <Image src="/toro.webp" alt="Histoire 1" width={420} height={210} className="h-36 w-full object-cover" />
+                  <p className="mt-3 text-lg font-black uppercase">La generation toro prend le relais...</p>
+                </article>
+                <article className="border border-white/25 p-3 text-white">
+                  <Image src="/toro1.png" alt="Histoire 2" width={420} height={210} className="h-36 w-full object-cover" />
+                  <p className="mt-3 text-lg font-black uppercase">Guide du centre de formation...</p>
+                </article>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-4xl font-black uppercase text-white">Palmares</h3>
+              <div className="mt-5 grid grid-cols-3 gap-3">
+                {trophies.map((item) => (
+                  <div key={item.label} className="border border-[#ef233c]/45 bg-[#0f2a4b]/70 p-4 text-center text-white">
+                    <item.icon className="mx-auto h-9 w-9 text-[#ef233c]" />
+                    <p className="mt-2 text-3xl font-black">{item.value}</p>
+                    <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-200">{item.label}</p>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="px-4 pt-12 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1360px] rounded-[28px] border border-zinc-200/80 bg-white/85 px-6 py-10 shadow-sm backdrop-blur-[2px] sm:px-10">
-            <div className="grid items-center gap-6 lg:grid-cols-[1fr_auto]">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">Communaute</p>
-                <h3 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
-                  Entre dans la famille <span className="text-primary">FC TORO</span>
-                </h3>
-                <p className="mt-3 max-w-2xl text-sm text-zinc-600 sm:text-base">
-                  Inscriptions ouvertes pour la nouvelle session academie et programme supporters. Rejoins un cadre
-                  exigeant, une ambiance forte et une vision claire.
-                </p>
-              </div>
-
-              <Link href="/inscription">
-                <Button className="h-12 rounded-full bg-primary px-8 text-base font-semibold text-white hover:bg-primary/90">
-                  Devenir membre
-                  <RiArrowRightLine className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
+              <button className="mt-5 inline-flex items-center gap-2 border border-white/35 px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-white">
+                <RiPlayCircleLine className="h-4 w-4" /> Decouvrir le club
+              </button>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-zinc-200/80 bg-transparent">
-        <div className="mx-auto flex max-w-[1360px] flex-col gap-3 px-4 py-8 text-sm text-zinc-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>(c) 2026 FC TORO Haiti. Tous droits reserves.</p>
-          <p className="font-semibold uppercase tracking-[0.2em] text-primary">Mache Sou Yo</p>
-        </div>
+      <footer className="bg-white">
+        <section className="px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1360px]">
+            <h4 className="text-center text-xs font-black uppercase tracking-[0.12em] text-[#0a1d3a]">Partenaires officiels</h4>
+            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+              {sponsors.map((sponsor) => (
+                <div key={sponsor.name} className="grid h-16 place-items-center rounded border border-[#d7dde6] bg-white px-2">
+                  <Image src={sponsor.logo} alt={sponsor.name} width={140} height={52} className="h-10 w-auto object-contain" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-[linear-gradient(120deg,#16357c,#ef233c)] px-4 py-9 text-white sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-[1360px] flex-wrap items-center justify-between gap-5">
+            <div className="flex items-center gap-4">
+              <Image src="/fc-toro-logo.png" alt="Logo FC TORO" width={54} height={54} className="h-[54px] w-auto object-contain" />
+              <div>
+                <p className="text-sm font-black uppercase tracking-[0.08em]">L application officielle du FC TORO</p>
+                <p className="mt-1 text-xs">Suivez FC TORO partout avec l app mobile.</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <button className="rounded border border-white/70 px-4 py-2 text-xs font-bold uppercase">App Store</button>
+              <button className="rounded border border-white/70 px-4 py-2 text-xs font-bold uppercase">Google Play</button>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 py-6 sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-[1360px] flex-wrap items-center justify-center gap-4 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a1d3a]">
+            <div className="flex items-center gap-4">
+              <Link href="#">Mentions</Link>
+              <Link href="#">Plan du site</Link>
+              <Link href="#">Cookies</Link>
+            </div>
+          </div>
+        </section>
       </footer>
     </div>
   )

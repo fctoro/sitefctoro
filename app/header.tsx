@@ -58,8 +58,9 @@ export function Header() {
   }, [])
 
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-[#f2f2f2]">
+    <header className="sticky top-0 z-50 border-b border-primary/45 bg-[linear-gradient(104deg,rgba(6,16,44,0.95),rgba(22,53,124,0.9),rgba(239,35,60,0.78),rgba(226,232,240,0.22))] backdrop-blur">
       <div className="relative mx-auto max-w-[1340px] px-3 sm:px-5 lg:px-6">
+        <div className="pointer-events-none absolute left-0 right-0 top-0 h-[3px] bg-gradient-to-r from-secondary via-primary to-secondary" />
         <div className="relative flex h-[74px] items-center gap-3">
           <Link href="/" className="flex shrink-0 items-center gap-2.5 lg:ml-2" onMouseEnter={closeMenuNow}>
             <Image
@@ -71,22 +72,22 @@ export function Header() {
               priority
             />
             <div className="leading-tight">
-              <p className="text-[1.06rem] font-bold tracking-tight text-zinc-900">FC TORO</p>
-              <p className="text-[0.64rem] font-semibold tracking-[0.14em] text-zinc-500">Mache sou yo</p>
+              <p className="text-[1.06rem] font-bold tracking-tight text-white">FC TORO</p>
+              <p className="text-[0.64rem] font-semibold tracking-[0.14em] text-slate-100">Mache sou yo</p>
             </div>
           </Link>
 
           <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 lg:left-[54%] lg:ml-[80px] lg:flex xl:left-1/2 xl:gap-8">
             <Link
               href="/"
-              className="whitespace-nowrap text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="whitespace-nowrap text-[0.95rem] font-semibold text-white transition-colors hover:text-primary"
               onMouseEnter={closeMenuNow}
             >
               Accueil
             </Link>
             <Link
               href="/club/about"
-              className="whitespace-nowrap text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="whitespace-nowrap text-[0.95rem] font-semibold text-white transition-colors hover:text-primary"
               onMouseEnter={closeMenuNow}
             >
               Le Club
@@ -94,7 +95,7 @@ export function Header() {
 
             <button
               type="button"
-              className="inline-flex whitespace-nowrap items-center gap-1 text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="inline-flex whitespace-nowrap items-center gap-1 text-[0.95rem] font-semibold text-white transition-colors hover:text-primary"
               onMouseEnter={() => openMenu('equipes')}
               aria-expanded={openDropdown === 'equipes'}
               aria-controls="equipes-dropdown"
@@ -105,21 +106,21 @@ export function Header() {
 
             <Link
               href="/club/calendrier"
-              className="whitespace-nowrap text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="whitespace-nowrap text-[0.95rem] font-semibold text-white transition-colors hover:text-primary"
               onMouseEnter={closeMenuNow}
             >
               Matchs
             </Link>
             <Link
               href="/club/calendrier#evenements"
-              className="whitespace-nowrap text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="whitespace-nowrap text-[0.95rem] font-semibold text-white transition-colors hover:text-primary"
               onMouseEnter={closeMenuNow}
             >
               Evenements
             </Link>
             <Link
               href="/classement"
-              className="whitespace-nowrap text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="whitespace-nowrap text-[0.95rem] font-semibold text-white transition-colors hover:text-primary"
               onMouseEnter={closeMenuNow}
             >
               Classement
@@ -127,7 +128,7 @@ export function Header() {
 
             <button
               type="button"
-              className="inline-flex whitespace-nowrap items-center gap-1 text-[0.95rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
+              className="inline-flex whitespace-nowrap items-center gap-1 text-[0.95rem] font-semibold text-white transition-colors hover:text-primary"
               onMouseEnter={() => openMenu('rejoindre')}
               aria-expanded={openDropdown === 'rejoindre'}
               aria-controls="rejoindre-dropdown"
@@ -140,7 +141,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen((value) => !value)}
-            className="ml-auto grid h-9 w-9 place-items-center rounded-lg border border-zinc-300 text-zinc-700 transition-colors hover:bg-zinc-200 lg:hidden"
+            className="ml-auto grid h-9 w-9 place-items-center rounded-lg border border-white/40 text-white transition-colors hover:bg-white/15 lg:hidden"
             aria-label="Ouvrir le menu"
           >
             {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -150,7 +151,7 @@ export function Header() {
         {openDropdown ? (
           <div className="pointer-events-none absolute left-0 right-0 top-full hidden lg:block">
             <div
-              className="pointer-events-auto border-t border-zinc-200 bg-white shadow-[0_16px_34px_rgba(0,0,0,0.12)]"
+              className="pointer-events-auto border-t border-secondary/20 bg-white shadow-[0_16px_34px_rgba(0,77,152,0.16)]"
               onMouseEnter={clearCloseTimer}
               onMouseLeave={closeMenuSoon}
             >
@@ -220,18 +221,18 @@ export function Header() {
         ) : null}
 
         {mobileMenuOpen ? (
-          <div className="border-t border-zinc-200 bg-[#f2f2f2] px-1 pb-4 pt-3 lg:hidden">
+          <div className="border-t border-primary/35 bg-[linear-gradient(165deg,rgba(8,18,46,0.95),rgba(16,72,170,0.85),rgba(239,35,60,0.74))] px-1 pb-4 pt-3 lg:hidden">
             <nav className="space-y-1">
               <Link
                 href="/"
-                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
+                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Accueil
               </Link>
               <Link
                 href="/club/about"
-                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
+                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Le Club
@@ -240,7 +241,7 @@ export function Header() {
               <button
                 type="button"
                 onClick={() => setMobileSection((value) => (value === 'equipes' ? null : 'equipes'))}
-                className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
+                className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
               >
                 Equipes
                 <ChevronDown className={`h-4 w-4 transition-transform ${mobileSection === 'equipes' ? 'rotate-180' : ''}`} />
@@ -251,7 +252,7 @@ export function Header() {
                     <Link
                       key={item.label}
                       href={item.href}
-                      className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-xs font-semibold text-zinc-700"
+                      className="rounded-lg border border-white/35 bg-white/15 px-3 py-2 text-xs font-semibold text-white"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.label}
@@ -262,21 +263,21 @@ export function Header() {
 
               <Link
                 href="/club/calendrier"
-                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
+                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Matchs
               </Link>
               <Link
                 href="/club/calendrier#evenements"
-                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
+                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Evenements
               </Link>
               <Link
                 href="/classement"
-                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
+                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Classement
@@ -285,7 +286,7 @@ export function Header() {
               <button
                 type="button"
                 onClick={() => setMobileSection((value) => (value === 'rejoindre' ? null : 'rejoindre'))}
-                className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
+                className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
               >
                 Rejoindre
                 <ChevronDown className={`h-4 w-4 transition-transform ${mobileSection === 'rejoindre' ? 'rotate-180' : ''}`} />
@@ -296,7 +297,7 @@ export function Header() {
                     <Link
                       key={item.label}
                       href={item.href}
-                      className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-xs font-semibold text-zinc-700"
+                      className="rounded-lg border border-white/35 bg-white/15 px-3 py-2 text-xs font-semibold text-white"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.label}
