@@ -117,7 +117,303 @@
     @apply border-border outline-ring/50;
   }
 
+  html,
   body {
-    @apply bg-background text-foreground;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  body {
+    @apply text-foreground;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: #f2f2f4;
+  }
+}
+
+@keyframes toro-tricolor-slide-right {
+  0% {
+    transform: translateX(-33.333%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes toro-soft-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes toro-hero-zoom {
+  0% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1.045);
+  }
+}
+
+@keyframes toro-sweep-line {
+  0% {
+    transform: translateX(-105%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(140%);
+    opacity: 0;
+  }
+}
+
+@layer components {
+  .toro-site-shell {
+    background-image: linear-gradient(180deg, #f8f8f9 0%, #f1f1f3 100%);
+  }
+
+  .toro-topbar {
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(10, 29, 58, 0.09);
+  }
+
+  .toro-tricolor-bar {
+    position: relative;
+    height: 6px;
+    overflow: hidden;
+    background: linear-gradient(90deg, rgba(239, 35, 60, 0.2), rgba(10, 29, 58, 0.28), rgba(26, 78, 163, 0.22));
+    box-shadow: 0 2px 14px rgba(10, 29, 58, 0.18);
+  }
+
+  .toro-tricolor-track {
+    position: absolute;
+    inset: -1px 0 -1px 0;
+    width: 300%;
+    background-image: linear-gradient(
+      92deg,
+      #05070d 0%,
+      #ef233c 14%,
+      #ff5b73 27%,
+      #101826 42%,
+      #dbe7ff 57%,
+      #1a4ea3 74%,
+      #0d1224 88%,
+      #05070d 100%
+    );
+    background-size: 33.333% 100%;
+    background-repeat: repeat;
+    animation: toro-tricolor-slide-right 6.2s linear infinite;
+  }
+
+  .toro-hero-section {
+    box-shadow:
+      inset 0 -90px 130px rgba(7, 19, 43, 0.33),
+      inset 0 40px 70px rgba(7, 19, 43, 0.16);
+  }
+
+  .toro-hero-media {
+    animation: toro-hero-zoom 9.5s ease-in-out infinite alternate;
+    filter: saturate(1.08) contrast(1.05);
+    object-position: center 46%;
+    transform-origin: center 34%;
+  }
+
+  @media (min-width: 1280px) {
+    .toro-hero-media {
+      object-position: center 32%;
+    }
+  }
+
+  .toro-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(219, 226, 237, 0.95);
+    background-image: linear-gradient(150deg, rgba(255, 255, 255, 0.92), rgba(245, 248, 253, 0.98));
+    box-shadow:
+      0 16px 38px rgba(10, 29, 58, 0.08),
+      0 3px 12px rgba(239, 35, 60, 0.08);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+  }
+
+  .toro-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 36px rgba(10, 29, 58, 0.12);
+  }
+
+  .toro-card-live::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 38%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(239, 35, 60, 0.9), rgba(75, 121, 207, 0.8));
+    animation: toro-sweep-line 6.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .toro-panel {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 -14px 40px rgba(7, 19, 43, 0.24);
+  }
+
+  .toro-cta {
+    animation: toro-soft-float 2.8s ease-in-out infinite;
+    box-shadow: 0 10px 26px rgba(239, 35, 60, 0.22);
+  }
+
+  .toro-news-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(214, 220, 228, 0.95);
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow:
+      0 14px 28px rgba(10, 29, 58, 0.1),
+      0 3px 10px rgba(26, 78, 163, 0.1);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+  }
+
+  .toro-news-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(10, 29, 58, 0.14);
+  }
+
+  .toro-news-card-live::after {
+    content: '';
+    position: absolute;
+    inset: auto -45% 0 auto;
+    width: 52%;
+    height: 120%;
+    transform: skewX(-20deg);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0));
+    transition: transform 0.6s ease;
+    pointer-events: none;
+  }
+
+  .toro-news-card-live:hover::after {
+    transform: translateX(-185%) skewX(-20deg);
+  }
+
+  .toro-standing-row {
+    transition: transform 0.25s ease, background-color 0.25s ease;
+  }
+
+  .toro-standing-row:hover {
+    transform: translateX(4px);
+  }
+
+  .toro-fusion-title {
+    background-image: linear-gradient(96deg, #ef233c 0%, #4b79cf 56%, #214f9f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .toro-players-shell {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .toro-player-nav-btn {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(183, 193, 212, 0.95);
+    background: rgba(255, 255, 255, 0.95);
+    color: #16357c;
+    transition: transform 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+  }
+
+  .toro-player-nav-btn:hover {
+    transform: translateY(-1px);
+    color: #ef233c;
+    border-color: rgba(239, 35, 60, 0.45);
+  }
+
+  .toro-player-rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(180px, 220px);
+    gap: 0.8rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding: 0.35rem 0.12rem 0.5rem;
+    scrollbar-width: none;
+  }
+
+  .toro-player-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .toro-player-card {
+    position: relative;
+    display: flex;
+    min-height: 300px;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    scroll-snap-align: start;
+    box-shadow: 0 10px 22px rgba(10, 29, 58, 0.18);
+    transform-origin: center;
+    will-change: transform;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 0;
+  }
+
+  .toro-player-card::after {
+    content: '';
+    position: absolute;
+    inset: auto -48% 0 auto;
+    width: 56%;
+    height: 130%;
+    transform: skewX(-20deg);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
+    transition: transform 0.6s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .toro-player-card:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 18px 34px rgba(10, 29, 58, 0.28);
+    z-index: 2;
+  }
+
+  .toro-player-card:hover::after {
+    transform: translateX(-188%) skewX(-20deg);
+  }
+
+  .toro-player-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 36%, rgba(0, 0, 0, 0.82) 100%);
+  }
+
+  @media (min-width: 768px) {
+    .toro-player-rail {
+      grid-auto-columns: minmax(210px, 240px);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .toro-player-rail {
+      grid-auto-columns: minmax(220px, 260px);
+    }
   }
 }

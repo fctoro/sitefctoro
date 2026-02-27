@@ -268,3 +268,9 @@ export const mockClubFixtures: ClubFixture[] = [
     'team-metro',
   ),
 ]
+
+export const mockStandingTeams = Object.values(clubCatalog).map((club) => ({
+  id: club.id,
+  name: club.name,
+  logoUrl: club.logoUrl,
+}))

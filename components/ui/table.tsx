@@ -78,7 +78,24 @@ function TableHead({ className, ...props }: React.ComponentProps<'th'>) {
   )
 }
 
-function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
+type TableCellProps = React.ComponentProps<'td'> & {
+  isHeader?: boolean
+}
+
+function TableCell({ className, isHeader = false, ...props }: TableCellProps) {
+  if (isHeader) {
+    return (
+      <th
+        data-slot="table-cell-header"
+        className={cn(
+          'text-foreground h-10 p-2 text-left align-middle font-medium whitespace-nowrap',
+          className,
+        )}
+        {...(props as React.ComponentProps<'th'>)}
+      />
+    )
+  }
+
   return (
     <td
       data-slot="table-cell"
