@@ -15,6 +15,8 @@ export type NewsCard = {
   title: string
   category: string
   image: string
+  excerpt: string
+  dateLabel: string
   large?: boolean
 }
 
@@ -60,27 +62,36 @@ export const newsCards: NewsCard[] = [
     title: 'FC TORO - Dernieres places',
     category: 'Billetterie',
     image: '/joueur/extracted/583188241_18542486221012336_5258040509286651258_n.jpg',
+    excerpt: "Les derniers billets pour le choc de dimanche sont en ligne. Reservation ouverte jusqu'a 18h.",
+    dateLabel: '26 Fev 2026',
     large: true,
   },
   {
     title: 'Promo billetterie: -40%',
     category: 'Billetterie',
     image: '/joueur/extracted/590428352_18546412351012336_8960891563345494800_n.jpg',
+    excerpt: 'Offre flash supporters sur les tribunes laterales. Quantites limitees, valable 48h.',
+    dateLabel: '25 Fev 2026',
   },
   {
     title: 'La seance du 24 fevrier 2026',
     category: 'Entrainement',
     image: '/joueur/extracted/565186344_18534659338012336_7505322217599153961_n.jpg',
+    excerpt: 'Intensite, pressing et finitions au programme. Le groupe avance avec une belle energie.',
+    dateLabel: '24 Fev 2026',
   },
   {
     title: 'Communique officiel',
     category: 'Club',
     image: '/joueur/extracted/599236964_18547431706012336_2518205431165781947_n.jpg',
+    excerpt: "Le club confirme l'organisation du week-end et remercie les benevoles pour leur implication.",
+    dateLabel: '22 Fev 2026',
   },
   {
     title: 'Le succes de la saison 2013-14',
     category: 'Retro',
     image: '/joueur/extracted/629347230_17886988737431630_560677091584659157_n.jpg',
+    excerpt: 'Retour sur une annee reference: discipline collective, identite de jeu et mental fort.',
+    dateLabel: 'Archive',
   },
 ]
-

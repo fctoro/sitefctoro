@@ -177,7 +177,7 @@ const trophies = [
   { icon: RiMedalLine, label: 'Coupes Nationales', value: '10' },
 ]
 
-const mobilePrimaryLinks = [
+const mobilePrimaryLinks: Array<{ label: string; href: string; accent?: boolean }> = [
   { label: 'Actualites', href: '#actualites' },
   { label: 'Club', href: '#club' },
   { label: 'Equipe', href: '#joueurs' },
@@ -620,56 +620,64 @@ export default function HomePage() {
         </section>
 
         <section className="px-4 py-10 sm:px-6 lg:px-8">
-          <div className="mx-auto grid max-w-[1320px] gap-6 xl:grid-cols-[1.12fr_0.88fr]">
+          <div className="mx-auto grid max-w-[1320px] gap-6 xl:grid-cols-[1.18fr_0.82fr]">
             <motion.article
-              initial={{ opacity: 0, x: -28, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, ease: 'easeOut' }}
+              initial={{ opacity: 0, x: -30, y: 14 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 0.58, ease: 'easeOut' }}
               viewport={{ once: true, amount: 0.2 }}
-              className="relative overflow-hidden rounded-[24px] border border-[#d6ddea] bg-[linear-gradient(125deg,#f7fbff_0%,#edf3fb_55%,#f6f8fc_100%)] p-5 shadow-[0_18px_34px_rgba(10,29,58,0.12)] sm:p-7"
+              className="group relative overflow-hidden rounded-[28px] border border-[#ccd8ea] bg-[linear-gradient(135deg,#f4f8ff_0%,#eaf1fb_56%,#f7eff4_100%)] p-5 shadow-[0_18px_34px_rgba(10,29,58,0.12)] sm:p-7"
             >
-              <div className="absolute right-[-120px] top-[-120px] h-[280px] w-[280px] rounded-full bg-[radial-gradient(circle_at_center,rgba(239,35,60,0.24),rgba(239,35,60,0)_70%)]" />
-              <div className="relative z-10 flex items-center justify-between gap-3">
+              <div className="absolute -left-16 top-16 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(31,63,143,0.18),rgba(31,63,143,0)_70%)] transition-transform duration-700 group-hover:scale-110" />
+              <div className="absolute -right-16 -top-16 h-52 w-52 rounded-full bg-[radial-gradient(circle,rgba(239,35,60,0.2),rgba(239,35,60,0)_72%)] transition-transform duration-700 group-hover:scale-110" />
+
+              <div className="relative z-10 flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.12em] text-[#ef233c]">Nouveau bloc evenement</p>
-                  <h2 className="mt-2 text-[2rem] font-black uppercase leading-[0.9] text-[#1f3f8f] sm:text-[3rem]">
+                  <p className="text-xs font-black uppercase tracking-[0.14em] text-[#ef233c]">Nouveau bloc evenement</p>
+                  <h2 className="mt-2 text-[clamp(2rem,4vw,5rem)] font-black uppercase leading-[0.88] text-[#1f3f8f]">
                     Match
                     <br />& fan zone
                   </h2>
                 </div>
-                <Link href="/club/calendrier#evenements" className="inline-flex items-center rounded-full border border-[#cdd8eb] bg-white px-4 py-2 text-[11px] font-black uppercase tracking-[0.08em] text-[#0a1d3a] transition-colors hover:bg-[#f5f8ff] sm:text-xs">
-                  Evenements <RiArrowRightLine className="ml-1 h-4 w-4" />
+                <Link
+                  href="/club/calendrier#evenements"
+                  className="inline-flex items-center rounded-full border border-[#bfd0ea] bg-white px-5 py-2 text-xs font-black uppercase tracking-[0.08em] text-[#0a1d3a] transition-all duration-300 hover:border-[#1f3f8f] hover:text-[#1f3f8f]"
+                >
+                  Evenements <RiArrowRightLine className="ml-1.5 h-4 w-4" />
                 </Link>
               </div>
 
-              <div className="relative z-10 mt-5 grid gap-4 md:grid-cols-[minmax(220px,0.85fr)_1fr]">
-                <div className="relative min-h-[370px] overflow-hidden rounded-2xl border border-[#d7e2f1] bg-[#0f2a4b]">
+              <div className="relative z-10 mt-6 grid gap-4 md:grid-cols-[minmax(230px,0.86fr)_1fr]">
+                <Link
+                  href="#joueurs"
+                  className="group/card relative min-h-[350px] overflow-hidden rounded-[20px] border border-[#d1deef] bg-[#0f2a4b] shadow-[0_12px_24px_rgba(10,29,58,0.22)]"
+                >
                   <Image
                     src={playerCards[0].image}
                     alt={`Joueur FC TORO - ${playerCards[0].name}`}
                     fill
                     sizes="(min-width: 768px) 32vw, 100vw"
-                    className="object-cover"
+                    className="object-cover transition-transform duration-500 group-hover/card:scale-105"
                   />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,18,40,0)_20%,rgba(6,18,40,0.78)_100%)]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,18,40,0.08)_24%,rgba(6,18,40,0.84)_100%)]" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white/85">{playerCards[0].role}</p>
-                    <p className="mt-1 text-2xl font-black uppercase leading-[0.95]">{playerCards[0].name}</p>
+                    <p className="text-[11px] font-black uppercase tracking-[0.12em] text-white/86">{playerCards[0].role}</p>
+                    <p className="mt-1 text-[2.1rem] font-black uppercase leading-[0.9]">{playerCards[0].name}</p>
                   </div>
-                </div>
+                </Link>
 
-                <div className="rounded-2xl border border-[#d7e2f1] bg-white/80 p-4 backdrop-blur-sm sm:p-5">
+                <div className="rounded-[20px] border border-[#cfdaec] bg-white/92 p-5 shadow-[0_10px_24px_rgba(10,29,58,0.08)] backdrop-blur-sm">
                   {nextMatch ? (
                     <>
-                      <p className="text-xs font-black uppercase tracking-[0.08em] text-[#5d6f8f]">
+                      <p className="text-xs font-black uppercase tracking-[0.1em] text-[#5b6f91]">
                         {nextMatch.round} | {nextMatch.competition}
                       </p>
-                      <p className="mt-2 text-2xl font-black uppercase leading-tight text-[#0a1d3a] sm:text-[2rem]">
+                      <p className="mt-2 text-[clamp(1.95rem,2.6vw,3.4rem)] font-black uppercase leading-[0.95] text-[#0a1d3a]">
                         {nextMatch.homeTeamName}
                         <span className="mx-2 text-[#ef233c]">VS</span>
                         {nextMatch.awayTeamName}
                       </p>
-                      <p className="mt-3 text-sm font-bold uppercase tracking-[0.06em] text-[#1d3f87]">
+                      <p className="mt-3 text-[1.7rem] font-black uppercase tracking-[0.03em] text-[#1f3f8f] sm:text-[2rem]">
                         {formatMatchDate(nextMatch.kickoff)} a {formatMatchTime(nextMatch.kickoff)}
                       </p>
                     </>
@@ -677,20 +685,20 @@ export default function HomePage() {
                     <p className="text-sm font-semibold text-[#5d6f8f]">Aucun match a venir pour le moment.</p>
                   )}
 
-                  <p className="mt-4 rounded-xl bg-[linear-gradient(95deg,rgba(239,35,60,0.12),rgba(26,78,163,0.1))] px-3 py-2 text-sm font-semibold text-[#0a1d3a]">
+                  <p className="mt-4 rounded-2xl border border-[#d8e0ef] bg-[linear-gradient(95deg,rgba(239,35,60,0.12),rgba(31,63,143,0.08))] px-3.5 py-3 text-[1.05rem] font-semibold leading-snug text-[#0a1d3a]">
                     Animations tribune, photos supporters et stand boutique avant le coup d envoi.
                   </p>
 
-                  <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                  <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
                     <Link
                       href="/club/calendrier#evenements"
-                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#ef233c] px-4 py-2.5 text-sm font-black uppercase text-white transition-colors hover:bg-[#d91933]"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#ef233c] px-4 py-3 text-sm font-black uppercase tracking-[0.04em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#d91933]"
                     >
                       <RiCalendarEventLine className="h-4 w-4" /> Evenements
                     </Link>
                     <Link
                       href="/club/calendrier"
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-[#bfd0ea] bg-white px-4 py-2.5 text-sm font-black uppercase text-[#0a1d3a] transition-colors hover:bg-[#f4f8ff]"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#bfd0ea] bg-white px-4 py-3 text-sm font-black uppercase tracking-[0.04em] text-[#0a1d3a] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1f3f8f] hover:text-[#1f3f8f]"
                     >
                       Calendrier <RiArrowRightLine className="h-4 w-4" />
                     </Link>
@@ -700,36 +708,44 @@ export default function HomePage() {
             </motion.article>
 
             <motion.article
-              initial={{ opacity: 0, x: 28, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, ease: 'easeOut', delay: 0.05 }}
+              initial={{ opacity: 0, x: 30, y: 14 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 0.58, ease: 'easeOut', delay: 0.05 }}
               viewport={{ once: true, amount: 0.2 }}
-              className="rounded-[24px] border border-[#d6ddea] bg-[#f7fbff] p-5 shadow-[0_18px_34px_rgba(10,29,58,0.1)] sm:p-6"
+              className="group relative overflow-hidden rounded-[28px] border border-[#ccd8ea] bg-[linear-gradient(132deg,#f4f8ff_0%,#eef4fd_60%,#f9fbff_100%)] p-5 shadow-[0_18px_34px_rgba(10,29,58,0.1)] sm:p-6"
             >
-              <div className="flex items-center justify-between gap-3">
-                <h3 className="text-2xl font-black uppercase leading-[0.95] text-[#1f3f8f] sm:text-3xl">
+              <div className="absolute -right-20 bottom-[-70px] h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(31,63,143,0.14),rgba(31,63,143,0)_72%)] transition-transform duration-700 group-hover:scale-110" />
+
+              <div className="relative z-10 flex items-center justify-between gap-3">
+                <h3 className="text-[clamp(1.9rem,3vw,3rem)] font-black uppercase leading-[0.9] text-[#1f3f8f]">
                   Focus
                   <br />joueurs
                 </h3>
-                <Link href="/club/calendrier#evenements" className="text-[11px] font-black uppercase tracking-[0.08em] text-[#0a1d3a] sm:text-xs">
+                <Link
+                  href="#joueurs"
+                  className="text-xs font-black uppercase tracking-[0.1em] text-[#0a1d3a] transition-colors duration-300 hover:text-[#1f3f8f]"
+                >
                   Voir tout <RiArrowRightLine className="ml-1 inline h-4 w-4" />
                 </Link>
               </div>
 
-              <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="relative z-10 mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {playerCards.slice(1, 5).map((player) => (
-                  <article key={`event-card-${player.name}`} className="group relative min-h-[220px] overflow-hidden rounded-xl border border-[#d4deee] bg-[#102640]">
+                  <article
+                    key={`event-card-${player.name}`}
+                    className="group/card relative min-h-[222px] overflow-hidden rounded-[16px] border border-[#cad8eb] bg-[#102640] shadow-[0_10px_18px_rgba(10,29,58,0.18)] transition-transform duration-300 hover:-translate-y-1"
+                  >
                     <Image
                       src={player.image}
                       alt={`Photo Instagram ${player.name}`}
                       fill
                       sizes="(min-width: 640px) 26vw, 100vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover transition-transform duration-500 group-hover/card:scale-105"
                     />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,25,47,0.06)_18%,rgba(8,25,47,0.8)_100%)]" />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,25,47,0.06)_18%,rgba(8,25,47,0.82)_100%)]" />
                     <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
-                      <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-white/85">{player.role}</p>
-                      <p className="mt-1 text-xl font-black uppercase leading-[0.95]">{player.name}</p>
+                      <p className="text-[11px] font-black uppercase tracking-[0.1em] text-white/85">{player.role}</p>
+                      <p className="mt-1 text-[2.05rem] font-black uppercase leading-[0.86] sm:text-[2.2rem]">{player.name}</p>
                     </div>
                   </article>
                 ))}
@@ -809,97 +825,239 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="joueurs" className="px-0 pb-10">
-          <div className="w-full">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="toro-players-shell"
-            >
-              <div className="mb-4 flex items-center justify-between gap-3 px-1.5 sm:px-2.5 lg:px-3">
-                <h3 className="text-center text-2xl font-black uppercase tracking-tight text-[#0a1d3a] sm:text-3xl">Joueurs FC TORO</h3>
-                <div className="flex items-center gap-2">
+        <section id="joueurs" className="pb-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            viewport={{ once: true, amount: 0.2 }}
+            className="w-full bg-[linear-gradient(108deg,#ef233c_0%,#d11b34_55%,#a80f2a_100%)] px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7"
+          >
+            <div className="mx-auto w-full max-w-[1920px]">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <h3 className="text-left text-[1.2rem] font-black uppercase leading-none tracking-tight text-white sm:text-[1.45rem]">
+                  Joueurs FC Toro
+                </h3>
+                <div className="flex items-center gap-1">
                   <button
                     type="button"
                     onClick={() => slidePlayers('left')}
-                    className="toro-player-nav-btn"
                     aria-label="Voir les joueurs precedents"
+                    className="grid h-9 w-9 place-items-center rounded-full text-white/70 transition-colors hover:text-white"
                   >
-                    <RiArrowLeftSLine className="h-5 w-5" />
+                    <RiArrowLeftSLine className="h-7 w-7" />
                   </button>
                   <button
                     type="button"
                     onClick={() => slidePlayers('right')}
-                    className="toro-player-nav-btn"
                     aria-label="Voir les joueurs suivants"
+                    className="grid h-9 w-9 place-items-center rounded-full text-white transition-colors hover:text-[#ffe2e7]"
                   >
-                    <RiArrowRightSLine className="h-5 w-5" />
+                    <RiArrowRightSLine className="h-7 w-7" />
                   </button>
                 </div>
               </div>
 
-              <div ref={playerRailRef} className="toro-player-rail">
+              <div
+                ref={playerRailRef}
+                className="flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              >
                 {playerCards.map((player, index) => (
                   <motion.article
                     key={player.name}
                     initial={{ opacity: 0, y: 14 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.38, ease: 'easeOut', delay: index * 0.05 }}
-                    viewport={{ once: true, amount: 0.35 }}
-                    className="toro-player-card"
+                    transition={{ duration: 0.38, ease: 'easeOut', delay: index * 0.04 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    className="group relative h-[260px] min-w-[198px] snap-start overflow-hidden rounded-[12px] bg-[#0f2a4b] sm:h-[298px] sm:min-w-[220px] lg:h-[336px] lg:min-w-[252px]"
                   >
                     <Image
                       src={player.image}
                       alt={player.name}
                       fill
-                      sizes="(min-width: 1536px) 260px, (min-width: 1280px) 240px, (min-width: 1024px) 220px, 62vw"
-                      className="object-cover"
+                      sizes="(min-width: 1536px) 16vw, (min-width: 1280px) 18vw, (min-width: 768px) 27vw, 58vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                     />
-                    <div className="toro-player-overlay" />
-                    <div className="relative z-10 mt-auto p-3">
-                      <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white/90">{player.role}</p>
-                      <p className="mt-1 text-[1.65rem] font-black uppercase leading-[0.95] text-white sm:text-[1.75rem]">{player.name}</p>
-                      <p className="mt-1.5 inline-flex items-center text-xs font-black uppercase tracking-[0.08em] text-white">
-                        Voir profil <RiArrowRightSLine className="ml-1 h-4 w-4" />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,8,18,0.08)_36%,rgba(4,8,18,0.9)_100%)]" />
+                    <div className="absolute inset-x-0 bottom-0 z-10 p-3 text-white sm:p-3.5">
+                      <p className="text-[11px] font-black uppercase tracking-[0.12em] text-white/88">{player.role}</p>
+                      <p className="mt-1 text-[1.08rem] font-black uppercase leading-[0.94] sm:text-[1.45rem] lg:text-[1.7rem]">
+                        {player.name}
+                      </p>
+                      <p className="mt-2 inline-flex items-center text-[11px] font-black uppercase tracking-[0.08em] text-white/92">
+                        Voir profil <RiArrowRightSLine className="ml-0.5 h-4 w-4" />
                       </p>
                     </div>
                   </motion.article>
                 ))}
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </section>
 
-        <section id="actualites" className="px-4 pb-12 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1320px]">
-            <div className="mb-6 flex items-center justify-between">
-              <h3 className="toro-fusion-title text-3xl font-black uppercase text-[#0a1d3a] sm:text-4xl">Actualites</h3>
-              <Link href="#" className="text-xs font-black uppercase tracking-[0.08em] text-[#0a1d3a]">
+        <section id="actualites" className="px-4 pb-11 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1240px]">
+            <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#1d4ea1]">A la une du club</p>
+                <h3 className="toro-fusion-title mt-1 text-2xl font-black uppercase text-[#0a1d3a] sm:text-[2rem]">
+                  Actualites
+                </h3>
+                <p className="mt-1.5 max-w-[620px] text-sm text-[#5d6f8f]">
+                  Les infos FC TORO en format plus court, plus clair et plus fluide.
+                </p>
+              </div>
+              <Link
+                href="#"
+                className="inline-flex items-center rounded-full border border-[#cfd9ea] bg-white px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.08em] text-[#0a1d3a] transition-colors duration-300 hover:border-[#1f3f8f] hover:text-[#1f3f8f]"
+              >
                 Voir toutes les actus <RiArrowRightLine className="ml-1 inline h-4 w-4" />
               </Link>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {newsCards.map((card, index) => (
+            <div className="grid items-start gap-3 lg:grid-cols-[1.03fr_0.97fr]">
+              <div className="grid gap-3">
                 <motion.article
-                  key={card.title}
-                  initial={{ opacity: 0, y: 22 }}
+                  initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, ease: 'easeOut', delay: index * 0.08 }}
+                  transition={{ duration: 0.45, ease: 'easeOut' }}
                   viewport={{ once: true, amount: 0.2 }}
-                  className={`${card.large ? 'sm:col-span-2 xl:col-span-2' : ''} toro-news-card toro-news-card-live`}
+                  className="group overflow-hidden rounded-[16px] border border-[#d6deeb] bg-white shadow-[0_10px_18px_rgba(10,29,58,0.09)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_24px_rgba(10,29,58,0.14)]"
                 >
-                  <div className="relative h-[175px] overflow-hidden bg-[#0f2a4b] md:h-[205px]">
-                    <Image src={card.image} alt={card.title} fill sizes="(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover opacity-90" />
+                  <div className="relative h-[240px] overflow-hidden bg-[#f3f6fb] sm:h-[290px] lg:h-[285px]">
+                    <Image
+                      src={newsCards[0].image}
+                      alt={newsCards[0].title}
+                      fill
+                      sizes="(min-width: 1024px) 52vw, 100vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,25,47,0.02)_42%,rgba(8,25,47,0.72)_100%)]" />
                   </div>
-                  <div className="bg-white px-4 py-4">
-                    <p className="inline-flex bg-[#ef233c] px-3 py-1 text-xs font-black uppercase tracking-[0.08em] text-white">{card.category}</p>
-                    <h4 className="mt-3 text-xl font-black uppercase leading-tight text-[#0a1d3a] sm:text-2xl">{card.title}</h4>
+                  <div className="bg-white px-4 py-3 sm:px-5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="inline-flex rounded-md bg-[#ef233c] px-3 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
+                        {newsCards[0].category}
+                      </p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#6b7d9d]">
+                        {newsCards[0].dateLabel}
+                      </p>
+                    </div>
+                    <h4 className="mt-2 text-[1.35rem] font-black uppercase leading-[1.02] text-[#0a1d3a] sm:text-[1.7rem]">
+                      {newsCards[0].title}
+                    </h4>
+                    <p className="mt-2 text-sm leading-snug text-[#5d6f8f]">{newsCards[0].excerpt}</p>
+                    <p className="mt-3 inline-flex items-center text-[11px] font-black uppercase tracking-[0.08em] text-[#1f3f8f] transition-colors group-hover:text-[#ef233c]">
+                      Lire l article <RiArrowRightLine className="ml-1 h-4 w-4" />
+                    </p>
                   </div>
                 </motion.article>
-              ))}
+
+                {newsCards.slice(3, 4).map((card, index) => (
+                  <motion.article
+                    key={`actualites-left-${card.title}`}
+                    initial={{ opacity: 0, y: 18 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.42, ease: 'easeOut', delay: 0.08 * index }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    className="group overflow-hidden rounded-[14px] border border-[#d8dfeb] bg-white shadow-[0_9px_16px_rgba(10,29,58,0.07)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_21px_rgba(10,29,58,0.11)]"
+                  >
+                    <div className="relative h-[148px] overflow-hidden bg-[#f3f6fb] sm:h-[156px]">
+                      <Image
+                        src={card.image}
+                        alt={card.title}
+                        fill
+                        sizes="(min-width: 768px) 48vw, 100vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                      />
+                    </div>
+                    <div className="bg-white px-3.5 py-3">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="inline-flex rounded-md bg-[#ef233c] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
+                          {card.category}
+                        </p>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#6b7d9d]">{card.dateLabel}</p>
+                      </div>
+                      <h4 className="mt-1.5 text-[1.03rem] font-black uppercase leading-tight text-[#0a1d3a] sm:text-[1.1rem]">
+                        {card.title}
+                      </h4>
+                      <p className="mt-1.5 text-[13px] leading-snug text-[#5d6f8f]">{card.excerpt}</p>
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+
+              <div className="grid gap-3">
+                {newsCards.slice(1, 3).map((card, index) => (
+                  <motion.article
+                    key={`actualites-side-${card.title}`}
+                    initial={{ opacity: 0, y: 18 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, ease: 'easeOut', delay: 0.06 * (index + 1) }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    className="group overflow-hidden rounded-[16px] border border-[#d6deeb] bg-white shadow-[0_10px_16px_rgba(10,29,58,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_13px_22px_rgba(10,29,58,0.12)]"
+                  >
+                    <div className="relative h-[170px] overflow-hidden bg-[#f3f6fb] sm:h-[165px] lg:h-[175px]">
+                      <Image
+                        src={card.image}
+                        alt={card.title}
+                        fill
+                        sizes="(min-width: 1024px) 38vw, 100vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                      />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,25,47,0.05)_28%,rgba(8,25,47,0.72)_100%)]" />
+                    </div>
+                    <div className="bg-white px-3.5 py-3.5 sm:px-4">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="inline-flex rounded-md bg-[#1f3f8f] px-3 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
+                          {card.category}
+                        </p>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#6b7d9d]">{card.dateLabel}</p>
+                      </div>
+                      <h4 className="mt-2 text-[1.18rem] font-black uppercase leading-[1.06] text-[#0a1d3a] sm:text-[1.28rem]">
+                        {card.title}
+                      </h4>
+                      <p className="mt-1.5 text-[13px] leading-snug text-[#5d6f8f]">{card.excerpt}</p>
+                      <p className="mt-2.5 inline-flex items-center text-[11px] font-black uppercase tracking-[0.08em] text-[#1f3f8f] transition-colors group-hover:text-[#ef233c]">
+                        Lire l article <RiArrowRightLine className="ml-1 h-4 w-4" />
+                      </p>
+                    </div>
+                  </motion.article>
+                ))}
+
+                {newsCards.slice(4).map((card, index) => (
+                  <motion.article
+                    key={`actualites-right-${card.title}`}
+                    initial={{ opacity: 0, y: 18 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.42, ease: 'easeOut', delay: 0.12 + 0.08 * index }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    className="group overflow-hidden rounded-[14px] border border-[#d8dfeb] bg-white shadow-[0_9px_16px_rgba(10,29,58,0.07)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_21px_rgba(10,29,58,0.11)]"
+                  >
+                    <div className="relative h-[148px] overflow-hidden bg-[#f3f6fb] sm:h-[156px]">
+                      <Image
+                        src={card.image}
+                        alt={card.title}
+                        fill
+                        sizes="(min-width: 768px) 48vw, 100vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                      />
+                    </div>
+                    <div className="bg-white px-3.5 py-3">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="inline-flex rounded-md bg-[#ef233c] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
+                          {card.category}
+                        </p>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#6b7d9d]">{card.dateLabel}</p>
+                      </div>
+                      <h4 className="mt-1.5 text-[1.03rem] font-black uppercase leading-tight text-[#0a1d3a] sm:text-[1.1rem]">
+                        {card.title}
+                      </h4>
+                      <p className="mt-1.5 text-[13px] leading-snug text-[#5d6f8f]">{card.excerpt}</p>
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
             </div>
           </div>
         </section>
