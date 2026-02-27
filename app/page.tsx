@@ -182,10 +182,15 @@ export default function HomePage() {
   useEffect(() => {
     if (!statsStarted) return
 
-    const durationMs = 1300
+    const durationMs = 2800
     const targets = clubStats.map((item) => item.target)
     let frameId = 0
-    const startTime = performance.now()
+    let startTime = 0
+    const delayMs = 220
+    const timeoutId = window.setTimeout(() => {
+      startTime = performance.now()
+      frameId = window.requestAnimationFrame(tick)
+    }, delayMs)
 
     const tick = (now: number) => {
       const rawProgress = Math.min((now - startTime) / durationMs, 1)
@@ -198,15 +203,11 @@ export default function HomePage() {
       }
     }
 
-    frameId = window.requestAnimationFrame(tick)
-    return () => window.cancelAnimationFrame(frameId)
+    return () => {
+      window.clearTimeout(timeoutId)
+      window.cancelAnimationFrame(frameId)
+    }
   }, [statsStarted])
-
-  useEffect(() => {
-    if (showIntro || statsStarted) return
-    const fallbackStart = window.setTimeout(() => setStatsStarted(true), 2200)
-    return () => window.clearTimeout(fallbackStart)
-  }, [showIntro, statsStarted])
 
   const handleIntroEnd = () => {
     setShowIntro(false)
@@ -774,7 +775,7 @@ export default function HomePage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.38, ease: 'easeOut', delay: index * 0.04 }}
                     viewport={{ once: true, amount: 0.3 }}
-                    className="group relative h-[260px] min-w-[198px] snap-start overflow-hidden rounded-[12px] bg-[#0f2a4b] sm:h-[298px] sm:min-w-[220px] lg:h-[336px] lg:min-w-[252px]"
+                    className="group relative h-[266px] min-w-[43%] snap-start overflow-hidden rounded-[12px] bg-[#0f2a4b] sm:h-[316px] sm:min-w-[220px] lg:h-[356px] lg:min-w-[252px]"
                   >
                     <Image
                       src={player.image}
