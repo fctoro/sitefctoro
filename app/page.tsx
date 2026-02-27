@@ -6,7 +6,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { heroSlides, newsCards, playerCards } from '@/lib/joueur'
 import { sponsors } from '@/lib/sponsors'
-import { mockClubFixtures } from '@/data/club/standings-data'
 import {
   RiAppStoreFill,
   RiArrowDownSLine,
@@ -18,7 +17,6 @@ import {
   RiGooglePlayFill,
   RiMedalLine,
   RiMenuLine,
-  RiPlayCircleLine,
   RiShieldStarLine,
   RiTrophyLine,
 } from '@remixicon/react'
@@ -149,32 +147,11 @@ const linkDescriptionMap: Record<string, string> = {
 const getLinkDescription = (label: string) =>
   linkDescriptionMap[label] ?? 'Decouvrir le programme FC TORO.'
 
-const recentMatches = [...mockClubFixtures]
-  .filter((fixture) => fixture.status === 'FT')
-  .sort((a, b) => new Date(b.kickoff).getTime() - new Date(a.kickoff).getTime())
-  .slice(0, 3)
-
-const nextMatch = [...mockClubFixtures]
-  .filter((fixture) => fixture.status === 'A venir')
-  .sort((a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime())[0]
-
-const formatMatchDate = (kickoff: string) =>
-  new Intl.DateTimeFormat('fr-FR', {
-    weekday: 'short',
-    day: '2-digit',
-    month: 'short',
-  }).format(new Date(kickoff))
-
-const formatMatchTime = (kickoff: string) =>
-  new Intl.DateTimeFormat('fr-FR', {
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(new Date(kickoff))
-
-const trophies = [
-  { icon: RiTrophyLine, label: 'Ligue des Champions', value: '1' },
-  { icon: RiShieldStarLine, label: 'Championnat', value: '11' },
-  { icon: RiMedalLine, label: 'Coupes Nationales', value: '10' },
+const clubStats = [
+  { icon: RiCalendarEventLine, target: 2012, label: 'Creation du club' },
+  { icon: RiShieldStarLine, target: 2015, label: 'Section filles lancee' },
+  { icon: RiTrophyLine, target: 19, prefix: '2-', label: 'Age des joueuses et joueurs' },
+  { icon: RiMedalLine, target: 12, label: 'Mois d activite competitive' },
 ]
 
 const mobilePrimaryLinks: Array<{ label: string; href: string; accent?: boolean }> = [
@@ -190,6 +167,8 @@ export default function HomePage() {
   const [activeHero, setActiveHero] = useState(0)
   const [activeDesktopMenu, setActiveDesktopMenu] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [statCounts, setStatCounts] = useState(() => clubStats.map(() => 0))
+  const [statsStarted, setStatsStarted] = useState(false)
   const playerRailRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -199,6 +178,35 @@ export default function HomePage() {
     }, 4200)
     return () => window.clearInterval(interval)
   }, [showIntro])
+
+  useEffect(() => {
+    if (!statsStarted) return
+
+    const durationMs = 1300
+    const targets = clubStats.map((item) => item.target)
+    let frameId = 0
+    const startTime = performance.now()
+
+    const tick = (now: number) => {
+      const rawProgress = Math.min((now - startTime) / durationMs, 1)
+      const easedProgress = 1 - Math.pow(1 - rawProgress, 3)
+
+      setStatCounts(targets.map((target) => Math.round(target * easedProgress)))
+
+      if (rawProgress < 1) {
+        frameId = window.requestAnimationFrame(tick)
+      }
+    }
+
+    frameId = window.requestAnimationFrame(tick)
+    return () => window.cancelAnimationFrame(frameId)
+  }, [statsStarted])
+
+  useEffect(() => {
+    if (showIntro || statsStarted) return
+    const fallbackStart = window.setTimeout(() => setStatsStarted(true), 2200)
+    return () => window.clearTimeout(fallbackStart)
+  }, [showIntro, statsStarted])
 
   const handleIntroEnd = () => {
     setShowIntro(false)
@@ -619,209 +627,106 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="px-4 py-10 sm:px-6 lg:px-8">
-          <div className="mx-auto grid max-w-[1320px] gap-6 xl:grid-cols-[1.18fr_0.82fr]">
-            <motion.article
-              initial={{ opacity: 0, x: -30, y: 14 }}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ duration: 0.58, ease: 'easeOut' }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="group relative overflow-hidden rounded-[28px] border border-[#ccd8ea] bg-[linear-gradient(135deg,#f4f8ff_0%,#eaf1fb_56%,#f7eff4_100%)] p-5 shadow-[0_18px_34px_rgba(10,29,58,0.12)] sm:p-7"
-            >
-              <div className="absolute -left-16 top-16 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(31,63,143,0.18),rgba(31,63,143,0)_70%)] transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute -right-16 -top-16 h-52 w-52 rounded-full bg-[radial-gradient(circle,rgba(239,35,60,0.2),rgba(239,35,60,0)_72%)] transition-transform duration-700 group-hover:scale-110" />
-
-              <div className="relative z-10 flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.14em] text-[#ef233c]">Nouveau bloc evenement</p>
-                  <h2 className="mt-2 text-[clamp(2rem,4vw,5rem)] font-black uppercase leading-[0.88] text-[#1f3f8f]">
-                    Match
-                    <br />& fan zone
-                  </h2>
-                </div>
-                <Link
-                  href="/club/calendrier#evenements"
-                  className="inline-flex items-center rounded-full border border-[#bfd0ea] bg-white px-5 py-2 text-xs font-black uppercase tracking-[0.08em] text-[#0a1d3a] transition-all duration-300 hover:border-[#1f3f8f] hover:text-[#1f3f8f]"
-                >
-                  Evenements <RiArrowRightLine className="ml-1.5 h-4 w-4" />
-                </Link>
-              </div>
-
-              <div className="relative z-10 mt-6 grid gap-4 md:grid-cols-[minmax(230px,0.86fr)_1fr]">
-                <Link
-                  href="#joueurs"
-                  className="group/card relative min-h-[350px] overflow-hidden rounded-[20px] border border-[#d1deef] bg-[#0f2a4b] shadow-[0_12px_24px_rgba(10,29,58,0.22)]"
-                >
+        <section id="club" className="px-4 py-10 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1260px]">
+            <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:gap-8">
+              <aside className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                <article className="group relative h-[350px] overflow-hidden rounded-[16px] bg-[#0f2a4b] sm:h-[390px]">
                   <Image
-                    src={playerCards[0].image}
-                    alt={`Joueur FC TORO - ${playerCards[0].name}`}
+                    src={playerCards[4].image}
+                    alt="Portrait FC TORO"
                     fill
-                    sizes="(min-width: 768px) 32vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover/card:scale-105"
+                    sizes="(min-width: 1024px) 30vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                   />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,18,40,0.08)_24%,rgba(6,18,40,0.84)_100%)]" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <p className="text-[11px] font-black uppercase tracking-[0.12em] text-white/86">{playerCards[0].role}</p>
-                    <p className="mt-1 text-[2.1rem] font-black uppercase leading-[0.9]">{playerCards[0].name}</p>
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,18,40,0.1)_35%,rgba(6,18,40,0.86)_100%)]" />
+                  <div className="absolute bottom-0 left-0 right-0 p-3.5 text-white">
+                    <p className="text-[11px] font-black uppercase tracking-[0.12em] text-white/85">Depuis 2012</p>
+                    <p className="mt-1 text-[1.8rem] font-black uppercase leading-[0.9]">FC TORO</p>
                   </div>
-                </Link>
+                </article>
 
-                <div className="rounded-[20px] border border-[#cfdaec] bg-white/92 p-5 shadow-[0_10px_24px_rgba(10,29,58,0.08)] backdrop-blur-sm">
-                  {nextMatch ? (
-                    <>
-                      <p className="text-xs font-black uppercase tracking-[0.1em] text-[#5b6f91]">
-                        {nextMatch.round} | {nextMatch.competition}
-                      </p>
-                      <p className="mt-2 text-[clamp(1.95rem,2.6vw,3.4rem)] font-black uppercase leading-[0.95] text-[#0a1d3a]">
-                        {nextMatch.homeTeamName}
-                        <span className="mx-2 text-[#ef233c]">VS</span>
-                        {nextMatch.awayTeamName}
-                      </p>
-                      <p className="mt-3 text-[1.7rem] font-black uppercase tracking-[0.03em] text-[#1f3f8f] sm:text-[2rem]">
-                        {formatMatchDate(nextMatch.kickoff)} a {formatMatchTime(nextMatch.kickoff)}
-                      </p>
-                    </>
-                  ) : (
-                    <p className="text-sm font-semibold text-[#5d6f8f]">Aucun match a venir pour le moment.</p>
-                  )}
-
-                  <p className="mt-4 rounded-2xl border border-[#d8e0ef] bg-[linear-gradient(95deg,rgba(239,35,60,0.12),rgba(31,63,143,0.08))] px-3.5 py-3 text-[1.05rem] font-semibold leading-snug text-[#0a1d3a]">
-                    Animations tribune, photos supporters et stand boutique avant le coup d envoi.
-                  </p>
-
-                  <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
-                    <Link
-                      href="/club/calendrier#evenements"
-                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#ef233c] px-4 py-3 text-sm font-black uppercase tracking-[0.04em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#d91933]"
-                    >
-                      <RiCalendarEventLine className="h-4 w-4" /> Evenements
-                    </Link>
-                    <Link
-                      href="/club/calendrier"
-                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#bfd0ea] bg-white px-4 py-3 text-sm font-black uppercase tracking-[0.04em] text-[#0a1d3a] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1f3f8f] hover:text-[#1f3f8f]"
-                    >
-                      Calendrier <RiArrowRightLine className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </motion.article>
-
-            <motion.article
-              initial={{ opacity: 0, x: 30, y: 14 }}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ duration: 0.58, ease: 'easeOut', delay: 0.05 }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="group relative overflow-hidden rounded-[28px] border border-[#ccd8ea] bg-[linear-gradient(132deg,#f4f8ff_0%,#eef4fd_60%,#f9fbff_100%)] p-5 shadow-[0_18px_34px_rgba(10,29,58,0.1)] sm:p-6"
-            >
-              <div className="absolute -right-20 bottom-[-70px] h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(31,63,143,0.14),rgba(31,63,143,0)_72%)] transition-transform duration-700 group-hover:scale-110" />
-
-              <div className="relative z-10 flex items-center justify-between gap-3">
-                <h3 className="text-[clamp(1.9rem,3vw,3rem)] font-black uppercase leading-[0.9] text-[#1f3f8f]">
-                  Focus
-                  <br />joueurs
-                </h3>
-                <Link
-                  href="#joueurs"
-                  className="text-xs font-black uppercase tracking-[0.1em] text-[#0a1d3a] transition-colors duration-300 hover:text-[#1f3f8f]"
-                >
-                  Voir tout <RiArrowRightLine className="ml-1 inline h-4 w-4" />
-                </Link>
-              </div>
-
-              <div className="relative z-10 mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {playerCards.slice(1, 5).map((player) => (
-                  <article
-                    key={`event-card-${player.name}`}
-                    className="group/card relative min-h-[222px] overflow-hidden rounded-[16px] border border-[#cad8eb] bg-[#102640] shadow-[0_10px_18px_rgba(10,29,58,0.18)] transition-transform duration-300 hover:-translate-y-1"
-                  >
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-1 lg:grid-cols-2">
+                  <article className="group relative h-[170px] overflow-hidden rounded-[14px] bg-[#0f2a4b]">
                     <Image
-                      src={player.image}
-                      alt={`Photo Instagram ${player.name}`}
+                      src={playerCards[11].image}
+                      alt="Esprit academie FC TORO"
                       fill
-                      sizes="(min-width: 640px) 26vw, 100vw"
-                      className="object-cover transition-transform duration-500 group-hover/card:scale-105"
+                      sizes="(min-width: 1024px) 16vw, 50vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                     />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,25,47,0.06)_18%,rgba(8,25,47,0.82)_100%)]" />
-                    <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
-                      <p className="text-[11px] font-black uppercase tracking-[0.1em] text-white/85">{player.role}</p>
-                      <p className="mt-1 text-[2.05rem] font-black uppercase leading-[0.86] sm:text-[2.2rem]">{player.name}</p>
-                    </div>
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,18,40,0.06)_30%,rgba(6,18,40,0.82)_100%)]" />
+                    <p className="absolute bottom-2.5 left-2.5 text-[10px] font-black uppercase tracking-[0.1em] text-white">Esprit academie</p>
                   </article>
-                ))}
-              </div>
-            </motion.article>
-          </div>
-
-          <div className="mx-auto mt-6 grid max-w-[1320px] gap-6 xl:grid-cols-[1fr_0.9fr]">
-            <motion.article
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="rounded-2xl border border-[#d6ddea] bg-[#f7f9fd] p-5 shadow-[0_12px_26px_rgba(10,29,58,0.08)]"
-            >
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <h3 className="text-xl font-black uppercase text-[#0a1d3a] sm:text-2xl">3 derniers matchs</h3>
-                <Link href="/classement" className="text-xs font-black uppercase tracking-[0.08em] text-[#0a1d3a]">
-                  Voir classement <RiArrowRightLine className="ml-1 inline h-4 w-4" />
-                </Link>
-              </div>
-              <div className="space-y-2.5">
-                {recentMatches.map((fixture) => (
-                  <div
-                    key={fixture.id}
-                    className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 rounded-xl border border-[#dde4f0] bg-white p-3 text-sm"
-                  >
-                    <p className="truncate font-semibold text-[#0a1d3a]">{fixture.homeTeamName}</p>
-                    <p className="text-center text-base font-black text-[#0a1d3a]">
-                      {fixture.homeScore} - {fixture.awayScore}
-                    </p>
-                    <p className="truncate text-right font-semibold text-[#0a1d3a]">{fixture.awayTeamName}</p>
-                    <p className="col-span-3 text-xs font-medium text-[#5d6f8f]">
-                      {fixture.round} | {formatMatchDate(fixture.kickoff)}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </motion.article>
-
-            <motion.article
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: 'easeOut', delay: 0.05 }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="rounded-2xl border border-[#d6ddea] bg-[#f7f9fd] p-5 shadow-[0_12px_26px_rgba(10,29,58,0.08)]"
-            >
-              <h3 className="text-xl font-black uppercase text-[#0a1d3a] sm:text-2xl">Prochain match</h3>
-              {nextMatch ? (
-                <div className="mt-4 rounded-xl border border-[#dde4f0] bg-white p-4">
-                  <p className="text-xs font-black uppercase tracking-[0.08em] text-[#5d6f8f]">
-                    {nextMatch.round} | {nextMatch.competition}
-                  </p>
-                  <div className="mt-2 grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-                    <p className="truncate text-sm font-black uppercase text-[#0a1d3a]">
-                      {nextMatch.homeTeamName}
-                    </p>
-                    <p className="text-sm font-black uppercase text-[#ef233c]">VS</p>
-                    <p className="truncate text-right text-sm font-black uppercase text-[#0a1d3a]">
-                      {nextMatch.awayTeamName}
-                    </p>
-                  </div>
-                  <p className="mt-3 text-sm font-semibold text-[#1d3f87]">
-                    {formatMatchDate(nextMatch.kickoff)} - {formatMatchTime(nextMatch.kickoff)}
-                  </p>
-                  <Link
-                    href="/club/calendrier"
-                    className="mt-4 inline-flex items-center rounded-lg bg-[#ef233c] px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#d91933]"
-                  >
-                    Voir le calendrier <RiArrowRightLine className="ml-1 h-4 w-4" />
-                  </Link>
+                  <article className="group relative h-[170px] overflow-hidden rounded-[14px] bg-[#0f2a4b]">
+                    <Image
+                      src={playerCards[12].image}
+                      alt="Programme filles FC TORO"
+                      fill
+                      sizes="(min-width: 1024px) 16vw, 50vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,18,40,0.06)_30%,rgba(6,18,40,0.82)_100%)]" />
+                    <p className="absolute bottom-2.5 left-2.5 text-[10px] font-black uppercase tracking-[0.1em] text-white">Programme filles</p>
+                  </article>
                 </div>
-              ) : (
-                <p className="mt-3 text-sm text-[#5d6f8f]">Aucun match a venir pour le moment.</p>
-              )}
-            </motion.article>
+              </aside>
+
+              <article>
+                <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#1f4ea1]">A propos</p>
+                <h3 className="mt-2 text-[clamp(1.9rem,3.2vw,3rem)] font-black uppercase leading-[0.9] text-[#0d2d62]">
+                  Football Club Toro
+                </h3>
+
+                <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-[#445b7f]">
+                  <p>
+                    FC TORO, cree le 1er septembre 2012, est devenu l un des clubs de football references en Haiti
+                    pour les filles et les garcons de 2 a 19 ans.
+                  </p>
+                  <p>
+                    Initialement dedie aux garcons, le club a ouvert ses programmes aux filles en janvier 2015. Depuis
+                    2018 jusqu a aujourd hui, FC TORO poursuit et renforce ses activites malgre les circonstances
+                    exceptionnelles qui touchent notre pays et le monde.
+                  </p>
+                  <p>
+                    Tout au long de l annee, nos joueurs et joueuses suivent une formation diversifiee pour ameliorer
+                    la technique individuelle, la communication, l esprit d equipe, le leadership et la maitrise sous
+                    pression et en competition.
+                  </p>
+                  <p>
+                    Grace a l engagement du staff, au soutien des parents et sponsors, et a la motivation des enfants,
+                    le club continue de progresser et de participer a des tournois competitifs comme la Vertieres Cup
+                    au Cap-Haitien et le Flag Day Tournament.
+                  </p>
+                </div>
+
+                <motion.div
+                  onViewportEnter={() => setStatsStarted(true)}
+                  viewport={{ once: true, amount: 0.25 }}
+                  className="mt-6 grid gap-3 sm:grid-cols-2"
+                >
+                  {clubStats.map((item, index) => (
+                    <article
+                      key={item.label}
+                      className="rounded-2xl bg-[linear-gradient(130deg,#f5f8ff_0%,#eef4fd_100%)] p-3.5 shadow-[0_8px_16px_rgba(10,29,58,0.06)]"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#1f4ea1] text-white">
+                          <item.icon className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <p className="text-[1.55rem] font-black leading-none text-[#0d2d62]">
+                            {item.prefix ?? ''}
+                            {statCounts[index]}
+                          </p>
+                          <p className="mt-1 text-[11px] font-black uppercase tracking-[0.08em] text-[#4e6488]">{item.label}</p>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </motion.div>
+              </article>
+            </div>
           </div>
         </section>
 
@@ -1062,39 +967,96 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="club" className="relative overflow-hidden bg-[#17395f] px-4 py-14 sm:px-6 lg:px-8">
-          <div className="absolute left-[-120px] top-[-100px] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,rgba(7,150,211,0.65),rgba(7,150,211,0)_70%)]" />
+        <section className="px-4 py-10 sm:px-6 lg:px-8">
+          <div className="mx-auto grid max-w-[1320px] gap-5 lg:grid-cols-[1.08fr_0.92fr]">
+            <motion.article
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+              viewport={{ once: true, amount: 0.2 }}
+              className="relative overflow-hidden rounded-[22px] border border-[#d7e0ee] bg-[linear-gradient(126deg,#f8fbff_0%,#eef4fd_58%,#f9fbff_100%)] p-5 shadow-[0_12px_26px_rgba(10,29,58,0.1)] sm:p-6"
+            >
+              <div className="absolute -right-20 -top-20 h-52 w-52 rounded-full bg-[radial-gradient(circle,rgba(31,63,143,0.13),rgba(31,63,143,0)_72%)]" />
+              <div className="absolute -left-16 bottom-[-70px] h-44 w-44 rounded-full bg-[radial-gradient(circle,rgba(239,35,60,0.14),rgba(239,35,60,0)_72%)]" />
 
-          <div className="relative mx-auto grid max-w-[1100px] gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <h3 className="toro-fusion-title text-3xl font-black uppercase text-white sm:text-4xl">Histoire du club</h3>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <article className="border border-white/25 p-3 text-white">
-                  <Image src="/toro.webp" alt="Histoire 1" width={420} height={210} className="h-36 w-full object-cover" />
-                  <p className="mt-3 text-lg font-black uppercase">La generation toro prend le relais...</p>
-                </article>
-                <article className="border border-white/25 p-3 text-white">
-                  <Image src="/toro1.png" alt="Histoire 2" width={420} height={210} className="h-36 w-full object-cover" />
-                  <p className="mt-3 text-lg font-black uppercase">Guide du centre de formation...</p>
-                </article>
+              <div className="relative z-10">
+                <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#ef233c]">Vision FC TORO</p>
+                <h2 className="mt-2 max-w-[680px] text-[clamp(1.55rem,2.5vw,2.4rem)] font-black uppercase leading-[0.97] text-[#12366f]">
+                  Formation serieuse, identite forte, progression continue
+                </h2>
+                <p className="mt-3 max-w-[720px] text-sm leading-relaxed text-[#4f6387]">
+                  Un cadre clair, des objectifs concrets et un accompagnement terrain pour faire progresser chaque
+                  joueur sans bruit, avec discipline.
+                </p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <span className="rounded-full bg-[#12366f] px-3 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
+                    Discipline
+                  </span>
+                  <span className="rounded-full bg-[#ef233c] px-3 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
+                    Intensite
+                  </span>
+                  <span className="rounded-full bg-[#1f4ea1] px-3 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
+                    Mentalite club
+                  </span>
+                </div>
+
+                <div className="mt-5 flex flex-wrap gap-2.5">
+                  <Link
+                    href="/inscription"
+                    className="inline-flex items-center rounded-lg bg-[#ef233c] px-4 py-2 text-[11px] font-black uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#d91933]"
+                  >
+                    Rejoindre le club <RiArrowRightLine className="ml-1 h-4 w-4" />
+                  </Link>
+                  <Link
+                    href="#club"
+                    className="inline-flex items-center rounded-lg border border-[#cdd9eb] bg-white px-4 py-2 text-[11px] font-black uppercase tracking-[0.08em] text-[#12366f] transition-colors hover:border-[#1f4ea1]"
+                  >
+                    Histoire du club <RiArrowRightLine className="ml-1 h-4 w-4" />
+                  </Link>
+                </div>
               </div>
-            </div>
+            </motion.article>
 
-            <div>
-              <h3 className="toro-fusion-title text-3xl font-black uppercase text-white sm:text-4xl">Palmares</h3>
-              <div className="mt-5 grid grid-cols-3 gap-3">
-                {trophies.map((item) => (
-                  <div key={item.label} className="border border-[#ef233c]/45 bg-[#0f2a4b]/70 p-4 text-center text-white">
-                    <item.icon className="mx-auto h-9 w-9 text-[#ef233c]" />
-                    <p className="mt-2 text-3xl font-black">{item.value}</p>
-                    <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-200">{item.label}</p>
-                  </div>
+            <motion.article
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
+              viewport={{ once: true, amount: 0.2 }}
+              className="rounded-[22px] border border-[#d7e0ee] bg-[#f7faff] p-4 shadow-[0_12px_26px_rgba(10,29,58,0.09)] sm:p-5"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="text-xl font-black uppercase leading-[0.95] text-[#12366f] sm:text-2xl">Focus joueurs</h3>
+                <Link
+                  href="#joueurs"
+                  className="text-[11px] font-black uppercase tracking-[0.1em] text-[#12366f] transition-colors hover:text-[#ef233c]"
+                >
+                  Voir tout <RiArrowRightLine className="ml-1 inline h-4 w-4" />
+                </Link>
+              </div>
+
+              <div className="mt-4 grid grid-cols-2 gap-2.5 sm:gap-3">
+                {playerCards.slice(0, 4).map((player) => (
+                  <article
+                    key={`focus-pro-${player.name}`}
+                    className="group relative min-h-[136px] overflow-hidden rounded-[12px] bg-[#0f2a4b] sm:min-h-[154px]"
+                  >
+                    <Image
+                      src={player.image}
+                      alt={player.name}
+                      fill
+                      sizes="(min-width: 1024px) 22vw, 48vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,25,47,0.02)_35%,rgba(8,25,47,0.84)_100%)]" />
+                    <div className="absolute bottom-0 left-0 right-0 p-2.5 text-white">
+                      <p className="text-[10px] font-black uppercase tracking-[0.1em] text-white/82">{player.role}</p>
+                      <p className="mt-1 text-[1.55rem] font-black uppercase leading-[0.88] sm:text-[1.75rem]">{player.name}</p>
+                    </div>
+                  </article>
                 ))}
               </div>
-              <button className="mt-5 inline-flex items-center gap-2 border border-white/35 px-4 py-2 text-xs font-black uppercase tracking-[0.08em] text-white">
-                <RiPlayCircleLine className="h-4 w-4" /> Decouvrir le club
-              </button>
-            </div>
+            </motion.article>
           </div>
         </section>
       </main>
