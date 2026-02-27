@@ -1066,7 +1066,29 @@ export default function HomePage() {
         <section className="px-4 py-12 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1100px]">
             <h4 className="text-center text-xs font-black uppercase tracking-[0.12em] text-[#0a1d3a]">Partenaires officiels</h4>
-            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
+
+            <div className="mt-6 sm:hidden">
+              <div className="flex items-center justify-between gap-1">
+                {sponsors.map((sponsor) => (
+                  <div
+                    key={`sponsor-mobile-${sponsor.id}`}
+                    className="grid h-14 basis-[14%] place-items-center px-0.5"
+                  >
+                    <div className="relative h-9 w-full">
+                      <Image
+                        src={sponsor.logo}
+                        alt={sponsor.name}
+                        fill
+                        sizes="14vw"
+                        className="object-contain object-center"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-6 hidden grid-cols-3 gap-3 sm:grid md:grid-cols-4 lg:grid-cols-7">
               {sponsors.map((sponsor) => (
                 <div key={sponsor.id} className="grid h-20 place-items-center px-2 transition-transform duration-300 hover:-translate-y-1">
                   <div className="relative h-14 w-full max-w-[210px]">
