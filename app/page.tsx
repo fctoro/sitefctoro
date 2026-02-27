@@ -218,7 +218,8 @@ export default function HomePage() {
   const slidePlayers = (direction: 'left' | 'right') => {
     const rail = playerRailRef.current
     if (!rail) return
-    const step = Math.round(rail.clientWidth * 0.76)
+    const firstCard = rail.querySelector<HTMLElement>('[data-player-card="true"]')
+    const step = firstCard ? firstCard.clientWidth + 10 : Math.round(rail.clientWidth * 0.66)
     rail.scrollBy({
       left: direction === 'left' ? -step : step,
       behavior: 'smooth',
@@ -618,12 +619,12 @@ export default function HomePage() {
               <div className="flex items-center gap-2.5 sm:gap-4">
                 <Image src="/fc-toro-logo.png" alt="FC TORO" width={40} height={40} className="h-9 w-auto sm:h-11" />
                 <p className="text-2xl font-black text-white sm:text-3xl">2 - 0</p>
-                <p className="text-xs font-bold uppercase tracking-[0.08em] text-white/85 sm:text-sm">Vivre le match</p>
+                <p className="text-xs font-bold uppercase tracking-[0.08em] text-white/85 sm:text-sm">Vivre le club</p>
               </div>
               <div className="grid grid-cols-3 gap-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-white sm:gap-2 sm:text-xs">
-                <div className="border border-white/25 p-2 sm:p-3">Seance du 24 fev</div>
-                <div className="border border-white/25 p-2 sm:p-3">Infos du club</div>
-                <div className="border border-white/25 p-2 sm:p-3">La prise du vel</div>
+                <div className="border border-white/25 p-2 sm:p-3">Vertieres Cup 18 nov 2026</div>
+                <div className="border border-white/25 p-2 sm:p-3">Flag Day 18 mai 2026</div>
+                <div className="border border-white/25 p-2 sm:p-3">Academie en progression</div>
               </div>
             </div>
           </div>
@@ -698,7 +699,7 @@ export default function HomePage() {
                   <p>
                     Grace a l engagement du staff, au soutien des parents et sponsors, et a la motivation des enfants,
                     le club continue de progresser et de participer a des tournois competitifs comme la Vertieres Cup
-                    au Cap-Haitien et le Flag Day Tournament.
+                    prevue le 18 novembre 2026 au Cap-Haitien et le Flag Day Tournament du 18 mai 2026.
                   </p>
                 </div>
 
@@ -767,23 +768,20 @@ export default function HomePage() {
 
               <div
                 ref={playerRailRef}
-                className="flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className="flex gap-2.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:snap-x sm:snap-mandatory"
               >
-                {playerCards.map((player, index) => (
-                  <motion.article
+                {playerCards.map((player) => (
+                  <article
+                    data-player-card="true"
                     key={player.name}
-                    initial={{ opacity: 0, y: 14 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.38, ease: 'easeOut', delay: index * 0.04 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    className="group relative h-[266px] min-w-[43%] snap-start overflow-hidden rounded-[12px] bg-[#0f2a4b] sm:h-[316px] sm:min-w-[220px] lg:h-[356px] lg:min-w-[252px]"
+                    className="group relative h-[266px] min-w-[43%] overflow-hidden rounded-[12px] bg-[#0f2a4b] sm:h-[316px] sm:min-w-[220px] sm:snap-start lg:h-[356px] lg:min-w-[252px]"
                   >
                     <Image
                       src={player.image}
                       alt={player.name}
                       fill
                       sizes="(min-width: 1536px) 16vw, (min-width: 1280px) 18vw, (min-width: 768px) 27vw, 58vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      className="object-cover transition-transform duration-500 sm:group-hover:scale-[1.04]"
                     />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,8,18,0.08)_36%,rgba(4,8,18,0.9)_100%)]" />
                     <div className="absolute inset-x-0 bottom-0 z-10 p-3 text-white sm:p-3.5">
@@ -795,7 +793,7 @@ export default function HomePage() {
                         Voir profil <RiArrowRightSLine className="ml-0.5 h-4 w-4" />
                       </p>
                     </div>
-                  </motion.article>
+                  </article>
                 ))}
               </div>
             </div>

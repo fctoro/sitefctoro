@@ -38,20 +38,20 @@ export const playerCards: PlayerCard[] = [
 
 export const heroSlides: HeroSlide[] = [
   {
-    label: 'Equipe Pro',
-    title: 'Notre stade. Notre force.',
-    cta: 'Voir l equipe',
-    image: '/joueur/extracted/542448727_18525142066012336_8843479393054800058_n.jpg',
-  },
-  {
-    label: 'Supporters',
-    title: 'Une ville derriere son club',
-    cta: 'Vivre l ambiance',
+    label: 'Evenement',
+    title: 'Vertiere Cup tres prochainement. Inscrivez votre equipe, finale le 18 nov 2026.',
+    cta: 'Participer',
     image: '/joueur/extracted/583167774_18542869372012336_2307311757000245016_n.jpg',
   },
   {
+    label: 'Evenement',
+    title: 'Championnat Flag Day : 1 million de gourdes à gagner  finale le 18 mai 2026.',
+    cta: 'Voir le Classement ',
+    image: '/joueur/extracted/542448727_18525142066012336_8843479393054800058_n.jpg',
+  },
+  {
     label: 'Academie',
-    title: 'Le futur commence ici',
+    title: 'Les jeunes talents du FC TORO réunis sur le terrain, incarnant l’avenir du football haïtien.',
     cta: 'Decouvrir',
     image: '/joueur/extracted/482698652_18490519879012336_3363810591939939336_n.jpg',
   },
@@ -59,19 +59,19 @@ export const heroSlides: HeroSlide[] = [
 
 export const newsCards: NewsCard[] = [
   {
-    title: 'FC TORO - Dernieres nouvelles',
-    category: 'Club',
+    title: 'Vertieres Cup bientot - 18 Novembre 2026',
+    category: 'Evenement',
     image: '/joueur/extracted/583188241_18542486221012336_5258040509286651258_n.jpg',
-    excerpt: 'Le groupe poursuit sa progression avec des seances intenses et une bonne cohesion collective.',
-    dateLabel: '26 Fev 2026',
+    excerpt: 'Le groupe se prepare pour un rendez-vous majeur au Cap-Haitien avec une montee en intensite.',
+    dateLabel: '18 Nov 2026',
     large: true,
   },
   {
-    title: 'Ambiance supporters en tribune',
-    category: 'Supporters',
+    title: 'Flag Day Tournament en ligne de mire',
+    category: 'Evenement',
     image: '/joueur/extracted/590428352_18546412351012336_8960891563345494800_n.jpg',
-    excerpt: 'Retour en images sur une journee forte avec une presence supporters qui porte le groupe.',
-    dateLabel: '25 Fev 2026',
+    excerpt: 'FC TORO confirme sa participation et renforce les seances pour arriver pret au tournoi.',
+    dateLabel: '18 Mai 2026',
   },
   {
     title: 'La seance du 24 fevrier 2026',
