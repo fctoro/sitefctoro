@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { heroSlides, newsCards, playerCards } from '@/lib/joueur'
 import { sponsors } from '@/lib/sponsors'
+import { NewsBarcaGrid } from '@/components/news-barca-grid'
 import {
   RiAppStoreFill,
   RiArrowDownSLine,
@@ -51,7 +52,7 @@ type NavItem = {
 }
 
 const navItems: NavItem[] = [
-  { label: 'Actualites', href: '#actualites' },
+  { label: 'Actualites', href: '/actualites' },
   {
     label: 'Club',
     submenu: {
@@ -155,7 +156,7 @@ const clubStats = [
 ]
 
 const mobilePrimaryLinks: Array<{ label: string; href: string; accent?: boolean }> = [
-  { label: 'Actualites', href: '#actualites' },
+  { label: 'Actualites', href: '/actualites' },
   { label: 'Club', href: '#club' },
   { label: 'Equipe', href: '#joueurs' },
   { label: 'Calendrier', href: '/club/calendrier' },
@@ -621,7 +622,7 @@ export default function HomePage() {
               </div>
               <div className="grid grid-cols-3 gap-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-white sm:gap-2 sm:text-xs">
                 <div className="border border-white/25 p-2 sm:p-3">Seance du 24 fev</div>
-                <div className="border border-white/25 p-2 sm:p-3">Promo billetterie</div>
+                <div className="border border-white/25 p-2 sm:p-3">Infos du club</div>
                 <div className="border border-white/25 p-2 sm:p-3">La prise du vel</div>
               </div>
             </div>
@@ -802,170 +803,13 @@ export default function HomePage() {
         </section>
 
         <section id="actualites" className="px-4 pb-11 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1240px]">
-            <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#1d4ea1]">A la une du club</p>
-                <h3 className="toro-fusion-title mt-1 text-2xl font-black uppercase text-[#0a1d3a] sm:text-[2rem]">
-                  Actualites
-                </h3>
-                <p className="mt-1.5 max-w-[620px] text-sm text-[#5d6f8f]">
-                  Les infos FC TORO en format plus court, plus clair et plus fluide.
-                </p>
-              </div>
-              <Link
-                href="#"
-                className="inline-flex items-center rounded-full border border-[#cfd9ea] bg-white px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.08em] text-[#0a1d3a] transition-colors duration-300 hover:border-[#1f3f8f] hover:text-[#1f3f8f]"
-              >
-                Voir toutes les actus <RiArrowRightLine className="ml-1 inline h-4 w-4" />
-              </Link>
-            </div>
-
-            <div className="grid items-start gap-3 lg:grid-cols-[1.03fr_0.97fr]">
-              <div className="grid gap-3">
-                <motion.article
-                  initial={{ opacity: 0, y: 18 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, ease: 'easeOut' }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  className="group overflow-hidden rounded-[16px] border border-[#d6deeb] bg-white shadow-[0_10px_18px_rgba(10,29,58,0.09)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_24px_rgba(10,29,58,0.14)]"
-                >
-                  <div className="relative h-[240px] overflow-hidden bg-[#f3f6fb] sm:h-[290px] lg:h-[285px]">
-                    <Image
-                      src={newsCards[0].image}
-                      alt={newsCards[0].title}
-                      fill
-                      sizes="(min-width: 1024px) 52vw, 100vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,25,47,0.02)_42%,rgba(8,25,47,0.72)_100%)]" />
-                  </div>
-                  <div className="bg-white px-4 py-3 sm:px-5">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <p className="inline-flex rounded-md bg-[#ef233c] px-3 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
-                        {newsCards[0].category}
-                      </p>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#6b7d9d]">
-                        {newsCards[0].dateLabel}
-                      </p>
-                    </div>
-                    <h4 className="mt-2 text-[1.35rem] font-black uppercase leading-[1.02] text-[#0a1d3a] sm:text-[1.7rem]">
-                      {newsCards[0].title}
-                    </h4>
-                    <p className="mt-2 text-sm leading-snug text-[#5d6f8f]">{newsCards[0].excerpt}</p>
-                    <p className="mt-3 inline-flex items-center text-[11px] font-black uppercase tracking-[0.08em] text-[#1f3f8f] transition-colors group-hover:text-[#ef233c]">
-                      Lire l article <RiArrowRightLine className="ml-1 h-4 w-4" />
-                    </p>
-                  </div>
-                </motion.article>
-
-                {newsCards.slice(3, 4).map((card, index) => (
-                  <motion.article
-                    key={`actualites-left-${card.title}`}
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.42, ease: 'easeOut', delay: 0.08 * index }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    className="group overflow-hidden rounded-[14px] border border-[#d8dfeb] bg-white shadow-[0_9px_16px_rgba(10,29,58,0.07)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_21px_rgba(10,29,58,0.11)]"
-                  >
-                    <div className="relative h-[148px] overflow-hidden bg-[#f3f6fb] sm:h-[156px]">
-                      <Image
-                        src={card.image}
-                        alt={card.title}
-                        fill
-                        sizes="(min-width: 768px) 48vw, 100vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
-                      />
-                    </div>
-                    <div className="bg-white px-3.5 py-3">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <p className="inline-flex rounded-md bg-[#ef233c] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
-                          {card.category}
-                        </p>
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#6b7d9d]">{card.dateLabel}</p>
-                      </div>
-                      <h4 className="mt-1.5 text-[1.03rem] font-black uppercase leading-tight text-[#0a1d3a] sm:text-[1.1rem]">
-                        {card.title}
-                      </h4>
-                      <p className="mt-1.5 text-[13px] leading-snug text-[#5d6f8f]">{card.excerpt}</p>
-                    </div>
-                  </motion.article>
-                ))}
-              </div>
-
-              <div className="grid gap-3">
-                {newsCards.slice(1, 3).map((card, index) => (
-                  <motion.article
-                    key={`actualites-side-${card.title}`}
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, ease: 'easeOut', delay: 0.06 * (index + 1) }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    className="group overflow-hidden rounded-[16px] border border-[#d6deeb] bg-white shadow-[0_10px_16px_rgba(10,29,58,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_13px_22px_rgba(10,29,58,0.12)]"
-                  >
-                    <div className="relative h-[170px] overflow-hidden bg-[#f3f6fb] sm:h-[165px] lg:h-[175px]">
-                      <Image
-                        src={card.image}
-                        alt={card.title}
-                        fill
-                        sizes="(min-width: 1024px) 38vw, 100vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
-                      />
-                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,25,47,0.05)_28%,rgba(8,25,47,0.72)_100%)]" />
-                    </div>
-                    <div className="bg-white px-3.5 py-3.5 sm:px-4">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <p className="inline-flex rounded-md bg-[#1f3f8f] px-3 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
-                          {card.category}
-                        </p>
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#6b7d9d]">{card.dateLabel}</p>
-                      </div>
-                      <h4 className="mt-2 text-[1.18rem] font-black uppercase leading-[1.06] text-[#0a1d3a] sm:text-[1.28rem]">
-                        {card.title}
-                      </h4>
-                      <p className="mt-1.5 text-[13px] leading-snug text-[#5d6f8f]">{card.excerpt}</p>
-                      <p className="mt-2.5 inline-flex items-center text-[11px] font-black uppercase tracking-[0.08em] text-[#1f3f8f] transition-colors group-hover:text-[#ef233c]">
-                        Lire l article <RiArrowRightLine className="ml-1 h-4 w-4" />
-                      </p>
-                    </div>
-                  </motion.article>
-                ))}
-
-                {newsCards.slice(4).map((card, index) => (
-                  <motion.article
-                    key={`actualites-right-${card.title}`}
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.42, ease: 'easeOut', delay: 0.12 + 0.08 * index }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    className="group overflow-hidden rounded-[14px] border border-[#d8dfeb] bg-white shadow-[0_9px_16px_rgba(10,29,58,0.07)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_21px_rgba(10,29,58,0.11)]"
-                  >
-                    <div className="relative h-[148px] overflow-hidden bg-[#f3f6fb] sm:h-[156px]">
-                      <Image
-                        src={card.image}
-                        alt={card.title}
-                        fill
-                        sizes="(min-width: 768px) 48vw, 100vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
-                      />
-                    </div>
-                    <div className="bg-white px-3.5 py-3">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <p className="inline-flex rounded-md bg-[#ef233c] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
-                          {card.category}
-                        </p>
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#6b7d9d]">{card.dateLabel}</p>
-                      </div>
-                      <h4 className="mt-1.5 text-[1.03rem] font-black uppercase leading-tight text-[#0a1d3a] sm:text-[1.1rem]">
-                        {card.title}
-                      </h4>
-                      <p className="mt-1.5 text-[13px] leading-snug text-[#5d6f8f]">{card.excerpt}</p>
-                    </div>
-                  </motion.article>
-                ))}
-              </div>
-            </div>
-          </div>
+          <NewsBarcaGrid
+            items={newsCards}
+            eyebrow="Actualites du club"
+            heading="ACTUALITES"
+            ctaHref="/actualites"
+            ctaLabel="Voir toute l actualite"
+          />
         </section>
 
         <section className="px-4 py-10 sm:px-6 lg:px-8">

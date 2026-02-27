@@ -59,18 +59,18 @@ export const heroSlides: HeroSlide[] = [
 
 export const newsCards: NewsCard[] = [
   {
-    title: 'FC TORO - Dernieres places',
-    category: 'Billetterie',
+    title: 'FC TORO - Dernieres nouvelles',
+    category: 'Club',
     image: '/joueur/extracted/583188241_18542486221012336_5258040509286651258_n.jpg',
-    excerpt: "Les derniers billets pour le choc de dimanche sont en ligne. Reservation ouverte jusqu'a 18h.",
+    excerpt: 'Le groupe poursuit sa progression avec des seances intenses et une bonne cohesion collective.',
     dateLabel: '26 Fev 2026',
     large: true,
   },
   {
-    title: 'Promo billetterie: -40%',
-    category: 'Billetterie',
+    title: 'Ambiance supporters en tribune',
+    category: 'Supporters',
     image: '/joueur/extracted/590428352_18546412351012336_8960891563345494800_n.jpg',
-    excerpt: 'Offre flash supporters sur les tribunes laterales. Quantites limitees, valable 48h.',
+    excerpt: 'Retour en images sur une journee forte avec une presence supporters qui porte le groupe.',
     dateLabel: '25 Fev 2026',
   },
   {
@@ -93,5 +93,26 @@ export const newsCards: NewsCard[] = [
     image: '/joueur/extracted/629347230_17886988737431630_560677091584659157_n.jpg',
     excerpt: 'Retour sur une annee reference: discipline collective, identite de jeu et mental fort.',
     dateLabel: 'Archive',
+  },
+  {
+    title: 'Preparation du week-end',
+    category: 'Club',
+    image: '/joueur/extracted/621203459_18554581459012336_4537330016788795057_n.jpg',
+    excerpt: 'Le staff ajuste les details tactiques avant la prochaine rencontre.',
+    dateLabel: '21 Fev 2026',
+  },
+  {
+    title: 'Focus academie U15',
+    category: 'Academie',
+    image: '/joueur/extracted/575274167_18540323572012336_6438757876049095178_n.jpg',
+    excerpt: 'Travail technique et maitrise du tempo au coeur de la seance.',
+    dateLabel: '20 Fev 2026',
+  },
+  {
+    title: 'Esprit collectif renforce',
+    category: 'Entrainement',
+    image: '/joueur/extracted/566965214_18535346428012336_1378637816694320324_n.jpg',
+    excerpt: 'Une semaine marquee par l intensite, l entraide et la discipline.',
+    dateLabel: '19 Fev 2026',
   },
 ]
