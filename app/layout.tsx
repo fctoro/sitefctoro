@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
+import { Suspense } from 'react'
 import { Analytics } from '@vercel/analytics/next'
 import Footer from '@/components/footer'
 import { SiteRuntimeManager } from '@/components/site-runtime-manager'
@@ -29,7 +30,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${poppins.variable} font-sans antialiased text-zinc-900`}>
-        <SiteRuntimeManager />
+        <Suspense fallback={null}>
+          <SiteRuntimeManager />
+        </Suspense>
         {children}
         <Footer />
         <Analytics />

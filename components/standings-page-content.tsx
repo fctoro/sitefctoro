@@ -300,7 +300,6 @@ export default function StandingsPageContent() {
                             width={24}
                             height={24}
                             className="h-6 w-6 rounded-full object-cover"
-                            unoptimized
                           />
                           <span className="text-sm font-semibold text-zinc-900">{row.teamName}</span>
                         </div>
@@ -358,7 +357,7 @@ export default function StandingsPageContent() {
                     <p className="mt-0.5 text-[11px] text-zinc-500">{formatKickoffDate(fixture.kickoff)}</p>
                     <div className="mt-2 flex items-center justify-between gap-2 text-sm">
                       <div className="flex min-w-0 items-center gap-2">
-                        <Image src={fixture.homeLogoUrl} alt={fixture.homeTeamName} width={18} height={18} className="h-[18px] w-[18px] rounded-full object-cover" unoptimized />
+                        <Image src={fixture.homeLogoUrl} alt={fixture.homeTeamName} width={18} height={18} className="h-[18px] w-[18px] rounded-full object-cover" />
                         <span className="truncate text-zinc-900">{fixture.homeTeamName}</span>
                       </div>
                       <span className="font-black text-zinc-900">
@@ -366,7 +365,7 @@ export default function StandingsPageContent() {
                       </span>
                       <div className="flex min-w-0 items-center gap-2">
                         <span className="truncate text-zinc-900">{fixture.awayTeamName}</span>
-                        <Image src={fixture.awayLogoUrl} alt={fixture.awayTeamName} width={18} height={18} className="h-[18px] w-[18px] rounded-full object-cover" unoptimized />
+                        <Image src={fixture.awayLogoUrl} alt={fixture.awayTeamName} width={18} height={18} className="h-[18px] w-[18px] rounded-full object-cover" />
                       </div>
                     </div>
                   </motion.article>
@@ -399,13 +398,13 @@ export default function StandingsPageContent() {
                     </p>
                     <div className="mt-2 flex items-center justify-between gap-2 text-sm">
                       <div className="flex min-w-0 items-center gap-2">
-                        <Image src={fixture.homeLogoUrl} alt={fixture.homeTeamName} width={18} height={18} className="h-[18px] w-[18px] rounded-full object-cover" unoptimized />
+                        <Image src={fixture.homeLogoUrl} alt={fixture.homeTeamName} width={18} height={18} className="h-[18px] w-[18px] rounded-full object-cover" />
                         <span className="truncate text-zinc-900">{fixture.homeTeamName}</span>
                       </div>
                       <span className="font-bold text-zinc-500">vs</span>
                       <div className="flex min-w-0 items-center gap-2">
                         <span className="truncate text-zinc-900">{fixture.awayTeamName}</span>
-                        <Image src={fixture.awayLogoUrl} alt={fixture.awayTeamName} width={18} height={18} className="h-[18px] w-[18px] rounded-full object-cover" unoptimized />
+                        <Image src={fixture.awayLogoUrl} alt={fixture.awayTeamName} width={18} height={18} className="h-[18px] w-[18px] rounded-full object-cover" />
                       </div>
                     </div>
                   </motion.article>

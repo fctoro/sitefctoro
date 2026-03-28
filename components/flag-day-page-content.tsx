@@ -177,7 +177,6 @@ export default function FlagDayPageContent() {
                                 width={26}
                                 height={26}
                                 className="h-6 w-6 rounded-full object-cover"
-                                unoptimized
                               />
                               <span className="text-sm font-semibold text-[#0a1d3a]">{row.teamName}</span>
                             </div>
@@ -237,7 +236,6 @@ export default function FlagDayPageContent() {
                               width={20}
                               height={20}
                               className="h-5 w-5 rounded-full object-cover"
-                              unoptimized
                             />
                             <span className="truncate text-sm font-semibold text-[#0a1d3a]">
                               {fixture.homeTeamName}
@@ -258,7 +256,6 @@ export default function FlagDayPageContent() {
                               width={20}
                               height={20}
                               className="h-5 w-5 rounded-full object-cover"
-                              unoptimized
                             />
                           </div>
                         </div>
@@ -296,7 +293,6 @@ export default function FlagDayPageContent() {
                               width={20}
                               height={20}
                               className="h-5 w-5 rounded-full object-cover"
-                              unoptimized
                             />
                             <span className="truncate text-sm font-semibold text-[#0a1d3a]">
                               {fixture.homeTeamName}
@@ -315,7 +311,6 @@ export default function FlagDayPageContent() {
                               width={20}
                               height={20}
                               className="h-5 w-5 rounded-full object-cover"
-                              unoptimized
                             />
                           </div>
                         </div>
