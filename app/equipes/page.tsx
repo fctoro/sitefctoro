@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { HomeNavbar } from '@/components/home-navbar'
 import { playerCards } from '@/lib/joueur'
-import { RiArrowRightLine, RiStarSFill } from '@remixicon/react'
+import { RiStarSFill } from '@remixicon/react'
 
 const featuredPlayers = playerCards.slice(0, 5)
 const rosterPlayers = playerCards.slice(5)
@@ -26,8 +26,8 @@ export default function EquipesPage() {
     <div className="min-h-screen overflow-x-hidden bg-[#050816] text-white">
       <HomeNavbar anchorPrefix="/" />
 
-      <main className="pt-[104px] lg:pt-[70px]">
-        <section className="relative overflow-hidden bg-[radial-gradient(circle_at_50%_20%,rgba(32,93,255,0.18),transparent_28%),linear-gradient(180deg,#07101f_0%,#040914_55%,#02050d_100%)] px-4 pb-6 pt-3 sm:px-6 lg:px-8 lg:pb-8 lg:pt-5">
+      <main className="pt-[116px] lg:pt-[70px]">
+        <section className="relative overflow-hidden bg-[radial-gradient(circle_at_50%_20%,rgba(32,93,255,0.18),transparent_28%),linear-gradient(180deg,#07101f_0%,#040914_55%,#02050d_100%)] px-4 pb-6 pt-5 sm:px-6 lg:px-8 lg:pb-8 lg:pt-5">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#ff244a] to-transparent" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#3f7bff] to-transparent" />
           <div className="pointer-events-none absolute left-1/2 top-10 h-64 w-64 -translate-x-1/2 rounded-full bg-[#ff244a]/10 blur-[120px]" />
@@ -38,7 +38,7 @@ export default function EquipesPage() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.95, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-3 flex justify-center pt-2 sm:mb-4 sm:pt-3 lg:mb-4 lg:pt-4"
+              className="mb-3 flex justify-center pt-3 sm:mb-4 sm:pt-3 lg:mb-4 lg:pt-4"
             >
               <div className="text-center">
                 <h1 className="max-w-[92vw] text-[0.78rem] font-black uppercase leading-[1.2] tracking-[0.16em] text-white/92 sm:max-w-none sm:text-[0.95rem] sm:tracking-[0.18em] lg:text-[clamp(1rem,1.9vw,1.45rem)] lg:leading-[1.05] lg:tracking-[0.22em]">
@@ -88,8 +88,8 @@ export default function EquipesPage() {
                     onFocus={() => setActivePlayer(player.name)}
                     className={`group relative overflow-hidden border-x border-white/10 text-left transition-all duration-500 ${
                       activePlayer === player.name
-                        ? 'z-30 shadow-[0_0_40px_rgba(255,36,74,0.16)]'
-                        : 'z-20 hover:z-30'
+                        ? 'z-20 sm:z-30 sm:shadow-[0_0_40px_rgba(255,36,74,0.16)]'
+                        : 'z-20 sm:hover:z-30'
                     }`}
                   >
                     <Image
@@ -98,7 +98,7 @@ export default function EquipesPage() {
                       fill
                       sizes="(min-width: 1024px) 20vw, 50vw"
                       className={`object-cover transition-transform duration-700 ${
-                        activePlayer === player.name ? 'scale-[1.06]' : 'scale-100 group-hover:scale-[1.03]'
+                        activePlayer === player.name ? 'scale-100 sm:scale-[1.06]' : 'scale-100 sm:group-hover:scale-[1.03]'
                       }`}
                     />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,7,15,0.18)_0%,rgba(4,7,15,0.24)_36%,rgba(4,7,15,0.82)_78%,rgba(4,7,15,0.98)_100%)]" />
@@ -120,7 +120,7 @@ export default function EquipesPage() {
                       </p>
                     </div>
 
-                    <div className="absolute inset-0 z-20 flex translate-y-full flex-col justify-end bg-[linear-gradient(180deg,rgba(4,7,15,0)_0%,rgba(79,8,23,0.05)_16%,rgba(239,35,60,0.16)_34%,rgba(239,35,60,0.52)_56%,rgba(204,18,48,0.84)_78%,rgba(118,7,28,0.97)_100%)] p-4 opacity-0 backdrop-blur-[1.5px] transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                    <div className="absolute inset-0 z-20 hidden translate-y-full flex-col justify-end bg-[linear-gradient(180deg,rgba(4,7,15,0)_0%,rgba(79,8,23,0.05)_16%,rgba(239,35,60,0.16)_34%,rgba(239,35,60,0.52)_56%,rgba(204,18,48,0.84)_78%,rgba(118,7,28,0.97)_100%)] p-4 opacity-0 backdrop-blur-[1.5px] transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 sm:flex">
                       <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/72">
                         Details joueur
                       </p>
@@ -175,7 +175,7 @@ export default function EquipesPage() {
               </p>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
               {rosterPlayers.map((player, index) => (
                 <motion.article
                   key={player.name}
@@ -183,38 +183,33 @@ export default function EquipesPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.15 }}
                   transition={{ duration: 0.45, delay: index * 0.04 }}
-                  className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-3 shadow-[0_18px_50px_rgba(0,0,0,0.28)]"
+                  className="group relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-2.5 shadow-[0_18px_50px_rgba(0,0,0,0.28)] sm:rounded-[28px] sm:p-3"
                 >
                   <div className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-[#3f7bff] to-transparent" />
                   <div className="pointer-events-none absolute inset-x-5 bottom-0 h-px bg-gradient-to-r from-transparent via-[#ff244a] to-transparent" />
 
-                  <div className="relative h-[360px] overflow-hidden rounded-[22px]">
+                  <div className="relative h-[250px] overflow-hidden rounded-[18px] sm:h-[360px] sm:rounded-[22px]">
                     <Image
                       src={player.image}
                       alt={player.name}
                       fill
-                      sizes="(min-width: 1280px) 22vw, (min-width: 640px) 48vw, 100vw"
+                      sizes="(min-width: 1280px) 22vw, (min-width: 640px) 48vw, 50vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
                     />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,7,15,0.08)_0%,rgba(4,7,15,0.28)_45%,rgba(4,7,15,0.95)_100%)]" />
-                    <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/25 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-white/80 backdrop-blur">
-                      <RiStarSFill className="h-3.5 w-3.5 text-[#ff244a]" />
+                    <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-black/25 px-2.5 py-1 text-[8px] font-black uppercase tracking-[0.16em] text-white/80 backdrop-blur sm:left-4 sm:top-4 sm:gap-2 sm:px-3 sm:text-[10px] sm:tracking-[0.18em]">
+                      <RiStarSFill className="h-3 w-3 text-[#ff244a] sm:h-3.5 sm:w-3.5" />
                       Core Squad
                     </div>
 
-                    <div className="absolute inset-x-0 bottom-0 p-5">
-                      <div className="flex items-end justify-between gap-3">
-                        <div>
-                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#8fb2ff]">
-                            {player.role}
-                          </p>
-                          <h3 className="mt-2 text-[1.9rem] font-black uppercase leading-[0.9] tracking-[-0.05em] text-white">
-                            {player.name}
-                          </h3>
-                        </div>
-                        <span className="mb-1 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/10 text-white/90">
-                          <RiArrowRightLine className="h-5 w-5" />
-                        </span>
+                    <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-5">
+                      <div>
+                        <p className="text-[8px] font-black uppercase tracking-[0.16em] text-[#8fb2ff] sm:text-[10px] sm:tracking-[0.2em]">
+                          {player.role}
+                        </p>
+                        <h3 className="mt-1.5 text-[1.15rem] font-black uppercase leading-[0.9] tracking-[-0.05em] text-white sm:mt-2 sm:text-[1.9rem]">
+                          {player.name}
+                        </h3>
                       </div>
                     </div>
                   </div>

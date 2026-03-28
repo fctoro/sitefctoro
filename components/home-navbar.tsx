@@ -61,6 +61,9 @@ const linkDescriptionMap: Record<string, string> = {
   'Installations': 'Terrains, equipements et environnement d entrainement.',
   'Actualites club': 'Les dernieres informations officielles du club.',
   'Calendrier complet': 'Toutes les rencontres et evenements a venir.',
+  'Live Diffusion': 'Diffusion live, flux de match et rappels avant coup d envoi.',
+  'Vertieres Cup': 'Inscription equipe, logo officiel et liste des joueurs.',
+  'Flag Day': 'Classement du tournoi, resultats recents et prochains matchs.',
   'Contact officiel': 'Acces direct aux canaux du club.',
   'Equipe Pro': 'Effectif principal et dynamique competitive.',
   'Staff technique': 'Encadrement tactique et performance.',
@@ -172,7 +175,33 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
         },
       },
     },
-    { label: 'Evenements', href: '/club/calendrier#evenements' },
+    {
+      label: 'Evenements',
+      href: '/evenements',
+      submenu: {
+        intro: 'Tous les rendez-vous FC TORO: live, inscriptions tournoi et classement.',
+        backdropImage: '/joueur/extracted/566965214_18535346428012336_1378637816694320324_n.jpg',
+        sections: [
+          {
+            title: 'Diffusion',
+            links: [{ label: 'Live Diffusion', href: '/evenements/live' }],
+          },
+          {
+            title: 'Tournois',
+            links: [
+              { label: 'Vertieres Cup', href: '/evenements/vertieres-cup' },
+              { label: 'Flag Day', href: '/evenements/flag-day' },
+            ],
+          },
+        ],
+        spotlight: {
+          image: '/joueur/extracted/583167774_18542869372012336_2307311757000245016_n.jpg',
+          name: 'Flag Day',
+          role: 'Classement, resultats et affiches',
+          href: '/evenements/flag-day',
+        },
+      },
+    },
     {
       label: 'Rejoindre',
       accent: true,
@@ -210,10 +239,10 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
 
   const mobilePrimaryLinks: Array<{ label: string; href: string; accent?: boolean }> = [
     { label: 'Actualites', href: '/actualites' },
-    { label: 'Club', href: `${anchorPrefix}#club` },
+    { label: 'Club', href: '/le-club' },
     { label: 'Equipe', href: '/equipes' },
-    { label: 'Projet', href: '/elite' },
-    { label: 'Evenements', href: '/club/calendrier#evenements' },
+    { label: 'Elite', href: '/elite' },
+    { label: 'Flag Day', href: '/evenements/flag-day' },
   ]
 
   const activeDesktopItem = navItems.find(
@@ -245,6 +274,17 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
               <p className="text-lg font-black uppercase tracking-tight text-[#0a1d3a]">FC TORO</p>
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#ef233c]">Mache sou yo</p>
             </div>
+          </Link>
+
+          <Link
+            href="/evenements/live"
+            className="ml-auto inline-flex items-center gap-2 rounded-full bg-[#ef233c] px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white shadow-[0_10px_18px_rgba(239,35,60,0.28)] transition-all hover:bg-[#d71931] lg:hidden"
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/80" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-white" />
+            </span>
+            Live
           </Link>
 
           <nav className="ml-auto hidden items-center gap-2 lg:flex">
@@ -296,7 +336,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             aria-label={mobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             aria-expanded={mobileMenuOpen}
-            className="ml-auto inline-flex items-center justify-center rounded-[8px] border border-[#d7deea] bg-white p-2 text-[#0a1d3a] transition-colors hover:border-[#1a4ea3] hover:text-[#1a4ea3] lg:hidden"
+            className="inline-flex items-center justify-center rounded-[8px] border border-[#d7deea] bg-white p-2 text-[#0a1d3a] transition-colors hover:border-[#1a4ea3] hover:text-[#1a4ea3] lg:hidden"
           >
             {mobileMenuOpen ? <RiCloseLine className="h-5 w-5" /> : <RiMenuLine className="h-5 w-5" />}
           </button>
@@ -384,7 +424,11 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
 
                           <div
                             className={`mt-4 grid gap-4 ${
-                              section.links.length === 2 ? 'grid-cols-2' : 'grid-cols-3'
+                              section.links.length === 1
+                                ? 'grid-cols-1'
+                                : section.links.length === 2
+                                  ? 'grid-cols-2'
+                                  : 'grid-cols-3'
                             }`}
                           >
                             {section.links.map((link) => {

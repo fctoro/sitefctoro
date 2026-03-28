@@ -64,6 +64,18 @@ export function Header() {
           </div>
         </Link>
 
+        <Link
+          href="/evenements/live"
+          className="ml-auto inline-flex items-center gap-2 rounded-full bg-[#ef233c] px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white shadow-[0_10px_18px_rgba(239,35,60,0.28)] transition-all hover:bg-[#d71931] lg:hidden"
+          onClick={() => setOpenDropdown(null)}
+        >
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/80" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-white" />
+          </span>
+          Live
+        </Link>
+
         <nav className="ml-5 hidden items-center gap-8 lg:flex">
           <Link
             href="/"
@@ -92,7 +104,7 @@ export function Header() {
           </button>
 
           <Link
-            href="/club/calendrier"
+            href="/evenements/live"
             className="text-[1.02rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
             onClick={() => setOpenDropdown(null)}
           >
@@ -121,7 +133,7 @@ export function Header() {
         <button
           type="button"
           onClick={() => setMobileMenuOpen((value) => !value)}
-          className="ml-auto grid h-9 w-9 place-items-center rounded-lg border border-zinc-300 text-zinc-700 transition-colors hover:bg-zinc-200 lg:hidden"
+          className="grid h-9 w-9 place-items-center rounded-lg border border-zinc-300 text-zinc-700 transition-colors hover:bg-zinc-200 lg:hidden"
           aria-label="Ouvrir le menu"
         >
           {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -230,7 +242,7 @@ export function Header() {
             ) : null}
 
             <Link
-              href="/club/calendrier"
+              href="/evenements/live"
               className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
               onClick={() => setMobileMenuOpen(false)}
             >
