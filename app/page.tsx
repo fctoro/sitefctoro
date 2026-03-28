@@ -7,15 +7,14 @@ import Link from 'next/link'
 import { heroSlides, newsCards, playerCards } from '@/lib/joueur'
 import { sponsors } from '@/lib/sponsors'
 import { NewsBarcaGrid } from '@/components/news-barca-grid'
+import VisionSection from '@/components/vision-section'
 import {
-  RiAppStoreFill,
   RiArrowDownSLine,
   RiArrowLeftSLine,
   RiArrowRightLine,
   RiArrowRightSLine,
   RiCalendarEventLine,
   RiCloseLine,
-  RiGooglePlayFill,
   RiMedalLine,
   RiMenuLine,
   RiShieldStarLine,
@@ -62,14 +61,8 @@ const navItems: NavItem[] = [
         {
           title: 'Le club',
           links: [
-            { label: 'Histoire du club', href: '#club' },
-            { label: 'Vision et valeurs', href: '#club' },
-          ],
-        },
-        {
-          title: 'Contact',
-          links: [
-            { label: 'Contact officiel', href: '#footer' },
+            { label: 'Histoire du club', href: '/le-club' },
+            { label: 'Sponsors', href: '/sponsors' },
           ],
         },
       ],
@@ -77,15 +70,36 @@ const navItems: NavItem[] = [
         image: '/joueur/extracted/634150827_18560832649012336_7495873752742897530_n.jpg',
         name: 'Ruben Alexis',
         role: 'Capitaine',
-        href: '#joueurs',
+        href: '/equipes',
       },
     },
   },
   {
     label: 'Equipe',
-    href: '#joueurs',
+    href: '/equipes',
   },
-  { label: 'Calendrier', href: '/club/calendrier' },
+  {
+    label: 'Projet',
+    submenu: {
+      intro: 'Les projets FC TORO pour structurer la progression des joueurs.',
+      backdropImage: '/joueur/extracted/591149277_18545355826012336_6701584250153829576_n.jpg',
+      sections: [
+        {
+          title: 'Projets',
+          links: [
+            { label: 'Elite', href: '/elite' },
+            { label: 'CASA', href: '/casa' },
+          ],
+        },
+      ],
+      spotlight: {
+        image: '/joueur/extracted/591149277_18545355826012336_6701584250153829576_n.jpg',
+        name: 'Projet FC TORO',
+        role: 'Elite et CASA',
+        href: '/elite',
+      },
+    },
+  },
   { label: 'Evenements', href: '/club/calendrier#evenements' },
   {
     label: 'Rejoindre',
@@ -105,9 +119,9 @@ const navItems: NavItem[] = [
         {
           title: 'Opportunites',
           links: [
-            { label: 'Devenir partenaire', href: '#footer' },
+            { label: 'Devenir partenaire', href: '/sponsors' },
             { label: 'Benevolat matchday', href: '/inscription#benevolat' },
-            { label: 'Contacter recrutement', href: '#footer' },
+            { label: 'Contacter recrutement', href: '/contact' },
           ],
         },
       ],
@@ -119,7 +133,7 @@ const navItems: NavItem[] = [
       },
     },
   },
-  { label: 'Contact', href: '#footer' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 const linkDescriptionMap: Record<string, string> = {
@@ -130,6 +144,9 @@ const linkDescriptionMap: Record<string, string> = {
   'Benevolat matchday': 'Contribuez aux jours de match et activations club.',
   'Contacter recrutement': 'Parlez directement avec l equipe recrutement.',
   'Histoire du club': 'Parcours, jalons majeurs et ADN FC TORO.',
+  Sponsors: 'Partenaires et soutiens qui accompagnent FC TORO.',
+  Elite: 'Le pont entre formation et excellence FC TORO.',
+  CASA: 'Projet Caribbean Sports Academy.',
   'Vision et valeurs': 'Discipline, identite et ambition long terme.',
   'Installations': 'Terrains, equipements et environnement d entrainement.',
   'Actualites club': 'Les dernieres informations officielles du club.',
@@ -158,8 +175,8 @@ const clubStats = [
 const mobilePrimaryLinks: Array<{ label: string; href: string; accent?: boolean }> = [
   { label: 'Actualites', href: '/actualites' },
   { label: 'Club', href: '#club' },
-  { label: 'Equipe', href: '#joueurs' },
-  { label: 'Calendrier', href: '/club/calendrier' },
+  { label: 'Equipe', href: '/equipes' },
+  { label: 'Projet', href: '/elite' },
   { label: 'Evenements', href: '/club/calendrier#evenements' },
 ]
 
@@ -362,6 +379,8 @@ export default function HomePage() {
                           ? 'Academie'
                           : activeDesktopItem.label === 'Club'
                             ? 'Club officiel'
+                            : activeDesktopItem.label === 'Projet'
+                              ? 'Projets club'
                             : 'Supporters'}
                       </span>
 
@@ -399,7 +418,13 @@ export default function HomePage() {
                             ))}
                           </div>
                         ) : (
-                          <div className="mt-3 grid grid-cols-3 gap-4">
+                          <div
+                            className={`mt-3 grid gap-4 ${
+                              activeDesktopItem.submenu.sections[0].links.length === 2
+                                ? 'grid-cols-2'
+                                : 'grid-cols-3'
+                            }`}
+                          >
                             {activeDesktopItem.submenu.sections[0].links.map((link) => (
                               <Link
                                 key={`desktop-left-${activeDesktopItem.label}-${link.label}`}
@@ -421,33 +446,35 @@ export default function HomePage() {
                         )}
                       </div>
 
-                      <div className="mt-8">
-                        <p className="text-sm font-black uppercase tracking-[0.1em] text-white">
-                          {activeDesktopItem.submenu.sections[1].title}
-                        </p>
+                      {activeDesktopItem.submenu.sections[1] ? (
+                        <div className="mt-8">
+                          <p className="text-sm font-black uppercase tracking-[0.1em] text-white">
+                            {activeDesktopItem.submenu.sections[1].title}
+                          </p>
 
-                        <div className="mt-3 grid grid-cols-3 gap-4">
-                          {activeDesktopItem.submenu.sections[1].links.map((link) => (
-                            <Link
-                              key={`desktop-right-${activeDesktopItem.label}-${link.label}`}
-                              href={link.href}
-                              className="group rounded-[8px] border border-[#2f4f85] bg-[#102c5b] p-3.5 text-white transition-[transform,background-color,border-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-[#E30613]/65 hover:bg-[#143265] hover:shadow-[0_10px_20px_rgba(0,0,0,0.18)]"
-                            >
-                              <div className="flex items-start justify-between gap-3">
-                                <div>
-                                  <p className="text-base font-black uppercase leading-[1.05] text-white transition-colors group-hover:text-[#E30613]">
-                                    {link.label}
-                                  </p>
-                                  <p className="mt-1 text-xs text-white/80">
-                                    {getLinkDescription(link.label)}
-                                  </p>
+                          <div className="mt-3 grid grid-cols-3 gap-4">
+                            {activeDesktopItem.submenu.sections[1].links.map((link) => (
+                              <Link
+                                key={`desktop-right-${activeDesktopItem.label}-${link.label}`}
+                                href={link.href}
+                                className="group rounded-[8px] border border-[#2f4f85] bg-[#102c5b] p-3.5 text-white transition-[transform,background-color,border-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-[#E30613]/65 hover:bg-[#143265] hover:shadow-[0_10px_20px_rgba(0,0,0,0.18)]"
+                              >
+                                <div className="flex items-start justify-between gap-3">
+                                  <div>
+                                    <p className="text-base font-black uppercase leading-[1.05] text-white transition-colors group-hover:text-[#E30613]">
+                                      {link.label}
+                                    </p>
+                                    <p className="mt-1 text-xs text-white/80">
+                                      {getLinkDescription(link.label)}
+                                    </p>
+                                  </div>
+                                  <RiArrowRightSLine className="mt-0.5 h-5 w-5 text-[#8fb8ff] transition-colors group-hover:text-[#E30613]" />
                                 </div>
-                                <RiArrowRightSLine className="mt-0.5 h-5 w-5 text-[#8fb8ff] transition-colors group-hover:text-[#E30613]" />
-                              </div>
-                            </Link>
-                          ))}
+                              </Link>
+                            ))}
+                          </div>
                         </div>
-                      </div>
+                      ) : null}
                     </div>
 
                     <aside className="rounded-[8px] border border-[#2f4f85] bg-[#102c5b] p-4 text-white">
@@ -464,7 +491,7 @@ export default function HomePage() {
                             FC TORO
                           </p>
                           <p className="text-lg font-black uppercase text-white">
-                            Parcours joueur
+                            {activeDesktopItem.label === 'Projet' ? 'Projet FC TORO' : 'Parcours joueur'}
                           </p>
                         </div>
                       </div>
@@ -485,7 +512,7 @@ export default function HomePage() {
                         </div>
                         <div className="bg-[#0a2347] p-3">
                           <p className="text-[10px] font-black uppercase tracking-[0.12em] text-white/76">
-                            Joueur en lumiere
+                            {activeDesktopItem.label === 'Projet' ? 'Projet a la une' : 'Joueur en lumiere'}
                           </p>
                           <p className="mt-1 text-xl font-black uppercase leading-[1.03] text-white">
                             {activeDesktopItem.submenu.spotlight.name}
@@ -527,6 +554,15 @@ export default function HomePage() {
             >
               <div className="mx-auto h-full max-w-[1100px] overflow-y-auto px-4 py-2 sm:px-6 sm:py-3">
                 <div className="space-y-2 text-right">
+                  <div className="border-b border-[#e6ebf3] pb-2">
+                    <Link
+                      href="/contact"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block text-sm font-semibold uppercase leading-tight tracking-[0.06em] text-[#2e436a] transition-colors duration-200 hover:text-[#ef233c]"
+                    >
+                      Contact
+                    </Link>
+                  </div>
                   {navItems
                     .filter((item) => item.submenu)
                     .flatMap((item) =>
@@ -807,107 +843,17 @@ export default function HomePage() {
             heading="ACTUALITES"
             ctaHref="/actualites"
             ctaLabel="Voir toute l actualite"
+            limit={4}
           />
         </section>
 
-        <section className="px-4 py-10 sm:px-6 lg:px-8">
-          <div className="mx-auto grid max-w-[1320px] gap-5 lg:grid-cols-[1.08fr_0.92fr]">
-            <motion.article
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, ease: 'easeOut' }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="relative overflow-hidden rounded-[22px] border border-[#d7e0ee] bg-[linear-gradient(126deg,#f8fbff_0%,#eef4fd_58%,#f9fbff_100%)] p-5 shadow-[0_12px_26px_rgba(10,29,58,0.1)] sm:p-6"
-            >
-              <div className="absolute -right-20 -top-20 h-52 w-52 rounded-full bg-[radial-gradient(circle,rgba(31,63,143,0.13),rgba(31,63,143,0)_72%)]" />
-              <div className="absolute -left-16 bottom-[-70px] h-44 w-44 rounded-full bg-[radial-gradient(circle,rgba(239,35,60,0.14),rgba(239,35,60,0)_72%)]" />
+        <VisionSection />
 
-              <div className="relative z-10">
-                <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#ef233c]">Vision FC TORO</p>
-                <h2 className="mt-2 max-w-[680px] text-[clamp(1.55rem,2.5vw,2.4rem)] font-black uppercase leading-[0.97] text-[#12366f]">
-                  Formation serieuse, identite forte, progression continue
-                </h2>
-                <p className="mt-3 max-w-[720px] text-sm leading-relaxed text-[#4f6387]">
-                  Un cadre clair, des objectifs concrets et un accompagnement terrain pour faire progresser chaque
-                  joueur sans bruit, avec discipline.
-                </p>
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <span className="rounded-full bg-[#12366f] px-3 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
-                    Discipline
-                  </span>
-                  <span className="rounded-full bg-[#ef233c] px-3 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
-                    Intensite
-                  </span>
-                  <span className="rounded-full bg-[#1f4ea1] px-3 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-white">
-                    Mentalite club
-                  </span>
-                </div>
-
-                <div className="mt-5 flex flex-wrap gap-2.5">
-                  <Link
-                    href="/inscription"
-                    className="inline-flex items-center rounded-lg bg-[#ef233c] px-4 py-2 text-[11px] font-black uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#d91933]"
-                  >
-                    Rejoindre le club <RiArrowRightLine className="ml-1 h-4 w-4" />
-                  </Link>
-                  <Link
-                    href="#club"
-                    className="inline-flex items-center rounded-lg border border-[#cdd9eb] bg-white px-4 py-2 text-[11px] font-black uppercase tracking-[0.08em] text-[#12366f] transition-colors hover:border-[#1f4ea1]"
-                  >
-                    Histoire du club <RiArrowRightLine className="ml-1 h-4 w-4" />
-                  </Link>
-                </div>
-              </div>
-            </motion.article>
-
-            <motion.article
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="rounded-[22px] border border-[#d7e0ee] bg-[#f7faff] p-4 shadow-[0_12px_26px_rgba(10,29,58,0.09)] sm:p-5"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <h3 className="text-xl font-black uppercase leading-[0.95] text-[#12366f] sm:text-2xl">Focus joueurs</h3>
-                <Link
-                  href="#joueurs"
-                  className="text-[11px] font-black uppercase tracking-[0.1em] text-[#12366f] transition-colors hover:text-[#ef233c]"
-                >
-                  Voir tout <RiArrowRightLine className="ml-1 inline h-4 w-4" />
-                </Link>
-              </div>
-
-              <div className="mt-4 grid grid-cols-2 gap-2.5 sm:gap-3">
-                {playerCards.slice(0, 4).map((player) => (
-                  <article
-                    key={`focus-pro-${player.name}`}
-                    className="group relative min-h-[136px] overflow-hidden rounded-[12px] bg-[#0f2a4b] sm:min-h-[154px]"
-                  >
-                    <Image
-                      src={player.image}
-                      alt={player.name}
-                      fill
-                      sizes="(min-width: 1024px) 22vw, 48vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,25,47,0.02)_35%,rgba(8,25,47,0.84)_100%)]" />
-                    <div className="absolute bottom-0 left-0 right-0 p-2.5 text-white">
-                      <p className="text-[10px] font-black uppercase tracking-[0.1em] text-white/82">{player.role}</p>
-                      <p className="mt-1 text-[1.55rem] font-black uppercase leading-[0.88] sm:text-[1.75rem]">{player.name}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </motion.article>
-          </div>
-        </section>
-      </main>
-
-      <footer id="footer" className="bg-white">
-        <section className="px-4 py-12 sm:px-6 lg:px-8">
+        <section id="sponsors" className="bg-white px-4 py-12 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1100px]">
-            <h4 className="text-center text-xs font-black uppercase tracking-[0.12em] text-[#0a1d3a]">Partenaires officiels</h4>
+            <h4 className="text-center text-xs font-black uppercase tracking-[0.12em] text-[#0a1d3a]">
+              Partenaires officiels
+            </h4>
 
             <div className="mt-6 sm:hidden">
               <div className="flex items-center justify-between gap-1">
@@ -932,7 +878,10 @@ export default function HomePage() {
 
             <div className="mt-6 hidden grid-cols-3 gap-3 sm:grid md:grid-cols-4 lg:grid-cols-7">
               {sponsors.map((sponsor) => (
-                <div key={sponsor.id} className="grid h-20 place-items-center px-2 transition-transform duration-300 hover:-translate-y-1">
+                <div
+                  key={sponsor.id}
+                  className="grid h-20 place-items-center px-2 transition-transform duration-300 hover:-translate-y-1"
+                >
                   <div className="relative h-14 w-full max-w-[210px]">
                     <Image
                       src={sponsor.logo}
@@ -947,39 +896,8 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+      </main>
 
-        <section className="bg-[linear-gradient(120deg,#16357c,#ef233c)] px-4 py-9 text-white sm:px-6 lg:px-8">
-          <div className="mx-auto flex max-w-[1100px] flex-wrap items-center justify-between gap-5">
-            <div className="flex items-center gap-4">
-              <Image src="/fc-toro-logo.png" alt="Logo FC TORO" width={54} height={54} className="h-[54px] w-auto object-contain" />
-              <div>
-                <p className="text-sm font-black uppercase tracking-[0.08em]">L application officielle du FC TORO</p>
-                <p className="mt-1 text-xs">Suivez FC TORO partout avec l app mobile.</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <button className="inline-flex items-center gap-2 rounded border border-white/70 px-4 py-2 text-xs font-bold uppercase">
-                <RiAppStoreFill className="h-4 w-4" />
-                App Store
-              </button>
-              <button className="inline-flex items-center gap-2 rounded border border-white/70 px-4 py-2 text-xs font-bold uppercase">
-                <RiGooglePlayFill className="h-4 w-4" />
-                Google Play
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <section className="px-4 py-6 sm:px-6 lg:px-8">
-          <div className="mx-auto flex max-w-[1100px] flex-wrap items-center justify-center gap-4 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a1d3a]">
-            <div className="flex items-center gap-4">
-              <Link href="#">Mentions</Link>
-              <Link href="#">Plan du site</Link>
-              <Link href="#">Cookies</Link>
-            </div>
-          </div>
-        </section>
-      </footer>
     </div>
   )
 }

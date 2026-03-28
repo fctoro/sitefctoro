@@ -9,10 +9,11 @@ type NewsBarcaGridProps = {
   eyebrow?: string
   ctaHref?: string
   ctaLabel?: string
+  limit?: number
 }
 
-export function NewsBarcaGrid({ items, heading, eyebrow, ctaHref, ctaLabel }: NewsBarcaGridProps) {
-  const cards = items.slice(0, 8)
+export function NewsBarcaGrid({ items, heading, eyebrow, ctaHref, ctaLabel, limit = 8 }: NewsBarcaGridProps) {
+  const cards = items.slice(0, limit)
 
   return (
     <div className="mx-auto max-w-[1320px]">
