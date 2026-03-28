@@ -192,6 +192,23 @@ const isNavItemActive = (pathname: string, item: NavItem) => {
   )
 }
 
+const getMostSpecificMatchingHref = (pathname: string, links: NavSubLink[]) =>
+  links.reduce<string | null>((bestMatch, link) => {
+    if (!isPageMatch(pathname, link.href)) return bestMatch
+
+    const normalizedHref = normalizePath(link.href)
+    if (!normalizedHref) return bestMatch
+
+    if (!bestMatch || normalizedHref.length > bestMatch.length) {
+      return normalizedHref
+    }
+
+    return bestMatch
+  }, null)
+
+const isRejoindreSectionActive = (pathname: string) =>
+  isPageMatch(pathname, '/inscription') || isPageMatch(pathname, '/stages')
+
 const clubStats = [
   { icon: RiCalendarEventLine, target: 2012, label: 'Creation du club' },
   { icon: RiShieldStarLine, target: 2015, label: 'Section filles lancee' },
@@ -290,6 +307,18 @@ export default function HomePage() {
   const activeDesktopItem = navItems.find(
     (item) => item.label === activeDesktopMenu && item.submenu,
   )
+  const activeDesktopSubmenuHref = activeDesktopItem?.submenu
+    ? getMostSpecificMatchingHref(
+        pathname,
+        activeDesktopItem.submenu.sections.flatMap((section) => section.links),
+      )
+    : null
+  const activeMobileSubmenuHref = getMostSpecificMatchingHref(
+    pathname,
+    navItems
+      .filter((item) => item.submenu)
+      .flatMap((item) => item.submenu!.sections.flatMap((section) => section.links)),
+  )
 
   if (!introReady) {
     return (
@@ -335,7 +364,7 @@ export default function HomePage() {
             {navItems.map((item) => {
               const itemIsActive =
                 item.label === 'Rejoindre'
-                  ? activeDesktopMenu === item.label
+                  ? isRejoindreSectionActive(pathname)
                   : isNavItemActive(pathname, item)
               const itemTone = 'text-[#0a1d3a] hover:text-[#ef233c]'
               const itemActiveTone = 'text-[#ef233c]'
@@ -423,164 +452,91 @@ export default function HomePage() {
               className="absolute left-0 right-0 top-[calc(100%-1px)] z-[220] hidden overflow-hidden lg:block"
             >
               <div className="relative mx-auto w-full max-w-[1720px] px-6 py-5">
-                <div className="rounded-[12px] bg-[#0a2347] p-6 shadow-[0_16px_30px_rgba(10,29,58,0.24)]">
-                    <div className="grid grid-cols-[minmax(0,2fr)_minmax(300px,1fr)] gap-7 xl:gap-8">
-                    <div>
-                      <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#E30613]">
+                <div className="rounded-[18px] border border-[#dbe5f2] bg-white p-7 shadow-[0_22px_40px_rgba(10,29,58,0.14)]">
+                  <div className="grid grid-cols-[280px_minmax(0,1fr)] gap-8 xl:grid-cols-[320px_minmax(0,1fr)]">
+                    <aside className="rounded-[22px] border border-[#e7edf6] bg-[linear-gradient(180deg,#f8fbff_0%,#f2f7fd_100%)] p-6">
+                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#ef233c]">
                         {activeDesktopItem.label}
                       </p>
-                      <h3 className="mt-2 text-[clamp(1.75rem,2.2vw,2.75rem)] font-black leading-[1.04] text-white">
+                      <h3 className="mt-3 text-[1.95rem] font-black leading-[0.98] tracking-[-0.04em] text-[#0a1d3a]">
                         {activeDesktopItem.submenu.intro}
                       </h3>
-                      <span className="mt-3 inline-flex rounded-[8px] bg-[linear-gradient(90deg,rgba(24,80,170,0.86),rgba(227,6,19,0.86))] px-6 py-2 text-xl font-black uppercase tracking-[0.08em] text-white/95">
-                        {activeDesktopItem.label === 'Equipe'
-                          ? 'Academie'
-                          : activeDesktopItem.label === 'Club'
-                            ? 'Club officiel'
-                            : activeDesktopItem.label === 'Projet'
-                              ? 'Projets club'
-                            : 'Supporters'}
-                      </span>
 
-                      <div className="mt-7">
-                        <p className="text-sm font-black uppercase tracking-[0.1em] text-white">
-                          {activeDesktopItem.submenu.sections[0].title}
+                      <div className="mt-6 h-px bg-gradient-to-r from-[#ef233c] via-[#ef233c]/20 to-transparent" />
+
+                      <div className="mt-6">
+                        <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#6d82a3]">
+                          Acces principal
                         </p>
-
-                        {activeDesktopItem.label === 'Equipe' ? (
-                          <div className="mt-3 grid grid-cols-2 gap-4 xl:grid-cols-3 2xl:grid-cols-5">
-                            {activeDesktopItem.submenu.sections[0].links.map((link) => (
-                              <Link
-                                key={`desktop-left-${activeDesktopItem.label}-${link.label}`}
-                                href={link.href}
-                                className="group flex min-h-[168px] flex-col rounded-[14px] border border-[#2f4f85] bg-[#102c5b] p-4 text-white shadow-[0_10px_18px_rgba(0,0,0,0.18)] transition-[transform,border-color,box-shadow,color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-[#E30613] hover:bg-[#143265] hover:shadow-[0_14px_24px_rgba(0,0,0,0.24)]"
-                              >
-                                <div className="flex items-start justify-between gap-2">
-                                  <p className="text-[10px] font-black uppercase tracking-[0.1em] text-white/76">
-                                    Categorie
-                                  </p>
-                                  <span className="rounded-full bg-[#E30613] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-white">
-                                    {link.label}
-                                  </span>
-                                </div>
-                                <h4 className="mt-3 text-[1.8rem] font-black uppercase leading-[1.02] text-white">
-                                  {link.label}
-                                </h4>
-                                <p className="mt-2 text-sm text-white/80">
-                                  {getLinkDescription(link.label)}
-                                </p>
-                                <p className="mt-auto inline-flex items-center text-xs font-black uppercase tracking-[0.08em] text-[#8fb8ff] transition-colors group-hover:text-[#E30613]">
-                                  Voir l equipe <RiArrowRightLine className="ml-1 h-4 w-4" />
-                                </p>
-                              </Link>
-                            ))}
+                        <Link
+                          href={activeDesktopItem.submenu.spotlight.href}
+                          className="group mt-3 flex items-start justify-between rounded-[18px] border border-[#dbe5f2] bg-white px-4 py-4 transition-all duration-300 hover:border-[#ef233c]/35 hover:bg-[#fff7f8] hover:shadow-[0_14px_24px_rgba(10,29,58,0.08)]"
+                        >
+                          <div>
+                            <p className="text-base font-black uppercase leading-[1.04] text-[#0a1d3a]">
+                              {activeDesktopItem.submenu.spotlight.name}
+                            </p>
+                            <p className="mt-1 text-sm font-semibold leading-relaxed text-[#5b6f91]">
+                              {activeDesktopItem.submenu.spotlight.role}
+                            </p>
                           </div>
-                        ) : (
+                          <RiArrowRightLine className="mt-0.5 h-5 w-5 text-[#ef233c] transition-transform duration-300 group-hover:translate-x-0.5" />
+                        </Link>
+                      </div>
+                    </aside>
+
+                    <div className="space-y-7">
+                      {activeDesktopItem.submenu.sections.map((section) => (
+                        <section key={`desktop-section-${activeDesktopItem.label}-${section.title}`}>
+                          <div className="flex items-center gap-3">
+                            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#6d82a3]">
+                              {section.title}
+                            </p>
+                            <div className="h-px flex-1 bg-[#e7edf6]" />
+                          </div>
+
                           <div
-                            className={`mt-3 grid gap-4 ${
-                              activeDesktopItem.submenu.sections[0].links.length === 2
-                                ? 'grid-cols-2'
-                                : 'grid-cols-3'
+                            className={`mt-4 grid gap-4 ${
+                              section.links.length === 2 ? 'grid-cols-2' : 'grid-cols-3'
                             }`}
                           >
-                            {activeDesktopItem.submenu.sections[0].links.map((link) => (
-                              <Link
-                                key={`desktop-left-${activeDesktopItem.label}-${link.label}`}
-                                href={link.href}
-                                className="group rounded-[8px] border border-[#2f4f85] bg-[#102c5b] p-4 text-white transition-[transform,background-color,border-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-[#E30613]/70 hover:bg-[#143265] hover:shadow-[0_12px_22px_rgba(0,0,0,0.2)]"
-                              >
-                                <p className="text-lg font-black uppercase leading-[1.04] text-white transition-colors group-hover:text-[#E30613]">
-                                  {link.label}
-                                </p>
-                                <p className="mt-2 text-sm text-white/80">
-                                  {getLinkDescription(link.label)}
-                                </p>
-                                <p className="mt-4 inline-flex items-center text-xs font-black uppercase tracking-[0.08em] text-[#8fb8ff] transition-colors group-hover:text-[#E30613]">
-                                  Explorer <RiArrowRightLine className="ml-1 h-4 w-4" />
-                                </p>
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                            {section.links.map((link) => {
+                              const linkIsActive = activeDesktopSubmenuHref === normalizePath(link.href)
 
-                      {activeDesktopItem.submenu.sections[1] ? (
-                        <div className="mt-8">
-                          <p className="text-sm font-black uppercase tracking-[0.1em] text-white">
-                            {activeDesktopItem.submenu.sections[1].title}
-                          </p>
-
-                          <div className="mt-3 grid grid-cols-3 gap-4">
-                            {activeDesktopItem.submenu.sections[1].links.map((link) => (
-                              <Link
-                                key={`desktop-right-${activeDesktopItem.label}-${link.label}`}
-                                href={link.href}
-                                className="group rounded-[8px] border border-[#2f4f85] bg-[#102c5b] p-3.5 text-white transition-[transform,background-color,border-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-[#E30613]/65 hover:bg-[#143265] hover:shadow-[0_10px_20px_rgba(0,0,0,0.18)]"
-                              >
-                                <div className="flex items-start justify-between gap-3">
-                                  <div>
-                                    <p className="text-base font-black uppercase leading-[1.05] text-white transition-colors group-hover:text-[#E30613]">
-                                      {link.label}
-                                    </p>
-                                    <p className="mt-1 text-xs text-white/80">
-                                      {getLinkDescription(link.label)}
-                                    </p>
-                                  </div>
-                                  <RiArrowRightSLine className="mt-0.5 h-5 w-5 text-[#8fb8ff] transition-colors group-hover:text-[#E30613]" />
-                                </div>
-                              </Link>
-                            ))}
+                              return (
+                                <Link
+                                  key={`desktop-link-${activeDesktopItem.label}-${section.title}-${link.label}`}
+                                  href={link.href}
+                                  className={`group rounded-[18px] border p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#ef233c]/35 hover:bg-[#fff7f8] hover:shadow-[0_16px_28px_rgba(10,29,58,0.08)] ${
+                                    linkIsActive
+                                      ? 'border-[#ef233c]/45 bg-[#fff7f8] shadow-[0_16px_28px_rgba(10,29,58,0.08)]'
+                                      : 'border-[#e4ebf6] bg-[#f8fafc]'
+                                  }`}
+                                >
+                                  <p
+                                    className={`text-lg font-black uppercase leading-[1.04] transition-colors group-hover:text-[#ef233c] ${
+                                      linkIsActive ? 'text-[#ef233c]' : 'text-[#0a1d3a]'
+                                    }`}
+                                  >
+                                    {link.label}
+                                  </p>
+                                  <p className="mt-2 text-sm leading-relaxed text-[#5b6f91]">
+                                    {getLinkDescription(link.label)}
+                                  </p>
+                                  <p
+                                    className={`mt-4 inline-flex items-center text-xs font-black uppercase tracking-[0.12em] transition-colors group-hover:text-[#ef233c] ${
+                                      linkIsActive ? 'text-[#ef233c]' : 'text-[#1f4ea1]'
+                                    }`}
+                                  >
+                                    Explorer <RiArrowRightLine className="ml-1 h-4 w-4" />
+                                  </p>
+                                </Link>
+                              )
+                            })}
                           </div>
-                        </div>
-                      ) : null}
+                        </section>
+                      ))}
                     </div>
-
-                    <aside className="rounded-[8px] border border-[#2f4f85] bg-[#102c5b] p-4 text-white">
-                      <div className="flex items-center gap-3 border-b border-[#2f4f85] pb-3">
-                        <Image
-                          src="/fc-toro-logo.png"
-                          alt="FC TORO"
-                          width={42}
-                          height={42}
-                          className="h-10 w-10 object-contain"
-                        />
-                        <div>
-                          <p className="text-[10px] font-black uppercase tracking-[0.12em] text-white/76">
-                            FC TORO
-                          </p>
-                          <p className="text-lg font-black uppercase text-white">
-                            {activeDesktopItem.label === 'Projet' ? 'Projet FC TORO' : 'Parcours joueur'}
-                          </p>
-                        </div>
-                      </div>
-
-                      <Link
-                        href={activeDesktopItem.submenu.spotlight.href}
-                        className="group mt-4 block overflow-hidden rounded-[8px] border border-[#2f4f85]"
-                      >
-                        <div className="relative h-[230px]">
-                          <Image
-                            src={activeDesktopItem.submenu.spotlight.image}
-                            alt={activeDesktopItem.submenu.spotlight.name}
-                            fill
-                            sizes="(min-width: 1280px) 26vw, 100vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,22,46,0.12)_0%,rgba(8,22,46,0.82)_100%)]" />
-                        </div>
-                        <div className="bg-[#0a2347] p-3">
-                          <p className="text-[10px] font-black uppercase tracking-[0.12em] text-white/76">
-                            {activeDesktopItem.label === 'Projet' ? 'Projet a la une' : 'Joueur en lumiere'}
-                          </p>
-                          <p className="mt-1 text-xl font-black uppercase leading-[1.03] text-white">
-                            {activeDesktopItem.submenu.spotlight.name}
-                          </p>
-                          <p className="mt-1 text-sm text-white/80">
-                            {activeDesktopItem.submenu.spotlight.role}
-                          </p>
-                        </div>
-                      </Link>
-                    </aside>
                   </div>
                 </div>
               </div>
@@ -649,7 +605,9 @@ export default function HomePage() {
                               href={link.href}
                               onClick={() => setMobileMenuOpen(false)}
                               className={`block text-sm font-semibold uppercase leading-tight tracking-[0.06em] transition-colors duration-200 ${
-                                isPageMatch(pathname, link.href) ? 'text-[#ef233c]' : 'text-[#2e436a] hover:text-[#ef233c]'
+                                activeMobileSubmenuHref === normalizePath(link.href)
+                                  ? 'text-[#ef233c]'
+                                  : 'text-[#2e436a] hover:text-[#ef233c]'
                               }`}
                             >
                               {link.label}
