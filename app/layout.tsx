@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import Footer from '@/components/footer'
+import { SiteRuntimeManager } from '@/components/site-runtime-manager'
 import './globals.css'
 
 const poppins = Poppins({
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${poppins.variable} font-sans antialiased text-zinc-900`}>
+        <SiteRuntimeManager />
         {children}
         <Footer />
         <Analytics />

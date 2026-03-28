@@ -20,9 +20,9 @@ const teamCategories = [
 
 const joinOptions = [
   { label: 'Rejoindre le club', href: '/inscription' },
-  { label: 'Postuler comme joueur', href: '/inscription#joueur' },
-  { label: 'Calendrier des selections', href: '/club/calendrier' },
-  { label: 'Reglement et conditions', href: '/club/about#reglement' },
+  { label: 'Devenir joueur', href: '/inscription/joueur' },
+  { label: 'Devenir fan', href: '/inscription/fans' },
+  { label: 'Devenir partenaire', href: '/inscription/partenaires' },
 ]
 
 export function Header() {

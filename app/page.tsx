@@ -3,8 +3,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { heroSlides, newsCards, playerCards } from '@/lib/joueur'
+import { INTRO_SESSION_KEY } from '@/lib/site-session'
 import { sponsors } from '@/lib/sponsors'
 import { NewsBarcaGrid } from '@/components/news-barca-grid'
 import VisionSection from '@/components/vision-section'
@@ -102,33 +104,33 @@ const navItems: NavItem[] = [
   },
   { label: 'Evenements', href: '/club/calendrier#evenements' },
   {
-    label: 'Rejoindre',
-    accent: true,
-    submenu: {
-      intro: 'Inscription, stages et integration au club.',
+      label: 'Rejoindre',
+      accent: true,
+      submenu: {
+      intro: 'Parcours, stages et integration au club.',
       backdropImage: '/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg',
       sections: [
         {
-          title: 'Parcours joueur',
+          title: 'Devenir',
           links: [
-            { label: 'Inscription joueur', href: '/inscription' },
-            { label: 'Voir les stages', href: '/inscription#stages' },
-            { label: 'Rejoindre le club', href: '/inscription#rejoindre' },
+            { label: 'Devenir joueur', href: '/inscription/joueur' },
+            { label: 'Devenir fan', href: '/inscription/fans' },
+            { label: 'Devenir partenaire', href: '/inscription/partenaires' },
           ],
         },
         {
-          title: 'Opportunites',
+          title: 'Complement',
           links: [
-            { label: 'Devenir partenaire', href: '/sponsors' },
-            { label: 'Benevolat matchday', href: '/inscription#benevolat' },
+            { label: 'Voir les stages', href: '/stages' },
+            { label: 'Rejoindre le club', href: '/inscription' },
             { label: 'Contacter recrutement', href: '/contact' },
           ],
         },
       ],
       spotlight: {
         image: '/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg',
-        name: 'Theo Basile',
-        role: 'Rejoindre FC TORO',
+        name: 'Parcours FC TORO',
+        role: 'Joueurs, fans et partenaires',
         href: '/inscription',
       },
     },
@@ -137,11 +139,11 @@ const navItems: NavItem[] = [
 ]
 
 const linkDescriptionMap: Record<string, string> = {
-  'Inscription joueur': 'Dossier rapide et parcours d integration accompagne.',
+  'Devenir joueur': 'Dossier rapide et parcours d integration accompagne.',
+  'Devenir fan': 'Supporters, benevoles et activations jour de match.',
+  'Devenir partenaire': 'Marques, institutions et projets de collaboration club.',
   'Voir les stages': 'Calendrier des camps intensifs et pre-inscription.',
-  'Rejoindre le club': 'Tests de detection, suivi et integration continue.',
-  'Devenir partenaire': 'Associez votre marque a un projet sportif fort.',
-  'Benevolat matchday': 'Contribuez aux jours de match et activations club.',
+  'Rejoindre le club': 'Vue d ensemble des parcours pour rejoindre FC TORO.',
   'Contacter recrutement': 'Parlez directement avec l equipe recrutement.',
   'Histoire du club': 'Parcours, jalons majeurs et ADN FC TORO.',
   Sponsors: 'Partenaires et soutiens qui accompagnent FC TORO.',
@@ -165,6 +167,31 @@ const linkDescriptionMap: Record<string, string> = {
 const getLinkDescription = (label: string) =>
   linkDescriptionMap[label] ?? 'Decouvrir le programme FC TORO.'
 
+const normalizePath = (href?: string) => {
+  if (!href) return null
+  const [path] = href.split('#')
+  if (!path || path === '/') return path || null
+  return path.endsWith('/') ? path.slice(0, -1) : path
+}
+
+const isPageMatch = (pathname: string, href?: string) => {
+  const normalizedHref = normalizePath(href)
+  const normalizedPathname = pathname !== '/' && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
+
+  if (!normalizedHref || normalizedHref === '/') return false
+
+  return normalizedPathname === normalizedHref || normalizedPathname.startsWith(`${normalizedHref}/`)
+}
+
+const isNavItemActive = (pathname: string, item: NavItem) => {
+  if (isPageMatch(pathname, item.href)) return true
+  if (!item.submenu) return false
+
+  return item.submenu.sections.some((section) =>
+    section.links.some((link) => isPageMatch(pathname, link.href)),
+  )
+}
+
 const clubStats = [
   { icon: RiCalendarEventLine, target: 2012, label: 'Creation du club' },
   { icon: RiShieldStarLine, target: 2015, label: 'Section filles lancee' },
@@ -181,7 +208,9 @@ const mobilePrimaryLinks: Array<{ label: string; href: string; accent?: boolean 
 ]
 
 export default function HomePage() {
-  const [showIntro, setShowIntro] = useState(true)
+  const pathname = usePathname()
+  const [showIntro, setShowIntro] = useState(false)
+  const [introReady, setIntroReady] = useState(false)
   const [activeHero, setActiveHero] = useState(0)
   const [activeDesktopMenu, setActiveDesktopMenu] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -190,12 +219,27 @@ export default function HomePage() {
   const playerRailRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    if (showIntro) return
+    const hasSeenIntro = window.sessionStorage.getItem(INTRO_SESSION_KEY) === 'true'
+
+    if (hasSeenIntro) {
+      setShowIntro(false)
+      setIntroReady(true)
+      return
+    }
+
+    // Keep the intro limited to the user's first landing in the current session.
+    window.sessionStorage.setItem(INTRO_SESSION_KEY, 'true')
+    setShowIntro(true)
+    setIntroReady(true)
+  }, [])
+
+  useEffect(() => {
+    if (!introReady || showIntro) return
     const interval = window.setInterval(() => {
       setActiveHero((prev) => (prev + 1) % heroSlides.length)
     }, 4200)
     return () => window.clearInterval(interval)
-  }, [showIntro])
+  }, [introReady, showIntro])
 
   useEffect(() => {
     if (!statsStarted) return
@@ -229,7 +273,7 @@ export default function HomePage() {
 
   const handleIntroEnd = () => {
     setShowIntro(false)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: 'auto' })
   }
 
   const slidePlayers = (direction: 'left' | 'right') => {
@@ -246,6 +290,12 @@ export default function HomePage() {
   const activeDesktopItem = navItems.find(
     (item) => item.label === activeDesktopMenu && item.submenu,
   )
+
+  if (!introReady) {
+    return (
+      <div className="min-h-screen bg-[#f2f2f4]" aria-hidden="true" />
+    )
+  }
 
   if (showIntro) {
     return (
@@ -283,9 +333,12 @@ export default function HomePage() {
 
           <nav className="ml-auto hidden items-center gap-2 lg:flex">
             {navItems.map((item) => {
-              const itemTone = item.accent
-                ? 'text-[#ef233c] hover:text-[#ff3f5c]'
-                : 'text-[#0a1d3a] hover:text-[#ef233c]'
+              const itemIsActive =
+                item.label === 'Rejoindre'
+                  ? activeDesktopMenu === item.label
+                  : isNavItemActive(pathname, item)
+              const itemTone = 'text-[#0a1d3a] hover:text-[#ef233c]'
+              const itemActiveTone = 'text-[#ef233c]'
 
               if (!item.submenu) {
                 return (
@@ -293,7 +346,7 @@ export default function HomePage() {
                     key={item.label}
                     href={item.href ?? '#'}
                     onMouseEnter={() => setActiveDesktopMenu(null)}
-                    className={`px-2 py-2 text-sm font-black uppercase tracking-[0.06em] transition-colors ${itemTone}`}
+                    className={`px-3 py-2 text-sm font-black uppercase tracking-[0.06em] transition-colors ${itemIsActive ? itemActiveTone : itemTone}`}
                   >
                     {item.label}
                   </Link>
@@ -310,7 +363,7 @@ export default function HomePage() {
                       setActiveDesktopMenu((prev) => (prev === item.label ? null : item.label))
                     }
                     aria-expanded={activeDesktopMenu === item.label}
-                    className={`inline-flex items-center gap-1 px-2 py-2 text-sm font-black uppercase tracking-[0.06em] transition-colors ${itemTone}`}
+                    className={`inline-flex items-center gap-1 px-3 py-2 text-sm font-black uppercase tracking-[0.06em] transition-colors ${itemIsActive ? itemActiveTone : itemTone}`}
                   >
                     {item.label}
                     <RiArrowDownSLine
@@ -340,8 +393,13 @@ export default function HomePage() {
                 key={`quick-${item.label}`}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
+                aria-current={isPageMatch(pathname, item.href) ? 'page' : undefined}
                 className={`flex h-10 min-w-0 items-center justify-center border-r border-[#e5e7ee] text-center text-[10px] font-black uppercase tracking-[0.07em] transition-colors duration-200 last:border-r-0 sm:text-[12px] ${
-                  item.accent ? 'text-[#ef233c] hover:text-[#ff3f5c]' : 'text-[#0a1d3a] hover:text-[#ef233c]'
+                  isPageMatch(pathname, item.href)
+                    ? 'text-[#ef233c]'
+                    : item.accent
+                      ? 'text-[#ef233c] hover:text-[#ff3f5c]'
+                      : 'text-[#0a1d3a] hover:text-[#ef233c]'
                 }`}
               >
                 {item.label}
@@ -558,7 +616,9 @@ export default function HomePage() {
                     <Link
                       href="/contact"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block text-sm font-semibold uppercase leading-tight tracking-[0.06em] text-[#2e436a] transition-colors duration-200 hover:text-[#ef233c]"
+                      className={`block text-sm font-semibold uppercase leading-tight tracking-[0.06em] transition-colors duration-200 ${
+                        isPageMatch(pathname, '/contact') ? 'text-[#ef233c]' : 'text-[#2e436a] hover:text-[#ef233c]'
+                      }`}
                     >
                       Contact
                     </Link>
@@ -588,7 +648,9 @@ export default function HomePage() {
                               key={`mobile-full-${itemLabel}-${section.title}-${link.label}`}
                               href={link.href}
                               onClick={() => setMobileMenuOpen(false)}
-                              className="block text-sm font-semibold uppercase leading-tight tracking-[0.06em] text-[#2e436a] transition-colors duration-200 hover:text-[#ef233c]"
+                              className={`block text-sm font-semibold uppercase leading-tight tracking-[0.06em] transition-colors duration-200 ${
+                                isPageMatch(pathname, link.href) ? 'text-[#ef233c]' : 'text-[#2e436a] hover:text-[#ef233c]'
+                              }`}
                             >
                               {link.label}
                             </Link>
@@ -857,9 +919,13 @@ export default function HomePage() {
 
             <div className="mt-6 sm:hidden">
               <div className="flex items-center justify-between gap-1">
-                {sponsors.map((sponsor) => (
-                  <div
+                {sponsors.map((sponsor, index) => (
+                  <motion.div
                     key={`sponsor-mobile-${sponsor.id}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.08 }}
+                    viewport={{ once: true }}
                     className="grid h-14 basis-[14%] place-items-center px-0.5"
                   >
                     <div className="relative h-9 w-full">
@@ -871,16 +937,20 @@ export default function HomePage() {
                         className="object-contain object-center"
                       />
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
 
             <div className="mt-6 hidden grid-cols-3 gap-3 sm:grid md:grid-cols-4 lg:grid-cols-7">
-              {sponsors.map((sponsor) => (
-                <div
+              {sponsors.map((sponsor, index) => (
+                <motion.div
                   key={sponsor.id}
-                  className="grid h-20 place-items-center px-2 transition-transform duration-300 hover:-translate-y-1"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="grid h-20 cursor-pointer place-items-center px-2 opacity-80 transition-all duration-300 hover:scale-110 hover:opacity-100"
                 >
                   <div className="relative h-14 w-full max-w-[210px]">
                     <Image
@@ -888,10 +958,10 @@ export default function HomePage() {
                       alt={sponsor.name}
                       fill
                       sizes="(min-width: 1280px) 13vw, (min-width: 768px) 20vw, 42vw"
-                      className="object-contain object-center"
+                      className="object-contain object-center contrast-[1.1]"
                     />
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

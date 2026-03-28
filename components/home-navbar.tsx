@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
   RiArrowDownSLine,
@@ -46,11 +47,11 @@ type HomeNavbarProps = {
 }
 
 const linkDescriptionMap: Record<string, string> = {
-  'Inscription joueur': 'Dossier rapide et parcours d integration accompagne.',
+  'Devenir joueur': 'Dossier rapide et parcours d integration accompagne.',
+  'Devenir fan': 'Supporters, benevoles et activations jour de match.',
+  'Devenir partenaire': 'Marques, institutions et projets de collaboration club.',
   'Voir les stages': 'Calendrier des camps intensifs et pre-inscription.',
-  'Rejoindre le club': 'Tests de detection, suivi et integration continue.',
-  'Devenir partenaire': 'Associez votre marque a un projet sportif fort.',
-  'Benevolat matchday': 'Contribuez aux jours de match et activations club.',
+  'Rejoindre le club': 'Vue d ensemble des parcours pour rejoindre FC TORO.',
   'Contacter recrutement': 'Parlez directement avec l equipe recrutement.',
   'Histoire du club': 'Parcours, jalons majeurs et ADN FC TORO.',
   Sponsors: 'Partenaires et soutiens qui accompagnent FC TORO.',
@@ -74,9 +75,35 @@ const linkDescriptionMap: Record<string, string> = {
 const getLinkDescription = (label: string) =>
   linkDescriptionMap[label] ?? 'Decouvrir le programme FC TORO.'
 
+const normalizePath = (href?: string) => {
+  if (!href) return null
+  const [path] = href.split('#')
+  if (!path || path === '/') return path || null
+  return path.endsWith('/') ? path.slice(0, -1) : path
+}
+
+const isPageMatch = (pathname: string, href?: string) => {
+  const normalizedHref = normalizePath(href)
+  const normalizedPathname = pathname !== '/' && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
+
+  if (!normalizedHref || normalizedHref === '/') return false
+
+  return normalizedPathname === normalizedHref || normalizedPathname.startsWith(`${normalizedHref}/`)
+}
+
+const isNavItemActive = (pathname: string, item: NavItem) => {
+  if (isPageMatch(pathname, item.href)) return true
+  if (!item.submenu) return false
+
+  return item.submenu.sections.some((section) =>
+    section.links.some((link) => isPageMatch(pathname, link.href)),
+  )
+}
+
 export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
   const [activeDesktopMenu, setActiveDesktopMenu] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
 
   const navItems: NavItem[] = [
     { label: 'Actualites', href: '/actualites' },
@@ -133,30 +160,30 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
       label: 'Rejoindre',
       accent: true,
       submenu: {
-        intro: 'Inscription, stages et integration au club.',
+        intro: 'Parcours, stages et integration au club.',
         backdropImage: '/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg',
         sections: [
           {
-            title: 'Parcours joueur',
+            title: 'Devenir',
             links: [
-              { label: 'Inscription joueur', href: '/inscription' },
-              { label: 'Voir les stages', href: '/inscription#stages' },
-              { label: 'Rejoindre le club', href: '/inscription#rejoindre' },
+              { label: 'Devenir joueur', href: '/inscription/joueur' },
+              { label: 'Devenir fan', href: '/inscription/fans' },
+              { label: 'Devenir partenaire', href: '/inscription/partenaires' },
             ],
           },
           {
-            title: 'Opportunites',
+            title: 'Complement',
             links: [
-              { label: 'Devenir partenaire', href: '/sponsors' },
-              { label: 'Benevolat matchday', href: '/inscription#benevolat' },
+              { label: 'Voir les stages', href: '/stages' },
+              { label: 'Rejoindre le club', href: '/inscription' },
               { label: 'Contacter recrutement', href: '/contact' },
             ],
           },
         ],
         spotlight: {
           image: '/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg',
-          name: 'Theo Basile',
-          role: 'Rejoindre FC TORO',
+          name: 'Parcours FC TORO',
+          role: 'Joueurs, fans et partenaires',
           href: '/inscription',
         },
       },
@@ -193,9 +220,12 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
 
           <nav className="ml-auto hidden items-center gap-2 lg:flex">
             {navItems.map((item) => {
-              const itemTone = item.accent
-                ? 'text-[#ef233c] hover:text-[#ff3f5c]'
-                : 'text-[#0a1d3a] hover:text-[#ef233c]'
+              const itemIsActive =
+                item.label === 'Rejoindre'
+                  ? activeDesktopMenu === item.label
+                  : isNavItemActive(pathname, item)
+              const itemTone = 'text-[#0a1d3a] hover:text-[#ef233c]'
+              const itemActiveTone = 'text-[#ef233c]'
 
               if (!item.submenu) {
                 return (
@@ -203,7 +233,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
                     key={item.label}
                     href={item.href ?? '#'}
                     onMouseEnter={() => setActiveDesktopMenu(null)}
-                    className={`px-2 py-2 text-sm font-black uppercase tracking-[0.06em] transition-colors ${itemTone}`}
+                    className={`px-3 py-2 text-sm font-black uppercase tracking-[0.06em] transition-colors ${itemIsActive ? itemActiveTone : itemTone}`}
                   >
                     {item.label}
                   </Link>
@@ -220,7 +250,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
                       setActiveDesktopMenu((prev) => (prev === item.label ? null : item.label))
                     }
                     aria-expanded={activeDesktopMenu === item.label}
-                    className={`inline-flex items-center gap-1 px-2 py-2 text-sm font-black uppercase tracking-[0.06em] transition-colors ${itemTone}`}
+                    className={`inline-flex items-center gap-1 px-3 py-2 text-sm font-black uppercase tracking-[0.06em] transition-colors ${itemIsActive ? itemActiveTone : itemTone}`}
                   >
                     {item.label}
                     <RiArrowDownSLine
@@ -250,8 +280,13 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
                 key={`quick-${item.label}`}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
+                aria-current={isPageMatch(pathname, item.href) ? 'page' : undefined}
                 className={`flex h-10 min-w-0 items-center justify-center border-r border-[#e5e7ee] text-center text-[10px] font-black uppercase tracking-[0.07em] transition-colors duration-200 last:border-r-0 sm:text-[12px] ${
-                  item.accent ? 'text-[#ef233c] hover:text-[#ff3f5c]' : 'text-[#0a1d3a] hover:text-[#ef233c]'
+                  isPageMatch(pathname, item.href)
+                    ? 'text-[#ef233c]'
+                    : item.accent
+                      ? 'text-[#ef233c] hover:text-[#ff3f5c]'
+                      : 'text-[#0a1d3a] hover:text-[#ef233c]'
                 }`}
               >
                 {item.label}
@@ -468,7 +503,9 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
                     <Link
                       href="/contact"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block text-sm font-semibold uppercase leading-tight tracking-[0.06em] text-[#2e436a] transition-colors duration-200 hover:text-[#ef233c]"
+                      className={`block text-sm font-semibold uppercase leading-tight tracking-[0.06em] transition-colors duration-200 ${
+                        isPageMatch(pathname, '/contact') ? 'text-[#ef233c]' : 'text-[#2e436a] hover:text-[#ef233c]'
+                      }`}
                     >
                       Contact
                     </Link>
@@ -498,7 +535,9 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
                               key={`mobile-full-${itemLabel}-${section.title}-${link.label}`}
                               href={link.href}
                               onClick={() => setMobileMenuOpen(false)}
-                              className="block text-sm font-semibold uppercase leading-tight tracking-[0.06em] text-[#2e436a] transition-colors duration-200 hover:text-[#ef233c]"
+                              className={`block text-sm font-semibold uppercase leading-tight tracking-[0.06em] transition-colors duration-200 ${
+                                isPageMatch(pathname, link.href) ? 'text-[#ef233c]' : 'text-[#2e436a] hover:text-[#ef233c]'
+                              }`}
                             >
                               {link.label}
                             </Link>
