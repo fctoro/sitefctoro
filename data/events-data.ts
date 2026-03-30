@@ -2,13 +2,30 @@ import { ClubFixture, ClubStandingRow } from '../types/club'
 
 export type EventCard = {
   title: string
-  slug: 'live' | 'vertieres-cup' | 'flag-day'
+  slug: EventSlug
   href: string
   badge: string
   dateLabel: string
   summary: string
   image: string
   cta: string
+}
+
+export type EventSlug = 'live' | 'vertieres-cup' | 'flag-day'
+
+export type EventReadingDetail = {
+  eyebrow: string
+  heading: string
+  longDescription: string
+  location: string
+  audience: string
+  primaryActionLabel: string
+  secondaryActionLabel: string
+  highlights: string[]
+  checkpoints: Array<{
+    label: string
+    value: string
+  }>
 }
 
 export type LiveFeedEntry = {
@@ -62,6 +79,69 @@ export const eventCards: EventCard[] = [
     cta: 'Voir le classement',
   },
 ]
+
+export const eventReadingDetails: Record<EventSlug, EventReadingDetail> = {
+  live: {
+    eyebrow: 'Lecture evenement',
+    heading: 'Diffusion FC TORO en direct',
+    longDescription:
+      'Le module live rassemble la diffusion video, les rappels avant match et un fil rapide pour suivre les temps forts sans quitter le site.',
+    location: 'Lecture en ligne sur le site officiel FC TORO',
+    audience: 'Supporters, parents, joueurs et partenaires',
+    primaryActionLabel: 'Voir la page live',
+    secondaryActionLabel: 'Partager l evenement',
+    highlights: [
+      'Acces rapide au match en cours ou au prochain direct programme.',
+      'Resume clair avant le coup d envoi avec lieu, horaire et adversaire.',
+      'Passerelle simple pour orienter les visiteurs vers la bonne diffusion.',
+    ],
+    checkpoints: [
+      { label: 'Competition', value: 'Flag Day Tournament 2026' },
+      { label: 'Demarrage', value: '18 mai 2026 - 16:30' },
+      { label: 'Lieu', value: 'Stade Sylvio Cator' },
+    ],
+  },
+  'vertieres-cup': {
+    eyebrow: 'Lecture evenement',
+    heading: 'Inscription equipe Vertieres Cup',
+    longDescription:
+      'Cette page permet de deposer un dossier complet pour une equipe participante avec le logo officiel, les contacts du staff et la liste detaillee des joueurs.',
+    location: 'Validation administrative centralisee par FC TORO',
+    audience: 'Coachs, managers et responsables de delegation',
+    primaryActionLabel: 'Ouvrir l inscription',
+    secondaryActionLabel: 'Preparer le dossier',
+    highlights: [
+      'Formulaire pense pour les academies et centres de formation.',
+      'Verification des elements obligatoires avant validation finale.',
+      'Lecture simple des informations utiles par le staff organisateur.',
+    ],
+    checkpoints: [
+      { label: 'Competition', value: 'Vertieres Cup' },
+      { label: 'Date limite', value: '18 novembre 2026' },
+      { label: 'Minimum joueurs', value: '7 joueurs renseignes' },
+    ],
+  },
+  'flag-day': {
+    eyebrow: 'Lecture evenement',
+    heading: 'Classement et affiches Flag Day',
+    longDescription:
+      'La page Flag Day centralise le classement, les resultats deja joues et les prochaines affiches pour suivre la dynamique du tournoi avec FC TORO en evidence.',
+    location: 'Tournoi suivi depuis la section evenement',
+    audience: 'Supporters, staff, observateurs et equipes invitees',
+    primaryActionLabel: 'Voir le classement',
+    secondaryActionLabel: 'Consulter les matchs',
+    highlights: [
+      'Classement trie avec lecture immediate des points et de la forme recente.',
+      'Resultats recents et prochains matchs disponibles au meme endroit.',
+      'Focus FC TORO pour suivre le parcours du club pendant le tournoi.',
+    ],
+    checkpoints: [
+      { label: 'Tournoi', value: 'Flag Day Tournament' },
+      { label: 'Finale', value: '18 mai 2026' },
+      { label: 'Equipes suivies', value: '8 clubs' },
+    ],
+  },
+}
 
 export const eventsOverviewStats = [
   { value: '3', label: 'Pages evenement' },

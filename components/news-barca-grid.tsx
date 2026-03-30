@@ -40,9 +40,10 @@ export function NewsBarcaGrid({ items, heading, eyebrow, ctaHref, ctaLabel, limi
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {cards.map((card) => (
-          <article
+          <Link
             key={`barca-news-${card.title}`}
-            className="group aspect-square overflow-hidden bg-white shadow-[0_10px_18px_rgba(10,29,58,0.1)]"
+            href={`/actualites/${card.slug}`}
+            className="group aspect-square overflow-hidden bg-white shadow-[0_10px_18px_rgba(10,29,58,0.1)] transition-transform duration-300 hover:-translate-y-1"
           >
             <div className="relative h-[56%] overflow-hidden bg-[#f3f6fb]">
               <Image
@@ -69,7 +70,7 @@ export function NewsBarcaGrid({ items, heading, eyebrow, ctaHref, ctaLabel, limi
                 </p>
               </div>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </div>
