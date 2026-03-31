@@ -1,8 +1,5 @@
-'use client'
-
 import Link from 'next/link'
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
 import { RiArrowRightLine, RiMapPinLine, RiTeamLine } from '@remixicon/react'
 import {
   eventCards,
@@ -10,13 +7,11 @@ import {
   type EventSlug,
 } from '@/data/events-data'
 
-const isEventSlug = (value: string | null): value is EventSlug =>
-  value === 'live' || value === 'vertieres-cup' || value === 'flag-day'
+type EventsPageContentProps = {
+  activeSlug: EventSlug
+}
 
-export default function EventsPageContent() {
-  const searchParams = useSearchParams()
-  const focusParam = searchParams.get('focus')
-  const activeSlug: EventSlug = isEventSlug(focusParam) ? focusParam : eventCards[0].slug
+export default function EventsPageContent({ activeSlug }: EventsPageContentProps) {
   const activeCard = eventCards.find((card) => card.slug === activeSlug) ?? eventCards[0]
   const activeDetail = eventReadingDetails[activeSlug]
 

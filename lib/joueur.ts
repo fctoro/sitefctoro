@@ -8,6 +8,7 @@ export type HeroSlide = {
   label: string
   title: string
   cta: string
+  href: string
   image: string
 }
 
@@ -45,19 +46,22 @@ export const heroSlides: HeroSlide[] = [
     label: 'Evenement',
     title: 'Vertiere Cup tres prochainement. Inscrivez votre equipe, finale le 18 nov 2026.',
     cta: 'Participer',
+    href: '/evenements/vertieres-cup',
     image: '/joueur/extracted/583167774_18542869372012336_2307311757000245016_n.jpg',
   },
   {
     label: 'Evenement',
     title: 'Championnat Flag Day : 1 million de gourdes à gagner  finale le 18 mai 2026.',
-    cta: 'Voir le Classement ',
-    image: '/joueur/extracted/542448727_18525142066012336_8843479393054800058_n.jpg',
+    cta: 'Voir le classement',
+    href: '/evenements/flag-day',
+    image: '/home/hero-flag-day.jpg',
   },
   {
-    label: 'Academie',
+    label: 'Elite',
     title: 'Les jeunes talents du FC TORO réunis sur le terrain, incarnant l’avenir du football haïtien.',
     cta: 'Decouvrir',
-    image: '/joueur/extracted/482698652_18490519879012336_3363810591939939336_n.jpg',
+    href: '/elite',
+    image: '/home/hero-elite.jpg',
   },
 ]
 

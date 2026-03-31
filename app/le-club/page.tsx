@@ -15,6 +15,8 @@ import {
   RiCommunityLine,
 } from '@remixicon/react'
 
+const clubOrlandoImage = '/club/orlando.jpg'
+
 const values = [
   {
     label: 'Discipline',
@@ -71,11 +73,12 @@ export default function NotreHistoirePage() {
       <main className="pt-[116px] lg:pt-[78px]">
         <section className="relative h-[220px] overflow-hidden bg-[#0a1d3a] text-white md:h-[300px]">
           <Image
-            src="/joueur/extracted/583167774_18542869372012336_2307311757000245016_n.jpg"
+            src={clubOrlandoImage}
             alt="FC TORO Stadium"
             fill
             priority
-            className="object-cover opacity-50 transition-transform duration-1000 hover:scale-105"
+            sizes="100vw"
+            className="object-cover object-[50%_24%] opacity-50 transition-transform duration-1000 hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a1d3a] via-[#0a1d3a]/60 to-transparent" />
           <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-[#ef233c] via-[#ef233c]/50 to-transparent" />
@@ -134,10 +137,11 @@ export default function NotreHistoirePage() {
               <div className="relative">
                 <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[32px] shadow-xl">
                   <Image
-                    src="/joueur/extracted/542448727_18525142066012336_8843479393054800058_n.jpg"
+                    src={clubOrlandoImage}
                     alt="Football Match"
                     fill
-                    className="object-cover"
+                    sizes="(min-width: 768px) 40vw, 100vw"
+                    className="object-cover object-center"
                   />
                 </div>
               </div>

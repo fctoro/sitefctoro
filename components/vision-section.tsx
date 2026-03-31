@@ -85,16 +85,17 @@ export default function VisionSection() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="group relative z-20 ml-auto aspect-[4/5] w-full max-w-[320px]"
+              className="group relative z-20 mx-auto aspect-[3/4] w-full max-w-[290px] sm:ml-auto sm:max-w-[320px] sm:aspect-[4/5]"
             >
               <div className="absolute -inset-2 translate-x-3 translate-y-3 rounded-[24px] border border-[#ef233c]/30 opacity-20" />
 
               <div className="relative h-full w-full overflow-hidden rounded-[24px] shadow-2xl">
                 <Image
-                  src="/joueur/extracted/566965214_18535346428012336_1378637816694320324_n.jpg"
+                  src="/home/vision-fille.jpg"
                   alt="Philosophie FC TORO"
                   fill
-                  className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                  sizes="(min-width: 1024px) 320px, 78vw"
+                  className="object-cover object-center transition-transform duration-1000 group-hover:scale-105"
                 />
 
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0a1d3a] to-transparent p-6">

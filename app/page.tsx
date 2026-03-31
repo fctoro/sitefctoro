@@ -15,9 +15,8 @@ import {
   RiArrowLeftSLine,
   RiArrowRightLine,
   RiArrowRightSLine,
-  RiCalendarEventLine,
   RiCloseLine,
-  RiMedalLine,
+  RiFlashlightLine,
   RiMenuLine,
   RiShieldStarLine,
   RiTrophyLine,
@@ -238,11 +237,45 @@ const getMostSpecificMatchingHref = (pathname: string, links: NavSubLink[]) =>
 const isRejoindreSectionActive = (pathname: string) =>
   isPageMatch(pathname, '/inscription') || isPageMatch(pathname, '/stages')
 
-const clubStats = [
-  { icon: RiCalendarEventLine, target: 2012, label: 'Creation du club' },
-  { icon: RiShieldStarLine, target: 2015, label: 'Section filles lancee' },
-  { icon: RiTrophyLine, target: 19, prefix: '2-', label: 'Age des joueuses et joueurs' },
-  { icon: RiMedalLine, target: 12, label: 'Mois d activite competitive' },
+const eliteShowcaseImage = '/home/elite-showcase.jpg'
+
+const eliteFocusPoints = [
+  {
+    label: 'Passage vers Elite',
+    icon: RiShieldStarLine,
+  },
+  {
+    label: 'Rythme et discipline',
+    icon: RiFlashlightLine,
+  },
+  {
+    label: 'Pret pour la competition',
+    icon: RiTrophyLine,
+  },
+]
+
+const eliteStaffCards = [
+  {
+    eyebrow: 'Staff Elite',
+    title: 'Encadrement terrain',
+    description: 'Le groupe est accompagne de pres pour installer des seances plus exigeantes et plus lisibles.',
+    image: '/home/staff-direction.jpg',
+    alt: 'Staff Elite FC TORO pendant une seance',
+  },
+  {
+    eyebrow: 'Staff Elite',
+    title: 'Lecture du jeu',
+    description: 'Le staff affine les details tactiques, le tempo collectif et la qualite des prises de decision.',
+    image: '/home/staff-field.jpg',
+    alt: 'Staff FC TORO sur le terrain',
+  },
+  {
+    eyebrow: 'Staff Elite',
+    title: 'Suivi quotidien',
+    description: 'Preparation, correction et progression sont suivies au plus pres pour chaque cycle de travail.',
+    image: '/home/staff-support.jpg',
+    alt: 'Encadrement FC TORO Elite',
+  },
 ]
 
 const mobilePrimaryLinks: Array<{ label: string; href: string; accent?: boolean }> = [
@@ -260,8 +293,6 @@ export default function HomePage() {
   const [activeHero, setActiveHero] = useState(0)
   const [activeDesktopMenu, setActiveDesktopMenu] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [statCounts, setStatCounts] = useState(() => clubStats.map(() => 0))
-  const [statsStarted, setStatsStarted] = useState(false)
   const playerRailRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -286,36 +317,6 @@ export default function HomePage() {
     }, 4200)
     return () => window.clearInterval(interval)
   }, [introReady, showIntro])
-
-  useEffect(() => {
-    if (!statsStarted) return
-
-    const durationMs = 2800
-    const targets = clubStats.map((item) => item.target)
-    let frameId = 0
-    let startTime = 0
-    const delayMs = 220
-    const timeoutId = window.setTimeout(() => {
-      startTime = performance.now()
-      frameId = window.requestAnimationFrame(tick)
-    }, delayMs)
-
-    const tick = (now: number) => {
-      const rawProgress = Math.min((now - startTime) / durationMs, 1)
-      const easedProgress = 1 - Math.pow(1 - rawProgress, 3)
-
-      setStatCounts(targets.map((target) => Math.round(target * easedProgress)))
-
-      if (rawProgress < 1) {
-        frameId = window.requestAnimationFrame(tick)
-      }
-    }
-
-    return () => {
-      window.clearTimeout(timeoutId)
-      window.cancelAnimationFrame(frameId)
-    }
-  }, [statsStarted])
 
   const handleIntroEnd = () => {
     setShowIntro(false)
@@ -348,6 +349,13 @@ export default function HomePage() {
       .filter((item) => item.submenu)
       .flatMap((item) => item.submenu!.sections.flatMap((section) => section.links)),
   )
+  const activeHeroSlide = heroSlides[activeHero]
+  const activeHeroTitle =
+    activeHero === 1
+      ? 'Flag Day approche. Consultez le classement et suivez le tournoi du 18 mai 2026.'
+      : activeHero === 2
+        ? 'FC TORO Elite structure la transition vers un niveau plus exigeant et plus ambitieux.'
+        : activeHeroSlide.title
 
   if (!introReady) {
     return (
@@ -677,8 +685,8 @@ export default function HomePage() {
             className="absolute inset-0"
           >
             <Image
-              src={heroSlides[activeHero].image}
-              alt={heroSlides[activeHero].title}
+              src={activeHeroSlide.image}
+              alt={activeHeroTitle}
               fill
               sizes="100vw"
               className="toro-hero-media object-cover opacity-82"
@@ -693,13 +701,16 @@ export default function HomePage() {
           <div className="relative mx-auto grid min-h-[calc(100svh-116px)] max-w-[1100px] items-end px-4 pb-0 pt-5 sm:min-h-[calc(100svh-98px)] sm:px-6 lg:min-h-[calc(100svh-74px)] lg:px-8 lg:pt-8">
             <div className="relative z-10 max-w-[560px] pb-7 sm:pb-14">
               <p className="inline-flex items-center rounded bg-[#ef233c] px-5 py-2 text-sm font-black uppercase tracking-[0.1em] text-white">
-                {heroSlides[activeHero].label}
+                {activeHeroSlide.label}
               </p>
               <h1 className="mt-4 text-[2.35rem] font-black uppercase leading-[0.95] text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.25)] sm:mt-6 sm:text-5xl">
-                {heroSlides[activeHero].title}
+                {activeHeroTitle}
               </h1>
-              <Link href="#" className="toro-cta mt-6 inline-flex items-center border border-white/70 px-6 py-2.5 text-sm font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-white hover:text-[#0a1d3a] sm:mt-8 sm:px-7 sm:py-3">
-                {heroSlides[activeHero].cta}
+              <Link
+                href={activeHeroSlide.href}
+                className="toro-cta mt-6 inline-flex items-center border border-white/70 px-6 py-2.5 text-sm font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-white hover:text-[#0a1d3a] sm:mt-8 sm:px-7 sm:py-3"
+              >
+                {activeHeroSlide.cta}
               </Link>
 
               <div className="mt-4 flex items-center gap-2 sm:mt-6">
@@ -715,12 +726,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="toro-panel relative z-10 grid gap-3 rounded-t-2xl border border-white/25 border-b-0 bg-[rgba(7,19,43,0.78)] p-3 backdrop-blur-md sm:p-5 lg:grid-cols-[1.2fr_0.8fr]">
-              <div className="flex items-center gap-2.5 sm:gap-4">
-                <Image src="/fc-toro-logo.png" alt="FC TORO" width={40} height={40} className="h-9 w-auto sm:h-11" />
-                <p className="text-2xl font-black text-white sm:text-3xl">2 - 0</p>
-                <p className="text-xs font-bold uppercase tracking-[0.08em] text-white/85 sm:text-sm">Vivre le club</p>
-              </div>
+            <div className="toro-panel relative z-10 rounded-t-2xl border border-white/25 border-b-0 bg-[rgba(7,19,43,0.78)] p-3 backdrop-blur-md sm:p-5">
               <div className="grid grid-cols-3 gap-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-white sm:gap-2 sm:text-xs">
                 <div className="border border-white/25 p-2 sm:p-3">Vertieres Cup 18 nov 2026</div>
                 <div className="border border-white/25 p-2 sm:p-3">Flag Day 18 mai 2026</div>
@@ -731,104 +737,124 @@ export default function HomePage() {
         </section>
 
         <section id="club" className="px-4 py-10 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1260px]">
-            <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:gap-8">
-              <aside className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                <article className="group relative h-[350px] overflow-hidden rounded-[16px] bg-[#0f2a4b] sm:h-[390px]">
+          <div className="mx-auto max-w-[1260px] space-y-8">
+            <article className="relative isolate overflow-hidden rounded-[32px] border border-[#dbe5f2] bg-white shadow-[0_26px_60px_rgba(10,29,58,0.1)]">
+              <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[300px] w-[180px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle,rgba(239,35,60,0.2)_0%,rgba(239,35,60,0.08)_34%,transparent_74%)] blur-3xl xl:block" />
+              <div className="grid gap-0 xl:grid-cols-[1.08fr_0.92fr]">
+                <div className="relative min-h-[380px] bg-[#0f2a4b] xl:min-h-[520px]">
                   <Image
-                    src={playerCards[4].image}
-                    alt="Portrait FC TORO"
+                    src={eliteShowcaseImage}
+                    alt="Equipe Elite FC TORO"
                     fill
-                    sizes="(min-width: 1024px) 30vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    sizes="(min-width: 1280px) 52vw, 100vw"
+                    className="object-cover object-[44%_center]"
                   />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,18,40,0.1)_35%,rgba(6,18,40,0.86)_100%)]" />
-                  <div className="absolute bottom-0 left-0 right-0 p-3.5 text-white">
-                    <p className="text-[11px] font-black uppercase tracking-[0.12em] text-white/85">Depuis 2012</p>
-                    <p className="mt-1 text-[1.8rem] font-black uppercase leading-[0.9]">FC TORO</p>
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,18,40,0.14)_12%,rgba(6,18,40,0.88)_100%)]" />
+                  <div className="absolute inset-y-0 right-0 hidden w-24 bg-[linear-gradient(90deg,transparent,rgba(10,29,58,0.58))] xl:block" />
+                  <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
+                    <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#ff8c9a]">
+                      Projet Elite
+                    </p>
+                    <h3 className="mt-3 text-[clamp(2.2rem,4.2vw,3.9rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
+                      FC TORO Elite
+                    </h3>
+                    <p className="mt-3 max-w-[580px] text-sm leading-relaxed text-white/76 sm:text-base">
+                      Une equipe pensee pour hausser le rythme, la discipline et la lecture du jeu.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="relative z-10 overflow-hidden border-t border-[#c91c34] bg-[linear-gradient(180deg,#ef233c_0%,#d91933_55%,#b90f28_100%)] p-6 text-white sm:p-8 xl:-ml-16 xl:my-8 xl:mr-8 xl:rounded-[28px] xl:border xl:border-[#ff8b99]/45 xl:p-10 xl:shadow-[0_24px_44px_rgba(10,29,58,0.18)] xl:border-t">
+                  <div className="relative z-10">
+                    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#ffd5db]">
+                      Transition & ambition
+                    </p>
+                    <h3 className="mt-3 text-[clamp(2rem,3.8vw,3.2rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-white">
+                      Le projet Elite prend le relais.
+                    </h3>
+
+                    <div className="mt-5 space-y-4 text-[15px] leading-relaxed text-white/88">
+                      <p>
+                        FC TORO Elite relie l academie a un cadre plus exigeant pour accompagner les meilleurs profils
+                        vers la competition et une progression plus structuree.
+                      </p>
+                      <p>
+                        Le groupe avance avec un travail plus precis sur le tempo, la discipline collective et la maturite
+                        tactique, afin de preparer la prochaine marche du parcours FC TORO.
+                      </p>
+                    </div>
+
+                    <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                      {eliteFocusPoints.map((item) => (
+                        <div
+                          key={item.label}
+                          className="flex items-center gap-3 rounded-xl border border-white/18 bg-white/10 px-3 py-3 backdrop-blur-sm"
+                        >
+                          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/16 text-white">
+                            <item.icon className="h-4 w-4" />
+                          </div>
+                          <p className="text-[12px] font-black uppercase leading-[1.15] text-white">
+                            {item.label}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <Link
+                      href="/elite"
+                      className="mt-7 inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[11px] font-black uppercase tracking-[0.14em] text-[#b90f28] transition-all hover:bg-[#ffe3e7] hover:pr-5"
+                    >
+                      Decouvrir
+                      <RiArrowRightLine className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#1f4ea1]">
+                  Staff Elite
+                </p>
+                <h4 className="mt-2 text-[clamp(1.7rem,3vw,2.6rem)] font-black uppercase leading-[0.92] tracking-[-0.04em] text-[#0d2d62]">
+                  Les visages qui accompagnent le groupe.
+                </h4>
+              </div>
+
+              <p className="max-w-[520px] text-sm leading-relaxed text-[#526887] sm:text-base">
+                Le staff encadre le projet Elite au quotidien avec une presence terrain forte, un suivi precis et une
+                exigence claire autour de la progression du groupe.
+              </p>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              {eliteStaffCards.map((card) => (
+                <article
+                  key={card.title}
+                  className="overflow-hidden rounded-[24px] bg-[#0f2a4b] shadow-[0_18px_36px_rgba(10,29,58,0.14)]"
+                >
+                  <div className="relative h-[330px]">
+                    <Image
+                      src={card.image}
+                      alt={card.alt}
+                      fill
+                      sizes="(min-width: 1024px) 30vw, 100vw"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,19,43,0.06)_30%,rgba(7,19,43,0.88)_100%)]" />
+                    <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#ff8c9a]">
+                        {card.eyebrow}
+                      </p>
+                      <h5 className="mt-2 text-2xl font-black uppercase leading-[0.95]">
+                        {card.title}
+                      </h5>
+                      <p className="mt-2 text-sm leading-relaxed text-white/76">{card.description}</p>
+                    </div>
                   </div>
                 </article>
-
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-1 lg:grid-cols-2">
-                  <article className="group relative h-[170px] overflow-hidden rounded-[14px] bg-[#0f2a4b]">
-                    <Image
-                      src={playerCards[11].image}
-                      alt="Esprit academie FC TORO"
-                      fill
-                      sizes="(min-width: 1024px) 16vw, 50vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,18,40,0.06)_30%,rgba(6,18,40,0.82)_100%)]" />
-                    <p className="absolute bottom-2.5 left-2.5 text-[10px] font-black uppercase tracking-[0.1em] text-white">Esprit academie</p>
-                  </article>
-                  <article className="group relative h-[170px] overflow-hidden rounded-[14px] bg-[#0f2a4b]">
-                    <Image
-                      src={playerCards[12].image}
-                      alt="Programme filles FC TORO"
-                      fill
-                      sizes="(min-width: 1024px) 16vw, 50vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,18,40,0.06)_30%,rgba(6,18,40,0.82)_100%)]" />
-                    <p className="absolute bottom-2.5 left-2.5 text-[10px] font-black uppercase tracking-[0.1em] text-white">Programme filles</p>
-                  </article>
-                </div>
-              </aside>
-
-              <article>
-                <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#1f4ea1]">A propos</p>
-                <h3 className="mt-2 text-[clamp(1.9rem,3.2vw,3rem)] font-black uppercase leading-[0.9] text-[#0d2d62]">
-                  Football Club Toro
-                </h3>
-
-                <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-[#445b7f]">
-                  <p>
-                    FC TORO, cree le 1er septembre 2012, est devenu l un des clubs de football references en Haiti
-                    pour les filles et les garcons de 2 a 19 ans.
-                  </p>
-                  <p>
-                    Initialement dedie aux garcons, le club a ouvert ses programmes aux filles en janvier 2015. Depuis
-                    2018 jusqu a aujourd hui, FC TORO poursuit et renforce ses activites malgre les circonstances
-                    exceptionnelles qui touchent notre pays et le monde.
-                  </p>
-                  <p>
-                    Tout au long de l annee, nos joueurs et joueuses suivent une formation diversifiee pour ameliorer
-                    la technique individuelle, la communication, l esprit d equipe, le leadership et la maitrise sous
-                    pression et en competition.
-                  </p>
-                  <p>
-                    Grace a l engagement du staff, au soutien des parents et sponsors, et a la motivation des enfants,
-                    le club continue de progresser et de participer a des tournois competitifs comme la Vertieres Cup
-                    prevue le 18 novembre 2026 au Cap-Haitien et le Flag Day Tournament du 18 mai 2026.
-                  </p>
-                </div>
-
-                <motion.div
-                  onViewportEnter={() => setStatsStarted(true)}
-                  viewport={{ once: true, amount: 0.25 }}
-                  className="mt-6 grid gap-3 sm:grid-cols-2"
-                >
-                  {clubStats.map((item, index) => (
-                    <article
-                      key={item.label}
-                      className="rounded-2xl bg-[linear-gradient(130deg,#f5f8ff_0%,#eef4fd_100%)] p-3.5 shadow-[0_8px_16px_rgba(10,29,58,0.06)]"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#1f4ea1] text-white">
-                          <item.icon className="h-5 w-5" />
-                        </div>
-                        <div>
-                          <p className="text-[1.55rem] font-black leading-none text-[#0d2d62]">
-                            {item.prefix ?? ''}
-                            {statCounts[index]}
-                          </p>
-                          <p className="mt-1 text-[11px] font-black uppercase tracking-[0.08em] text-[#4e6488]">{item.label}</p>
-                        </div>
-                      </div>
-                    </article>
-                  ))}
-                </motion.div>
-              </article>
+              ))}
             </div>
           </div>
         </section>
