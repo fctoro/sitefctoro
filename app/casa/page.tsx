@@ -68,7 +68,7 @@ export default function CasaPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
                 Infrastructures
               </p>
-              <h1 className="text-4xl font-black uppercase leading-[0.8] tracking-tighter drop-shadow-2xl md:text-7xl">
+              <h1 className="text-3xl font-black uppercase leading-[0.8] tracking-tighter drop-shadow-2xl md:text-5xl">
                 {casaData.title}
               </h1>
             </motion.div>
@@ -79,7 +79,7 @@ export default function CasaPage() {
           <div className="mx-auto max-w-[900px] space-y-12">
             <div className="mb-10 flex items-center gap-4">
               <RiMapPin2Line className="h-10 w-10 text-[#ef233c]" />
-              <h2 className="text-3xl font-black uppercase tracking-tight text-[#ef233c]">
+              <h2 className="text-2xl font-black uppercase tracking-tight text-[#ef233c] md:text-3xl">
                 Caribbean Sports Academy
               </h2>
             </div>
@@ -92,7 +92,7 @@ export default function CasaPage() {
 
         <section className="bg-[#f8fafc] px-4 py-24 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1100px]">
-            <h3 className="mb-16 text-center text-5xl font-black uppercase leading-[0.9]">
+            <h3 className="mb-16 text-center text-[clamp(1.8rem,3.4vw,3rem)] font-black uppercase leading-[0.9]">
               {casaData.infraTitle}
             </h3>
 
@@ -121,7 +121,7 @@ export default function CasaPage() {
 
               <RiTrophyLine className="relative z-10 mx-auto mb-10 h-16 w-16 text-[#ef233c]" />
 
-              <p className="relative z-10 mx-auto max-w-4xl text-4xl font-black uppercase leading-[0.9] drop-shadow-lg md:text-5xl">
+              <p className="relative z-10 mx-auto max-w-4xl text-3xl font-black uppercase leading-[0.9] drop-shadow-lg md:text-4xl">
                 {casaData.outro}
               </p>
             </div>

@@ -22,7 +22,7 @@ export function NewsBarcaGrid({ items, heading, eyebrow, ctaHref, ctaLabel, limi
           {eyebrow ? (
             <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#1d4ea1]">{eyebrow}</p>
           ) : null}
-          <h2 className="mt-2 text-[clamp(2rem,4vw,3.6rem)] font-black uppercase leading-[0.9] text-[#0a1d3a]">
+          <h2 className="mt-2 text-[clamp(1.65rem,3.2vw,2.8rem)] font-black uppercase leading-[0.9] text-[#0a1d3a]">
             {heading}
           </h2>
         </div>

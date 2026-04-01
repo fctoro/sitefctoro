@@ -42,7 +42,7 @@ export default function LegalPage() {
             <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
               Informations
             </p>
-            <h1 className="mt-4 text-[clamp(2.3rem,4vw,4.3rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
+            <h1 className="mt-4 text-[clamp(1.95rem,3.4vw,3.35rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
               Legal
             </h1>
             <p className="mt-5 max-w-[760px] text-base leading-relaxed text-[#617089] sm:text-lg">

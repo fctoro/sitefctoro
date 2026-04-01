@@ -37,7 +37,7 @@ export default async function EvenementsPage({ searchParams }: EvenementsPagePro
             <p className="text-[10px] font-black uppercase tracking-[0.38em] text-[#ef233c]">
               Section evenement
             </p>
-            <h1 className="mt-4 text-[clamp(2.5rem,5vw,5.2rem)] font-black uppercase leading-[0.88] tracking-[-0.05em]">
+            <h1 className="mt-4 text-[clamp(2rem,4.2vw,4.1rem)] font-black uppercase leading-[0.88] tracking-[-0.05em]">
               Live, Vertieres Cup
               <br />
               et Flag Day

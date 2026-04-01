@@ -57,6 +57,7 @@ const linkDescriptionMap: Record<string, string> = {
   Sponsors: 'Partenaires et soutiens qui accompagnent FC TORO.',
   Elite: 'Le pont entre formation et excellence FC TORO.',
   CASA: 'Projet Caribbean Sports Academy.',
+  'Ti Toro': 'Initiation football 2 a 5 ans et premiere entree dans le projet FC TORO.',
   'Vision et valeurs': 'Discipline, identite et ambition long terme.',
   'Installations': 'Terrains, equipements et environnement d entrainement.',
   'Actualites club': 'Les dernieres informations officielles du club.',
@@ -164,13 +165,14 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
             links: [
               { label: 'Elite', href: '/elite' },
               { label: 'CASA', href: '/casa' },
+              { label: 'Ti Toro', href: '/ti-toro' },
             ],
           },
         ],
         spotlight: {
           image: '/joueur/extracted/591149277_18545355826012336_6701584250153829576_n.jpg',
           name: 'Projet FC TORO',
-          role: 'Elite et CASA',
+          role: 'Elite, CASA et Ti Toro',
           href: '/elite',
         },
       },

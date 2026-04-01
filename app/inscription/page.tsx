@@ -8,6 +8,7 @@ import {
   RiArrowRightLine,
   RiGroupLine,
   RiHandHeartLine,
+  RiRunLine,
   RiShieldStarLine,
 } from '@remixicon/react'
 
@@ -38,6 +39,15 @@ const pathways = [
     href: '/inscription/partenaires',
     image: '/joueur/extracted/634150827_18560832649012336_7495873752742897530_n.jpg',
     icon: RiHandHeartLine,
+  },
+  {
+    label: 'Ti Toro',
+    title: 'Programme Ti Toro',
+    description:
+      'Premiere entree dans le football pour les enfants de 2 a 5 ans, avec un cadre simple, ludique et progressif.',
+    href: '/ti-toro',
+    image: '/home/vision-fille.jpg',
+    icon: RiRunLine,
   },
 ]
 
@@ -77,7 +87,7 @@ export default function InscriptionPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.38em] text-[#ef233c]">
                 Parcours pour rejoindre
               </p>
-              <h1 className="mt-4 text-[clamp(2.4rem,5vw,4.9rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
+              <h1 className="mt-4 text-[clamp(2rem,4.1vw,4rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
                 Rejoindre
                 <br />
                 FC TORO
@@ -112,7 +122,7 @@ export default function InscriptionPage() {
                 <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
                   Choisir un parcours
                 </p>
-                <h2 className="mt-3 text-[clamp(2rem,4vw,3.5rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-[#0a1d3a]">
+                <h2 className="mt-3 text-[clamp(1.65rem,3.2vw,2.8rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-[#0a1d3a]">
                   Trois portes d entree,
                   <br />
                   un meme projet club.
@@ -125,7 +135,7 @@ export default function InscriptionPage() {
               </p>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
               {pathways.map((pathway, index) => {
                 const Icon = pathway.icon
 
@@ -184,7 +194,7 @@ export default function InscriptionPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
                 Comment ca fonctionne
               </p>
-              <h2 className="mt-3 text-[clamp(1.9rem,3.8vw,3rem)] font-black uppercase leading-[0.94] tracking-[-0.04em] text-[#0a1d3a]">
+              <h2 className="mt-3 text-[clamp(1.6rem,3vw,2.5rem)] font-black uppercase leading-[0.94] tracking-[-0.04em] text-[#0a1d3a]">
                 Un processus simple, rapide
                 <br />
                 et propre.

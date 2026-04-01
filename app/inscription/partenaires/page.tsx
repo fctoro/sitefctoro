@@ -59,7 +59,7 @@ export default function InscriptionPartenairesPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
                 Developpement club
               </p>
-              <h1 className="max-w-[760px] text-4xl font-black uppercase leading-[0.82] tracking-tighter drop-shadow-2xl md:text-7xl">
+              <h1 className="max-w-[760px] text-3xl font-black uppercase leading-[0.82] tracking-tighter drop-shadow-2xl md:text-5xl">
                 Devenir
                 <br />
                 Partenaire
@@ -75,7 +75,7 @@ export default function InscriptionPartenairesPage() {
                 <div className="inline-flex items-center gap-3 rounded-full bg-[#ef233c] px-5 py-3 text-sm font-black uppercase tracking-[0.14em] text-white">
                   Collaboration club
                 </div>
-                <h2 className="mt-6 text-[clamp(2rem,4vw,3.4rem)] font-black uppercase leading-[0.92] text-[#0a1d3a]">
+                <h2 className="mt-6 text-[clamp(1.65rem,3.2vw,2.7rem)] font-black uppercase leading-[0.92] text-[#0a1d3a]">
                   Construire un partenariat utile, lisible et coherent avec l identite FC TORO.
                 </h2>
               </div>

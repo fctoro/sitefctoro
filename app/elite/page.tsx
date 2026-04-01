@@ -109,7 +109,7 @@ export default function ElitePage() {
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
                 Excellence & Performance
               </p>
-              <h1 className="text-4xl font-black uppercase leading-[0.8] tracking-tighter drop-shadow-2xl md:text-6xl">
+              <h1 className="text-3xl font-black uppercase leading-[0.8] tracking-tighter drop-shadow-2xl md:text-5xl">
                 {eliteData.title}
               </h1>
             </motion.div>
@@ -151,7 +151,7 @@ export default function ElitePage() {
                 <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
                   Joueurs FC TORO Elite
                 </p>
-                <h2 className="mt-4 text-[clamp(2rem,4vw,3.6rem)] font-black uppercase leading-[0.9] tracking-[-0.05em] text-[#0d2d62]">
+                <h2 className="mt-4 text-[clamp(1.65rem,3.2vw,2.8rem)] font-black uppercase leading-[0.9] tracking-[-0.05em] text-[#0d2d62]">
                   10 joueurs faisant
                   <br />
                   partie de FC TORO Elite.
@@ -322,7 +322,7 @@ export default function ElitePage() {
                   <RiFocusLine className="h-4 w-4" /> The Toro Code
                 </div>
 
-                <h3 className="text-3xl font-black uppercase leading-tight">
+                <h3 className="text-2xl font-black uppercase leading-tight md:text-[2rem]">
                   {eliteData.section3.title}
                 </h3>
 
@@ -354,7 +354,7 @@ export default function ElitePage() {
                 <p className="mb-4 text-[10px] font-black uppercase tracking-widest text-[#ef233c]">
                   Strategie
                 </p>
-                <h3 className="text-3xl font-black uppercase leading-[0.9]">
+                <h3 className="text-2xl font-black uppercase leading-[0.9] md:text-[2rem]">
                   {eliteData.section4.title}
                 </h3>
               </div>
@@ -384,7 +384,7 @@ export default function ElitePage() {
 
         <section className="bg-[linear-gradient(135deg,#ef233c,#d11b34)] px-4 py-24 text-center text-white sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[800px]">
-            <h3 className="mb-10 text-3xl font-black uppercase leading-none md:text-5xl">
+            <h3 className="mb-10 text-2xl font-black uppercase leading-none md:text-4xl">
               {eliteData.section5.title}
             </h3>
 
@@ -403,7 +403,7 @@ export default function ElitePage() {
               ))}
             </div>
 
-            <p className="select-none text-3xl font-black uppercase tracking-[0.2em] opacity-30 md:text-4xl">
+            <p className="select-none text-2xl font-black uppercase tracking-[0.2em] opacity-30 md:text-3xl">
               {eliteData.section5.outro}
             </p>
           </div>

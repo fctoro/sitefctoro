@@ -39,7 +39,7 @@ export default function PrivacyPage() {
               <p className="mt-6 text-[10px] font-black uppercase tracking-[0.34em] text-[#7ce0bc]">
                 Informations
               </p>
-              <h1 className="mt-4 text-[clamp(2.2rem,4vw,4.2rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
+              <h1 className="mt-4 text-[clamp(1.9rem,3.3vw,3.2rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
                 Privacy
               </h1>
             </div>

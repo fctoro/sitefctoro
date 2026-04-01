@@ -211,7 +211,7 @@ export default function StandingsPageContent() {
         >
           <div>
             <p className="text-xs font-black uppercase tracking-[0.14em] text-[#ef233c]">Club</p>
-            <h1 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#0a1d3a] sm:text-4xl">
+            <h1 className="mt-1 text-2xl font-black uppercase tracking-tight text-[#0a1d3a] sm:text-3xl">
               Classement Ligue Elite
             </h1>
             <p className="mt-1 text-sm text-zinc-600">

@@ -51,7 +51,7 @@ export default function TalentsPage() {
             <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
               Academie
             </p>
-            <h1 className="mt-4 text-[clamp(2.4rem,4.8vw,4.8rem)] font-black uppercase leading-[0.88] tracking-[-0.05em]">
+            <h1 className="mt-4 text-[clamp(2rem,4vw,4rem)] font-black uppercase leading-[0.88] tracking-[-0.05em]">
               Talents
             </h1>
             <p className="mt-5 max-w-[760px] text-base leading-relaxed text-white/74 sm:text-lg">

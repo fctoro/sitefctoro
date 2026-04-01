@@ -56,7 +56,7 @@ export default function SponsorsPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
                 Partenaires Strategiques
               </p>
-              <h1 className="text-4xl font-black uppercase leading-[0.8] tracking-tighter drop-shadow-2xl md:text-6xl">
+              <h1 className="text-3xl font-black uppercase leading-[0.8] tracking-tighter drop-shadow-2xl md:text-5xl">
                 Sponsors & Partners
               </h1>
             </motion.div>

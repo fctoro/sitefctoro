@@ -90,13 +90,14 @@ const navItems: NavItem[] = [
           links: [
             { label: 'Elite', href: '/elite' },
             { label: 'CASA', href: '/casa' },
+            { label: 'Ti Toro', href: '/ti-toro' },
           ],
         },
       ],
       spotlight: {
         image: '/joueur/extracted/591149277_18545355826012336_6701584250153829576_n.jpg',
         name: 'Projet FC TORO',
-        role: 'Elite et CASA',
+        role: 'Elite, CASA et Ti Toro',
         href: '/elite',
       },
     },
@@ -174,6 +175,7 @@ const linkDescriptionMap: Record<string, string> = {
   Sponsors: 'Partenaires et soutiens qui accompagnent FC TORO.',
   Elite: 'Le pont entre formation et excellence FC TORO.',
   CASA: 'Projet Caribbean Sports Academy.',
+  'Ti Toro': 'Initiation football 2 a 5 ans et premiere entree dans le projet FC TORO.',
   'Vision et valeurs': 'Discipline, identite et ambition long terme.',
   'Installations': 'Terrains, equipements et environnement d entrainement.',
   'Actualites club': 'Les dernieres informations officielles du club.',
@@ -703,7 +705,7 @@ export default function HomePage() {
               <p className="inline-flex items-center rounded bg-[#ef233c] px-5 py-2 text-sm font-black uppercase tracking-[0.1em] text-white">
                 {activeHeroSlide.label}
               </p>
-              <h1 className="mt-4 text-[2.35rem] font-black uppercase leading-[0.95] text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.25)] sm:mt-6 sm:text-5xl">
+              <h1 className="mt-4 text-[2rem] font-black uppercase leading-[0.95] text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.25)] sm:mt-6 lg:text-5xl">
                 {activeHeroTitle}
               </h1>
               <Link
@@ -755,7 +757,7 @@ export default function HomePage() {
                     <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#ff8c9a]">
                       Projet Elite
                     </p>
-                    <h3 className="mt-3 text-[clamp(2.2rem,4.2vw,3.9rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
+                    <h3 className="mt-3 text-[clamp(1.85rem,3.5vw,3.1rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
                       FC TORO Elite
                     </h3>
                     <p className="mt-3 max-w-[580px] text-sm leading-relaxed text-white/76 sm:text-base">
@@ -769,7 +771,7 @@ export default function HomePage() {
                     <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#ffd5db]">
                       Transition & ambition
                     </p>
-                    <h3 className="mt-3 text-[clamp(2rem,3.8vw,3.2rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-white">
+                    <h3 className="mt-3 text-[clamp(1.7rem,3.1vw,2.7rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-white">
                       Le projet Elite prend le relais.
                     </h3>
 
@@ -817,7 +819,7 @@ export default function HomePage() {
                 <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#1f4ea1]">
                   Staff Elite
                 </p>
-                <h4 className="mt-2 text-[clamp(1.7rem,3vw,2.6rem)] font-black uppercase leading-[0.92] tracking-[-0.04em] text-[#0d2d62]">
+                <h4 className="mt-2 text-[clamp(1.5rem,2.4vw,2.15rem)] font-black uppercase leading-[0.92] tracking-[-0.04em] text-[#0d2d62]">
                   Les visages qui accompagnent le groupe.
                 </h4>
               </div>

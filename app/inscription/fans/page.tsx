@@ -59,7 +59,7 @@ export default function InscriptionFansPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
                 Communaute club
               </p>
-              <h1 className="max-w-[760px] text-4xl font-black uppercase leading-[0.82] tracking-tighter drop-shadow-2xl md:text-7xl">
+              <h1 className="max-w-[760px] text-3xl font-black uppercase leading-[0.82] tracking-tighter drop-shadow-2xl md:text-5xl">
                 Devenir
                 <br />
                 Fan
@@ -75,7 +75,7 @@ export default function InscriptionFansPage() {
                 <div className="inline-flex items-center gap-3 rounded-full bg-[#0a2347] px-5 py-3 text-sm font-black uppercase tracking-[0.14em] text-white">
                   Vivre le club
                 </div>
-                <h2 className="mt-6 text-[clamp(2rem,4vw,3.4rem)] font-black uppercase leading-[0.92] text-[#0a1d3a]">
+                <h2 className="mt-6 text-[clamp(1.65rem,3.2vw,2.7rem)] font-black uppercase leading-[0.92] text-[#0a1d3a]">
                   Construire une communaute forte autour des jours de match et de la vie FC TORO.
                 </h2>
               </div>

@@ -37,7 +37,7 @@ export default function ContactPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
                 Service Clients
               </p>
-              <h1 className="text-4xl font-black uppercase leading-[0.8] tracking-tighter drop-shadow-2xl md:text-7xl">
+              <h1 className="text-3xl font-black uppercase leading-[0.8] tracking-tighter drop-shadow-2xl md:text-5xl">
                 Contact
               </h1>
             </motion.div>
@@ -52,7 +52,7 @@ export default function ContactPage() {
                   Contactez-nous
                 </div>
 
-                <h2 className="text-5xl font-black uppercase leading-[0.9] text-[#0a1d3a]">
+                <h2 className="text-[clamp(1.8rem,3.1vw,3rem)] font-black uppercase leading-[0.9] text-[#0a1d3a]">
                   Pour toute information concernant les inscriptions ou les
                   activites du club, veuillez contacter l equipe FC TORO.
                 </h2>
@@ -90,7 +90,7 @@ export default function ContactPage() {
               </div>
 
               <div className="rounded-[50px] border border-gray-100 bg-[#f8fafc] p-12 shadow-sm">
-                <h3 className="mb-10 text-center text-3xl font-black uppercase">
+                <h3 className="mb-10 text-center text-2xl font-black uppercase">
                   Envoyez un message
                 </h3>
 

@@ -49,10 +49,10 @@ export default function EquipesPage() {
 
             <div className="relative isolate">
               <div className="pointer-events-none absolute inset-x-0 top-[8%] z-0 hidden items-center justify-between px-4 lg:flex">
-                <span className="text-[clamp(4rem,10vw,11rem)] font-black uppercase leading-none tracking-[-0.1em] text-white/[0.05]">
+                <span className="text-[clamp(3rem,8vw,8.5rem)] font-black uppercase leading-none tracking-[-0.1em] text-white/[0.05]">
                   FC
                 </span>
-                <span className="text-[clamp(4rem,10vw,11rem)] font-black uppercase leading-none tracking-[-0.1em] text-white/[0.05]">
+                <span className="text-[clamp(3rem,8vw,8.5rem)] font-black uppercase leading-none tracking-[-0.1em] text-white/[0.05]">
                   TORO
                 </span>
               </div>
@@ -62,7 +62,7 @@ export default function EquipesPage() {
 
               <div className="pointer-events-none absolute inset-x-0 bottom-[7%] z-10">
                 <div className="mx-auto h-px w-full max-w-[1100px] bg-gradient-to-r from-transparent via-white/35 to-transparent" />
-                <p className="mt-1 select-none text-center text-[clamp(4rem,15vw,13rem)] font-black uppercase leading-none tracking-[-0.12em] text-white/92">
+                <p className="mt-1 select-none text-center text-[clamp(3.2rem,12vw,9.5rem)] font-black uppercase leading-none tracking-[-0.12em] text-white/92">
                   TORO
                 </p>
                 <div className="mx-auto mt-2 flex items-center justify-center gap-4 text-[10px] font-black uppercase tracking-[0.38em] text-white/58">
@@ -165,7 +165,7 @@ export default function EquipesPage() {
                 <p className="text-[11px] font-black uppercase tracking-[0.4em] text-[#3f7bff]">
                   Roster Lab
                 </p>
-                <h2 className="mt-3 text-[clamp(2rem,4vw,4.5rem)] font-black uppercase leading-[0.88] tracking-[-0.04em] text-white">
+                <h2 className="mt-3 text-[clamp(1.7rem,3.2vw,3.2rem)] font-black uppercase leading-[0.88] tracking-[-0.04em] text-white">
                   Effectif
                 </h2>
               </div>

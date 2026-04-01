@@ -59,7 +59,7 @@ export default function InscriptionJoueurPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
                 Recrutement joueur
               </p>
-              <h1 className="max-w-[760px] text-4xl font-black uppercase leading-[0.82] tracking-tighter drop-shadow-2xl md:text-7xl">
+              <h1 className="max-w-[760px] text-3xl font-black uppercase leading-[0.82] tracking-tighter drop-shadow-2xl md:text-5xl">
                 Devenir
                 <br />
                 Joueur
@@ -68,14 +68,14 @@ export default function InscriptionJoueurPage() {
           </div>
         </section>
 
-        <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
+        <section id="formulaire-joueur" className="bg-white px-4 py-16 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-[1100px] gap-12 lg:grid-cols-[0.92fr_1.08fr]">
             <div className="space-y-10">
               <div>
                 <div className="inline-flex items-center gap-3 rounded-full bg-[#ef233c] px-5 py-3 text-sm font-black uppercase tracking-[0.14em] text-white">
                   Parcours academie
                 </div>
-                <h2 className="mt-6 text-[clamp(2rem,4vw,3.5rem)] font-black uppercase leading-[0.92] text-[#0a1d3a]">
+                <h2 className="mt-6 text-[clamp(1.65rem,3.2vw,2.8rem)] font-black uppercase leading-[0.92] text-[#0a1d3a]">
                   Entrer dans le projet FC TORO avec un dossier propre et une lecture claire du profil.
                 </h2>
               </div>

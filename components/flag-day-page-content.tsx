@@ -74,7 +74,7 @@ export default function FlagDayPageContent() {
               <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
                 Tournoi club
               </p>
-              <h1 className="mt-4 max-w-[640px] text-[clamp(2.1rem,4vw,4.25rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
+              <h1 className="mt-4 max-w-[640px] text-[clamp(1.85rem,3.4vw,3.3rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
                 Flag Day
                 <br />
                 Classement

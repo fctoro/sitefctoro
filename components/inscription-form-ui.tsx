@@ -48,7 +48,7 @@ export function InscriptionFormCard({
 
       <div className="mt-6">
         <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">{eyebrow}</p>
-        <h3 className="mt-3 text-[clamp(2rem,3vw,2.8rem)] font-black uppercase leading-[0.94] text-[#0a1d3a]">
+        <h3 className="mt-3 text-[clamp(1.7rem,2.6vw,2.35rem)] font-black uppercase leading-[0.94] text-[#0a1d3a]">
           {title}
         </h3>
         <p className="mt-3 max-w-[560px] text-sm font-medium leading-relaxed text-[#5b6f91] sm:text-[15px]">

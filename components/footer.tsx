@@ -85,8 +85,8 @@ export default function Footer() {
             </Link>
 
             <p className="max-w-[280px] text-[15px] font-semibold leading-relaxed text-white/80">
-              Depuis 2012, l excellence du football en Haiti. Plus qu un club,
-              une academie de vie.
+              Depuis 2012, l'excellence du football en Haïti. Plus qu'un club,
+              une académie de vie.
             </p>
 
             <div className="flex gap-2">
@@ -112,7 +112,7 @@ export default function Footer() {
           <div className="grid w-full grid-cols-2 items-start gap-4 lg:col-span-2 lg:gap-8">
             <div className="flex flex-col items-center space-y-6 text-center lg:items-start lg:text-left">
               <h3 className="rounded-full border border-[#ef233c]/30 bg-[#ef233c]/10 px-4 py-1.5 text-[11px] font-black uppercase tracking-[0.25em] text-[#ef233c]">
-                Academie
+                Académie
               </h3>
 
               <ul className="space-y-4">
@@ -186,7 +186,7 @@ export default function Footer() {
                     Fondation 2012
                   </p>
                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#ef233c] opacity-80">
-                    Petion-Ville, Haiti
+                    Pétion-Ville, Haïti
                   </p>
                 </div>
               </div>
@@ -196,7 +196,7 @@ export default function Footer() {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-6 lg:flex-row lg:gap-0">
           <p className="text-center text-[10px] font-bold uppercase tracking-[0.25em] text-white/50 lg:text-left">
-            © 2026 FC TORO. Tous droits reserves.
+            © 2026 FC TORO. Tous droits réservés.
           </p>
 
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-[10px] font-black uppercase tracking-[0.2em] text-white/70 lg:gap-x-12">

@@ -172,7 +172,7 @@ export default function VertieresCupPageContent() {
               <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
                 Inscriptions tournoi
               </p>
-              <h1 className="mt-4 text-[clamp(2.3rem,4.8vw,4.9rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
+              <h1 className="mt-4 text-[clamp(2rem,4vw,4rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
                 Vertieres
                 <br />
                 Cup
@@ -252,7 +252,7 @@ export default function VertieresCupPageContent() {
                   <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#ef233c]">
                     Formulaire equipe
                   </p>
-                  <h2 className="mt-3 text-[clamp(1.9rem,3vw,3rem)] font-black uppercase leading-[0.94] tracking-[-0.04em] text-[#0a1d3a]">
+                  <h2 className="mt-3 text-[clamp(1.65rem,2.6vw,2.45rem)] font-black uppercase leading-[0.94] tracking-[-0.04em] text-[#0a1d3a]">
                     Inscription Vertieres Cup
                   </h2>
                 </div>

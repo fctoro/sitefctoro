@@ -39,7 +39,7 @@ export default async function StageDetailPage({ params }: StageDetailPageProps) 
             <p className="text-[10px] font-black uppercase tracking-[0.36em] text-[#ef233c]">
               Stage FC TORO
             </p>
-            <h1 className="mt-4 max-w-[900px] text-4xl font-black leading-[0.9] tracking-[-0.05em] md:text-6xl">
+            <h1 className="mt-4 max-w-[900px] text-3xl font-black leading-[0.9] tracking-[-0.05em] md:text-5xl">
               {stage.title}
             </h1>
             <p className="mt-3 max-w-[720px] text-sm font-medium leading-relaxed text-white/82 md:text-base">
@@ -51,7 +51,7 @@ export default async function StageDetailPage({ params }: StageDetailPageProps) 
         <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
           <div className="mx-auto max-w-[1100px] rounded-[28px] bg-white p-6 shadow-[0_18px_42px_rgba(10,29,58,0.06)] sm:p-10">
             <div className="border-b border-[#e7edf5] pb-6">
-              <h2 className="text-[clamp(2rem,4vw,3.2rem)] font-black tracking-[-0.05em] text-[#0a1d3a]">
+              <h2 className="text-[clamp(1.7rem,3.2vw,2.6rem)] font-black tracking-[-0.05em] text-[#0a1d3a]">
                 {stage.title}
               </h2>
               <p className="mt-3 text-sm font-medium text-[#556b8d]">
@@ -132,7 +132,7 @@ export default async function StageDetailPage({ params }: StageDetailPageProps) 
             </div>
 
             <div className="mt-12 rounded-[26px] border border-[#d9e2ee] bg-[#fcfdff] p-6 sm:p-8">
-              <h3 className="text-3xl font-black tracking-[-0.04em] text-[#0a1d3a]">
+              <h3 className="text-2xl font-black tracking-[-0.04em] text-[#0a1d3a] md:text-[2rem]">
                 Postuler pour ce stage
               </h3>
 

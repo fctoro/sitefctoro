@@ -40,7 +40,7 @@ export default function ScoutingPage() {
             </p>
             <div className="mt-4 grid gap-8 lg:grid-cols-[1fr_340px] lg:items-end">
               <div>
-                <h1 className="text-[clamp(2.5rem,5vw,5rem)] font-black uppercase leading-[0.88] tracking-[-0.05em]">
+                <h1 className="text-[clamp(2rem,4vw,4rem)] font-black uppercase leading-[0.88] tracking-[-0.05em]">
                   Scouting
                 </h1>
                 <p className="mt-5 max-w-[760px] text-base leading-relaxed text-[#5b6f91] sm:text-lg">

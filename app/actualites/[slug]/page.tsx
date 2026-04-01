@@ -74,7 +74,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <p className="text-[10px] font-black uppercase tracking-[0.32em] text-[#ef233c]">
                 {article.category}
               </p>
-              <h1 className="mt-4 max-w-[820px] text-[clamp(2.2rem,4.4vw,4.5rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
+              <h1 className="mt-4 max-w-[820px] text-[clamp(1.9rem,3.5vw,3.4rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
                 {article.title}
               </h1>
               <p className="mt-5 max-w-[760px] text-base leading-relaxed text-white/74 sm:text-lg">

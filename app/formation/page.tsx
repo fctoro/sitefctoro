@@ -47,7 +47,7 @@ export default function FormationPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#d14a2e]">
                 Academie
               </p>
-              <h1 className="mt-4 text-[clamp(2.5rem,5vw,5rem)] font-black uppercase leading-[0.88] tracking-[-0.05em]">
+              <h1 className="mt-4 text-[clamp(2rem,4vw,4rem)] font-black uppercase leading-[0.88] tracking-[-0.05em]">
                 Formation
               </h1>
               <p className="mt-6 max-w-[720px] text-base leading-relaxed text-[#5d6e88] sm:text-lg">

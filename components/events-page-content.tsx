@@ -24,7 +24,7 @@ export default function EventsPageContent({ activeSlug }: EventsPageContentProps
               <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
                 Parcours
               </p>
-              <h2 className="mt-3 text-[clamp(2rem,4vw,3.6rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-[#0a1d3a]">
+              <h2 className="mt-3 text-[clamp(1.65rem,3.2vw,2.8rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-[#0a1d3a]">
                 Trois pages,
                 <br />
                 une meme energie club.
@@ -67,7 +67,7 @@ export default function EventsPageContent({ activeSlug }: EventsPageContentProps
                       <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/72">
                         {card.dateLabel}
                       </p>
-                      <h3 className="mt-2 text-3xl font-black uppercase leading-[0.92] tracking-[-0.04em]">
+                      <h3 className="mt-2 text-2xl font-black uppercase leading-[0.92] tracking-[-0.04em] md:text-[2rem]">
                         {card.title}
                       </h3>
                     </div>
@@ -115,7 +115,7 @@ export default function EventsPageContent({ activeSlug }: EventsPageContentProps
                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#ef233c]">
                   {activeDetail.eyebrow}
                 </p>
-                <h3 className="mt-3 text-3xl font-black uppercase leading-[0.92]">
+                <h3 className="mt-3 text-2xl font-black uppercase leading-[0.92] md:text-[2rem]">
                   {activeCard.title}
                 </h3>
                 <p className="mt-4 text-sm leading-relaxed text-white/72">{activeCard.dateLabel}</p>
@@ -128,7 +128,7 @@ export default function EventsPageContent({ activeSlug }: EventsPageContentProps
                   <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#ef233c]">
                     {activeDetail.eyebrow}
                   </p>
-                  <h3 className="mt-3 text-[clamp(1.9rem,3vw,3rem)] font-black uppercase leading-[0.94] tracking-[-0.04em] text-[#0a1d3a]">
+                  <h3 className="mt-3 text-[clamp(1.65rem,2.6vw,2.45rem)] font-black uppercase leading-[0.94] tracking-[-0.04em] text-[#0a1d3a]">
                     {activeDetail.heading}
                   </h3>
                 </div>

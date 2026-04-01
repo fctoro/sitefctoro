@@ -25,7 +25,7 @@ export default function StagesPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[#ef233c]">
                 Acces club
               </p>
-              <h1 className="mt-3 text-[clamp(2.3rem,5vw,4.4rem)] font-black tracking-[-0.05em] text-[#0a1d3a]">
+              <h1 className="mt-3 text-[clamp(1.95rem,4.1vw,3.5rem)] font-black tracking-[-0.05em] text-[#0a1d3a]">
                 Stages FC TORO
               </h1>
             </div>
