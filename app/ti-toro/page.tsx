@@ -3,9 +3,10 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
-import kidsHero from '@/img/Kids/IMG_9445.jpg'
+import playerHeroImage from '@/img/Kids/IMG_9452.jpg'
 import {
   RiArrowRightLine,
+  RiCheckDoubleLine,
   RiCheckLine,
   RiFileList3Line,
   RiMailLine,
@@ -16,6 +17,9 @@ import {
   RiTimeLine,
   RiUserSmileLine,
   RiWhatsappLine,
+  RiMagicLine,
+  RiStarSFill,
+  RiPlayLargeFill,
 } from '@remixicon/react'
 
 const highlights = [
@@ -215,547 +219,181 @@ const contactItems = [
 
 export default function TiToroPage() {
   return (
-    <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
+    <div className="min-h-screen bg-[#f8fafc] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
-        <section className="relative overflow-hidden bg-[#0a1d3a] px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-18">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(239,35,60,0.18),transparent_34%)]" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_82%_10%,rgba(49,92,191,0.18),transparent_28%)]" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#ef233c] to-transparent" />
+        {/* --- HERO SECTION --- */}
+        <section className="relative overflow-hidden bg-[#0a1d3a] px-4 py-20 text-white sm:px-6 lg:px-8 lg:py-32">
+          {/* Subtle Background Effects */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(239,35,60,0.12),transparent_50%)]" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#ef233c]/40 to-transparent" />
 
-          <div className="relative mx-auto grid max-w-[1180px] gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-[720px]"
-            >
-              <p className="text-[10px] font-black uppercase tracking-[0.38em] text-[#ef233c]">
-                Programme 2026
-              </p>
-              <h1 className="mt-4 text-[clamp(2rem,4vw,4rem)] font-black uppercase leading-[0.9] tracking-[-0.05em] lg:text-[clamp(2.5rem,5vw,5rem)]">
-                Ti Toro
-                <br />
-                Haiti
-              </h1>
-              <p className="mt-6 max-w-[620px] text-base font-medium leading-relaxed text-white/80 sm:text-lg lg:max-w-[680px] lg:text-[1.15rem]">
-                Ti Toro est le programme d initiation au football pour les enfants de 2 a 5 ans.
-                En 2026, le projet met l accent sur le jeu, la coordination, l ecoute et le plaisir
-                de bouger dans un cadre adapte aux plus petits.
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a
-                  href="#procedures-paiements"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#ef233c] px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-white transition-all hover:bg-[#ff3f5c]"
-                >
-                  <RiArrowRightLine className="h-4 w-4" />
-                  Voir conditions
-                </a>
-                <a
-                  href="tel:+50928178676"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/24 px-5 py-3 text-sm font-black uppercase tracking-[0.12em] text-white transition-all hover:bg-white hover:text-[#0a1d3a]"
-                >
-                  <RiWhatsappLine className="h-4 w-4" />
-                  WhatsApp
-                </a>
-                <a
-                  href="mailto:footballclubtoro@gmail.com"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/24 px-5 py-3 text-sm font-black uppercase tracking-[0.12em] text-white transition-all hover:bg-white hover:text-[#0a1d3a]"
-                >
-                  <RiMailLine className="h-4 w-4" />
-                  Demander les infos 2026
-                </a>
-              </div>
-            </motion.div>
-
-            <div className="rounded-[34px] bg-[#102852] p-4 shadow-[0_18px_36px_rgba(0,0,0,0.2)]">
-              <div className="relative min-h-[380px] overflow-hidden rounded-[28px] sm:min-h-[440px]">
-                <Image
-                  src={kidsHero}
-                  alt="Programme Ti Toro"
-                  fill
-                  sizes="(min-width: 1024px) 42vw, 100vw"
-                  className="object-cover object-[center_28%]"
-                />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,19,43,0.05)_0%,rgba(7,19,43,0.1)_45%,rgba(7,19,43,0.28)_100%)]" />
-              </div>
-
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-[24px] border border-white/10 bg-[rgba(15,45,96,0.96)] p-5 shadow-[0_18px_34px_rgba(7,19,43,0.18)]">
-                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#8db7ff]">
-                    Jeu actif
-                  </p>
-                  <p className="mt-3 text-base font-black leading-snug text-white sm:text-[1.05rem] lg:text-[1.15rem]">
-                    Premiers contacts avec le ballon, motricite, coordination et plaisir de jouer.
+          <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 items-center gap-12 lg:gap-20 text-left">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur-sm">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ef233c]/80" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#ef233c]" />
+                  </span>
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/90">
+                    Inscription Programme 2026
                   </p>
                 </div>
 
-                <div className="rounded-[24px] border border-white/10 bg-[rgba(15,45,96,0.96)] p-5 shadow-[0_18px_34px_rgba(7,19,43,0.18)]">
-                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ffb4bf]">
-                    Objectif
-                  </p>
-                  <p className="mt-3 text-base font-black leading-snug text-white sm:text-[1.05rem] lg:text-[1.15rem]">
-                    Donner aux enfants un premier contact positif avec le ballon, les reperes
-                    collectifs et le mouvement.
-                  </p>
+                <h1 className="mt-8 text-[clamp(2.5rem,5vw,5rem)] font-black uppercase leading-[0.85] tracking-tight">
+                  Ti Toro
+                  <span className="block text-[#ef233c]">Haiti</span>
+                </h1>
+
+                <div className="mt-8 h-1.5 w-24 rounded-full bg-[#ef233c]" />
+
+                <p className="mt-10 max-w-[540px] text-lg font-medium leading-relaxed text-white/80 lg:text-[1.125rem]">
+                  Programme d'initiation au football pour les enfants de 2 à 5 ans. 
+                  Focus sur la psychomotricité, le jeu et le plaisir de bouger ensemble.
+                </p>
+
+                <div className="mt-12 flex flex-wrap gap-4">
+                  <a
+                    href="/inscription/joueur"
+                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-[#ef233c] px-8 py-4 text-xs font-black uppercase tracking-[0.16em] text-white transition-all hover:scale-105"
+                  >
+                    S'inscrire Maintenant
+                    <RiArrowRightLine className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </a>
+                  <a
+                    href="https://wa.me/50928178676"
+                    className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/5 px-8 py-4 text-xs font-black uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all hover:bg-white hover:text-[#0a1d3a]"
+                  >
+                    <RiWhatsappLine className="h-4 w-4" />
+                    WhatsApp
+                  </a>
                 </div>
-              </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, x: 30 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                transition={{ duration: 1, delay: 0.2 }}
+                className="relative flex justify-center lg:justify-end"
+              >
+                <div className="relative w-full max-w-[420px] overflow-hidden rounded-[40px] border border-white/10 bg-[#102852] p-3 shadow-2xl">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[30px]">
+                    <Image
+                      src={playerHeroImage}
+                      alt="Ti Toro Initiation"
+                      fill
+                      priority
+                      className="object-cover transition-transform duration-700 hover:scale-105"
+                      style={{ objectPosition: 'top' }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a]/60 via-transparent to-transparent" />
+                  </div>
+
+                  <div className="absolute -bottom-4 -left-4 flex h-24 w-24 items-center justify-center rounded-full bg-[#ef233c] shadow-xl border-4 border-[#0a1d3a]">
+                    <p className="text-center text-[10px] font-black uppercase tracking-widest text-white leading-tight">
+                      2-5 <br /> ANS
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Quick Info Cards Overlay (Desktop only) */}
+            <div className="mx-auto mt-24 grid max-w-[1200px] gap-6 sm:grid-cols-2 lg:grid-cols-2 lg:max-w-none">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="rounded-[30px] border border-white/10 bg-white/5 p-8 text-left backdrop-blur-md"
+              >
+                 <RiUserSmileLine className="h-10 w-10 text-[#ef233c]" />
+                 <h3 className="mt-6 text-sm font-black uppercase tracking-widest text-[#ef233c]">Socialisation</h3>
+                 <p className="mt-4 text-sm leading-relaxed text-white/70">
+                   Apprendre à jouer en groupe, partager et respecter ses camarades dans un environnement ludique.
+                 </p>
+              </motion.div>
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="rounded-[30px] border border-white/10 bg-white/5 p-8 text-left backdrop-blur-md"
+              >
+                 <RiRunLine className="h-10 w-10 text-[#315cbf]" />
+                 <h3 className="mt-6 text-sm font-black uppercase tracking-widest text-[#315cbf]">Psychomotricité</h3>
+                 <p className="mt-4 text-sm leading-relaxed text-white/70">
+                   Développer la coordination, l'équilibre et les réflexes de base à travers le jeu avec ballon.
+                 </p>
+              </motion.div>
             </div>
           </div>
         </section>
 
-        <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1180px]">
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        {/* --- HIGHLIGHTS --- */}
+        <section className="bg-white py-16 px-6">
+          <div className="mx-auto max-w-[1100px]">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {highlights.map((item) => {
                 const Icon = item.icon
-
                 return (
-                  <article
-                    key={item.label}
-                    className="rounded-[26px] border border-[#dce5f2] bg-[#f8fafc] p-6 shadow-[0_14px_28px_rgba(10,29,58,0.05)]"
-                  >
-                    <Icon className="h-7 w-7 text-[#ef233c]" />
-                    <p className="mt-5 text-[10px] font-black uppercase tracking-[0.18em] text-[#ef233c]">
-                      {item.label}
-                    </p>
-                    <h2 className="mt-2 text-xl font-black uppercase leading-tight text-[#0a1d3a]">
-                      {item.value}
-                    </h2>
-                    <p className="mt-2 text-sm font-medium leading-relaxed text-[#5b6f91]">
-                      {item.note}
-                    </p>
-                  </article>
+                  <div key={item.label} className="rounded-[32px] border border-[#f0f4f8] bg-[#fbfcff] p-8 transition-all hover:shadow-xl hover:border-[#ef233c]/10">
+                    <Icon className="h-8 w-8 text-[#ef233c]" />
+                    <p className="mt-6 text-[10px] font-black uppercase tracking-widest text-[#ef233c] opacity-70">{item.label}</p>
+                    <p className="mt-2 text-xl font-black text-[#0d2d62]">{item.value}</p>
+                    <p className="mt-1 text-xs font-bold text-[#5b6f91]">{item.note}</p>
+                  </div>
                 )
               })}
             </div>
           </div>
         </section>
 
-        <section className="bg-[#f8fafc] px-4 py-14 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1180px]">
-            <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
-                  Categories 2026
-                </p>
-                <h2 className="mt-3 text-[clamp(1.65rem,3.2vw,2.7rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-[#0d2d62]">
-                  Repartition indicative
-                  <br />
-                  des groupes FC TORO.
-                </h2>
-              </div>
-
-              <p className="max-w-[460px] text-sm font-medium leading-relaxed text-[#5b6f91] sm:text-[15px]">
-                Ti Toro ouvre la premiere porte. Ensuite, la progression continue dans les categories
-                du club selon l age, le niveau et l evaluation du staff.
-              </p>
-            </div>
-
-            <div className="grid gap-6 lg:grid-cols-2">
-              <article className="rounded-[28px] border border-[#dce5f2] bg-white p-6 shadow-[0_14px_28px_rgba(10,29,58,0.05)]">
-                <h3 className="text-xl font-black uppercase text-[#0a1d3a]">Garcons</h3>
-                <div className="mt-5 space-y-3">
-                  {boysCategories.map((item) => (
-                    <div
-                      key={`${item.years}-${item.category}`}
-                      className="flex items-center justify-between gap-4 rounded-2xl bg-[#f8fafc] px-4 py-3"
-                    >
-                      <span className="text-sm font-semibold text-[#5b6f91]">{item.years}</span>
-                      <span className="text-sm font-black uppercase text-[#0a1d3a]">
-                        {item.category}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </article>
-
-              <article className="rounded-[28px] border border-[#dce5f2] bg-white p-6 shadow-[0_14px_28px_rgba(10,29,58,0.05)]">
-                <h3 className="text-xl font-black uppercase text-[#0a1d3a]">Filles</h3>
-                <div className="mt-5 space-y-3">
-                  {girlsCategories.map((item) => (
-                    <div
-                      key={`${item.years}-${item.category}`}
-                      className="flex items-center justify-between gap-4 rounded-2xl bg-[#f8fafc] px-4 py-3"
-                    >
-                      <span className="text-sm font-semibold text-[#5b6f91]">{item.years}</span>
-                      <span className="text-sm font-black uppercase text-[#0a1d3a]">
-                        {item.category}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-6 rounded-[22px] bg-[#0a2347] p-5 text-white">
-                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#ffb4bf]">
-                    Ti Toro
-                  </p>
-                  <p className="mt-3 text-sm font-semibold leading-relaxed text-white/84">
-                    Programme d introduction pour les enfants de 2 a 5 ans avant l entree dans les
-                    categories regulieres du club.
-                  </p>
-                </div>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1180px]">
-            <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
-                  Inscription 2026
-                </p>
-                <h2 className="mt-3 text-[clamp(1.6rem,3vw,2.5rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-[#0d2d62]">
-                  Procedure, documents
-                  <br />
-                  et fiche a preparer.
-                </h2>
-              </div>
-
-              <p className="max-w-[420px] text-sm font-medium leading-relaxed text-[#5b6f91] sm:text-[15px]">
-                Le dossier 2026 doit rester simple, lisible et complet pour que le club puisse
-                organiser la suite dans de bonnes conditions.
-              </p>
-            </div>
-
-            <div className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
-              <div className="space-y-6">
-                <div className="grid gap-5 md:grid-cols-3">
-                  {registrationSteps.map((step, index) => (
-                    <article
-                      key={step.title}
-                      className="rounded-[26px] border border-[#dce5f2] bg-[#f8fafc] p-6 shadow-[0_14px_28px_rgba(10,29,58,0.05)]"
-                    >
-                      <p className="text-4xl font-black leading-none text-[#dce5f2]">0{index + 1}</p>
-                      <h3 className="mt-5 text-lg font-black uppercase leading-tight text-[#0a1d3a]">
-                        {step.title}
-                      </h3>
-                      <p className="mt-3 text-sm font-medium leading-relaxed text-[#5b6f91]">
-                        {step.body}
-                      </p>
-                    </article>
-                  ))}
-                </div>
-
-                <article className="rounded-[28px] border border-[#dce5f2] bg-white p-6 shadow-[0_14px_28px_rgba(10,29,58,0.05)]">
-                  <div className="flex items-center gap-3">
-                    <RiFileList3Line className="h-6 w-6 text-[#ef233c]" />
-                    <h3 className="text-xl font-black uppercase text-[#0a1d3a]">
-                      Documents requis
-                    </h3>
-                  </div>
-                  <div className="mt-5 space-y-3">
-                    {requiredDocs.map((item) => (
-                      <div
-                        key={item}
-                        className="rounded-2xl bg-[#f8fafc] px-4 py-3 text-sm font-semibold text-[#445b7f]"
-                      >
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </article>
-              </div>
-
-              <div className="space-y-5">
-                {notes2026.map((item) => (
-                  <article
-                    key={item.title}
-                    className="rounded-[26px] border border-[#dce5f2] bg-[#f8fafc] p-6 shadow-[0_14px_28px_rgba(10,29,58,0.05)]"
-                  >
-                    <h3 className="text-lg font-black uppercase text-[#0a1d3a]">{item.title}</h3>
-                    <p className="mt-3 text-sm font-medium leading-relaxed text-[#5b6f91]">
-                      {item.body}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="procedures-paiements"
-          className="relative overflow-hidden px-4 py-16 sm:px-6 lg:px-8"
-        >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(239,35,60,0.08),transparent_28%)]" />
-          <div className="pointer-events-none absolute right-[-4rem] top-10 h-48 w-48 rounded-full bg-[#1a4ea3]/8 blur-3xl" />
-
-          <div className="mx-auto max-w-[1180px] rounded-[38px] border border-[#dbe5f2] bg-[linear-gradient(180deg,#ffffff_0%,#f5f8fd_100%)] p-5 shadow-[0_24px_56px_rgba(10,29,58,0.08)] sm:p-8">
-            <div className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr]">
-              <div className="space-y-5">
-                <div className="max-w-[480px]">
-                  <p className="text-[10px] font-black uppercase tracking-[0.32em] text-[#ef233c]">
-                    Procedures & paiements
-                  </p>
-                  <h2 className="mt-3 text-[clamp(1.35rem,2.2vw,1.9rem)] font-black leading-[1.02] tracking-[-0.04em] text-[#0a1d3a]">
-                    Conditions, plans et suivi du dossier
-                  </h2>
-                  <p className="mt-3 text-sm font-medium leading-relaxed text-[#5b6f91]">
-                    Une lecture plus simple des frais, des versements et des informations
-                    administratives pour les familles.
-                  </p>
-                </div>
-
-                <article className="overflow-hidden rounded-[30px] bg-[linear-gradient(160deg,#143a74_0%,#0a2347_100%)] p-6 text-white shadow-[0_22px_40px_rgba(10,29,58,0.18)]">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ffb4bf]">
-                        Reference 2019 / 2020
-                      </p>
-                      <p className="mt-2 text-sm font-semibold text-white/72">
-                        Paiement annuel
-                      </p>
-                    </div>
-                    <span className="rounded-full border border-white/14 bg-white/8 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white/72">
-                      Annuel
-                    </span>
-                  </div>
-
-                  <div className="mt-6 flex items-end gap-2">
-                    <span className="text-[2.15rem] font-black leading-none sm:text-[2.45rem]">
-                      $1000
-                    </span>
-                    <span className="pb-1 text-[11px] font-black uppercase tracking-[0.16em] text-white/60">
-                      USD
-                    </span>
-                  </div>
-
-                  <p className="mt-3 max-w-[340px] text-sm leading-relaxed text-white/76">
-                    Le cout comprend l'inscription, les frais annuels et les uniformes.
-                  </p>
-                </article>
-
-                <article className="rounded-[26px] border border-[#e2eaf5] bg-white/90 p-5 shadow-[0_12px_24px_rgba(10,29,58,0.04)]">
-                  <div className="flex items-center gap-2">
-                    <RiCheckLine className="h-5 w-5 text-[#ef233c]" />
-                    <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#0a1d3a]">
-                      Inclus dans le cout
-                    </p>
-                  </div>
-
-                  <div className="mt-4 flex flex-wrap gap-2.5">
-                    {paymentIncludes.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-full border border-[#e4ebf6] bg-[#f8fafc] px-4 py-2 text-[11px] font-black uppercase tracking-[0.08em] text-[#27456e]"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              </div>
-
-              <div className="space-y-4">
-                <div className="grid gap-4 md:grid-cols-2">
-                  <article className="rounded-[28px] border border-[#dfe7f2] bg-white p-5 shadow-[0_12px_24px_rgba(10,29,58,0.04)]">
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#ef233c]">
-                      Plan 1
-                    </p>
-                    <h3 className="mt-3 text-base font-black leading-tight text-[#0a1d3a]">
-                      Paiement annuel en une fois
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-[#5b6f91]">
-                      Un seul paiement pour finaliser l'inscription.
-                    </p>
-
-                    <div className="mt-5 rounded-[22px] bg-[#f7faff] px-4 py-5">
-                      <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#6b82a4]">
-                        Montant
-                      </p>
-                      <p className="mt-2 text-2xl font-black leading-none text-[#0a1d3a]">
-                        $1000 USD
-                      </p>
-                    </div>
-                  </article>
-
-                  <article className="rounded-[28px] border border-[#dfe7f2] bg-white p-5 shadow-[0_12px_24px_rgba(10,29,58,0.04)]">
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#ef233c]">
-                      Plan 2
-                    </p>
-                    <h3 className="mt-3 text-base font-black leading-tight text-[#0a1d3a]">
-                      Paiement fractionne
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-[#5b6f91]">
-                      Une formule plus souple, sans afficher les dates de versement.
-                    </p>
-
-                    <div className="mt-4 space-y-2.5">
-                      {paymentPlanTwo.map((item, index) => (
-                        <div
-                          key={item}
-                          className="flex items-center justify-between gap-3 rounded-2xl bg-[#f8fafc] px-4 py-3"
-                        >
-                          <span className="text-[11px] font-black uppercase tracking-[0.08em] text-[#7c8fad]">
-                            Versement 0{index + 1}
-                          </span>
-                          <span className="text-sm font-black text-[#0a1d3a]">
-                            {item.split(': ')[1]}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </article>
-                </div>
-
-                <article className="rounded-[28px] border border-[#dfe7f2] bg-white p-5 shadow-[0_12px_24px_rgba(10,29,58,0.04)]">
-                  <div className="flex items-center gap-2">
-                    <RiFileList3Line className="h-5 w-5 text-[#ef233c]" />
-                    <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#0a1d3a]">
-                      Moyens et lieux de paiement
-                    </p>
-                  </div>
-
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    {paymentMethods.map((item) => (
-                      <div
-                        key={item}
-                        className="rounded-2xl border border-[#e6edf7] bg-[#fbfcff] px-4 py-3 text-sm font-semibold leading-relaxed text-[#445b7f]"
-                      >
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-4 space-y-2.5">
-                    {paymentLocations.map((item) => (
-                      <div
-                        key={item}
-                        className="rounded-2xl bg-[#f8fafc] px-4 py-3 text-sm leading-relaxed text-[#5b6f91]"
-                      >
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </article>
-              </div>
-            </div>
-
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {paymentPolicies.map((item) => (
-                <article
-                  key={item.title}
-                  className="rounded-[24px] border border-[#e0e8f3] bg-white p-5 shadow-[0_10px_22px_rgba(10,29,58,0.04)]"
+        {/* --- CENTRALIZED REGISTRATION INFO --- */}
+        <section className="bg-[#f8fafc] py-24 px-6 text-center">
+          <div className="mx-auto max-w-[800px]">
+             <h2 className="text-4xl font-black uppercase text-[#0a1d3a]">Le Parcours Commence Ici</h2>
+             <p className="mt-6 text-lg font-medium leading-relaxed text-[#5b6f91]">
+               Les inscriptions pour le programme Ti Toro 2026 sont désormais centralisées avec le reste du club. 
+               Consultez les détails financiers et soumettez votre dossier en quelques clics.
+             </p>
+             <div className="mt-12">
+                <a
+                  href="/inscription/joueur"
+                  className="inline-flex items-center gap-4 rounded-full bg-[#ef233c] px-10 py-5 text-sm font-black uppercase tracking-widest text-white shadow-xl transition-all hover:scale-105 active:scale-95"
                 >
-                  <div className="flex items-center gap-2">
-                    <RiTimeLine className="h-4 w-4 text-[#ef233c]" />
-                    <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#0a1d3a]">
-                      {item.title}
-                    </p>
-                  </div>
-                  <p className="mt-3 text-sm leading-relaxed text-[#5b6f91]">
-                    {item.body}
-                  </p>
-                </article>
-              ))}
-            </div>
-
-            <article className="mt-6 rounded-[30px] border border-[#dfe7f2] bg-white p-5 shadow-[0_14px_28px_rgba(10,29,58,0.05)] sm:p-6">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <RiShieldStarLine className="h-5 w-5 text-[#ef233c]" />
-                  <h3 className="text-base font-black leading-tight text-[#0a1d3a]">
-                    Notes importantes
-                  </h3>
-                </div>
-
-                <span className="rounded-full border border-[#e2eaf5] bg-[#f8fafc] px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[#7287a7]">
-                  Informations administratives
-                </span>
-              </div>
-
-              <div className="mt-4 grid gap-4 lg:grid-cols-3">
-                {paymentNotes.map((item) => (
-                  <article
-                    key={item.title}
-                    className="rounded-[22px] bg-[#f8fafc] p-4"
-                  >
-                    <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#ef233c]">
-                      {item.title}
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-[#5b6f91]">
-                      {item.body}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            </article>
+                  Accéder au Dossier d'Inscription
+                  <RiArrowRightLine className="h-5 w-5" />
+                </a>
+             </div>
           </div>
         </section>
 
-        <section className="bg-[#f8fafc] px-4 py-14 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1180px]">
-            <div className="mb-10 text-center">
-              <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
-                Formulaire a preparer
-              </p>
-              <h2 className="mt-3 text-[clamp(1.6rem,3vw,2.5rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-[#0d2d62]">
-                Informations a rassembler
-                <br />
-                pour l inscription.
-              </h2>
+        {/* --- CONTACT --- */}
+        <section className="bg-white py-24 px-6 border-t border-[#f0f4f8]">
+          <div className="mx-auto max-w-[1100px]">
+            <div className="mb-16 text-center">
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">Contact</p>
+              <h2 className="mt-4 text-3xl font-black uppercase text-[#0d2d62]">Une question spécifique ?</h2>
             </div>
-
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-              {formFields.map((section) => (
-                <article
-                  key={section.title}
-                  className="rounded-[28px] border border-[#dce5f2] bg-white p-6 shadow-[0_14px_28px_rgba(10,29,58,0.05)]"
-                >
-                  <h3 className="text-lg font-black uppercase leading-tight text-[#0a1d3a]">
-                    {section.title}
-                  </h3>
-                  <div className="mt-5 space-y-3">
-                    {section.items.map((item) => (
-                      <div
-                        key={item}
-                        className="rounded-2xl bg-[#f8fafc] px-4 py-3 text-sm font-semibold text-[#445b7f]"
-                      >
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1180px]">
-            <div className="mb-10 text-center">
-              <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
-                Contacts
-              </p>
-              <h2 className="mt-3 text-[clamp(1.6rem,3vw,2.4rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-[#0d2d62]">
-                Les memes contacts
-                <br />
-                que le site actuel.
-              </h2>
-            </div>
-
-            <div className="grid gap-5 lg:grid-cols-3">
+            <div className="grid gap-6 lg:grid-cols-3">
               {contactItems.map((item) => {
                 const Icon = item.icon
-
                 return (
                   <a
                     key={item.label}
                     href={item.href}
-                    className="rounded-[28px] border border-[#dce5f2] bg-[#f8fafc] p-6 shadow-[0_14px_28px_rgba(10,29,58,0.05)] transition-all hover:-translate-y-1 hover:border-[#ef233c]/35 hover:shadow-[0_18px_34px_rgba(10,29,58,0.08)]"
+                    className="group rounded-[32px] border border-[#dce5f2] bg-white p-8 transition-all hover:-translate-y-1 hover:border-[#ef233c]/20 hover:shadow-2xl"
                   >
-                    <Icon className="h-7 w-7 text-[#ef233c]" />
-                    <p className="mt-5 text-[10px] font-black uppercase tracking-[0.18em] text-[#ef233c]">
-                      {item.label}
-                    </p>
-                    <p className="mt-2 text-sm font-semibold leading-relaxed text-[#445b7f]">
-                      {item.value}
-                    </p>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ef233c]/5 text-[#ef233c] transition-colors group-hover:bg-[#ef233c] group-hover:text-white">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <p className="mt-6 text-[10px] font-black uppercase tracking-widest text-[#ef233c]">{item.label}</p>
+                    <p className="mt-2 text-lg font-black text-[#0a1d3a]">{item.value}</p>
                   </a>
                 )
               })}

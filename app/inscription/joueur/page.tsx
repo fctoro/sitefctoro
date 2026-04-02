@@ -15,124 +15,244 @@ import {
 } from '@/components/inscription-form-ui'
 import {
   RiCheckLine,
-  RiFocusLine,
+  RiInformationLine,
+  RiPriceTag3Line,
+  RiFileList3Line,
   RiShieldStarLine,
+  RiTimerLine,
+  RiWallet3Line,
+  RiParentLine,
+  RiUser3Line,
+  RiContactsLine,
+  RiTShirtLine,
+  RiArrowRightLine,
+  RiUploadCloud2Line,
 } from '@remixicon/react'
 
-const playerHighlights = [
-  'Detection par categorie et niveau',
-  'Lecture technique, attitude et potentiel',
-  'Suivi avec parent ou responsable legal',
+const feeIncludes = [
+  "L'enregistrement annuel",
+  "Les frais annuels",
+  "Pack Uniformes complet"
 ]
 
-const playerChecklist = [
-  'Nom complet du joueur',
-  'Date de naissance et categorie visee',
-  'Poste prefere et experience recente',
-  'Contact parent ou responsable',
+const paymentPlans = [
+  {
+    name: 'PLAN #1',
+    description: 'Paiement unique à l\'inscription',
+    total: '$1,700 USD',
+    details: 'Un paiement de $1,700 USD'
+  },
+  {
+    name: 'PLAN #2',
+    description: 'Paiement fractionné en 4 versements',
+    total: '$1,700 USD',
+    details: [
+      'Premier paiement : $750 à l\'enregistrement',
+      'Deuxième paiement : $450',
+      'Troisième paiement : $450',
+      'Quatrième paiement : $50'
+    ]
+  }
+]
+
+const requiredFiles = [
+  { label: "2 Photos d'identification", description: "Format passeport recommandé" },
+  { label: "Acte de naissance", description: "Copie lisible du document original" },
+  { label: "Pièce d'identité du parent", description: "Passeport ou Carte d'Identité" }
 ]
 
 export default function InscriptionJoueurPage() {
   return (
-    <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
+    <div className="min-h-screen bg-[#f8fafc] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
-        <section className="relative h-[240px] overflow-hidden bg-[#0a1d3a] text-white md:h-[320px]">
+        {/* Hero Section */}
+        <section className="relative h-[320px] overflow-hidden bg-[#0a1d3a] text-white">
           <Image
             src="/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg"
             alt="Devenir joueur FC TORO"
             fill
             priority
-            className="object-cover opacity-55 transition-transform duration-1000 hover:scale-105"
+            className="object-cover opacity-40"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1d3a] via-[#0a1d3a]/68 to-transparent" />
-          <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-[#ef233c] via-[#ef233c]/55 to-transparent" />
-
-          <div className="relative z-10 mx-auto flex h-full max-w-[1100px] flex-col justify-center px-6">
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a] via-transparent to-transparent" />
+          <div className="relative z-10 mx-auto flex h-full max-w-[1100px] flex-col justify-end px-6 pb-16">
             <motion.div
-              initial={{ opacity: 0, x: -24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               className="space-y-4"
             >
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
-                Recrutement joueur
-              </p>
-              <h1 className="max-w-[760px] text-3xl font-black uppercase leading-[0.82] tracking-tighter drop-shadow-2xl md:text-5xl">
-                Devenir
-                <br />
-                Joueur
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#ef233c] px-4 py-2 text-[10px] font-black uppercase tracking-widest">
+                Rejoindre le club
+              </div>
+              <h1 className="text-4xl font-black uppercase md:text-6xl tracking-tight">
+                Devenir Joueur
               </h1>
+              <p className="max-w-[600px] text-lg font-medium text-white/80">
+                Intégrez l'académie FC TORO ou le programme Ti Toro. Un parcours d'excellence dès le plus jeune âge.
+              </p>
             </motion.div>
           </div>
         </section>
 
-        <section id="formulaire-joueur" className="bg-white px-4 py-16 sm:px-6 lg:px-8">
-          <div className="mx-auto grid max-w-[1100px] gap-12 lg:grid-cols-[0.92fr_1.08fr]">
-            <div className="space-y-10">
-              <div>
-                <div className="inline-flex items-center gap-3 rounded-full bg-[#ef233c] px-5 py-3 text-sm font-black uppercase tracking-[0.14em] text-white">
-                  Parcours academie
+        {/* Pricing/Fees Section */}
+        <section className="bg-white px-4 pt-12 pb-2 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1100px]">
+            <div className="mb-16 grid gap-12 lg:grid-cols-2">
+              <div className="space-y-8">
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">Enregistrement / Frais</p>
+                  <h2 className="mt-4 text-4xl font-black uppercase text-[#0d2d62]">Procédures & Paiements</h2>
+                  <div className="mt-6 h-1 w-16 bg-[#ef233c]" />
                 </div>
-                <h2 className="mt-6 text-[clamp(1.65rem,3.2vw,2.8rem)] font-black uppercase leading-[0.92] text-[#0a1d3a]">
-                  Entrer dans le projet FC TORO avec un dossier propre et une lecture claire du profil.
-                </h2>
-              </div>
 
-              <p className="text-base font-medium leading-relaxed text-[#5b6f91]">
-                Cette page est concue pour les jeunes joueurs qui souhaitent integrer une categorie FC TORO
-                ou etre evalues par le staff. Le club observe le niveau, l attitude, la marge de progression
-                et la capacite a s inscrire dans un cadre exigeant.
-              </p>
-
-              <div className="grid gap-4">
-                {playerHighlights.map((item) => (
-                  <div
-                    key={item}
-                    className="flex items-start gap-4 rounded-[28px] border border-[#e5edf7] bg-[#f8fafc] p-5"
-                  >
-                    <RiShieldStarLine className="mt-0.5 h-5 w-5 shrink-0 text-[#ef233c]" />
-                    <p className="text-sm font-bold leading-relaxed text-[#0a1d3a]">{item}</p>
+                <div className="overflow-hidden rounded-[40px] bg-[#0a2347] p-10 text-white shadow-2xl">
+                  <div className="flex items-center gap-3 mb-8">
+                    <RiPriceTag3Line className="h-6 w-6 text-[#ef233c]" />
+                    <p className="text-sm font-black uppercase tracking-widest">Paiement Annuel 2026</p>
                   </div>
-                ))}
-              </div>
-
-              <div className="overflow-hidden rounded-[34px] bg-[#0a2347] p-8 text-white shadow-xl">
-                <div className="flex items-center gap-3">
-                  <RiFocusLine className="h-8 w-8 text-[#ef233c]" />
-                  <h3 className="text-xl font-black uppercase">Avant de soumettre</h3>
+                  <div className="flex items-baseline gap-4">
+                    <span className="text-7xl font-black tracking-tighter">$1,700</span>
+                    <span className="text-xl font-black text-[#ef233c]">USD</span>
+                  </div>
+                  <div className="mt-10 space-y-4 border-t border-white/10 pt-8">
+                    <p className="text-sm font-black uppercase tracking-widest text-[#ef233c]">Ce prix inclut :</p>
+                    <div className="grid gap-3">
+                      {feeIncludes.map((item) => (
+                        <div key={item} className="flex items-center gap-3 text-sm font-semibold text-white/80">
+                          <RiCheckLine className="h-5 w-5 text-[#ef233c]" />
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
-                <div className="mt-6 space-y-4">
-                  {playerChecklist.map((item) => (
-                    <div key={item} className="flex items-start gap-3">
-                      <RiCheckLine className="mt-0.5 h-5 w-5 shrink-0 text-[#ef233c]" />
-                      <p className="text-sm font-semibold leading-relaxed text-white/88">{item}</p>
+                <div className="rounded-[32px] border border-[#dce5f2] bg-[#f8fafc] p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <RiWallet3Line className="h-6 w-6 text-[#ef233c]" />
+                    <h3 className="text-lg font-black uppercase">Modes de paiement</h3>
+                  </div>
+                  <p className="text-sm leading-relaxed text-[#5b6f91]">
+                    Les frais sont payables par chèque à l'ordre de <strong>FULMOUN PRODUCTION</strong>, en cash, par carte de crédit ou par virement bancaire.
+                  </p>
+                  <div className="mt-6 space-y-3">
+                    <p className="text-xs font-bold text-[#0d2d62] underline">Lieux de dépôt :</p>
+                    <div className="rounded-2xl bg-white p-4 text-xs italic text-[#5b6f91] space-y-2">
+                       <p>• Kikloe à Pétion-Ville</p>
+                       <p>• Centre de Formation Maurice Bonnefil (Haytrac, route de l'aéroport)</p>
+                       <p className="text-[#ef233c] font-black non-italic">Note : Les paiements par carte de crédit sont reçus uniquement à Haytrac.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-8">
+                <div className="grid gap-6">
+                  {paymentPlans.map((plan) => (
+                    <div key={plan.name} className="rounded-[32px] border border-[#dce5f2] bg-white p-8 shadow-sm">
+                      <div className="flex items-center justify-between">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-[#ef233c]">{plan.name}</p>
+                        <span className="text-sm font-black text-[#0d2d62]">{plan.total}</span>
+                      </div>
+                      <h3 className="mt-2 text-xl font-black uppercase">{plan.description}</h3>
+                      <div className="mt-6 space-y-2">
+                        {Array.isArray(plan.details) ? (
+                          plan.details.map((d) => (
+                            <div key={d} className="flex items-center justify-between rounded-xl bg-[#f8fafc] px-4 py-3 text-xs font-bold text-[#5b6f91]">
+                              {d}
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-sm font-semibold text-[#5b6f91]">{plan.details}</p>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-[28px] bg-[#ef233c]/5 p-6 border border-[#ef233c]/10">
+                    <RiParentLine className="h-6 w-6 text-[#ef233c] mb-4" />
+                    <h4 className="text-xs font-black uppercase tracking-widest text-[#ef233c]">Réduction Famille</h4>
+                    <p className="mt-3 text-xs leading-relaxed text-[#5b6f91]">
+                      <strong>5% de réduction</strong> sur le prix annuel par enfant additionnel à partir du 2e enfant.
+                    </p>
+                  </div>
+                  <div className="rounded-[28px] bg-[#0a2347]/5 p-6 border border-[#0a2347]/10">
+                    <RiTimerLine className="h-6 w-6 text-[#0a2347] mb-4" />
+                    <h4 className="text-xs font-black uppercase tracking-widest text-[#0a2347]">Frais de retard</h4>
+                    <p className="mt-3 text-xs leading-relaxed text-[#5b6f91]">
+                      <strong>$20 USD</strong> de frais par semaine de retard après la date limite fixée.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="rounded-[32px] border border-[#dce5f2] bg-white p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <RiInformationLine className="h-6 w-6 text-[#ef233c]" />
+                    <h3 className="text-lg font-black uppercase">Politique d'absence</h3>
+                  </div>
+                  <div className="space-y-4 text-xs leading-relaxed text-[#5b6f91]">
+                    <p>Tout départ ou absence prolongée doit être annoncé par écrit par courriel à <strong>Patrick Bonnefil</strong> avec copie à son assistante.</p>
+                    <p className="font-bold text-[#ef233c]">Aucun remboursement n'est effectué pour les montants déjà versés.</p>
+                    <p>En cas de maladie, un certificat médical doit être soumis impérativement.</p>
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
+        </section>
 
+        {/* Form Section */}
+        <section id="formulaire-joueur" className="bg-[#f8fafc] px-4 pt-2 pb-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1100px]">
             <InscriptionFormCard
-              eyebrow="Dossier joueur"
-              title="Evaluation academie"
-              description="Le formulaire ci-dessous aide le staff a lire rapidement le profil, la categorie visee et le contexte familial avant la premiere prise de contact."
-              badges={['Dossier confidentiel', 'Lecture staff', 'Reponse parentale']}
+              eyebrow="Formulaire 2026"
+              title="Inscription & Dossier"
+              description="Soumettez votre dossier complet en ligne. L'inscription est considérée comme complète une fois le formulaire soumis avec le premier paiement intégral."
+              badges={['Dossier Joueur', 'Inscription Directe', 'Paiement Securise']}
             >
               <form className="space-y-8">
+                {/* 0. Choix du programme */}
+                <div className="rounded-[32px] bg-[#0a2347] p-8 text-white shadow-xl">
+                   <div className="flex items-center gap-4 mb-6">
+                      <RiShieldStarLine className="h-8 w-8 text-[#ef233c]" />
+                      <div>
+                        <h3 className="text-xl font-black uppercase tracking-tight">Choix du programme</h3>
+                        <p className="text-sm text-white/60">Sélectionnez le parcours souhaité pour le joueur.</p>
+                      </div>
+                   </div>
+                   <div className="grid gap-4 sm:grid-cols-2">
+                      <label className="relative flex cursor-pointer items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 transition-all hover:bg-white/10">
+                        <input type="radio" name="program" value="titoro" className="h-5 w-5 accent-[#ef233c]" defaultChecked />
+                        <div>
+                          <p className="text-sm font-black uppercase tracking-widest">Ti Toro</p>
+                          <p className="text-xs text-white/50">2 à 5 ans</p>
+                        </div>
+                      </label>
+                      <label className="relative flex cursor-pointer items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 transition-all hover:bg-white/10">
+                        <input type="radio" name="program" value="fctoro" className="h-5 w-5 accent-[#ef233c]" />
+                        <div>
+                          <p className="text-sm font-black uppercase tracking-widest">FC Toro</p>
+                          <p className="text-xs text-white/50">6 ans et plus</p>
+                        </div>
+                      </label>
+                   </div>
+                </div>
+
                 <InscriptionFormSection
                   index="01"
-                  title="Identite du joueur"
-                  description="Base administrative pour orienter correctement le dossier dans la bonne categorie."
+                  title="Identité du joueur"
+                  description="Informations personnelles de l'enfant."
                 >
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <InscriptionField label="Prenom du joueur" required>
-                      <InscriptionInput type="text" placeholder="Ex: Nathan" />
+                    <InscriptionField label="Prénom de l'enfant" required>
+                      <InscriptionInput type="text" placeholder="Nathan" />
                     </InscriptionField>
-                    <InscriptionField label="Nom du joueur" required>
-                      <InscriptionInput type="text" placeholder="Ex: Pierre" />
+                    <InscriptionField label="Nom de l'enfant" required>
+                      <InscriptionInput type="text" placeholder="Pierre" />
                     </InscriptionField>
                   </div>
 
@@ -140,108 +260,149 @@ export default function InscriptionJoueurPage() {
                     <InscriptionField label="Date de naissance" required>
                       <InscriptionInput type="date" />
                     </InscriptionField>
-                    <InscriptionField label="Categorie souhaitee" required>
-                      <InscriptionSelect defaultValue="Categorie souhaitee">
-                        <option disabled>Categorie souhaitee</option>
-                        <option>U11</option>
-                        <option>U13</option>
-                        <option>U15</option>
-                        <option>U17</option>
-                        <option>U20</option>
+                    <InscriptionField label="Genre" required>
+                      <InscriptionSelect defaultValue="Choisir">
+                        <option disabled>Choisir</option>
+                        <option>Filles (F)</option>
+                        <option>Garçon (M)</option>
                       </InscriptionSelect>
+                    </InscriptionField>
+                  </div>
+
+                  <InscriptionField label="Adresse domicile" required>
+                    <InscriptionInput type="text" placeholder="Rue, Quartier, Ville" />
+                  </InscriptionField>
+
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <InscriptionField label="École fréquentée" required>
+                      <InscriptionInput type="text" placeholder="Nom de l'établissement" />
+                    </InscriptionField>
+                    <InscriptionField label="Ancienne Expérience Soccer">
+                      <InscriptionInput type="text" placeholder="Clubs précédents ou 'Nouveau'" />
                     </InscriptionField>
                   </div>
                 </InscriptionFormSection>
 
                 <InscriptionFormSection
                   index="02"
-                  title="Profil sportif"
-                  description="Elements utiles pour comprendre le parcours du joueur et preparer une lecture terrain plus juste."
+                  title="Parents / Tuteur"
+                  description="Informations de contact pour les responsables légaux."
                 >
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <InscriptionField label="Poste prefere" required>
-                      <InscriptionSelect defaultValue="Poste prefere">
-                        <option disabled>Poste prefere</option>
-                        <option>Gardien</option>
-                        <option>Defenseur</option>
-                        <option>Milieu</option>
-                        <option>Ailier</option>
-                        <option>Attaquant</option>
-                      </InscriptionSelect>
+                    <InscriptionField label="Nom & Prénom" required>
+                      <InscriptionInput type="text" />
                     </InscriptionField>
-                    <InscriptionField label="Pied fort" required>
-                      <InscriptionSelect defaultValue="Pied fort">
-                        <option disabled>Pied fort</option>
-                        <option>Droit</option>
-                        <option>Gauche</option>
-                        <option>Les deux</option>
-                      </InscriptionSelect>
+                    <InscriptionField label="E-mail" required>
+                      <InscriptionInput type="email" placeholder="votre@email.com" />
                     </InscriptionField>
                   </div>
-
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <InscriptionField label="Ville / quartier" required>
-                      <InscriptionInput type="text" placeholder="Ex: Petion-Ville" />
+                    <InscriptionField label="Téléphone / WhatsApp" required>
+                      <InscriptionInput type="tel" placeholder="+509" />
                     </InscriptionField>
-                    <InscriptionField label="Club ou ecole actuelle">
-                      <InscriptionInput type="text" placeholder="Structure frequentee actuellement" />
+                    <InscriptionField label="Adresse (si différente)">
+                      <InscriptionInput type="text" />
                     </InscriptionField>
                   </div>
-
-                  <InscriptionField
-                    label="Experience recente"
-                    required
-                    helper="Tournois joues, niveau actuel, points forts et disponibilites d entrainement."
-                  >
-                    <InscriptionTextarea rows={5} placeholder="Expliquer le parcours recent du joueur." />
-                  </InscriptionField>
-
-                  <InscriptionField
-                    label="Lien video ou profil sportif"
-                    helper="Optionnel, mais utile pour une premiere lecture du joueur avant evaluation."
-                  >
-                    <InscriptionInput type="url" placeholder="https://..." />
-                  </InscriptionField>
                 </InscriptionFormSection>
 
                 <InscriptionFormSection
                   index="03"
-                  title="Responsable legal"
-                  description="Coordonnees de la personne autorisee a valider la demarche et a echanger avec le club."
+                  title="Contact d'urgence"
+                  description="En cas de besoin, qui le club doit-il contacter ?"
+                >
+                   <div className="grid gap-5 sm:grid-cols-2">
+                    <InscriptionField label="Nom & Prénom" required>
+                      <InscriptionInput type="text" />
+                    </InscriptionField>
+                    <InscriptionField label="Lien de parenté" required>
+                      <InscriptionInput type="text" placeholder="Ex: Oncle, Tante..." />
+                    </InscriptionField>
+                  </div>
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <InscriptionField label="Téléphone" required>
+                      <InscriptionInput type="tel" />
+                    </InscriptionField>
+                    <InscriptionField label="E-mail">
+                      <InscriptionInput type="email" />
+                    </InscriptionField>
+                  </div>
+                  <InscriptionField label="Adresse physique">
+                    <InscriptionInput type="text" />
+                  </InscriptionField>
+                </InscriptionFormSection>
+
+                <InscriptionFormSection
+                  index="04"
+                  title="Uniformes & Tailles"
+                  description="Sélectionnez les tailles pour l'équipement fourni par le club."
                 >
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <InscriptionField label="Nom du parent / responsable" required>
-                      <InscriptionInput type="text" placeholder="Nom complet du responsable" />
+                    <InscriptionField label="Taille du Haut (Top)" required>
+                      <InscriptionSelect defaultValue="Choisir">
+                        <option disabled>Choisir</option>
+                        <option>YXS</option><option>YS</option><option>YM</option><option>YL</option><option>YXL</option>
+                        <option>AS</option><option>AM</option><option>AL</option><option>AXL</option>
+                      </InscriptionSelect>
                     </InscriptionField>
-                    <InscriptionField label="Lien avec le joueur" required>
-                      <InscriptionSelect defaultValue="Lien avec le joueur">
-                        <option disabled>Lien avec le joueur</option>
-                        <option>Pere</option>
-                        <option>Mere</option>
-                        <option>Tuteur legal</option>
-                        <option>Autre responsable</option>
+                    <InscriptionField label="Taille du Short" required>
+                      <InscriptionSelect defaultValue="Choisir">
+                        <option disabled>Choisir</option>
+                        <option>YXS</option><option>YS</option><option>YM</option><option>YL</option><option>YXL</option>
+                        <option>AS</option><option>AM</option><option>AL</option><option>AXL</option>
                       </InscriptionSelect>
                     </InscriptionField>
                   </div>
+                  <InscriptionField label="Numéros préférés" helper="Indiquez 3 choix (Ex: 10, 7, 22)">
+                    <InscriptionInput type="text" placeholder="10, 7, 22" />
+                  </InscriptionField>
+                </InscriptionFormSection>
 
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <InscriptionField label="Telephone" required>
-                      <InscriptionInput type="tel" placeholder="+509 ..." />
-                    </InscriptionField>
-                    <InscriptionField label="Email" required>
-                      <InscriptionInput type="email" placeholder="contact@email.com" />
-                    </InscriptionField>
+                <InscriptionFormSection
+                  index="05"
+                  title="Choix du Plan de Paiement"
+                  description="Consultez les détails en haut de page avant de sélectionner."
+                >
+                   <div className="grid gap-4">
+                      <label className="flex cursor-pointer items-center gap-4 rounded-2xl border border-[#dce5f2] bg-white p-5 hover:bg-[#f8fafc]">
+                        <input type="radio" name="payment_plan" value="plan1" className="h-4 w-4 accent-[#ef233c]" defaultChecked />
+                        <span className="text-sm font-bold text-[#0d2d62]">PLAN #1 (Paiement intégral - $1,700 USD)</span>
+                      </label>
+                      <label className="flex cursor-pointer items-center gap-4 rounded-2xl border border-[#dce5f2] bg-white p-5 hover:bg-[#f8fafc]">
+                        <input type="radio" name="payment_plan" value="plan2" className="h-4 w-4 accent-[#ef233c]" />
+                        <span className="text-sm font-bold text-[#0d2d62]">PLAN #2 (4 paiments - Fractionné)</span>
+                      </label>
+                   </div>
+                </InscriptionFormSection>
+
+                <InscriptionFormSection
+                  index="06"
+                  title="Documents à soumettre"
+                  description="Veuillez télécharger les versions numériques (Scan ou Photo claire) des documents suivants."
+                >
+                  <div className="grid gap-8">
+                     {requiredFiles.map((doc) => (
+                       <InscriptionField key={doc.label} label={doc.label} helper={doc.description} required>
+                          <div className="relative flex min-h-[140px] items-center justify-center rounded-[32px] border-2 border-dashed border-[#dce5f2] bg-white transition-all hover:border-[#ef233c]/30 hover:bg-[#fffcfc]">
+                            <input type="file" className="absolute inset-0 z-10 cursor-pointer opacity-0" />
+                            <div className="text-center">
+                              <RiUploadCloud2Line className="mx-auto h-8 w-8 text-[#ef233c]/40" />
+                              <p className="mt-2 text-xs font-black uppercase tracking-widest text-[#0a1d3a]">Uploader le fichier</p>
+                              <p className="mt-1 text-[10px] text-[#5b6f91]">PDF, JPG ou PNG (Max 5MB)</p>
+                            </div>
+                          </div>
+                       </InscriptionField>
+                     ))}
                   </div>
                 </InscriptionFormSection>
 
                 <InscriptionConsent>
-                  Je confirme que les informations transmises sont exactes et que le parent ou responsable
-                  legal autorise le depot de ce dossier aupres de FC TORO.
+                  Je confirme que les informations sont exactes et que je m'engage à respecter les politiques du club concernant les paiements et le comportement des membres.
                 </InscriptionConsent>
 
                 <InscriptionSubmit
-                  label="Soumettre la candidature"
-                  note="Le staff utilise ce dossier pour preparer le premier retour, orienter la categorie et organiser la prochaine etape de contact."
+                  label="Finaliser l'inscription"
+                  note="Votre dossier sera analysé par le club. Un message de confirmation vous sera envoyé par e-mail avec les instructions finales pour le paiement."
                 />
               </form>
             </InscriptionFormCard>
