@@ -7,7 +7,6 @@ import { HomeNavbar } from '@/components/home-navbar'
 import {
   RiArrowRightLine,
   RiGroupLine,
-  RiHandHeartLine,
   RiRunLine,
   RiShieldStarLine,
 } from '@remixicon/react'
@@ -32,15 +31,6 @@ const pathways = [
     icon: RiGroupLine,
   },
   {
-    label: 'Partenaires',
-    title: 'Devenir partenaire',
-    description:
-      'Entreprises, institutions et acteurs locaux qui souhaitent construire une collaboration durable avec FC TORO.',
-    href: '/inscription/partenaires',
-    image: '/joueur/extracted/634150827_18560832649012336_7495873752742897530_n.jpg',
-    icon: RiHandHeartLine,
-  },
-  {
     label: 'Ti Toro',
     title: 'Programme Ti Toro',
     description:
@@ -54,7 +44,7 @@ const pathways = [
 const processSteps = [
   {
     title: 'Choisir le parcours',
-    text: 'Selectionnez le formulaire correspondant a votre profil: joueur, fan ou partenaire.',
+    text: 'Selectionnez le parcours correspondant a votre profil: joueur, fan ou demande de recrutement.',
   },
   {
     title: 'Completer le dossier',
@@ -93,8 +83,8 @@ export default function InscriptionPage() {
                 FC TORO
               </h1>
               <p className="mt-6 max-w-[620px] text-base font-medium leading-relaxed text-white/78 sm:text-lg">
-                Un seul point d entree pour les joueurs, les supporters et les partenaires qui veulent
-                s engager avec le club de facon claire, serieuse et structuree.
+                Un seul point d entree pour les joueurs, les supporters et les profils suivis en
+                recrutement, avec un cadre clair, serieux et structure.
               </p>
             </motion.div>
 
@@ -102,7 +92,7 @@ export default function InscriptionPage() {
               {[
                 'Academie et detection',
                 'Communaute et matchday',
-                'Partenariats et activations',
+                'Recrutement et orientation',
               ].map((item) => (
                 <div
                   key={item}
@@ -135,7 +125,7 @@ export default function InscriptionPage() {
               </p>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {pathways.map((pathway, index) => {
                 const Icon = pathway.icon
 

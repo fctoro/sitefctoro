@@ -22,7 +22,7 @@ const joinOptions = [
   { label: 'Rejoindre le club', href: '/inscription' },
   { label: 'Devenir joueur', href: '/inscription/joueur' },
   { label: 'Devenir fan', href: '/inscription/fans' },
-  { label: 'Devenir partenaire', href: '/inscription/partenaires' },
+  { label: 'Recrutement', href: '/scouting' },
 ]
 
 export function Header() {

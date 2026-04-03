@@ -49,15 +49,14 @@ type HomeNavbarProps = {
 const linkDescriptionMap: Record<string, string> = {
   'Devenir joueur': 'Dossier rapide et parcours d integration accompagne.',
   'Devenir fan': 'Supporters, benevoles et activations jour de match.',
-  'Devenir partenaire': 'Marques, institutions et projets de collaboration club.',
-  'Voir les stages': 'Calendrier des camps intensifs et pre-inscription.',
+  Recrutement: 'Detection, observation et suivi des profils pour le club.',
   'Rejoindre le club': 'Vue d ensemble des parcours pour rejoindre FC TORO.',
-  'Contacter recrutement': 'Parlez directement avec l equipe recrutement.',
   'Histoire du club': 'Parcours, jalons majeurs et ADN FC TORO.',
   Sponsors: 'Partenaires et soutiens qui accompagnent FC TORO.',
   Elite: 'Le pont entre formation et excellence FC TORO.',
   CASA: 'Projet Caribbean Sports Academy.',
   'Ti Toro': 'Initiation football 2 a 5 ans et premiere entree dans le projet FC TORO.',
+  Staff: 'Encadrement, direction sportive et accompagnement des groupes.',
   'Vision et valeurs': 'Discipline, identite et ambition long terme.',
   'Installations': 'Terrains, equipements et environnement d entrainement.',
   'Actualites club': 'Les dernieres informations officielles du club.',
@@ -65,6 +64,8 @@ const linkDescriptionMap: Record<string, string> = {
   'Live Diffusion': 'Diffusion live, flux de match et rappels avant coup d envoi.',
   'Vertieres Cup': 'Inscription equipe, logo officiel et liste des joueurs.',
   'Flag Day': 'Classement du tournoi, resultats recents et prochains matchs.',
+  'Intrasquad': 'Competition interne pour evaluer et preparer nos athletes.',
+  'International': 'Participation aux tournois majeurs sur la scene mondiale.',
   'Contact officiel': 'Acces direct aux canaux du club.',
   'Equipe Pro': 'Effectif principal et dynamique competitive.',
   'Staff technique': 'Encadrement tactique et performance.',
@@ -119,7 +120,7 @@ const getMostSpecificMatchingHref = (pathname: string, links: NavSubLink[]) =>
   }, null)
 
 const isRejoindreSectionActive = (pathname: string) =>
-  isPageMatch(pathname, '/inscription') || isPageMatch(pathname, '/stages')
+  isPageMatch(pathname, '/inscription') || isPageMatch(pathname, '/scouting')
 
 export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
   const [activeDesktopMenu, setActiveDesktopMenu] = useState<string | null>(null)
@@ -131,7 +132,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
     {
       label: 'Club',
       submenu: {
-        intro: 'Identite FC TORO, infrastructures et vie du club.',
+        intro: 'Identite FC TORO, infrastructures, programmes et vie du club.',
         backdropImage: '/joueur/extracted/583167774_18542869372012336_2307311757000245016_n.jpg',
         sections: [
           {
@@ -141,27 +142,8 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
               { label: 'Sponsors', href: '/sponsors' },
             ],
           },
-        ],
-        spotlight: {
-          image: '/joueur/extracted/634150827_18560832649012336_7495873752742897530_n.jpg',
-          name: 'Ruben Alexis',
-          role: 'Capitaine',
-          href: '/equipes',
-        },
-      },
-    },
-    {
-      label: 'Equipe',
-      href: '/equipes',
-    },
-    {
-      label: 'Projet',
-      submenu: {
-        intro: 'Les projets FC TORO pour structurer la progression des joueurs.',
-        backdropImage: '/joueur/extracted/591149277_18545355826012336_6701584250153829576_n.jpg',
-        sections: [
           {
-            title: 'Projets',
+            title: 'Programmes',
             links: [
               { label: 'Elite', href: '/elite' },
               { label: 'CASA', href: '/casa' },
@@ -171,11 +153,19 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
         ],
         spotlight: {
           image: '/joueur/extracted/591149277_18545355826012336_6701584250153829576_n.jpg',
-          name: 'Projet FC TORO',
-          role: 'Elite, CASA et Ti Toro',
-          href: '/elite',
+          name: 'FC TORO Club',
+          role: 'Histoire, Elite, CASA et Ti Toro',
+          href: '/le-club',
         },
       },
+    },
+    {
+      label: 'Equipe',
+      href: '/equipes',
+    },
+    {
+      label: 'Staff',
+      href: '/staff',
     },
     {
       label: 'Evenements',
@@ -193,6 +183,8 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
             links: [
               { label: 'Vertieres Cup', href: '/evenements/vertieres-cup' },
               { label: 'Flag Day', href: '/evenements/flag-day' },
+              { label: 'Intrasquad', href: '/evenements/intrasquad' },
+              { label: 'International', href: '/evenements/tournoi-international' },
             ],
           },
         ],
@@ -208,7 +200,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
       label: 'Rejoindre',
       accent: true,
       submenu: {
-        intro: 'Parcours, stages et integration au club.',
+        intro: 'Parcours, recrutement et integration au club.',
         backdropImage: '/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg',
         sections: [
           {
@@ -216,22 +208,20 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
             links: [
               { label: 'Devenir joueur', href: '/inscription/joueur' },
               { label: 'Devenir fan', href: '/inscription/fans' },
-              { label: 'Devenir partenaire', href: '/inscription/partenaires' },
             ],
           },
           {
             title: 'Complement',
             links: [
-              { label: 'Voir les stages', href: '/stages' },
+              { label: 'Recrutement', href: '/scouting' },
               { label: 'Rejoindre le club', href: '/inscription' },
-              { label: 'Contacter recrutement', href: '/contact' },
             ],
           },
         ],
         spotlight: {
           image: '/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg',
           name: 'Parcours FC TORO',
-          role: 'Joueurs, fans et partenaires',
+          role: 'Joueurs, fans et recrutement',
           href: '/inscription',
         },
       },
@@ -243,7 +233,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
     { label: 'Actualites', href: '/actualites' },
     { label: 'Club', href: '/le-club' },
     { label: 'Equipe', href: '/equipes' },
-    { label: 'Elite', href: '/elite' },
+    { label: 'Staff', href: '/staff' },
     { label: 'Flag Day', href: '/evenements/flag-day' },
   ]
 

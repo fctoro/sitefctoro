@@ -1,5 +1,9 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
+import { Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { RiArrowRightLine, RiMapPinLine, RiTeamLine } from '@remixicon/react'
 import {
   eventCards,
@@ -8,10 +12,13 @@ import {
 } from '@/data/events-data'
 
 type EventsPageContentProps = {
-  activeSlug: EventSlug
+  defaultActiveSlug: EventSlug
 }
 
-export default function EventsPageContent({ activeSlug }: EventsPageContentProps) {
+const isEventSlug = (value: string | null): value is EventSlug =>
+  value === 'live' || value === 'vertieres-cup' || value === 'flag-day'
+
+function EventsPageSections({ activeSlug }: { activeSlug: EventSlug }) {
   const activeCard = eventCards.find((card) => card.slug === activeSlug) ?? eventCards[0]
   const activeDetail = eventReadingDetails[activeSlug]
 
@@ -218,5 +225,22 @@ export default function EventsPageContent({ activeSlug }: EventsPageContentProps
         </div>
       </section>
     </>
+  )
+}
+
+function EventsPageContentInner({ defaultActiveSlug }: EventsPageContentProps) {
+  const searchParams = useSearchParams()
+  const activeSlug = isEventSlug(searchParams.get('focus'))
+    ? searchParams.get('focus')
+    : defaultActiveSlug
+
+  return <EventsPageSections activeSlug={activeSlug} />
+}
+
+export default function EventsPageContent({ defaultActiveSlug }: EventsPageContentProps) {
+  return (
+    <Suspense fallback={<EventsPageSections activeSlug={defaultActiveSlug} />}>
+      <EventsPageContentInner defaultActiveSlug={defaultActiveSlug} />
+    </Suspense>
   )
 }

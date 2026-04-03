@@ -24,7 +24,7 @@ export const sponsors: Sponsor[] = [
   {
     id: 'spon4',
     name: 'Partenaire 4',
-    logo: '/sponsors/spon4.png',
+    logo: '/sponsors/powe.png',
   },
   {
     id: 'spon5',
@@ -42,4 +42,3 @@ export const sponsors: Sponsor[] = [
     logo: '/sponsors/spon7.png',
   },
 ]
-

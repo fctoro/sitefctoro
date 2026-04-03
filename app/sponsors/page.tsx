@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
+import { sponsors } from '@/lib/sponsors'
 import {
   RiShieldStarLine,
   RiTrophyLine,
@@ -10,16 +11,6 @@ import {
   RiGlobalLine,
   RiGroupLine,
 } from '@remixicon/react'
-
-const sponsors = [
-  { id: 'spon1', name: 'Partenaire 1', logo: '/sponsors/spon1.png' },
-  { id: 'spon2', name: 'Partenaire 2', logo: '/sponsors/spon2.png' },
-  { id: 'spon3', name: 'Partenaire 3', logo: '/sponsors/spon3.png' },
-  { id: 'spon4', name: 'Partenaire 4', logo: '/sponsors/spon4.png' },
-  { id: 'spon5', name: 'Partenaire 5', logo: '/sponsors/spon5.png' },
-  { id: 'spon6', name: 'Partenaire 6', logo: '/sponsors/spon6.jpg' },
-  { id: 'spon7', name: 'Partenaire 7', logo: '/sponsors/spon7.png' },
-]
 
 const supportItems = [
   'Le soutien aux programmes sportifs',
@@ -35,26 +26,26 @@ export default function SponsorsPage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
-        <section className="relative h-[220px] overflow-hidden bg-[#0a1d3a] text-white md:h-[300px]">
+        <section className="relative h-[220px] overflow-hidden bg-[#0a1d3a] text-white md:h-[280px]">
           <Image
             src="/joueur/extracted/634150827_18560832649012336_7495873752742897530_n.jpg"
             alt="Sponsors"
             fill
             priority
-            className="object-cover opacity-40 transition-transform duration-1000 hover:scale-105"
+            className="object-cover opacity-[0.35] transition-transform duration-1000 hover:scale-105"
           />
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0a1d3a] to-transparent" />
-          <div className="absolute bottom-0 left-0 h-1 w-full bg-[#ef233c]/80" />
+          <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-[#0a1d3a] to-transparent" />
+          <div className="absolute bottom-0 left-0 h-[3px] w-full bg-gradient-to-r from-[#ef233c] via-[#ef233c]/60 to-transparent" />
 
           <div className="relative z-10 mx-auto flex h-full max-w-[1100px] flex-col justify-center px-6">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="space-y-4"
+              className="space-y-3"
             >
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
-                Partenaires Strategiques
+                Partenaires Stratégiques
               </p>
               <h1 className="text-3xl font-black uppercase leading-[0.8] tracking-tighter drop-shadow-2xl md:text-5xl">
                 Sponsors & Partners
@@ -63,42 +54,39 @@ export default function SponsorsPage() {
           </div>
         </section>
 
-        <section className="border-b border-gray-100 bg-white px-4 py-14 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[900px] space-y-12">
-            <div className="mb-6 flex items-center gap-4">
-              <RiHandHeartLine className="h-9 w-9 text-[#ef233c]" />
-              <h2 className="text-xl font-black uppercase leading-none tracking-tight text-[#ef233c]">
-                Sponsors & Partners
+        <section className="border-b border-[#eef2f6] bg-white px-4 py-16 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1000px]">
+            <div className="mb-12 flex flex-col items-center text-center">
+              <RiHandHeartLine className="mb-4 h-6 w-6 text-[#ef233c]" />
+              <h2 className="mb-4 text-xl font-black uppercase leading-none tracking-tight text-[#0a1d3a] md:text-2xl">
+                Nos Partenaires
               </h2>
+              <p className="max-w-[600px] text-[13px] font-medium leading-relaxed text-[#5b6f91] sm:text-sm">
+                FC TORO remercie ses partenaires et sponsors qui contribuent au développement du club et à l'organisation de ses activités sportives. Leur soutien est essentiel à notre réussite.
+              </p>
             </div>
 
-            <p className="border-l-4 border-[#ef233c] pl-8 text-base font-bold italic leading-relaxed text-[#445b7f]">
-              FC TORO remercie ses partenaires et sponsors qui contribuent au
-              developpement du club et a l'organisation de ses activites
-              sportives.
-            </p>
-
-            <div className="relative overflow-hidden pt-10">
-              <div className="absolute left-0 top-0 z-10 h-full w-20 bg-gradient-to-r from-white to-transparent" />
-              <div className="absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-l from-white to-transparent" />
+            <div className="relative overflow-hidden py-4">
+              <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 bg-gradient-to-r from-white to-transparent" />
+              <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 bg-gradient-to-l from-white to-transparent" />
 
               <motion.div
                 initial={{ x: 0 }}
                 animate={{ x: '-50%' }}
-                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-                className="flex w-max items-center gap-16 md:gap-24"
+                transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+                className="flex w-max items-center gap-14 md:gap-20"
               >
                 {[...sponsors, ...sponsors].map((s, idx) => (
                   <div
                     key={idx}
-                    className="shrink-0 opacity-80 transition-all duration-300 hover:opacity-100"
+                    className="shrink-0 transition-transform duration-300 hover:scale-105"
                   >
                     <Image
                       src={s.logo}
                       alt={s.name}
-                      width={130}
-                      height={70}
-                      className="h-8 w-auto object-contain md:h-10"
+                      width={120}
+                      height={60}
+                      className="h-7 w-auto object-contain md:h-10"
                     />
                   </div>
                 ))}
@@ -107,45 +95,67 @@ export default function SponsorsPage() {
           </div>
         </section>
 
-        <section className="bg-[#f8fafc] px-4 py-14 sm:px-6 lg:px-8">
+        <section className="bg-gradient-to-b from-[#f8fafc] to-white px-4 py-16 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1100px]">
-            <div className="mb-14 grid gap-8 md:grid-cols-3">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="mb-14 grid gap-6 sm:grid-cols-3"
+            >
               {supportItems.map((item, idx) => {
                 const Icon = sponsorIcons[idx] || RiShieldStarLine
 
                 return (
                   <div
                     key={item}
-                    className="rounded-[40px] border border-gray-100 bg-white p-8 text-center shadow-sm transition-shadow hover:shadow-xl"
+                    className="group rounded-2xl border border-[#eef2f6] bg-white p-7 shadow-[0_4px_20px_rgba(10,29,58,0.02)] transition-all duration-300 hover:border-[#ef233c]/20 hover:shadow-[0_10px_30px_rgba(239,35,60,0.06)]"
                   >
-                    <Icon className="mx-auto mb-6 h-12 w-12 text-[#ef233c]" />
-                    <h4 className="mb-4 text-2xl font-black uppercase leading-tight">
+                    <div className="mb-4 inline-flex items-center justify-center rounded-full bg-[#ef233c]/5 p-3 transition-colors group-hover:bg-[#ef233c]/10">
+                      <Icon className="h-5 w-5 text-[#ef233c]" />
+                    </div>
+                    <h4 className="text-[13px] font-bold uppercase leading-relaxed text-[#0a1d3a]">
                       {item}
                     </h4>
                   </div>
                 )
               })}
-            </div>
+            </motion.div>
 
-            <div className="relative overflow-hidden rounded-[40px] bg-[#0a2347] p-10 text-center text-white shadow-2xl">
-              <div className="absolute right-0 top-0 p-10 opacity-5">
-                <RiShieldStarLine className="h-60 w-60" />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.98 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="relative overflow-hidden rounded-[28px] bg-[#0a1d3a] p-10 text-center text-white shadow-2xl md:p-14 lg:p-16"
+            >
+              <div className="absolute right-0 top-0 translate-x-1/4 -translate-y-1/4 opacity-5">
+                <RiShieldStarLine className="h-96 w-96 text-white" />
               </div>
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(239,35,60,0.15)_0%,transparent_60%)]" />
 
-              <RiHandHeartLine className="relative z-10 mx-auto mb-10 h-16 w-16 text-[#ef233c]" />
+              <div className="relative z-10 flex flex-col items-center">
+                <span className="mb-5 inline-flex items-center justify-center rounded-full bg-white/10 p-3 backdrop-blur-sm">
+                  <RiHandHeartLine className="h-5 w-5 text-[#ef233c]" />
+                </span>
 
-              <p className="relative z-10 mx-auto mb-10 max-w-4xl text-2xl font-black uppercase leading-[0.9] drop-shadow-lg md:text-3xl">
-                FC TORO est ouvert aux collaborations avec des entreprises et
-                organisations partageant les memes valeurs.
-              </p>
+                <h3 className="mb-6 max-w-2xl text-[clamp(1.1rem,2vw,1.6rem)] font-black uppercase leading-tight tracking-tight shadow-black drop-shadow-md">
+                  FC TORO est ouvert aux collaborations avec des entreprises partageant les mêmes valeurs.
+                </h3>
 
-              <a
-                href="mailto:footballclubtoro@gmail.com"
-                className="relative z-10 inline-flex items-center rounded-full bg-[#ef233c] px-10 py-4 text-sm font-black uppercase tracking-widest text-white shadow-xl transition-all hover:scale-105 hover:bg-[#ff3f5c] active:scale-95"
-              >
-                Devenir Partenaire
-              </a>
-            </div>
+                <p className="mb-8 max-w-[500px] text-sm font-medium leading-relaxed text-white/70">
+                  Associez votre image à un projet fort, éducatif et sportif, et participez à la progression de la jeunesse haïtienne.
+                </p>
+
+                <a
+                  href="mailto:footballclubtoro@gmail.com"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#ef233c] px-8 py-3.5 text-[11px] font-black uppercase tracking-[0.2em] text-white shadow-[0_8px_20px_rgba(239,35,60,0.3)] transition-all hover:bg-[#ff3f5c] hover:shadow-[0_12px_25px_rgba(239,35,60,0.4)]"
+                >
+                  Devenir Partenaire
+                </a>
+              </div>
+            </motion.div>
           </div>
         </section>
       </main>

@@ -4,8 +4,8 @@ import { RiArrowRightLine, RiEyeLine, RiFileChartLine, RiRadarLine } from '@remi
 import { HomeNavbar } from '@/components/home-navbar'
 
 export const metadata: Metadata = {
-  title: 'Scouting | FC TORO',
-  description: 'Le scouting FC TORO pour observer, documenter et orienter les profils suivis par le club.',
+  title: 'Recrutement | FC TORO',
+  description: 'Le recrutement FC TORO pour observer, documenter et orienter les profils suivis par le club.',
 }
 
 const scoutingFlow = [
@@ -36,15 +36,15 @@ export default function ScoutingPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(239,35,60,0.12),transparent_28%)]" />
           <div className="mx-auto max-w-[1200px]">
             <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
-              Academie
+              Recrutement
             </p>
             <div className="mt-4 grid gap-8 lg:grid-cols-[1fr_340px] lg:items-end">
               <div>
                 <h1 className="text-[clamp(2rem,4vw,4rem)] font-black uppercase leading-[0.88] tracking-[-0.05em]">
-                  Scouting
+                  Recrutement
                 </h1>
                 <p className="mt-5 max-w-[760px] text-base leading-relaxed text-[#5b6f91] sm:text-lg">
-                  Le scouting FC TORO doit transformer l observation en information utile. Le but
+                  Le recrutement FC TORO doit transformer l observation en information utile. Le but
                   n est pas d accumuler des notes, mais de rendre les profils lisibles pour une
                   vraie decision.
                 </p>

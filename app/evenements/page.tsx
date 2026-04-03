@@ -1,29 +1,14 @@
 import type { Metadata } from 'next'
 import { HomeNavbar } from '@/components/home-navbar'
 import EventsPageContent from '@/components/events-page-content'
-import { eventCards, eventsOverviewStats, type EventSlug } from '@/data/events-data'
-
-type EvenementsPageProps = {
-  searchParams: Promise<{
-    focus?: string | string[]
-  }>
-}
-
-const isEventSlug = (value: string | undefined): value is EventSlug =>
-  value === 'live' || value === 'vertieres-cup' || value === 'flag-day'
+import { eventCards, eventsOverviewStats } from '@/data/events-data'
 
 export const metadata: Metadata = {
   title: 'Evenements | FC TORO',
   description: 'Live, Vertieres Cup et Flag Day dans une section evenement dediee.',
 }
 
-export default async function EvenementsPage({ searchParams }: EvenementsPageProps) {
-  const resolvedSearchParams = await searchParams
-  const focusParam = Array.isArray(resolvedSearchParams.focus)
-    ? resolvedSearchParams.focus[0]
-    : resolvedSearchParams.focus
-  const activeSlug = isEventSlug(focusParam) ? focusParam : eventCards[0].slug
-
+export default function EvenementsPage() {
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
@@ -63,7 +48,7 @@ export default async function EvenementsPage({ searchParams }: EvenementsPagePro
           </div>
         </section>
 
-        <EventsPageContent activeSlug={activeSlug} />
+        <EventsPageContent defaultActiveSlug={eventCards[0].slug} />
       </main>
     </div>
   )

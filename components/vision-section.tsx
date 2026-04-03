@@ -1,8 +1,5 @@
-'use client';
-
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
   RiArrowRightLine,
   RiHeartLine,
@@ -81,12 +78,7 @@ export default function VisionSection() {
           </div>
 
           <div className="relative">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="group relative z-20 mx-auto aspect-[3/4] w-full max-w-[290px] sm:ml-auto sm:max-w-[320px] sm:aspect-[4/5]"
-            >
+            <div className="group relative z-20 mx-auto aspect-[3/4] w-full max-w-[290px] sm:ml-auto sm:max-w-[320px] sm:aspect-[4/5]">
               <div className="absolute -inset-2 translate-x-3 translate-y-3 rounded-[24px] border border-[#ef233c]/30 opacity-20" />
 
               <div className="relative h-full w-full overflow-hidden rounded-[24px] shadow-2xl">
@@ -107,7 +99,7 @@ export default function VisionSection() {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-[#ef233c]/5 blur-[100px]" />
           </div>

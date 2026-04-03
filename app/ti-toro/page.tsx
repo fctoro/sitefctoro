@@ -7,17 +7,13 @@ import playerHeroImage from '@/img/Kids/IMG_9452.jpg'
 import {
   RiArrowRightLine,
   RiCheckDoubleLine,
-  RiCheckLine,
-  RiFileList3Line,
   RiMailLine,
   RiMapPinLine,
   RiPhoneLine,
   RiRunLine,
-  RiShieldStarLine,
   RiTimeLine,
   RiUserSmileLine,
   RiWhatsappLine,
-  RiMagicLine,
   RiStarSFill,
   RiPlayLargeFill,
 } from '@remixicon/react'
@@ -141,58 +137,6 @@ const notes2026 = [
   {
     title: 'Documents',
     body: 'Le dossier n est considere complet qu apres reception du formulaire et des documents demandes.',
-  },
-]
-
-const paymentIncludes = ['Inscription', 'Frais annuels', 'Uniformes']
-
-const paymentPlanTwo = [
-  "Premier versement: $500 a l'inscription",
-  'Deuxieme versement: $300',
-  'Troisieme versement: $150',
-  'Quatrieme versement: $50',
-]
-
-const paymentMethods = [
-  "Cheque a l'ordre de FULMOUN PRODUCTION",
-  'Cash',
-  'Carte de credit',
-  'Virement bancaire',
-]
-
-const paymentLocations = [
-  'Les cheques et les especes peuvent etre deposes a Kikloe a Petion-Ville.',
-  "Ils peuvent aussi etre deposes au Centre de Formation Maurice Bonnefil a Haytrac, sur la route de l'aeroport.",
-  'Les paiements par carte de credit sont recus a Haytrac.',
-]
-
-const paymentPolicies = [
-  {
-    title: 'Inscription complete',
-    body: "L'inscription est consideree comme complete une fois que le formulaire a ete soumis avec le premier paiement dans son integralite. Une fois l'inscription effectuee, les uniformes seront commandes.",
-  },
-  {
-    title: 'Reduction pour famille',
-    body: "Les familles avec plus d'un enfant dans le club beneficieront d'une reduction de 5% du prix annuel par enfant additionnel a partir du 2e enfant.",
-  },
-  {
-    title: 'Frais de retard',
-    body: 'Un montant de $20 USD est ajoute par semaine de retard apres la date limite fixee pour les paiements.',
-  },
-]
-
-const paymentNotes = [
-  {
-    title: 'Absence ou depart',
-    body: "Tout cas d'absence ou de depart d'un enfant doit etre annonce a l'avance par ecrit. Aucun montant deja verse ne sera rembourse. Si l'enfant quitte apres le debut de la nouvelle periode, cette periode est due dans son integralite. Un courriel formel annoncant le depart doit etre envoye afin qu'il soit effectif. Aucune exception ne sera faite.",
-  },
-  {
-    title: 'Absence temporaire',
-    body: "En cas d'absence en raison de maladie, un certificat medical doit etre soumis.",
-  },
-  {
-    title: 'Excursions',
-    body: "Nous organiserons des sorties sur le terrain pour nos joueurs. Plus d'informations seront fournies pendant la saison.",
   },
 ]
 
@@ -350,26 +294,6 @@ export default function TiToroPage() {
                 )
               })}
             </div>
-          </div>
-        </section>
-
-        {/* --- CENTRALIZED REGISTRATION INFO --- */}
-        <section className="bg-[#f8fafc] py-24 px-6 text-center">
-          <div className="mx-auto max-w-[800px]">
-             <h2 className="text-4xl font-black uppercase text-[#0a1d3a]">Le Parcours Commence Ici</h2>
-             <p className="mt-6 text-lg font-medium leading-relaxed text-[#5b6f91]">
-               Les inscriptions pour le programme Ti Toro 2026 sont désormais centralisées avec le reste du club. 
-               Consultez les détails financiers et soumettez votre dossier en quelques clics.
-             </p>
-             <div className="mt-12">
-                <a
-                  href="/inscription/joueur"
-                  className="inline-flex items-center gap-4 rounded-full bg-[#ef233c] px-10 py-5 text-sm font-black uppercase tracking-widest text-white shadow-xl transition-all hover:scale-105 active:scale-95"
-                >
-                  Accéder au Dossier d'Inscription
-                  <RiArrowRightLine className="h-5 w-5" />
-                </a>
-             </div>
           </div>
         </section>
 

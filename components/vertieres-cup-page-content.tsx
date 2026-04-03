@@ -1,567 +1,223 @@
 'use client'
 
-import { ChangeEvent, FormEvent, useMemo, useState } from 'react'
-import {
-  RiAddLine,
-  RiCheckboxCircleFill,
-  RiDeleteBinLine,
-  RiImageAddLine,
-  RiShieldStarLine,
-  RiTeamLine,
-  RiUser3Line,
-} from '@remixicon/react'
-import { vertieresHighlights, vertieresRequirements } from '@/data/events-data'
+import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { RiMapPinLine, RiCalendarEventLine, RiTrophyLine, RiGlobalLine, RiMap2Line } from '@remixicon/react'
 
-type PlayerEntry = {
-  id: string
-  number: string
-  fullName: string
-  birthYear: string
-  position: string
-  captain: boolean
-}
-
-type TeamRegistrationState = {
-  teamName: string
-  category: string
-  city: string
-  teamColors: string
-  coachName: string
-  coachPhone: string
-  coachEmail: string
-  managerName: string
-  logoName: string
-  logoPreview: string | null
-  objective: string
-  players: PlayerEntry[]
-}
-
-type SubmittedSummary = {
-  teamName: string
-  category: string
-  city: string
-  coachName: string
-  logoName: string
-  playerCount: number
-}
-
-const createPlayerEntry = (): PlayerEntry => ({
-  id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-  number: '',
-  fullName: '',
-  birthYear: '',
-  position: '',
-  captain: false,
-})
-
-const createInitialPlayers = () =>
-  Array.from({ length: 8 }, () => createPlayerEntry())
-
-const initialFormState = (): TeamRegistrationState => ({
-  teamName: '',
-  category: 'U17',
-  city: '',
-  teamColors: '',
-  coachName: '',
-  coachPhone: '',
-  coachEmail: '',
-  managerName: '',
-  logoName: '',
-  logoPreview: null,
-  objective: '',
-  players: createInitialPlayers(),
-})
+// Import images
+import heroImg from '@/img/vertiere cup/IMG-20241021-WA0021.jpg'
+import match1 from '@/img/Match/FC-Toro.jpg'
+import match2 from '@/img/Match/IMG_2341.jpg'
+import tournoi1 from '@/img/Elite/IMG_5150.jpg'
+import atmos1 from '@/img/Match/IMG_2453.jpg'
+import teamImg from '@/img/Match/IMG_2471.jpg'
 
 export default function VertieresCupPageContent() {
-  const [formState, setFormState] = useState<TeamRegistrationState>(initialFormState)
-  const [formError, setFormError] = useState<string | null>(null)
-  const [submittedSummary, setSubmittedSummary] = useState<SubmittedSummary | null>(null)
-
-  const completedPlayers = useMemo(
-    () => formState.players.filter((player) => player.fullName.trim()).length,
-    [formState.players],
-  )
-
-  const handleLogoChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-
-    if (!file) {
-      setFormState((prev) => ({ ...prev, logoName: '', logoPreview: null }))
-      return
-    }
-
-    const reader = new FileReader()
-    reader.onload = () => {
-      setFormState((prev) => ({
-        ...prev,
-        logoName: file.name,
-        logoPreview: typeof reader.result === 'string' ? reader.result : null,
-      }))
-    }
-    reader.readAsDataURL(file)
-  }
-
-  const updatePlayer = (playerId: string, field: keyof PlayerEntry, value: string | boolean) => {
-    setFormState((prev) => ({
-      ...prev,
-      players: prev.players.map((player) =>
-        player.id === playerId ? { ...player, [field]: value } : player,
-      ),
-    }))
-  }
-
-  const addPlayer = () => {
-    setFormState((prev) => ({
-      ...prev,
-      players: [...prev.players, createPlayerEntry()],
-    }))
-  }
-
-  const removePlayer = (playerId: string) => {
-    setFormState((prev) => ({
-      ...prev,
-      players:
-        prev.players.length > 1
-          ? prev.players.filter((player) => player.id !== playerId)
-          : prev.players,
-    }))
-  }
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    if (!formState.teamName.trim() || !formState.city.trim()) {
-      setFormError('Ajoute le nom de l equipe et la ville avant de valider.')
-      return
-    }
-
-    if (!formState.coachName.trim() || !formState.coachPhone.trim() || !formState.coachEmail.trim()) {
-      setFormError('Le responsable principal doit avoir un nom, un numero et un email.')
-      return
-    }
-
-    if (!formState.logoName) {
-      setFormError('Le logo de l equipe est demande pour l inscription Vertieres Cup.')
-      return
-    }
-
-    if (completedPlayers < 7) {
-      setFormError('Renseigne au moins 7 joueurs pour valider le dossier.')
-      return
-    }
-
-    setFormError(null)
-    setSubmittedSummary({
-      teamName: formState.teamName,
-      category: formState.category,
-      city: formState.city,
-      coachName: formState.coachName,
-      logoName: formState.logoName,
-      playerCount: completedPlayers,
-    })
-    setFormState(initialFormState())
-  }
-
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#f5f4f2_0%,#eef1f7_100%)] text-[#0a1d3a]">
-      <main className="pb-14 pt-[116px] lg:pt-[78px]">
-        <section className="relative overflow-hidden border-b border-[#d8e2ef] bg-[#0a1d3a] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-16">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(239,35,60,0.18),transparent_30%)]" />
-          <div className="mx-auto grid max-w-[1200px] gap-8 lg:grid-cols-[minmax(0,1.2fr)_340px] lg:items-end">
-            <div className="relative z-10">
-              <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
-                Inscriptions tournoi
-              </p>
-              <h1 className="mt-4 text-[clamp(2rem,4vw,4rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
-                Vertieres
-                <br />
-                Cup
-              </h1>
-              <p className="mt-5 max-w-[700px] text-base leading-relaxed text-white/72 sm:text-lg">
-                Enregistre ton equipe, ajoute le logo officiel et depose une liste complete des
-                joueurs pour la validation du tournoi Vertieres Cup.
-              </p>
+    <div className="bg-[#f2f2f4] text-[#0a1d3a]">
+      {/* ═══════ HERO ═══════ */}
+      <section className="relative h-[650px] overflow-hidden bg-[#0a1d3a] text-white md:h-[800px] lg:h-screen lg:min-h-[700px]">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src={heroImg}
+            alt="Vertières Cup"
+            fill
+            priority
+            className="object-cover object-center opacity-60 mix-blend-overlay"
+          />
+          {/* Fallback image if heroImg doesn't load well as background */}
+          <div className="absolute inset-0 bg-[#0a1d3a]/60" />
+          <Image
+            src={match1}
+            alt="Action de jeu Vertieres Cup"
+            fill
+            className="object-cover object-top opacity-30"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a] via-[#0a1d3a]/60 to-transparent" />
+          <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-r from-[#0a1d3a]/80 to-transparent" />
+        </div>
+
+        <div className="relative z-10 mx-auto flex h-full max-w-[1200px] flex-col justify-end px-4 pb-20 sm:px-6 lg:px-8 lg:pb-32">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="max-w-3xl"
+          >
+            <div className="mb-6 flex flex-wrap gap-3">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#ef233c] px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white">
+                <RiTrophyLine className="h-4 w-4" /> Tournoi Emblématique
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white backdrop-blur-md">
+                <RiMapPinLine className="h-4 w-4 text-[#ef233c]" /> Bord de Mer de Limonade
+              </span>
             </div>
 
-            <div className="relative z-10 rounded-[30px] border border-white/10 bg-white/6 p-6 backdrop-blur">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/45">
-                Rappel competition
-              </p>
-              <p className="mt-3 text-4xl font-black leading-none text-white">18.11.2026</p>
-              <p className="mt-2 text-sm leading-relaxed text-white/72">
-                Verification des dossiers 72h avant la competition. Une equipe incompletement
-                renseignee ne sera pas confirmee.
-              </p>
+            <h1 className="text-[clamp(3.5rem,7vw,7rem)] font-black uppercase leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
+              Vertières <br />
+              <span className="text-[#ef233c]">Cup.</span>
+            </h1>
+            
+            <p className="mt-8 text-lg font-medium leading-relaxed text-white/80 sm:text-xl lg:max-w-2xl">
+              Célébrons le courage et l'héritage historique d'Haïti à travers le football. Là où la compétition sportive rencontre le patriotisme.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════ L'ÉVÉNEMENT (DESCRIPTION) ═══════ */}
+      <section className="relative -mt-10 z-20 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px]">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7 }}
+            className="overflow-hidden rounded-[2rem] bg-white shadow-2xl md:grid md:grid-cols[1fr_1.5fr] lg:grid-cols-2 lg:items-center"
+          >
+            {/* Image side */}
+            <div className="relative h-[400px] w-full lg:h-full">
+              <Image 
+                src={heroImg} 
+                alt="Affiche Vertieres Cup" 
+                fill 
+                className="object-cover"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-8">
+                <p className="text-xl font-black uppercase text-white shadow-xl">Héritage Historique</p>
+                <p className="text-sm font-bold text-[#ef233c]">18 Novembre</p>
+              </div>
             </div>
-          </div>
-        </section>
-
-        <section className="px-4 py-8 sm:px-6 lg:px-8">
-          <div className="mx-auto grid max-w-[1200px] gap-6 xl:grid-cols-[330px_minmax(0,1fr)]">
-            <aside className="space-y-6">
-              <div className="rounded-[28px] border border-[#d7dfec] bg-white p-6 shadow-[0_14px_30px_rgba(10,29,58,0.08)]">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
-                  Pourquoi Vertieres Cup
+            
+            {/* Text side */}
+            <div className="p-8 md:p-12 lg:p-16">
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#ef233c]">L'histoire s'écrit ici</p>
+              <h2 className="mt-4 text-3xl font-black uppercase leading-[0.95] tracking-tighter text-[#0a1d3a] md:text-4xl">
+                Un hommage à<br />
+                <span className="text-[#ef233c]">L'Indépendance.</span>
+              </h2>
+              
+              <div className="mt-8 space-y-5 text-[15px] font-medium leading-relaxed text-[#445b7f]">
+                <p>
+                  <strong>VERTIERES CUP</strong> est un tournoi de football emblématique à Bord de Mer de Limonade - Nord Haïti, organisé par <strong>FULMOUN PRODUCTION</strong>, sous le leadership du <strong>FC TORO</strong>, qui célèbre le courage et l'héritage historique d'Haïti en hommage à la bataille de Vertières, un moment clé de la lutte pour l'indépendance.
                 </p>
-                <div className="mt-4 space-y-3">
-                  {vertieresHighlights.map((item) => (
-                    <div key={item} className="flex items-start gap-3 rounded-2xl bg-[#f8fafc] px-4 py-4">
-                      <RiCheckboxCircleFill className="mt-0.5 h-5 w-5 shrink-0 text-[#ef233c]" />
-                      <p className="text-sm leading-relaxed text-[#4a5f84]">{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-[28px] border border-[#d7dfec] bg-white p-6 shadow-[0_14px_30px_rgba(10,29,58,0.08)]">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
-                  Dossier demande
+                <p>
+                  Ce tournoi réunit les jeunes athlètes les plus prometteurs du pays, offrant une plateforme unique où compétition sportive et patriotisme s'entremêlent. Le tournoi prévoit d'accueillir des équipes de différentes régions, permettant aux jeunes de mesurer leurs compétences tout en renforçant leur esprit d'équipe et leur fierté nationale.
                 </p>
-                <div className="mt-4 space-y-4">
-                  {vertieresRequirements.map((item) => (
-                    <article key={item.title} className="rounded-2xl border border-[#e7edf6] bg-[#fbfcff] p-4">
-                      <p className="text-sm font-black uppercase text-[#0a1d3a]">{item.title}</p>
-                      <p className="mt-2 text-sm leading-relaxed text-[#5b6f91]">{item.body}</p>
-                    </article>
-                  ))}
-                </div>
+                <p>
+                  Le tournoi sert aussi de tremplin pour identifier et soutenir les talents émergents, favorisant leur intégration dans des programmes de formations avancés.
+                </p>
+                <p className="text-[#0a1d3a] font-bold">
+                  Vertières Cup offre à la communauté l'opportunité de se rassembler et de célébrer une date historique dans un cadre dynamique et festif.
+                </p>
               </div>
 
-              {submittedSummary ? (
-                <div className="rounded-[28px] bg-[#ef233c] p-6 text-white shadow-[0_22px_34px_rgba(239,35,60,0.3)]">
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/72">
-                    Dossier pret
-                  </p>
-                  <p className="mt-3 text-2xl font-black uppercase leading-tight">
-                    {submittedSummary.teamName}
-                  </p>
-                  <div className="mt-4 space-y-2 text-sm font-semibold text-white/88">
-                    <p>Categorie: {submittedSummary.category}</p>
-                    <p>Ville: {submittedSummary.city}</p>
-                    <p>Coach: {submittedSummary.coachName}</p>
-                    <p>Logo: {submittedSummary.logoName}</p>
-                    <p>Joueurs renseignes: {submittedSummary.playerCount}</p>
-                  </div>
-                </div>
-              ) : null}
-            </aside>
-
-            <section className="rounded-[30px] border border-[#d7dfec] bg-white p-6 shadow-[0_18px_34px_rgba(10,29,58,0.08)] sm:p-8">
-              <div className="flex flex-col gap-4 border-b border-[#e7edf6] pb-6 md:flex-row md:items-end md:justify-between">
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#ef233c]">
-                    Formulaire equipe
-                  </p>
-                  <h2 className="mt-3 text-[clamp(1.65rem,2.6vw,2.45rem)] font-black uppercase leading-[0.94] tracking-[-0.04em] text-[#0a1d3a]">
-                    Inscription Vertieres Cup
-                  </h2>
-                </div>
-
-                <div className="rounded-2xl border border-[#e7edf6] bg-[#f8fafc] px-4 py-3 text-sm font-bold text-[#5b6f91]">
-                  {completedPlayers} joueur(s) renseignes
-                </div>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <span className="inline-flex items-center gap-2 rounded bg-[#f2f4f8] px-3 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#0a1d3a]">
+                  <RiGlobalLine className="h-4 w-4 text-[#ef233c]" /> #FOOTTOURISME
+                </span>
+                <span className="inline-flex items-center gap-2 rounded bg-[#f2f4f8] px-3 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#0a1d3a]">
+                  <RiMap2Line className="h-4 w-4 text-[#ef233c]" /> #FOOTCULTURE
+                </span>
               </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
-              <form className="mt-8 space-y-8" onSubmit={handleSubmit}>
-                <section className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <RiTeamLine className="h-5 w-5 text-[#ef233c]" />
-                    <h3 className="text-lg font-black uppercase text-[#0a1d3a]">Equipe</h3>
-                  </div>
+      {/* ═══════ IMMERSION / GALLERY COMPÉTITION ═══════ */}
+      <section className="bg-[#f2f2f4] px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px]">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="mb-14 text-center"
+          >
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">Immersion</p>
+            <h2 className="mt-4 text-4xl font-black uppercase leading-[0.9] tracking-tighter text-[#0a1d3a] md:text-5xl">
+              Vivre <span className="text-[#ef233c]">L'Événement.</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base font-medium text-[#5b6f91]">
+              De l'intensité sur le terrain à la ferveur dans les gradins, découvrez l'atmosphère unique de la Vertières Cup.
+            </p>
+          </motion.div>
 
-                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                    <label className="space-y-2">
-                      <span className="text-sm font-semibold text-[#43597d]">Nom de l equipe</span>
-                      <input
-                        type="text"
-                        value={formState.teamName}
-                        onChange={(event) =>
-                          setFormState((prev) => ({ ...prev, teamName: event.target.value }))
-                        }
-                        className="h-12 w-full rounded-2xl border border-[#d7dfec] bg-[#fbfcff] px-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                        placeholder="FC TORO U17"
-                      />
-                    </label>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Grande image (2 cols / 2 rows) */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="group relative h-[400px] overflow-hidden rounded-[2rem] sm:col-span-2 lg:row-span-2 lg:h-[600px]"
+            >
+              <Image src={match2} alt="Atmosphère Vertières Cup" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" />
+              <div className="absolute bottom-0 left-0 p-8">
+                <p className="text-[10px] font-black uppercase tracking-widest text-[#ef233c]">Action</p>
+                <p className="mt-2 text-2xl font-black uppercase text-white">L'intensité d'une grande compétition</p>
+              </div>
+            </motion.div>
 
-                    <label className="space-y-2">
-                      <span className="text-sm font-semibold text-[#43597d]">Categorie</span>
-                      <select
-                        value={formState.category}
-                        onChange={(event) =>
-                          setFormState((prev) => ({ ...prev, category: event.target.value }))
-                        }
-                        className="h-12 w-full rounded-2xl border border-[#d7dfec] bg-[#fbfcff] px-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                      >
-                        <option value="U13">U13</option>
-                        <option value="U15">U15</option>
-                        <option value="U17">U17</option>
-                        <option value="U20">U20</option>
-                        <option value="Senior">Senior</option>
-                      </select>
-                    </label>
+            {/* Images classiques */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="group relative h-[280px] overflow-hidden rounded-[2rem]"
+            >
+              <Image src={tournoi1} alt="Bord de mer Limonade" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-[#0a1d3a]/20 transition-colors duration-300 group-hover:bg-transparent" />
+            </motion.div>
 
-                    <label className="space-y-2">
-                      <span className="text-sm font-semibold text-[#43597d]">Ville / Commune</span>
-                      <input
-                        type="text"
-                        value={formState.city}
-                        onChange={(event) =>
-                          setFormState((prev) => ({ ...prev, city: event.target.value }))
-                        }
-                        className="h-12 w-full rounded-2xl border border-[#d7dfec] bg-[#fbfcff] px-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                        placeholder="Petion-Ville"
-                      />
-                    </label>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="group relative h-[280px] overflow-hidden rounded-[2rem]"
+            >
+              <Image src={atmos1} alt="Ferveur Vertieres" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-[#0a1d3a]/20 transition-colors duration-300 group-hover:bg-transparent" />
+            </motion.div>
 
-                    <label className="space-y-2">
-                      <span className="text-sm font-semibold text-[#43597d]">Couleurs de l equipe</span>
-                      <input
-                        type="text"
-                        value={formState.teamColors}
-                        onChange={(event) =>
-                          setFormState((prev) => ({ ...prev, teamColors: event.target.value }))
-                        }
-                        className="h-12 w-full rounded-2xl border border-[#d7dfec] bg-[#fbfcff] px-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                        placeholder="Bleu marine / Rouge"
-                      />
-                    </label>
-                  </div>
-                </section>
-
-                <section className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <RiUser3Line className="h-5 w-5 text-[#ef233c]" />
-                    <h3 className="text-lg font-black uppercase text-[#0a1d3a]">Responsables</h3>
-                  </div>
-
-                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                    <label className="space-y-2">
-                      <span className="text-sm font-semibold text-[#43597d]">Coach principal</span>
-                      <input
-                        type="text"
-                        value={formState.coachName}
-                        onChange={(event) =>
-                          setFormState((prev) => ({ ...prev, coachName: event.target.value }))
-                        }
-                        className="h-12 w-full rounded-2xl border border-[#d7dfec] bg-[#fbfcff] px-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                        placeholder="Nom du coach"
-                      />
-                    </label>
-
-                    <label className="space-y-2">
-                      <span className="text-sm font-semibold text-[#43597d]">Telephone</span>
-                      <input
-                        type="tel"
-                        value={formState.coachPhone}
-                        onChange={(event) =>
-                          setFormState((prev) => ({ ...prev, coachPhone: event.target.value }))
-                        }
-                        className="h-12 w-full rounded-2xl border border-[#d7dfec] bg-[#fbfcff] px-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                        placeholder="+509 ..."
-                      />
-                    </label>
-
-                    <label className="space-y-2">
-                      <span className="text-sm font-semibold text-[#43597d]">Email</span>
-                      <input
-                        type="email"
-                        value={formState.coachEmail}
-                        onChange={(event) =>
-                          setFormState((prev) => ({ ...prev, coachEmail: event.target.value }))
-                        }
-                        className="h-12 w-full rounded-2xl border border-[#d7dfec] bg-[#fbfcff] px-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                        placeholder="coach@club.com"
-                      />
-                    </label>
-
-                    <label className="space-y-2">
-                      <span className="text-sm font-semibold text-[#43597d]">Manager / Contact club</span>
-                      <input
-                        type="text"
-                        value={formState.managerName}
-                        onChange={(event) =>
-                          setFormState((prev) => ({ ...prev, managerName: event.target.value }))
-                        }
-                        className="h-12 w-full rounded-2xl border border-[#d7dfec] bg-[#fbfcff] px-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                        placeholder="Responsable club"
-                      />
-                    </label>
-                  </div>
-                </section>
-
-                <section className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <RiShieldStarLine className="h-5 w-5 text-[#ef233c]" />
-                    <h3 className="text-lg font-black uppercase text-[#0a1d3a]">Logo officiel</h3>
-                  </div>
-
-                  <div className="grid gap-4 lg:grid-cols-[220px_minmax(0,1fr)]">
-                    <div className="grid place-items-center rounded-[28px] border border-dashed border-[#ef233c]/35 bg-[#fff8f9] p-5">
-                      {formState.logoPreview ? (
-                        <img
-                          src={formState.logoPreview}
-                          alt="Apercu logo equipe"
-                          className="h-32 w-32 rounded-full object-cover shadow-[0_18px_26px_rgba(10,29,58,0.12)]"
-                        />
-                      ) : (
-                        <div className="grid h-32 w-32 place-items-center rounded-full border border-[#ef233c]/25 bg-white text-[#ef233c]">
-                          <RiImageAddLine className="h-12 w-12" />
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="rounded-[28px] border border-[#d7dfec] bg-[#fbfcff] p-5">
-                      <label className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-[#ef233c] px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-white transition-colors hover:bg-[#d71931]">
-                        <RiImageAddLine className="h-4 w-4" />
-                        Importer le logo
-                        <input type="file" accept="image/*" className="hidden" onChange={handleLogoChange} />
-                      </label>
-                      <p className="mt-4 text-sm leading-relaxed text-[#5b6f91]">
-                        Format recommande: PNG ou JPG, fond propre, lisible en petit format.
-                      </p>
-                      <p className="mt-3 text-sm font-semibold text-[#0a1d3a]">
-                        {formState.logoName || 'Aucun fichier ajoute'}
-                      </p>
-                    </div>
-                  </div>
-                </section>
-
-                <section className="space-y-4">
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <RiTeamLine className="h-5 w-5 text-[#ef233c]" />
-                      <h3 className="text-lg font-black uppercase text-[#0a1d3a]">Liste des joueurs</h3>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={addPlayer}
-                      className="inline-flex items-center gap-2 rounded-full border border-[#ef233c]/25 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#ef233c] transition-colors hover:bg-[#fff5f6]"
-                    >
-                      <RiAddLine className="h-4 w-4" />
-                      Ajouter un joueur
-                    </button>
-                  </div>
-
-                  <div className="space-y-4">
-                    {formState.players.map((player, index) => (
-                      <div
-                        key={player.id}
-                        className="rounded-[26px] border border-[#d7dfec] bg-[#fbfcff] p-4"
-                      >
-                        <div className="mb-4 flex items-center justify-between gap-3">
-                          <p className="text-sm font-black uppercase tracking-[0.08em] text-[#0a1d3a]">
-                            Joueur {index + 1}
-                          </p>
-                          <button
-                            type="button"
-                            onClick={() => removePlayer(player.id)}
-                            className="inline-flex items-center gap-2 rounded-full border border-[#ebc8d1] px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#c81f34] transition-colors hover:bg-[#fff1f3]"
-                          >
-                            <RiDeleteBinLine className="h-4 w-4" />
-                            Retirer
-                          </button>
-                        </div>
-
-                        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-                          <label className="space-y-2">
-                            <span className="text-sm font-semibold text-[#43597d]">Numero</span>
-                            <input
-                              type="text"
-                              value={player.number}
-                              onChange={(event) => updatePlayer(player.id, 'number', event.target.value)}
-                              className="h-11 w-full rounded-2xl border border-[#d7dfec] bg-white px-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                              placeholder="10"
-                            />
-                          </label>
-
-                          <label className="space-y-2 xl:col-span-2">
-                            <span className="text-sm font-semibold text-[#43597d]">Nom complet</span>
-                            <input
-                              type="text"
-                              value={player.fullName}
-                              onChange={(event) => updatePlayer(player.id, 'fullName', event.target.value)}
-                              className="h-11 w-full rounded-2xl border border-[#d7dfec] bg-white px-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                              placeholder="Nom du joueur"
-                            />
-                          </label>
-
-                          <label className="space-y-2">
-                            <span className="text-sm font-semibold text-[#43597d]">Annee</span>
-                            <input
-                              type="text"
-                              value={player.birthYear}
-                              onChange={(event) => updatePlayer(player.id, 'birthYear', event.target.value)}
-                              className="h-11 w-full rounded-2xl border border-[#d7dfec] bg-white px-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                              placeholder="2009"
-                            />
-                          </label>
-
-                          <label className="space-y-2">
-                            <span className="text-sm font-semibold text-[#43597d]">Poste</span>
-                            <input
-                              type="text"
-                              value={player.position}
-                              onChange={(event) => updatePlayer(player.id, 'position', event.target.value)}
-                              className="h-11 w-full rounded-2xl border border-[#d7dfec] bg-white px-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                              placeholder="Attaquant"
-                            />
-                          </label>
-                        </div>
-
-                        <label className="mt-4 inline-flex items-center gap-3 text-sm font-semibold text-[#43597d]">
-                          <input
-                            type="checkbox"
-                            checked={player.captain}
-                            onChange={(event) => updatePlayer(player.id, 'captain', event.target.checked)}
-                            className="h-4 w-4 rounded border-[#d7dfec] text-[#ef233c] focus:ring-[#ef233c]"
-                          />
-                          Capitaine de l equipe
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                <section className="space-y-4">
-                  <label className="space-y-2">
-                    <span className="text-sm font-semibold text-[#43597d]">Objectif ou notes supplementaires</span>
-                    <textarea
-                      rows={5}
-                      value={formState.objective}
-                      onChange={(event) =>
-                        setFormState((prev) => ({ ...prev, objective: event.target.value }))
-                      }
-                      className="w-full rounded-[26px] border border-[#d7dfec] bg-[#fbfcff] px-4 py-4 text-sm text-[#0a1d3a] focus:border-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]/15"
-                      placeholder="Ex: equipe championne departementale, objectif quart de finale, contraintes horaires..."
-                    />
-                  </label>
-                </section>
-
-                {formError ? (
-                  <div className="rounded-2xl border border-[#f0b7c0] bg-[#fff1f3] px-4 py-3 text-sm font-semibold text-[#b61b31]">
-                    {formError}
-                  </div>
-                ) : null}
-
-                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                  <p className="text-sm leading-relaxed text-[#5b6f91]">
-                    En validant, le staff FC TORO peut relire le dossier et revenir vers le coach
-                    avec le planning, les conditions et la confirmation d inscription.
-                  </p>
-
-                  <button
-                    type="submit"
-                    className="inline-flex items-center justify-center rounded-full bg-[#ef233c] px-8 py-4 text-sm font-black uppercase tracking-[0.16em] text-white transition-all hover:translate-y-[-1px] hover:bg-[#d71931]"
-                  >
-                    Valider l inscription
-                  </button>
-                </div>
-              </form>
-            </section>
+            {/* Image large */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="group relative h-[350px] overflow-hidden rounded-[2rem] sm:col-span-2 lg:col-span-3"
+            >
+              <Image src={teamImg} alt="Équipe rassemblée" fill className="object-cover object-center transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-8 flex flex-col justify-end">
+                <p className="text-[10px] font-black uppercase tracking-widest text-[#ef233c]">Rassemblement</p>
+                <p className="mt-2 text-2xl font-black uppercase text-white">Un tremplin pour les talents émergents</p>
+              </div>
+            </motion.div>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
+
+      {/* ═══════ CONCLUSION ═══════ */}
+      <section className="bg-white px-4 py-20 text-center sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[800px]">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+            <RiMapPinLine className="mx-auto h-12 w-12 text-[#ef233c]" />
+            <h2 className="mt-6 text-3xl font-black uppercase leading-[0.95] tracking-tighter text-[#0a1d3a] md:text-5xl">
+              Rendez-vous à <br />
+              <span className="text-[#ef233c]">Bord de Mer de Limonade</span>.
+            </h2>
+            <p className="mt-6 text-base font-semibold leading-relaxed text-[#5b6f91]">
+              Venez vivre un moment inoubliable où sport, culture, patriotisme et tourisme se rencontrent. Le FC TORO et FULMOUN PRODUCTION vous attendent pour construire l'histoire, ensemble.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
     </div>
   )
 }

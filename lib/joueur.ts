@@ -54,14 +54,14 @@ export const heroSlides: HeroSlide[] = [
     title: 'Championnat Flag Day : 1 million de gourdes à gagner  finale le 18 mai 2026.',
     cta: 'Voir le classement',
     href: '/evenements/flag-day',
-    image: '/home/hero-flag-day.jpg',
+    image: '/home/hero-flag-day-optimized.jpg',
   },
   {
     label: 'Elite',
     title: 'Les jeunes talents du FC TORO réunis sur le terrain, incarnant l’avenir du football haïtien.',
     cta: 'Decouvrir',
     href: '/elite',
-    image: '/home/hero-elite.jpg',
+    image: '/home/hero-elite-optimized.jpg',
   },
 ]
 

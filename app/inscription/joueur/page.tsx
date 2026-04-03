@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
@@ -11,63 +12,160 @@ import {
   InscriptionInput,
   InscriptionSelect,
   InscriptionSubmit,
-  InscriptionTextarea,
 } from '@/components/inscription-form-ui'
 import {
   RiCheckLine,
   RiInformationLine,
   RiPriceTag3Line,
-  RiFileList3Line,
   RiShieldStarLine,
   RiTimerLine,
   RiWallet3Line,
   RiParentLine,
-  RiUser3Line,
-  RiContactsLine,
-  RiTShirtLine,
-  RiArrowRightLine,
   RiUploadCloud2Line,
 } from '@remixicon/react'
 
-const feeIncludes = [
-  "L'enregistrement annuel",
-  "Les frais annuels",
-  "Pack Uniformes complet"
-]
+type ProgramKey = 'fcToro' | 'tiToro'
 
-const paymentPlans = [
-  {
-    name: 'PLAN #1',
-    description: 'Paiement unique à l\'inscription',
-    total: '$1,700 USD',
-    details: 'Un paiement de $1,700 USD'
+type ProgramPricing = {
+  annualLabel: string
+  annualTotal: string
+  annualCurrency: string
+  feeIncludes: string[]
+  paymentPlans: Array<{
+    name: string
+    description: string
+    total: string
+    details: string | string[]
+  }>
+  paymentMethods: string
+  paymentLocations: string[]
+  familyTitle: string
+  familyBody: string
+  lateTitle: string
+  lateBody: string
+  absenceTitle: string
+  absenceBody: string[]
+}
+
+const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
+  fcToro: {
+    annualLabel: 'Paiement annuel FC Toro',
+    annualTotal: '$1,700',
+    annualCurrency: 'USD',
+    feeIncludes: [
+      "L'enregistrement annuel",
+      'Les frais annuels',
+      'Pack uniformes complet',
+    ],
+    paymentPlans: [
+      {
+        name: 'PLAN #1',
+        description: "Paiement unique a l'inscription",
+        total: '$1,700 USD',
+        details: 'Un paiement de $1,700 USD',
+      },
+      {
+        name: 'PLAN #2',
+        description: 'Paiement fractionne en 4 versements',
+        total: '$1,700 USD',
+        details: [
+          "Premier paiement : $750 a l'enregistrement",
+          'Deuxieme paiement : $450',
+          'Troisieme paiement : $450',
+          'Quatrieme paiement : $50',
+        ],
+      },
+    ],
+    paymentMethods:
+      "Les frais sont payables par cheque a l'ordre de FULMOUN PRODUCTION, en cash, par carte de credit ou par virement bancaire.",
+    paymentLocations: [
+      'Kikloe a Petion-Ville',
+      "Centre de Formation Maurice Bonnefil (Haytrac, route de l'aeroport)",
+      'Note : Les paiements par carte de credit sont recus uniquement a Haytrac.',
+    ],
+    familyTitle: 'Reduction famille',
+    familyBody:
+      '5% de reduction sur le prix annuel par enfant additionnel a partir du 2e enfant.',
+    lateTitle: 'Frais de retard',
+    lateBody:
+      '20 USD de frais par semaine de retard apres la date limite fixee.',
+    absenceTitle: "Politique d'absence",
+    absenceBody: [
+      "Tout depart ou absence prolongee doit etre annonce par ecrit par courriel a Patrick Bonnefil avec copie a son assistante.",
+      "Aucun remboursement n'est effectue pour les montants deja verses.",
+      'En cas de maladie, un certificat medical doit etre soumis imperativement.',
+    ],
   },
-  {
-    name: 'PLAN #2',
-    description: 'Paiement fractionné en 4 versements',
-    total: '$1,700 USD',
-    details: [
-      'Premier paiement : $750 à l\'enregistrement',
-      'Deuxième paiement : $450',
-      'Troisième paiement : $450',
-      'Quatrième paiement : $50'
-    ]
-  }
-]
+  tiToro: {
+    annualLabel: 'Paiement annuel Ti Toro',
+    annualTotal: '$1,000',
+    annualCurrency: 'USD',
+    feeIncludes: ['Inscription', 'Frais annuels', 'Uniformes'],
+    paymentPlans: [
+      {
+        name: 'PLAN #1',
+        description: "Paiement unique a l'inscription",
+        total: '$1,000 USD',
+        details: 'Un paiement de $1,000 USD',
+      },
+      {
+        name: 'PLAN #2',
+        description: 'Paiement fractionne en 4 versements',
+        total: '$1,000 USD',
+        details: [
+          "Premier versement : $500 a l'inscription",
+          'Deuxieme versement : $300',
+          'Troisieme versement : $150',
+          'Quatrieme versement : $50',
+        ],
+      },
+    ],
+    paymentMethods:
+      "Les frais sont payables par cheque a l'ordre de FULMOUN PRODUCTION, en cash, par carte de credit ou par virement bancaire.",
+    paymentLocations: [
+      'Kikloe a Petion-Ville',
+      "Centre de Formation Maurice Bonnefil a Haytrac, sur la route de l'aeroport",
+      'Les paiements par carte de credit sont recus a Haytrac.',
+    ],
+    familyTitle: 'Reduction famille',
+    familyBody:
+      "Les familles avec plus d'un enfant dans le club beneficieront d'une reduction de 5% du prix annuel par enfant additionnel a partir du 2e enfant.",
+    lateTitle: 'Frais de retard',
+    lateBody:
+      'Un montant de $20 USD est ajoute par semaine de retard apres la date limite fixee pour les paiements.',
+    absenceTitle: "Politique d'absence",
+    absenceBody: [
+      "Tout cas d'absence ou de depart d'un enfant doit etre annonce a l'avance par ecrit.",
+      'Un courriel formel doit etre envoye afin que le depart soit effectif.',
+      "Aucun montant deja verse ne sera rembourse.",
+    ],
+  },
+}
 
 const requiredFiles = [
-  { label: "2 Photos d'identification", description: "Format passeport recommandé" },
-  { label: "Acte de naissance", description: "Copie lisible du document original" },
-  { label: "Pièce d'identité du parent", description: "Passeport ou Carte d'Identité" }
+  {
+    label: "2 Photos d'identification",
+    description: 'Format passeport recommande',
+  },
+  {
+    label: 'Acte de naissance',
+    description: 'Copie lisible du document original',
+  },
+  {
+    label: "Piece d'identite du parent",
+    description: "Passeport ou carte d'identite",
+  },
 ]
 
 export default function InscriptionJoueurPage() {
+  const [activeProgram, setActiveProgram] = useState<ProgramKey>('fcToro')
+  const pricing = pricingPrograms[activeProgram]
+
   return (
     <div className="min-h-screen bg-[#f8fafc] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
-        {/* Hero Section */}
         <section className="relative h-[320px] overflow-hidden bg-[#0a1d3a] text-white">
           <Image
             src="/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg"
@@ -86,41 +184,83 @@ export default function InscriptionJoueurPage() {
               <div className="inline-flex items-center gap-2 rounded-full bg-[#ef233c] px-4 py-2 text-[10px] font-black uppercase tracking-widest">
                 Rejoindre le club
               </div>
-              <h1 className="text-4xl font-black uppercase md:text-6xl tracking-tight">
+              <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">
                 Devenir Joueur
               </h1>
               <p className="max-w-[600px] text-lg font-medium text-white/80">
-                Intégrez l'académie FC TORO ou le programme Ti Toro. Un parcours d'excellence dès le plus jeune âge.
+                Integrez l'academie FC TORO ou le programme Ti Toro. Un parcours
+                d'excellence des le plus jeune age.
               </p>
             </motion.div>
           </div>
         </section>
 
-        {/* Pricing/Fees Section */}
-        <section className="bg-white px-4 pt-12 pb-2 sm:px-6 lg:px-8">
+        <section className="bg-white px-4 pb-2 pt-12 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1100px]">
             <div className="mb-16 grid gap-12 lg:grid-cols-2">
               <div className="space-y-8">
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">Enregistrement / Frais</p>
-                  <h2 className="mt-4 text-4xl font-black uppercase text-[#0d2d62]">Procédures & Paiements</h2>
-                  <div className="mt-6 h-1 w-16 bg-[#ef233c]" />
+                <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
+                      Enregistrement / Frais
+                    </p>
+                    <h2 className="mt-4 text-4xl font-black uppercase text-[#0d2d62]">
+                      Procedures & Paiements
+                    </h2>
+                    <div className="mt-6 h-1 w-16 bg-[#ef233c]" />
+                  </div>
+
+                  <div className="inline-flex rounded-full border border-[#dce5f2] bg-white p-1.5 shadow-[0_10px_20px_rgba(10,29,58,0.05)]">
+                    <button
+                      type="button"
+                      onClick={() => setActiveProgram('fcToro')}
+                      className={`rounded-full px-5 py-2.5 text-[11px] font-black uppercase tracking-[0.14em] transition-colors ${
+                        activeProgram === 'fcToro'
+                          ? 'bg-[#0a2347] text-white'
+                          : 'text-[#5b6f91] hover:text-[#0a1d3a]'
+                      }`}
+                    >
+                      FC Toro
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveProgram('tiToro')}
+                      className={`rounded-full px-5 py-2.5 text-[11px] font-black uppercase tracking-[0.14em] transition-colors ${
+                        activeProgram === 'tiToro'
+                          ? 'bg-[#ef233c] text-white'
+                          : 'text-[#5b6f91] hover:text-[#0a1d3a]'
+                      }`}
+                    >
+                      Ti Toro
+                    </button>
+                  </div>
                 </div>
 
                 <div className="overflow-hidden rounded-[40px] bg-[#0a2347] p-10 text-white shadow-2xl">
-                  <div className="flex items-center gap-3 mb-8">
+                  <div className="mb-8 flex items-center gap-3">
                     <RiPriceTag3Line className="h-6 w-6 text-[#ef233c]" />
-                    <p className="text-sm font-black uppercase tracking-widest">Paiement Annuel 2026</p>
+                    <p className="text-sm font-black uppercase tracking-widest">
+                      {pricing.annualLabel}
+                    </p>
                   </div>
                   <div className="flex items-baseline gap-4">
-                    <span className="text-7xl font-black tracking-tighter">$1,700</span>
-                    <span className="text-xl font-black text-[#ef233c]">USD</span>
+                    <span className="text-7xl font-black tracking-tighter">
+                      {pricing.annualTotal}
+                    </span>
+                    <span className="text-xl font-black text-[#ef233c]">
+                      {pricing.annualCurrency}
+                    </span>
                   </div>
                   <div className="mt-10 space-y-4 border-t border-white/10 pt-8">
-                    <p className="text-sm font-black uppercase tracking-widest text-[#ef233c]">Ce prix inclut :</p>
+                    <p className="text-sm font-black uppercase tracking-widest text-[#ef233c]">
+                      Ce prix inclut :
+                    </p>
                     <div className="grid gap-3">
-                      {feeIncludes.map((item) => (
-                        <div key={item} className="flex items-center gap-3 text-sm font-semibold text-white/80">
+                      {pricing.feeIncludes.map((item) => (
+                        <div
+                          key={item}
+                          className="flex items-center gap-3 text-sm font-semibold text-white/80"
+                        >
                           <RiCheckLine className="h-5 w-5 text-[#ef233c]" />
                           {item}
                         </div>
@@ -130,19 +270,34 @@ export default function InscriptionJoueurPage() {
                 </div>
 
                 <div className="rounded-[32px] border border-[#dce5f2] bg-[#f8fafc] p-8">
-                  <div className="flex items-center gap-3 mb-6">
+                  <div className="mb-6 flex items-center gap-3">
                     <RiWallet3Line className="h-6 w-6 text-[#ef233c]" />
-                    <h3 className="text-lg font-black uppercase">Modes de paiement</h3>
+                    <h3 className="text-lg font-black uppercase">
+                      Modes de paiement
+                    </h3>
                   </div>
                   <p className="text-sm leading-relaxed text-[#5b6f91]">
-                    Les frais sont payables par chèque à l'ordre de <strong>FULMOUN PRODUCTION</strong>, en cash, par carte de crédit ou par virement bancaire.
+                    {pricing.paymentMethods}
                   </p>
                   <div className="mt-6 space-y-3">
-                    <p className="text-xs font-bold text-[#0d2d62] underline">Lieux de dépôt :</p>
-                    <div className="rounded-2xl bg-white p-4 text-xs italic text-[#5b6f91] space-y-2">
-                       <p>• Kikloe à Pétion-Ville</p>
-                       <p>• Centre de Formation Maurice Bonnefil (Haytrac, route de l'aéroport)</p>
-                       <p className="text-[#ef233c] font-black non-italic">Note : Les paiements par carte de crédit sont reçus uniquement à Haytrac.</p>
+                    <p className="text-xs font-bold text-[#0d2d62] underline">
+                      Lieux de depot :
+                    </p>
+                    <div className="space-y-2 rounded-2xl bg-white p-4 text-xs italic text-[#5b6f91]">
+                      {pricing.paymentLocations.map((item) => (
+                        <p
+                          key={item}
+                          className={
+                            item.startsWith('Note') || item.startsWith('Les paiements')
+                              ? 'font-black not-italic text-[#ef233c]'
+                              : ''
+                          }
+                        >
+                          {item.startsWith('Note') || item.startsWith('Les paiements')
+                            ? item
+                            : `- ${item}`}
+                        </p>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -150,22 +305,36 @@ export default function InscriptionJoueurPage() {
 
               <div className="space-y-8">
                 <div className="grid gap-6">
-                  {paymentPlans.map((plan) => (
-                    <div key={plan.name} className="rounded-[32px] border border-[#dce5f2] bg-white p-8 shadow-sm">
+                  {pricing.paymentPlans.map((plan) => (
+                    <div
+                      key={`${activeProgram}-${plan.name}`}
+                      className="rounded-[32px] border border-[#dce5f2] bg-white p-8 shadow-sm"
+                    >
                       <div className="flex items-center justify-between">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-[#ef233c]">{plan.name}</p>
-                        <span className="text-sm font-black text-[#0d2d62]">{plan.total}</span>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-[#ef233c]">
+                          {plan.name}
+                        </p>
+                        <span className="text-sm font-black text-[#0d2d62]">
+                          {plan.total}
+                        </span>
                       </div>
-                      <h3 className="mt-2 text-xl font-black uppercase">{plan.description}</h3>
+                      <h3 className="mt-2 text-xl font-black uppercase">
+                        {plan.description}
+                      </h3>
                       <div className="mt-6 space-y-2">
                         {Array.isArray(plan.details) ? (
-                          plan.details.map((d) => (
-                            <div key={d} className="flex items-center justify-between rounded-xl bg-[#f8fafc] px-4 py-3 text-xs font-bold text-[#5b6f91]">
-                              {d}
+                          plan.details.map((detail) => (
+                            <div
+                              key={detail}
+                              className="flex items-center justify-between rounded-xl bg-[#f8fafc] px-4 py-3 text-xs font-bold text-[#5b6f91]"
+                            >
+                              {detail}
                             </div>
                           ))
                         ) : (
-                          <p className="text-sm font-semibold text-[#5b6f91]">{plan.details}</p>
+                          <p className="text-sm font-semibold text-[#5b6f91]">
+                            {plan.details}
+                          </p>
                         )}
                       </div>
                     </div>
@@ -173,31 +342,42 @@ export default function InscriptionJoueurPage() {
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-[28px] bg-[#ef233c]/5 p-6 border border-[#ef233c]/10">
-                    <RiParentLine className="h-6 w-6 text-[#ef233c] mb-4" />
-                    <h4 className="text-xs font-black uppercase tracking-widest text-[#ef233c]">Réduction Famille</h4>
+                  <div className="rounded-[28px] border border-[#ef233c]/10 bg-[#ef233c]/5 p-6">
+                    <RiParentLine className="mb-4 h-6 w-6 text-[#ef233c]" />
+                    <h4 className="text-xs font-black uppercase tracking-widest text-[#ef233c]">
+                      {pricing.familyTitle}
+                    </h4>
                     <p className="mt-3 text-xs leading-relaxed text-[#5b6f91]">
-                      <strong>5% de réduction</strong> sur le prix annuel par enfant additionnel à partir du 2e enfant.
+                      {pricing.familyBody}
                     </p>
                   </div>
-                  <div className="rounded-[28px] bg-[#0a2347]/5 p-6 border border-[#0a2347]/10">
-                    <RiTimerLine className="h-6 w-6 text-[#0a2347] mb-4" />
-                    <h4 className="text-xs font-black uppercase tracking-widest text-[#0a2347]">Frais de retard</h4>
+                  <div className="rounded-[28px] border border-[#0a2347]/10 bg-[#0a2347]/5 p-6">
+                    <RiTimerLine className="mb-4 h-6 w-6 text-[#0a2347]" />
+                    <h4 className="text-xs font-black uppercase tracking-widest text-[#0a2347]">
+                      {pricing.lateTitle}
+                    </h4>
                     <p className="mt-3 text-xs leading-relaxed text-[#5b6f91]">
-                      <strong>$20 USD</strong> de frais par semaine de retard après la date limite fixée.
+                      {pricing.lateBody}
                     </p>
                   </div>
                 </div>
 
                 <div className="rounded-[32px] border border-[#dce5f2] bg-white p-8">
-                  <div className="flex items-center gap-3 mb-6">
+                  <div className="mb-6 flex items-center gap-3">
                     <RiInformationLine className="h-6 w-6 text-[#ef233c]" />
-                    <h3 className="text-lg font-black uppercase">Politique d'absence</h3>
+                    <h3 className="text-lg font-black uppercase">
+                      {pricing.absenceTitle}
+                    </h3>
                   </div>
                   <div className="space-y-4 text-xs leading-relaxed text-[#5b6f91]">
-                    <p>Tout départ ou absence prolongée doit être annoncé par écrit par courriel à <strong>Patrick Bonnefil</strong> avec copie à son assistante.</p>
-                    <p className="font-bold text-[#ef233c]">Aucun remboursement n'est effectué pour les montants déjà versés.</p>
-                    <p>En cas de maladie, un certificat médical doit être soumis impérativement.</p>
+                    {pricing.absenceBody.map((item, index) => (
+                      <p
+                        key={`${activeProgram}-absence-${index}`}
+                        className={index === 1 && activeProgram === 'fcToro' ? 'font-bold text-[#ef233c]' : ''}
+                      >
+                        {item}
+                      </p>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -205,50 +385,85 @@ export default function InscriptionJoueurPage() {
           </div>
         </section>
 
-        {/* Form Section */}
-        <section id="formulaire-joueur" className="bg-[#f8fafc] px-4 pt-2 pb-12 sm:px-6 lg:px-8">
+        <section
+          id="formulaire-joueur"
+          className="bg-[#f8fafc] px-4 pb-12 pt-2 sm:px-6 lg:px-8"
+        >
           <div className="mx-auto max-w-[1100px]">
             <InscriptionFormCard
-              eyebrow="Formulaire 2026"
+              eyebrow="Formulaire joueur"
               title="Inscription & Dossier"
-              description="Soumettez votre dossier complet en ligne. L'inscription est considérée comme complète une fois le formulaire soumis avec le premier paiement intégral."
+              description="Soumettez votre dossier complet en ligne. L'inscription est consideree comme complete une fois le formulaire soumis avec le premier paiement integral."
               badges={['Dossier Joueur', 'Inscription Directe', 'Paiement Securise']}
             >
               <form className="space-y-8">
-                {/* 0. Choix du programme */}
                 <div className="rounded-[32px] bg-[#0a2347] p-8 text-white shadow-xl">
-                   <div className="flex items-center gap-4 mb-6">
-                      <RiShieldStarLine className="h-8 w-8 text-[#ef233c]" />
+                  <div className="mb-6 flex items-center gap-4">
+                    <RiShieldStarLine className="h-8 w-8 text-[#ef233c]" />
+                    <div>
+                      <h3 className="text-xl font-black uppercase tracking-tight">
+                        Choix du programme
+                      </h3>
+                      <p className="text-sm text-white/60">
+                        Selectionnez le parcours souhaite pour le joueur.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label
+                      className={`relative flex cursor-pointer items-center gap-4 rounded-2xl border p-6 transition-all ${
+                        activeProgram === 'tiToro'
+                          ? 'border-[#ef233c]/40 bg-white/12'
+                          : 'border-white/10 bg-white/5 hover:bg-white/10'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="program"
+                        value="titoro"
+                        className="h-5 w-5 accent-[#ef233c]"
+                        checked={activeProgram === 'tiToro'}
+                        onChange={() => setActiveProgram('tiToro')}
+                      />
                       <div>
-                        <h3 className="text-xl font-black uppercase tracking-tight">Choix du programme</h3>
-                        <p className="text-sm text-white/60">Sélectionnez le parcours souhaité pour le joueur.</p>
+                        <p className="text-sm font-black uppercase tracking-widest">
+                          Ti Toro
+                        </p>
+                        <p className="text-xs text-white/50">2 a 5 ans</p>
                       </div>
-                   </div>
-                   <div className="grid gap-4 sm:grid-cols-2">
-                      <label className="relative flex cursor-pointer items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 transition-all hover:bg-white/10">
-                        <input type="radio" name="program" value="titoro" className="h-5 w-5 accent-[#ef233c]" defaultChecked />
-                        <div>
-                          <p className="text-sm font-black uppercase tracking-widest">Ti Toro</p>
-                          <p className="text-xs text-white/50">2 à 5 ans</p>
-                        </div>
-                      </label>
-                      <label className="relative flex cursor-pointer items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 transition-all hover:bg-white/10">
-                        <input type="radio" name="program" value="fctoro" className="h-5 w-5 accent-[#ef233c]" />
-                        <div>
-                          <p className="text-sm font-black uppercase tracking-widest">FC Toro</p>
-                          <p className="text-xs text-white/50">6 ans et plus</p>
-                        </div>
-                      </label>
-                   </div>
+                    </label>
+                    <label
+                      className={`relative flex cursor-pointer items-center gap-4 rounded-2xl border p-6 transition-all ${
+                        activeProgram === 'fcToro'
+                          ? 'border-[#ef233c]/40 bg-white/12'
+                          : 'border-white/10 bg-white/5 hover:bg-white/10'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="program"
+                        value="fctoro"
+                        className="h-5 w-5 accent-[#ef233c]"
+                        checked={activeProgram === 'fcToro'}
+                        onChange={() => setActiveProgram('fcToro')}
+                      />
+                      <div>
+                        <p className="text-sm font-black uppercase tracking-widest">
+                          FC Toro
+                        </p>
+                        <p className="text-xs text-white/50">6 ans et plus</p>
+                      </div>
+                    </label>
+                  </div>
                 </div>
 
                 <InscriptionFormSection
                   index="01"
-                  title="Identité du joueur"
+                  title="Identite du joueur"
                   description="Informations personnelles de l'enfant."
                 >
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <InscriptionField label="Prénom de l'enfant" required>
+                    <InscriptionField label="Prenom de l'enfant" required>
                       <InscriptionInput type="text" placeholder="Nathan" />
                     </InscriptionField>
                     <InscriptionField label="Nom de l'enfant" required>
@@ -264,7 +479,7 @@ export default function InscriptionJoueurPage() {
                       <InscriptionSelect defaultValue="Choisir">
                         <option disabled>Choisir</option>
                         <option>Filles (F)</option>
-                        <option>Garçon (M)</option>
+                        <option>Garcon (M)</option>
                       </InscriptionSelect>
                     </InscriptionField>
                   </div>
@@ -274,11 +489,17 @@ export default function InscriptionJoueurPage() {
                   </InscriptionField>
 
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <InscriptionField label="École fréquentée" required>
-                      <InscriptionInput type="text" placeholder="Nom de l'établissement" />
+                    <InscriptionField label="Ecole frequentee" required>
+                      <InscriptionInput
+                        type="text"
+                        placeholder="Nom de l'etablissement"
+                      />
                     </InscriptionField>
-                    <InscriptionField label="Ancienne Expérience Soccer">
-                      <InscriptionInput type="text" placeholder="Clubs précédents ou 'Nouveau'" />
+                    <InscriptionField label="Ancienne experience soccer">
+                      <InscriptionInput
+                        type="text"
+                        placeholder="Clubs precedents ou Nouveau"
+                      />
                     </InscriptionField>
                   </div>
                 </InscriptionFormSection>
@@ -286,10 +507,10 @@ export default function InscriptionJoueurPage() {
                 <InscriptionFormSection
                   index="02"
                   title="Parents / Tuteur"
-                  description="Informations de contact pour les responsables légaux."
+                  description="Informations de contact pour les responsables legaux."
                 >
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <InscriptionField label="Nom & Prénom" required>
+                    <InscriptionField label="Nom & Prenom" required>
                       <InscriptionInput type="text" />
                     </InscriptionField>
                     <InscriptionField label="E-mail" required>
@@ -297,10 +518,10 @@ export default function InscriptionJoueurPage() {
                     </InscriptionField>
                   </div>
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <InscriptionField label="Téléphone / WhatsApp" required>
+                    <InscriptionField label="Telephone / WhatsApp" required>
                       <InscriptionInput type="tel" placeholder="+509" />
                     </InscriptionField>
-                    <InscriptionField label="Adresse (si différente)">
+                    <InscriptionField label="Adresse (si differente)">
                       <InscriptionInput type="text" />
                     </InscriptionField>
                   </div>
@@ -311,16 +532,19 @@ export default function InscriptionJoueurPage() {
                   title="Contact d'urgence"
                   description="En cas de besoin, qui le club doit-il contacter ?"
                 >
-                   <div className="grid gap-5 sm:grid-cols-2">
-                    <InscriptionField label="Nom & Prénom" required>
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <InscriptionField label="Nom & Prenom" required>
                       <InscriptionInput type="text" />
                     </InscriptionField>
-                    <InscriptionField label="Lien de parenté" required>
-                      <InscriptionInput type="text" placeholder="Ex: Oncle, Tante..." />
+                    <InscriptionField label="Lien de parente" required>
+                      <InscriptionInput
+                        type="text"
+                        placeholder="Ex: Oncle, Tante..."
+                      />
                     </InscriptionField>
                   </div>
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <InscriptionField label="Téléphone" required>
+                    <InscriptionField label="Telephone" required>
                       <InscriptionInput type="tel" />
                     </InscriptionField>
                     <InscriptionField label="E-mail">
@@ -335,25 +559,42 @@ export default function InscriptionJoueurPage() {
                 <InscriptionFormSection
                   index="04"
                   title="Uniformes & Tailles"
-                  description="Sélectionnez les tailles pour l'équipement fourni par le club."
+                  description="Selectionnez les tailles pour l'equipement fourni par le club."
                 >
                   <div className="grid gap-5 sm:grid-cols-2">
                     <InscriptionField label="Taille du Haut (Top)" required>
                       <InscriptionSelect defaultValue="Choisir">
                         <option disabled>Choisir</option>
-                        <option>YXS</option><option>YS</option><option>YM</option><option>YL</option><option>YXL</option>
-                        <option>AS</option><option>AM</option><option>AL</option><option>AXL</option>
+                        <option>YXS</option>
+                        <option>YS</option>
+                        <option>YM</option>
+                        <option>YL</option>
+                        <option>YXL</option>
+                        <option>AS</option>
+                        <option>AM</option>
+                        <option>AL</option>
+                        <option>AXL</option>
                       </InscriptionSelect>
                     </InscriptionField>
                     <InscriptionField label="Taille du Short" required>
                       <InscriptionSelect defaultValue="Choisir">
                         <option disabled>Choisir</option>
-                        <option>YXS</option><option>YS</option><option>YM</option><option>YL</option><option>YXL</option>
-                        <option>AS</option><option>AM</option><option>AL</option><option>AXL</option>
+                        <option>YXS</option>
+                        <option>YS</option>
+                        <option>YM</option>
+                        <option>YL</option>
+                        <option>YXL</option>
+                        <option>AS</option>
+                        <option>AM</option>
+                        <option>AL</option>
+                        <option>AXL</option>
                       </InscriptionSelect>
                     </InscriptionField>
                   </div>
-                  <InscriptionField label="Numéros préférés" helper="Indiquez 3 choix (Ex: 10, 7, 22)">
+                  <InscriptionField
+                    label="Numeros preferes"
+                    helper="Indiquez 3 choix (Ex: 10, 7, 22)"
+                  >
                     <InscriptionInput type="text" placeholder="10, 7, 22" />
                   </InscriptionField>
                 </InscriptionFormSection>
@@ -361,48 +602,71 @@ export default function InscriptionJoueurPage() {
                 <InscriptionFormSection
                   index="05"
                   title="Choix du Plan de Paiement"
-                  description="Consultez les détails en haut de page avant de sélectionner."
+                  description="Consultez les details en haut de page avant de selectionner."
                 >
-                   <div className="grid gap-4">
-                      <label className="flex cursor-pointer items-center gap-4 rounded-2xl border border-[#dce5f2] bg-white p-5 hover:bg-[#f8fafc]">
-                        <input type="radio" name="payment_plan" value="plan1" className="h-4 w-4 accent-[#ef233c]" defaultChecked />
-                        <span className="text-sm font-bold text-[#0d2d62]">PLAN #1 (Paiement intégral - $1,700 USD)</span>
+                  <div className="grid gap-4">
+                    {pricing.paymentPlans.map((plan, index) => (
+                      <label
+                        key={`form-${activeProgram}-${plan.name}`}
+                        className="flex cursor-pointer items-center gap-4 rounded-2xl border border-[#dce5f2] bg-white p-5 hover:bg-[#f8fafc]"
+                      >
+                        <input
+                          type="radio"
+                          name="payment_plan"
+                          value={plan.name}
+                          className="h-4 w-4 accent-[#ef233c]"
+                          defaultChecked={index === 0}
+                        />
+                        <span className="text-sm font-bold text-[#0d2d62]">
+                          {plan.name} ({plan.description} - {plan.total})
+                        </span>
                       </label>
-                      <label className="flex cursor-pointer items-center gap-4 rounded-2xl border border-[#dce5f2] bg-white p-5 hover:bg-[#f8fafc]">
-                        <input type="radio" name="payment_plan" value="plan2" className="h-4 w-4 accent-[#ef233c]" />
-                        <span className="text-sm font-bold text-[#0d2d62]">PLAN #2 (4 paiments - Fractionné)</span>
-                      </label>
-                   </div>
+                    ))}
+                  </div>
                 </InscriptionFormSection>
 
                 <InscriptionFormSection
                   index="06"
-                  title="Documents à soumettre"
-                  description="Veuillez télécharger les versions numériques (Scan ou Photo claire) des documents suivants."
+                  title="Documents a soumettre"
+                  description="Veuillez telecharger les versions numeriques (scan ou photo claire) des documents suivants."
                 >
                   <div className="grid gap-8">
-                     {requiredFiles.map((doc) => (
-                       <InscriptionField key={doc.label} label={doc.label} helper={doc.description} required>
-                          <div className="relative flex min-h-[140px] items-center justify-center rounded-[32px] border-2 border-dashed border-[#dce5f2] bg-white transition-all hover:border-[#ef233c]/30 hover:bg-[#fffcfc]">
-                            <input type="file" className="absolute inset-0 z-10 cursor-pointer opacity-0" />
-                            <div className="text-center">
-                              <RiUploadCloud2Line className="mx-auto h-8 w-8 text-[#ef233c]/40" />
-                              <p className="mt-2 text-xs font-black uppercase tracking-widest text-[#0a1d3a]">Uploader le fichier</p>
-                              <p className="mt-1 text-[10px] text-[#5b6f91]">PDF, JPG ou PNG (Max 5MB)</p>
-                            </div>
+                    {requiredFiles.map((doc) => (
+                      <InscriptionField
+                        key={doc.label}
+                        label={doc.label}
+                        helper={doc.description}
+                        required
+                      >
+                        <div className="relative flex min-h-[140px] items-center justify-center rounded-[32px] border-2 border-dashed border-[#dce5f2] bg-white transition-all hover:border-[#ef233c]/30 hover:bg-[#fffcfc]">
+                          <input
+                            type="file"
+                            className="absolute inset-0 z-10 cursor-pointer opacity-0"
+                          />
+                          <div className="text-center">
+                            <RiUploadCloud2Line className="mx-auto h-8 w-8 text-[#ef233c]/40" />
+                            <p className="mt-2 text-xs font-black uppercase tracking-widest text-[#0a1d3a]">
+                              Uploader le fichier
+                            </p>
+                            <p className="mt-1 text-[10px] text-[#5b6f91]">
+                              PDF, JPG ou PNG (Max 5MB)
+                            </p>
                           </div>
-                       </InscriptionField>
-                     ))}
+                        </div>
+                      </InscriptionField>
+                    ))}
                   </div>
                 </InscriptionFormSection>
 
                 <InscriptionConsent>
-                  Je confirme que les informations sont exactes et que je m'engage à respecter les politiques du club concernant les paiements et le comportement des membres.
+                  Je confirme que les informations sont exactes et que je
+                  m'engage a respecter les politiques du club concernant les
+                  paiements et le comportement des membres.
                 </InscriptionConsent>
 
                 <InscriptionSubmit
                   label="Finaliser l'inscription"
-                  note="Votre dossier sera analysé par le club. Un message de confirmation vous sera envoyé par e-mail avec les instructions finales pour le paiement."
+                  note="Votre dossier sera analyse par le club. Un message de confirmation vous sera envoye par e-mail avec les instructions finales pour le paiement."
                 />
               </form>
             </InscriptionFormCard>

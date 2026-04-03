@@ -1,42 +1,19 @@
+'use client'
+
 import Image from 'next/image'
-import Link from 'next/link'
-import {
-  RiArrowRightLine,
-  RiCalendarEventLine,
-  RiTrophyLine,
-} from '@remixicon/react'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { flagDayFixtures, flagDayStandings } from '@/data/events-data'
-import { ClubFixture, ClubStandingRow, MatchFormResult } from '@/types/club'
+import { motion } from 'framer-motion'
+import { RiCalendarEventLine, RiShieldStarLine, RiTeamLine, RiFlagLine } from '@remixicon/react'
 
-const formBadgeClasses: Record<MatchFormResult, string> = {
-  W: 'bg-emerald-500 text-white',
-  D: 'bg-zinc-400 text-white',
-  L: 'bg-red-500 text-white',
-}
+// Fixtures imports
+import { flagDayFixtures } from '@/data/events-data'
+import { ClubFixture } from '@/types/club'
 
-const formLabel: Record<MatchFormResult, string> = {
-  W: 'V',
-  D: 'N',
-  L: 'D',
-}
+const heroImg = '/flag-day/img-1131.jpg'
+const flagImg2 = '/flag-day/img-1644.jpg'
+const flagImg3 = '/flag-day/img-1802.jpg'
+const flagImg4 = '/flag-day/mg-0004.jpg'
 
-const sortStandings = (rows: ClubStandingRow[]) =>
-  [...rows].sort((a, b) => {
-    if (b.pts !== a.pts) return b.pts - a.pts
-    const goalDiffA = a.goalsFor - a.goalsAgainst
-    const goalDiffB = b.goalsFor - b.goalsAgainst
-    if (goalDiffB !== goalDiffA) return goalDiffB - goalDiffA
-    return b.goalsFor - a.goalsFor
-  })
-
+// Helpers for Fixtures
 const formatKickoffDate = (kickoff: string) =>
   new Intl.DateTimeFormat('fr-FR', {
     weekday: 'short',
@@ -51,9 +28,6 @@ const formatKickoffTime = (kickoff: string) =>
   }).format(new Date(kickoff))
 
 export default function FlagDayPageContent() {
-  const standings = sortStandings(flagDayStandings)
-  const leader = standings[0]
-  const fcToro = standings.find((row) => row.teamId === 'team-fctoro')
   const recentFixtures: ClubFixture[] = [...flagDayFixtures]
     .filter((fixture) => fixture.status === 'FT')
     .sort((a, b) => new Date(b.kickoff).getTime() - new Date(a.kickoff).getTime())
@@ -65,264 +39,300 @@ export default function FlagDayPageContent() {
     .slice(0, 4)
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#f4f6fb_0%,#edf2f8_100%)] text-[#0a1d3a]">
-      <main className="pb-14 pt-[116px] lg:pt-[78px]">
-        <section className="relative overflow-hidden border-b border-[#dbe4f0] bg-[#0a1d3a] px-4 py-10 text-white sm:px-6 sm:py-12 lg:px-8 lg:py-12 xl:py-14">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(239,35,60,0.18),transparent_32%)]" />
-          <div className="mx-auto grid max-w-[1200px] gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start xl:grid-cols-[minmax(0,1.05fr)_360px] xl:gap-8">
-            <div className="relative z-10">
-              <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
-                Tournoi club
-              </p>
-              <h1 className="mt-4 max-w-[640px] text-[clamp(1.85rem,3.4vw,3.3rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
-                Flag Day
-                <br />
-                Classement
-              </h1>
-              <p className="mt-4 max-w-[620px] text-[15px] leading-relaxed text-white/72 sm:text-lg">
-                Classement general, resultats recents et prochaines affiches du tournoi Flag Day.
-                La structure est deja prete pour recevoir le classement officiel quand tu l enverras.
-              </p>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/76">
-                  <RiTrophyLine className="h-4 w-4 text-[#ef233c]" />
-                  Leader: {leader.teamName}
-                </div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/76">
-                  <RiCalendarEventLine className="h-4 w-4 text-[#ef233c]" />
-                  Finale: 18 mai 2026
-                </div>
-              </div>
+    <div className="bg-[#f2f2f4] text-[#0a1d3a]">
+      {/* ═══════ HERO ═══════ */}
+      <section className="relative h-[650px] overflow-hidden bg-[#0a1d3a] text-white md:h-[800px] lg:h-screen lg:min-h-[700px]">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src={heroImg}
+            alt="Flag Day Tournament"
+            fill
+            priority
+            className="object-cover object-center opacity-60 mix-blend-overlay"
+          />
+          {/* Overlay / fallback */}
+          <div className="absolute inset-0 bg-[#0a1d3a]/50" />
+          <Image
+            src={flagImg4}
+            alt="Action Flag Day"
+            fill
+            className="object-cover object-top opacity-30"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a] via-[#0a1d3a]/60 to-transparent" />
+          <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-r from-[#0a1d3a]/80 to-transparent" />
+        </div>
+
+        <div className="relative z-10 mx-auto flex h-full max-w-[1200px] flex-col justify-end px-4 pb-20 sm:px-6 lg:px-8 lg:pb-32">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="max-w-3xl"
+          >
+            <div className="mb-6 flex flex-wrap gap-3">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1a4ea3] px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white">
+                <RiFlagLine className="h-4 w-4" /> Fête du Drapeau
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white backdrop-blur-md">
+                <RiCalendarEventLine className="h-4 w-4 text-[#1a4ea3]" /> 18 Mai
+              </span>
             </div>
 
-            <div className="relative z-10 self-start rounded-[28px] border border-white/10 bg-white/6 p-5 backdrop-blur lg:p-6">
-              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/48">
-                Focus FC TORO
-              </p>
-              <p className="mt-3 text-4xl font-black leading-none text-white">{fcToro?.pts ?? '-'} pts</p>
-              <p className="mt-2 text-sm font-semibold text-white/72">
-                {fcToro ? `${fcToro.wins} victoires, ${fcToro.draws} nuls, ${fcToro.losses} defaites` : 'En attente des donnees'}
-              </p>
-              <Link
-                href="/evenements/live"
-                className="mt-6 inline-flex items-center gap-2 text-sm font-black uppercase tracking-[0.12em] text-[#ffd5db]"
-              >
-                Suivre le live <RiArrowRightLine className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-        </section>
+            <h1 className="text-[clamp(3.5rem,7vw,7rem)] font-black uppercase leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
+              Flag Day <br />
+              <span className="text-[#ef233c]">Tournament.</span>
+            </h1>
+            
+            <p className="mt-8 text-lg font-medium leading-relaxed text-white/80 sm:text-xl lg:max-w-2xl">
+              Célébrons le patriotisme et l'unité haïtienne. Une compétition prestigieuse où la passion du football rassemble la jeunesse de demain.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
-        <section className="px-4 py-8 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1200px]">
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="rounded-2xl border border-[#d7dfec] bg-white px-5 py-4">
-                <p className="text-[11px] font-black uppercase tracking-[0.12em] text-[#6a7f9f]">Leader actuel</p>
-                <p className="mt-2 text-xl font-black text-[#0a1d3a]">{leader.teamName}</p>
+      {/* ═══════ L'ÉVÉNEMENT (DESCRIPTION) ═══════ */}
+      <section className="relative -mt-10 z-20 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px]">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7 }}
+            className="overflow-hidden rounded-[2rem] bg-white shadow-2xl md:grid md:grid-cols[1fr_1.5fr] lg:grid-cols-2 lg:items-center"
+          >
+            {/* Image side */}
+            <div className="relative h-[400px] w-full lg:h-full">
+              <Image 
+                src={heroImg} 
+                alt="Jeunesse et Fierté" 
+                fill 
+                className="object-cover"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-8">
+                <p className="text-xl font-black uppercase text-white shadow-xl">Symbole de Fierté</p>
+                <p className="text-sm font-bold text-[#ef233c]">Unité & Résistance</p>
               </div>
-              <div className="rounded-2xl border border-[#d7dfec] bg-white px-5 py-4">
-                <p className="text-[11px] font-black uppercase tracking-[0.12em] text-[#6a7f9f]">Position FC TORO</p>
-                <p className="mt-2 text-xl font-black text-[#0a1d3a]">
-                  {fcToro ? `${standings.findIndex((row) => row.teamId === 'team-fctoro') + 1}e` : '-'}
+            </div>
+            
+            {/* Text side */}
+            <div className="p-8 md:p-12 lg:p-16">
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1a4ea3]">Formation & Valeurs</p>
+              <h2 className="mt-4 text-3xl font-black uppercase leading-[0.95] tracking-tighter text-[#0a1d3a] md:text-4xl">
+                Un hommage au<br />
+                <span className="text-[#ef233c]">Drapeau Haïtien.</span>
+              </h2>
+              
+              <div className="mt-8 space-y-5 text-[15px] font-medium leading-relaxed text-[#445b7f]">
+                <p>
+                  <strong>FlagDay Tournament</strong> est un tournoi de jeunes par FULMOUN PRODUCTION qui se déroule sous le leadership du FC TORO, en hommage à la Fête du Drapeau Haïtien. Cet événement rassemble des équipes de jeunes talents venus de différentes régions du pays pour célébrer non seulement la passion du football, mais aussi l'esprit patriotique et la fierté nationale.
+                </p>
+                <p>
+                  En tant que pilier de la formation de la jeunesse, FC TORO s'engage chaque année à organiser ce tournoi autour du <strong>18 mai</strong>, date marquant la création du drapeau haïtien, symbole d'unité et de résistance.
+                </p>
+                <p>
+                  Lors de cette compétition, les jeunes athlètes sont mis au défi de se surpasser tout en apprenant l'importance de la cohésion, de la discipline et du respect de l'adversaire. Le FlagDay Tournament est également une plateforme d'échanges culturels et sportifs, où chaque participant a la chance de montrer son talent devant un public de supporters passionnés.
+                </p>
+                <p className="font-bold text-[#0a1d3a] border-l-4 border-[#ef233c] pl-4 italic">
+                  Cette initiative contribue ainsi à développer le football de jeunes en Haïti et à insuffler des valeurs de solidarité et de détermination qui transcendent le terrain.
                 </p>
               </div>
-              <div className="rounded-2xl border border-[#d7dfec] bg-white px-5 py-4">
-                <p className="text-[11px] font-black uppercase tracking-[0.12em] text-[#6a7f9f]">Equipes suivies</p>
-                <p className="mt-2 text-xl font-black text-[#0a1d3a]">{standings.length}</p>
-              </div>
             </div>
+          </motion.div>
+        </div>
+      </section>
 
-            <div className="mt-6 space-y-6">
-              <section className="overflow-hidden rounded-[28px] border border-[#d7dfec] bg-white shadow-[0_14px_30px_rgba(10,29,58,0.08)]">
-                <div className="border-b border-[#ebf0f7] px-5 py-4">
-                  <h3 className="text-xl font-black text-[#0a1d3a]">Classement Flag Day</h3>
-                  <p className="mt-1 text-sm text-[#5b6f91]">
-                    Tableau principal du tournoi avec FC TORO mis en evidence.
-                  </p>
+      {/* ═══════ IMMERSION / GALLERY COMPÉTITION ═══════ */}
+      <section className="bg-[#f2f2f4] px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px]">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="mb-14 text-center"
+          >
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#1a4ea3]">Immersion</p>
+            <h2 className="mt-4 text-4xl font-black uppercase leading-[0.9] tracking-tighter text-[#0a1d3a] md:text-5xl">
+              Vivre la <span className="text-[#1a4ea3]">Passion.</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base font-medium text-[#5b6f91]">
+              Joie, détermination et fraternité s'emparent des terrains pour honorer nos couleurs à travers le sport.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Grande image (2 cols / 2 rows) */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="group relative h-[400px] overflow-hidden rounded-[2rem] sm:col-span-2 lg:row-span-2 lg:h-[600px]"
+            >
+              <Image src={flagImg4} alt="Atmosphère Flag Day" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" />
+              <div className="absolute bottom-0 left-0 p-8">
+                <p className="text-[10px] font-black uppercase tracking-widest text-[#1a4ea3]">Célébration</p>
+                <p className="mt-2 text-2xl font-black uppercase text-white">Le football comme lien communautaire</p>
+              </div>
+            </motion.div>
+
+            {/* Images classiques */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="group relative h-[280px] overflow-hidden rounded-[2rem]"
+            >
+              <Image src={flagImg2} alt="Jeunes Talents" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-[#0a1d3a]/20 transition-colors duration-300 group-hover:bg-transparent" />
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="group relative h-[280px] overflow-hidden rounded-[2rem]"
+            >
+              <Image src={flagImg3} alt="Action de match" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-[#0a1d3a]/20 transition-colors duration-300 group-hover:bg-transparent" />
+            </motion.div>
+
+            {/* Image large */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="group relative h-[350px] overflow-hidden rounded-[2rem] sm:col-span-2 lg:col-span-3"
+            >
+              <Image src={heroImg} alt="Équipe rassemblée" fill className="object-cover object-center transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-8 flex flex-col justify-end">
+                <p className="text-[10px] font-black uppercase tracking-widest text-[#1a4ea3]">Cohésion</p>
+                <p className="mt-2 text-2xl font-black uppercase text-white">L'esprit d'équipe récompensé</p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ FIXTURES (MATCHS RECENTS & A VENIR) ═══════ */}
+      <section className="bg-white px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px]">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-12"
+          >
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">Évolution</p>
+            <h2 className="mt-4 text-3xl font-black uppercase leading-[0.9] tracking-tighter text-[#0a1d3a]">
+              Performances & <br />
+              <span className="text-[#1a4ea3]">Affiches à Suivre.</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid gap-8 lg:grid-cols-2">
+            {/* Résultats récents */}
+            <section className="rounded-[28px] border border-[#d7dfec] bg-[#fbfcff] p-6 shadow-[0_14px_30px_rgba(10,29,58,0.06)] md:p-8">
+              <div className="mb-6 flex items-center gap-3">
+                <RiShieldStarLine className="h-6 w-6 text-[#1a4ea3]" />
+                <h3 className="text-xl font-black uppercase text-[#0a1d3a]">Résultats récents</h3>
+              </div>
+              
+              <div className="space-y-4">
+                {recentFixtures.map((fixture) => (
+                  <article
+                    key={fixture.id}
+                    className="group rounded-2xl border border-[#e7edf6] bg-white p-4 transition-colors hover:border-[#1a4ea3]/30"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-[#6a7f9f]">
+                        {fixture.round} - {fixture.competition}
+                      </p>
+                      <p className="text-[11px] font-bold tracking-wider text-[#6a7f9f]">
+                        {formatKickoffDate(fixture.kickoff)}
+                      </p>
+                    </div>
+                    <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4">
+                      <div className="flex min-w-0 items-center justify-end gap-3">
+                        <span className="truncate text-right text-sm font-black uppercase text-[#0a1d3a]">
+                          {fixture.homeTeamName}
+                        </span>
+                        <Image src={fixture.homeLogoUrl} alt={fixture.homeTeamName} width={28} height={28} className="h-7 w-7 shrink-0 rounded-full object-cover shadow-sm" />
+                      </div>
+
+                      <div className="flex h-10 min-w-[70px] items-center justify-center rounded-lg bg-[#f0f4f9] px-3 font-black text-[#1a4ea3] shadow-inner">
+                        {fixture.homeScore} - {fixture.awayScore}
+                      </div>
+
+                      <div className="flex min-w-0 items-center gap-3">
+                        <Image src={fixture.awayLogoUrl} alt={fixture.awayTeamName} width={28} height={28} className="h-7 w-7 shrink-0 rounded-full object-cover shadow-sm" />
+                        <span className="min-w-0 truncate text-sm font-black uppercase text-[#0a1d3a]">
+                          {fixture.awayTeamName}
+                        </span>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            {/* Prochains matchs */}
+            <section className="rounded-[28px] border border-[#d7dfec] bg-[#fbfcff] p-6 shadow-[0_14px_30px_rgba(10,29,58,0.06)] md:p-8">
+              <div className="mb-6 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <RiTeamLine className="h-6 w-6 text-[#ef233c]" />
+                  <h3 className="text-xl font-black uppercase text-[#0a1d3a]">Prochains matchs</h3>
                 </div>
+              </div>
 
-                <Table>
-                  <TableHeader className="border-b border-[#eef2f8]">
-                    <TableRow className="hover:bg-transparent">
-                      <TableHead className="px-4 py-3 text-[11px] font-black uppercase tracking-[0.08em] text-[#6a7f9f]">#</TableHead>
-                      <TableHead className="px-4 py-3 text-[11px] font-black uppercase tracking-[0.08em] text-[#6a7f9f]">Equipe</TableHead>
-                      <TableHead className="px-2 py-3 text-center text-[11px] font-black uppercase tracking-[0.08em] text-[#6a7f9f]">PTS</TableHead>
-                      <TableHead className="px-2 py-3 text-center text-[11px] font-black uppercase tracking-[0.08em] text-[#6a7f9f]">J</TableHead>
-                      <TableHead className="px-2 py-3 text-center text-[11px] font-black uppercase tracking-[0.08em] text-[#6a7f9f]">W</TableHead>
-                      <TableHead className="px-2 py-3 text-center text-[11px] font-black uppercase tracking-[0.08em] text-[#6a7f9f]">L</TableHead>
-                      <TableHead className="px-2 py-3 text-center text-[11px] font-black uppercase tracking-[0.08em] text-[#6a7f9f]">N</TableHead>
-                      <TableHead className="px-2 py-3 text-center text-[11px] font-black uppercase tracking-[0.08em] text-[#6a7f9f]">GF</TableHead>
-                      <TableHead className="px-2 py-3 text-center text-[11px] font-black uppercase tracking-[0.08em] text-[#6a7f9f]">GA</TableHead>
-                      <TableHead className="px-2 py-3 text-center text-[11px] font-black uppercase tracking-[0.08em] text-[#6a7f9f]">+/-</TableHead>
-                      <TableHead className="px-4 py-3 text-center text-[11px] font-black uppercase tracking-[0.08em] text-[#6a7f9f]">5 derniers</TableHead>
-                    </TableRow>
-                  </TableHeader>
-
-                  <TableBody>
-                    {standings.map((row, index) => {
-                      const goalDiff = row.goalsFor - row.goalsAgainst
-                      const isToro = row.teamId === 'team-fctoro'
-
-                      return (
-                        <TableRow
-                          key={row.teamId}
-                          className={isToro ? 'bg-[linear-gradient(98deg,rgba(239,35,60,0.12),rgba(26,78,163,0.08))]' : 'hover:bg-[#f8fbff]'}
-                        >
-                          <TableCell className="px-4 py-3 text-sm font-black text-[#0a1d3a]">{index + 1}</TableCell>
-                          <TableCell className="px-4 py-3">
-                            <div className="flex items-center gap-3">
-                              <Image
-                                src={row.logoUrl}
-                                alt={row.teamName}
-                                width={26}
-                                height={26}
-                                className="h-6 w-6 rounded-full object-cover"
-                              />
-                              <span className="text-sm font-semibold text-[#0a1d3a]">{row.teamName}</span>
-                            </div>
-                          </TableCell>
-                          <TableCell className="px-2 py-3 text-center text-sm font-black text-[#0a1d3a]">{row.pts}</TableCell>
-                          <TableCell className="px-2 py-3 text-center text-sm text-[#5b6f91]">{row.played}</TableCell>
-                          <TableCell className="px-2 py-3 text-center text-sm text-[#5b6f91]">{row.wins}</TableCell>
-                          <TableCell className="px-2 py-3 text-center text-sm text-[#5b6f91]">{row.losses}</TableCell>
-                          <TableCell className="px-2 py-3 text-center text-sm text-[#5b6f91]">{row.draws}</TableCell>
-                          <TableCell className="px-2 py-3 text-center text-sm text-[#5b6f91]">{row.goalsFor}</TableCell>
-                          <TableCell className="px-2 py-3 text-center text-sm text-[#5b6f91]">{row.goalsAgainst}</TableCell>
-                          <TableCell className="px-2 py-3 text-center text-sm font-semibold text-[#0a1d3a]">
-                            {goalDiff > 0 ? `+${goalDiff}` : goalDiff}
-                          </TableCell>
-                          <TableCell className="px-4 py-3">
-                            <div className="flex items-center justify-center gap-1.5">
-                              {row.form.map((result, resultIndex) => (
-                                <span
-                                  key={`${row.teamId}-${resultIndex}`}
-                                  className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-black ${formBadgeClasses[result]}`}
-                                  title={result}
-                                >
-                                  {formLabel[result]}
-                                </span>
-                              ))}
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      )
-                    })}
-                  </TableBody>
-                </Table>
-              </section>
-
-              <div className="grid gap-6 xl:grid-cols-2">
-                <section className="rounded-[28px] border border-[#d7dfec] bg-white p-5 shadow-[0_14px_30px_rgba(10,29,58,0.08)]">
-                  <h3 className="text-base font-black text-[#0a1d3a]">Resultats recents</h3>
-                  <div className="mt-4 space-y-3">
-                    {recentFixtures.map((fixture) => (
-                      <article
-                        key={fixture.id}
-                        className="rounded-2xl border border-[#e7edf6] bg-[#fbfcff] px-4 py-3"
-                      >
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <p className="text-[12px] text-[#6a7f9f]">
-                            {fixture.round} - {fixture.competition}
-                          </p>
-                          <p className="text-[12px] text-[#6a7f9f]">
-                            {formatKickoffDate(fixture.kickoff)}
-                          </p>
-                        </div>
-                        <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3">
-                          <div className="flex min-w-0 items-center gap-2">
-                            <Image
-                              src={fixture.homeLogoUrl}
-                              alt={fixture.homeTeamName}
-                              width={20}
-                              height={20}
-                              className="h-5 w-5 rounded-full object-cover"
-                            />
-                            <span className="truncate text-sm font-semibold text-[#0a1d3a]">
-                              {fixture.homeTeamName}
-                            </span>
-                          </div>
-
-                          <span className="text-base font-black text-[#0a1d3a]">
-                            {fixture.homeScore} - {fixture.awayScore}
-                          </span>
-
-                          <div className="flex min-w-0 items-center justify-end gap-2">
-                            <span className="min-w-0 truncate text-right text-sm font-semibold text-[#0a1d3a]">
-                              {fixture.awayTeamName}
-                            </span>
-                            <Image
-                              src={fixture.awayLogoUrl}
-                              alt={fixture.awayTeamName}
-                              width={20}
-                              height={20}
-                              className="h-5 w-5 rounded-full object-cover"
-                            />
-                          </div>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                </section>
-
-                <section className="rounded-[28px] border border-[#d7dfec] bg-white p-5 shadow-[0_14px_30px_rgba(10,29,58,0.08)]">
-                  <h3 className="text-base font-black text-[#0a1d3a]">Prochains matchs</h3>
-                  <div className="mt-4 space-y-3">
-                    {upcomingFixtures.map((fixture) => (
-                      <article
-                        key={fixture.id}
-                        className="rounded-2xl border border-[#e7edf6] bg-[#fbfcff] px-4 py-3"
-                      >
-                        <div className="flex items-center justify-between gap-3">
-                          <p className="text-[12px] text-[#6a7f9f]">
-                            {fixture.round} - {fixture.competition}
-                          </p>
-                          <span className="rounded-full bg-[#ffe9ed] px-2 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-[#c81f34]">
-                            A venir
-                          </span>
-                        </div>
-
-                        <p className="mt-1 text-[12px] text-[#6a7f9f]">
+              <div className="space-y-4">
+                {upcomingFixtures.map((fixture) => (
+                  <article
+                    key={fixture.id}
+                    className="group rounded-2xl border border-[#e7edf6] bg-white p-4 transition-colors hover:border-[#ef233c]/30"
+                  >
+                    <div className="flex items-center justify-between gap-3 border-b border-[#f0f4f9] pb-3">
+                      <div className="flex flex-col">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-[#6a7f9f]">
+                          {fixture.round} - {fixture.competition}
+                        </p>
+                        <p className="mt-1 text-[12px] font-bold text-[#ef233c]">
                           {formatKickoffDate(fixture.kickoff)} - {formatKickoffTime(fixture.kickoff)}
                         </p>
+                      </div>
+                      <span className="rounded-full bg-[#ffe9ed] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-[#c81f34]">
+                        À venir
+                      </span>
+                    </div>
 
-                        <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3">
-                          <div className="flex min-w-0 items-center gap-2">
-                            <Image
-                              src={fixture.homeLogoUrl}
-                              alt={fixture.homeTeamName}
-                              width={20}
-                              height={20}
-                              className="h-5 w-5 rounded-full object-cover"
-                            />
-                            <span className="truncate text-sm font-semibold text-[#0a1d3a]">
-                              {fixture.homeTeamName}
-                            </span>
-                          </div>
+                    <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4">
+                      <div className="flex min-w-0 items-center justify-end gap-3">
+                        <span className="truncate text-right text-sm font-black uppercase text-[#0a1d3a]">
+                          {fixture.homeTeamName}
+                        </span>
+                        <Image src={fixture.homeLogoUrl} alt={fixture.homeTeamName} width={28} height={28} className="h-7 w-7 shrink-0 rounded-full object-cover shadow-sm" />
+                      </div>
 
-                          <span className="text-base font-black text-[#6a7f9f]">vs</span>
+                      <span className="text-sm font-black uppercase text-[#6a7f9f]">vs</span>
 
-                          <div className="flex min-w-0 items-center justify-end gap-2">
-                            <span className="min-w-0 truncate text-right text-sm font-semibold text-[#0a1d3a]">
-                              {fixture.awayTeamName}
-                            </span>
-                            <Image
-                              src={fixture.awayLogoUrl}
-                              alt={fixture.awayTeamName}
-                              width={20}
-                              height={20}
-                              className="h-5 w-5 rounded-full object-cover"
-                            />
-                          </div>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                </section>
+                      <div className="flex min-w-0 items-center gap-3">
+                        <Image src={fixture.awayLogoUrl} alt={fixture.awayTeamName} width={28} height={28} className="h-7 w-7 shrink-0 rounded-full object-cover shadow-sm" />
+                        <span className="min-w-0 truncate text-sm font-black uppercase text-[#0a1d3a]">
+                          {fixture.awayTeamName}
+                        </span>
+                      </div>
+                    </div>
+                  </article>
+                ))}
               </div>
-            </div>
+            </section>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
     </div>
   )
 }
