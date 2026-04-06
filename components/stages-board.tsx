@@ -8,11 +8,12 @@ import type { StageOpening } from '@/lib/stages'
 
 type StagesBoardProps = {
   stages: StageOpening[]
+  detailBasePath?: string
 }
 
 const getUniqueOptions = (values: string[]) => Array.from(new Set(values)).sort()
 
-export function StagesBoard({ stages }: StagesBoardProps) {
+export function StagesBoard({ stages, detailBasePath = '/stages' }: StagesBoardProps) {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('all')
   const [type, setType] = useState('all')
@@ -162,7 +163,7 @@ export function StagesBoard({ stages }: StagesBoardProps) {
                   className="border-b border-[#edf2f8] last:border-b-0"
                 >
                   <Link
-                    href={`/stages/${stage.slug}`}
+                    href={`${detailBasePath}/${stage.slug}`}
                     className="grid gap-3 px-5 py-5 transition-colors hover:bg-[#fbfcff] lg:grid-cols-[minmax(0,3.1fr)_0.95fr_1.35fr_0.85fr_1fr_0.95fr] lg:items-start lg:gap-6 lg:px-7"
                   >
                     <div>

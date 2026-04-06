@@ -1,13 +1,7 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { HomeNavbar } from '@/components/home-navbar'
 import { StagesBoard } from '@/components/stages-board'
 import { stageOpenings } from '@/lib/stages'
-
-export const metadata: Metadata = {
-  title: 'Recrutement | FC TORO',
-  description: 'Les stages FC TORO disponibles dans la page recrutement du club.',
-}
 
 const clubValues = [
   'Pedagogie',
@@ -17,27 +11,31 @@ const clubValues = [
   'Progression',
 ]
 
-export default function ScoutingPage() {
+export default function StagesPage() {
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
+
       <main className="pt-[116px] lg:pt-[78px]">
         <section className="relative overflow-hidden border-b border-[#e3e8f2] bg-white px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#ef233c] to-transparent" />
+
           <div className="mx-auto max-w-[1100px]">
             <div className="text-center">
               <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[#ef233c]">
                 Acces club
               </p>
               <h1 className="mt-3 text-[clamp(2.3rem,5vw,4.4rem)] font-black tracking-[-0.05em] text-[#0a1d3a]">
-                Recrutement
+                Stages FC TORO
               </h1>
             </div>
+
             <p className="mx-auto mt-8 max-w-[720px] text-center text-sm font-medium leading-relaxed text-[#5b6f91] sm:text-[15px]">
-              Le recrutement FC TORO permet d entrer dans un environnement de football structure, exigeant
-              et formateur. Observation, evaluation, suivi et integration: chaque opportunite aide le club
-              a identifier les bons profils et a renforcer l experience terrain.
+              Les stages FC TORO permettent d entrer dans un environnement de football structure, exigeant
+              et formateur. Coaching, performance, media, operations ou scouting: chaque opportunite aide
+              le club a faire progresser les joueurs et l experience terrain.
             </p>
+
             <div className="mx-auto mt-8 max-w-[760px] space-y-4">
               {clubValues.map((value) => (
                 <div key={value} className="grid grid-cols-[1fr_auto] gap-4 border-b border-[#f0c8ea] pb-2">
@@ -50,17 +48,19 @@ export default function ScoutingPage() {
                 </div>
               ))}
             </div>
+
             <div className="mt-8 flex justify-center">
               <Link
                 href="#offres"
                 className="inline-flex items-center rounded-full border border-[#ef233c] px-8 py-3 text-sm font-black uppercase tracking-[0.14em] text-[#ef233c] transition-colors hover:bg-[#ef233c] hover:text-white"
               >
-                Voir les postes disponibles
+                Voir les stages
               </Link>
             </div>
           </div>
         </section>
-        <StagesBoard stages={stageOpenings} detailBasePath="/scouting" />
+
+        <StagesBoard stages={stageOpenings} />
       </main>
     </div>
   )
