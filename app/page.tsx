@@ -292,9 +292,9 @@ export default function HomePage() {
               {eliteStaffCards.map((card) => (
                 <article
                   key={card.title}
-                  className="overflow-hidden rounded-[24px] bg-[#0f2a4b] shadow-[0_18px_36px_rgba(10,29,58,0.14)]"
+                  className="overflow-hidden rounded-[28px] bg-[#0f2a4b] shadow-[0_20px_40px_rgba(10,29,58,0.18)]"
                 >
-                  <div className="relative h-[330px]">
+                  <div className="relative h-[380px] lg:h-[420px]">
                     <Image
                       src={card.image}
                       alt={card.alt}
@@ -302,15 +302,15 @@ export default function HomePage() {
                       sizes="(min-width: 1024px) 30vw, 100vw"
                       className="object-cover"
                     />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,19,43,0.06)_30%,rgba(7,19,43,0.88)_100%)]" />
-                    <div className="absolute inset-x-0 bottom-0 p-5 text-white">
-                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#ff8c9a]">
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,19,43,0)_15%,rgba(7,19,43,0.3)_45%,rgba(7,19,43,0.95)_100%)]" />
+                    <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
+                      <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
                         {card.eyebrow}
                       </p>
-                      <h5 className="mt-2 text-2xl font-black uppercase leading-[0.95]">
+                      <h5 className="mt-2 text-[1.7rem] font-black uppercase leading-[0.92] drop-shadow-md">
                         {card.title}
                       </h5>
-                      <p className="mt-2 text-sm leading-relaxed text-white/76">{card.description}</p>
+                      <p className="mt-3 text-[15px] font-medium leading-relaxed text-white/80">{card.description}</p>
                     </div>
                   </div>
                 </article>

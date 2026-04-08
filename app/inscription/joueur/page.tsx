@@ -650,6 +650,35 @@ export default function InscriptionJoueurPage() {
 
                 <InscriptionFormSection
                   index="06"
+                  title="Mode de paiement"
+                  description="Selectionnez votre methode de reglement."
+                >
+                  <div className="grid gap-4 sm:grid-cols-3">
+                    {[
+                      { label: 'Cash/chèque', value: 'cash_cheque' },
+                      { label: 'Carte bancaire', value: 'carte' },
+                      { label: 'Transfert bancaire', value: 'transfert' },
+                    ].map((mode) => (
+                      <label
+                        key={mode.value}
+                        className="flex cursor-pointer items-center gap-3 rounded-2xl border border-[#dce5f2] bg-white p-5 transition-all hover:border-[#ef233c]/20 hover:bg-[#f8fafc]"
+                      >
+                        <input
+                          type="radio"
+                          name="payment_method"
+                          value={mode.value}
+                          className="h-4 w-4 accent-[#ef233c]"
+                        />
+                        <span className="text-sm font-bold text-[#0d2d62]">
+                          {mode.label}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </InscriptionFormSection>
+
+                <InscriptionFormSection
+                  index="07"
                   title="Documents a soumettre"
                   description="Veuillez telecharger les versions numeriques (scan ou photo claire) des documents suivants."
                 >
@@ -682,25 +711,24 @@ export default function InscriptionJoueurPage() {
                 </InscriptionFormSection>
 
                 <InscriptionFormSection
-                  index="07"
-                  title="Autorisation Parentale"
-                  description="Engagement et Decharge de responsabilite."
+                  index="08"
+                  title="Autorisations & Engagement"
+                  description="Veuillez cocher chaque case pour valider votre accord."
                 >
-                  <div className="space-y-6 rounded-3xl bg-white p-8 border border-[#dce5f2]">
-                     <div className="prose prose-sm text-[#5b6f91] max-w-none font-medium leading-relaxed">
-                        <p>
-                           J’autorise l’utilisation des photos de mon enfant sur les réseaux sociaux et sur tout matériel relatif à <strong>FC TORO</strong>.
-                        </p>
-                        <p className="mt-4">
-                           Je certifie que mon enfant n’a pas de contre-indication médicale à la pratique du sport.
-                        </p>
-                        <p className="mt-4">
-                           Je, soussigné(e) Monsieur ou Madame, autorise les responsables de prendre toutes les dispositions nécessaires en cas d’urgence.
-                        </p>
-                     </div>
+                  <div className="space-y-4">
+                    <InscriptionConsent>
+                      J'autorise l'utilisation des photos de mon enfant sur les réseaux sociaux et sur tout matériel relatif à <strong>FC TORO</strong>.
+                    </InscriptionConsent>
+                    <InscriptionConsent>
+                      Je certifie que mon enfant n'a pas de contre-indication médicale à la pratique du sport.
+                    </InscriptionConsent>
+                    <InscriptionConsent>
+                      Je, soussigné(e) Monsieur ou Madame, autorise les responsables de prendre toutes les dispositions nécessaires en cas d'urgence.
+                    </InscriptionConsent>
+                  </div>
 
-
-                     <InscriptionSignatureField label="Signature du parent ou tuteur legal" />
+                  <div className="mt-8 space-y-6 rounded-3xl bg-white p-8 border border-[#dce5f2]">
+                    <InscriptionSignatureField label="Signature du parent ou tuteur legal" />
                   </div>
                 </InscriptionFormSection>
 

@@ -76,43 +76,51 @@ const eliteRoster = [
   {
     name: 'Samuel BELLEVUE',
     image: '/joueur/extracted/566965214_18535346428012336_1378637816694320324_n.jpg',
-    stats: { matches: 12, goals: 8, assists: 4 },
-    videoPreviewUrl: 'https://vimeo.com/fctoro/highlights-1',
     tone: 'blue'
   },
   {
     name: 'Nathan PIERRE',
     image: '/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg',
-    stats: { matches: 15, goals: 12, assists: 2 },
-    videoPreviewUrl: 'https://vimeo.com/fctoro/highlights-2',
     tone: 'red'
   },
   {
     name: 'Jean-Richelieu DUVERGER',
     image: '/joueur/extracted/583167774_18542869372012336_2307311757000245016_n.jpg',
-    stats: { matches: 10, goals: 3, assists: 9 },
-    videoPreviewUrl: 'https://vimeo.com/fctoro/highlights-3',
     tone: 'blue'
   },
   {
     name: 'Estiverne RICHARDSON',
     image: '/joueur/extracted/560388188_18531457003012336_702922180697776333_n.jpg',
-    stats: { matches: 14, goals: 1, assists: 11 },
-    videoPreviewUrl: 'https://vimeo.com/fctoro/highlights-4',
     tone: 'red'
   },
   {
-    name: 'Benoit ALEXANDRE',
-    image: '/joueur/extracted/IMG_1092.jpg',
-    stats: { matches: 11, goals: 0, assists: 1 },
-    videoPreviewUrl: 'https://vimeo.com/fctoro/highlights-5',
+    name: 'Nixon LOUIS',
+    image: '/joueur/extracted/487859566_18496314202012336_4490722394926427967_n.jpg',
     tone: 'blue'
   },
   {
-    name: 'Wiltz CHARLES',
-    image: '/joueur/extracted/IMG_0126.jpg',
-    stats: { matches: 13, goals: 5, assists: 3 },
-    videoPreviewUrl: 'https://vimeo.com/fctoro/highlights-6',
+    name: 'Kelvin MARCEL',
+    image: '/joueur/extracted/636967631_18560895763012336_6262024514087135809_n.jpg',
+    tone: 'red'
+  },
+  {
+    name: 'Dylan TORO',
+    image: '/joueur/extracted/542448727_18525142066012336_8843479393054800058_n.jpg',
+    tone: 'blue'
+  },
+  {
+    name: 'Matheo CHARLES',
+    image: '/joueur/extracted/621203459_18554581459012336_4537330016788795057_n.jpg',
+    tone: 'red'
+  },
+  {
+    name: 'Samuel DORVAL',
+    image: '/joueur/extracted/575274167_18540323572012336_6438757876049095178_n.jpg',
+    tone: 'blue'
+  },
+  {
+    name: 'Bryan CELESTIN',
+    image: '/joueur/extracted/622486917_18554464078012336_4014982399909732243_n.jpg',
     tone: 'red'
   },
 ]
@@ -206,81 +214,48 @@ export default function ElitePage() {
                   return (
                     <motion.article
                       key={player.name}
-                      initial={{ opacity: 0, y: 18 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.45, delay: index * 0.03 }}
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.45, delay: index * 0.04 }}
                       viewport={{ once: true, amount: 0.18 }}
                       className="group"
                     >
                       <div
-                        className={`relative aspect-[0.78] overflow-hidden rounded-[28px] border border-white/10 shadow-[0_18px_38px_rgba(10,29,58,0.18)] transition-transform duration-300 group-hover:-translate-y-1 ${
+                        className={`relative aspect-[0.78] overflow-hidden rounded-[24px] shadow-sm transition-transform duration-300 group-hover:-translate-y-1 ${
                           isRed
-                            ? 'bg-[linear-gradient(180deg,#ff304c_0%,#d71131_100%)]'
-                            : 'bg-[linear-gradient(180deg,#1b63d2_0%,#0f377d_100%)]'
+                            ? 'bg-[#d71131]'
+                            : 'bg-[#1b63d2]'
                         }`}
                       >
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.32),rgba(255,255,255,0)_45%)]" />
-                        <div
-                          className={`absolute inset-y-0 right-0 z-20 w-[20%] border-l border-white/16 ${
-                            isRed
-                              ? 'bg-[linear-gradient(180deg,#f63f5f_0%,#c81131_100%)]'
-                              : 'bg-[linear-gradient(180deg,#2f79ee_0%,#0e3f96_100%)]'
-                          }`}
-                        />
-                        <div className="absolute inset-y-0 right-[20%] z-20 w-px bg-white/12" />
-
-                        <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-white shadow-[0_20px_40px_rgba(10,29,58,0.08)]">
+                        {/* Image takes full left area exactly like mockup */}
+                        <div className="absolute inset-y-0 left-0 right-[22%] z-10">
                           <Image
                             src={player.image}
                             alt={player.name}
                             fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                            className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
                           />
-                          
-                          {/* VIDEO OVERLAY */}
-                          <div className="absolute inset-0 grid place-items-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                            <div className="grid h-16 w-16 place-items-center rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white transition-transform duration-500 scale-75 group-hover:scale-100">
-                              <RiPlayFill className="h-8 w-8 ml-1" />
-                            </div>
-                          </div>
-
-                          <div
-                            className={`absolute inset-0 bg-gradient-to-t opacity-0 transition-opacity duration-300 group-hover:opacity-70 ${
-                              player.tone === 'blue'
-                                ? 'from-[#0a1d3a]'
-                                : 'from-[#ef233c]'
-                            }`}
-                          />
-                          
-                          {/* STATS OVERLAY */}
-                          <div className="absolute inset-x-0 bottom-0 p-6 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 lg:p-8">
-                             <div className="grid grid-cols-3 gap-2 border-t border-white/20 pt-4">
-                                <div className="text-center">
-                                   <p className="text-[14px] font-black text-white">{player.stats.matches}</p>
-                                   <p className="text-[8px] font-black uppercase tracking-widest text-white/60">Matchs</p>
-                                </div>
-                                <div className="text-center">
-                                   <p className="text-[14px] font-black text-white">{player.stats.goals}</p>
-                                   <p className="text-[8px] font-black uppercase tracking-widest text-white/60">Buts</p>
-                                </div>
-                                <div className="text-center">
-                                   <p className="text-[14px] font-black text-white">{player.stats.assists}</p>
-                                   <p className="text-[8px] font-black uppercase tracking-widest text-white/60">Passes</p>
-                                </div>
-                             </div>
-                          </div>
+                          <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-black/20 to-transparent" />
                         </div>
 
-                        <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,rgba(6,15,35,0)_0%,rgba(6,15,35,0.34)_100%)]" />
-
-                        <div className="absolute bottom-5 left-4 h-[3px] w-14 rounded-full bg-white/80" />
-
-                        <div className="absolute inset-y-0 right-0 z-30 w-[20%]">
-                          <div className="absolute left-1/2 top-1/2 w-[260px] -translate-x-1/2 -translate-y-1/2 -rotate-90 text-center transition-transform duration-300 group-hover:scale-[1.12]">
-                            <span className="block whitespace-nowrap text-[0.62rem] font-black uppercase tracking-[0.12em] text-white transition-[letter-spacing] duration-300 group-hover:tracking-[0.16em] sm:text-[0.72rem]">
+                        {/* Right vertical strip like mockup */}
+                        <div
+                          className={`absolute inset-y-0 right-0 z-20 w-[22%] border-l-2 border-white/40 ${
+                            isRed
+                              ? 'bg-[#e21838]'
+                              : 'bg-[#185bc2]'
+                          }`}
+                        >
+                          <div className="absolute left-1/2 top-1/2 w-[240px] -translate-x-1/2 -translate-y-1/2 -rotate-90 text-center">
+                            <span className="block whitespace-nowrap text-[0.68rem] font-bold uppercase tracking-[0.15em] text-white">
                               {player.name}
                             </span>
                           </div>
+                        </div>
+                        
+                        {/* Infinity loop / Logo placeholder indicator like mockup */}
+                        <div className="absolute bottom-3 left-4 z-20 text-white/80">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8.5 12a3.5 3.5 0 0 1-3.5 3.5c-2 0-3.5-1.5-3.5-3.5s1.5-3.5 3.5-3.5c1.4.0 2.6.9 3.1 2.2L12 15M15.5 12a3.5 3.5 0 0 1 3.5-3.5c2 0 3.5 1.5 3.5 3.5s-1.5 3.5-3.5 3.5c-1.4 0-2.6-.9-3.1-2.2L12 9"/></svg>
                         </div>
                       </div>
                     </motion.article>
