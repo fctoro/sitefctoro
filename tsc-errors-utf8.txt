@@ -1,0 +1,4 @@
+﻿components/ChampionsLeagueBracket.tsx(124,34): error TS1127: Invalid character.
+components/ChampionsLeagueBracket.tsx(124,72): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+components/ChampionsLeagueBracket.tsx(124,139): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+components/ChampionsLeagueBracket.tsx(125,10): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?

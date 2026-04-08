@@ -1,17 +1,25 @@
 'use client'
 
+import { useState } from 'react' // trigger refresh
 import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { RiCalendarEventLine, RiShieldStarLine, RiTeamLine, RiFlagLine } from '@remixicon/react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { RiCalendarEventLine, RiTrophyLine, RiShieldStarLine, RiMedalLine, RiFlagLine, RiUser3Line, RiFootballLine, RiFireLine } from '@remixicon/react'
 
-// Fixtures imports
-import { flagDayFixtures } from '@/data/events-data'
-import { ClubFixture } from '@/types/club'
+// Stats Data
+import ChampionsLeagueBracket from './ChampionsLeagueBracket'
+import { flagDayStatsData, flagDayMatches, flagDayBracket, getLogo, StandingsRow, Scorer, MatchResult, BracketMatch } from '@/data/flag-day-stats'
 
-const heroImg = '/flag-day/champion.png'
-const flagImg2 = '/flag-day/img-1644.jpg'
-const flagImg3 = '/flag-day/img-1802.jpg'
-const flagImg4 = '/flag-day/mg-0004.jpg'
+// Hero Background — Victoire avec confettis (spectaculaire)
+const heroBgImg = '/flag-day/hero-champion.jpg'
+// Image de victoire sur scène
+const heroStageImg = '/flag-day/victory-stage.jpg'
+// Section description — Équipe au stade
+const descriptionImg = '/flag-day/img-1802.jpg'
+// Galerie
+const galleryImg1 = '/flag-day/team-white.jpg'   // Équipe blanche
+const galleryImg2 = '/flag-day/team-pose.jpg'    // Pose officielle
+const galleryImg3 = '/flag-day/flag-bearers.jpg' // Porteurs de drapeau
+const galleryImg4 = '/flag-day/action-match.jpg' // Action de jeu
 
 // Helpers for Fixtures
 const formatKickoffDate = (kickoff: string) =>
@@ -28,31 +36,39 @@ const formatKickoffTime = (kickoff: string) =>
   }).format(new Date(kickoff))
 
 export default function FlagDayPageContent() {
-  const recentFixtures: ClubFixture[] = [...flagDayFixtures]
-    .filter((fixture) => fixture.status === 'FT')
-    .sort((a, b) => new Date(b.kickoff).getTime() - new Date(a.kickoff).getTime())
-    .slice(0, 4)
+  const [activeCategory, setActiveCategory] = useState<string>('U17')
+  const [activeMatchGroup, setActiveMatchGroup] = useState<'A' | 'B' | 'ALL'>('ALL')
 
-  const upcomingFixtures: ClubFixture[] = [...flagDayFixtures]
-    .filter((fixture) => fixture.status === 'A venir')
-    .sort((a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime())
-    .slice(0, 4)
+  const categories = Object.keys(flagDayStatsData)
+  const currentData = flagDayStatsData[activeCategory]
+  const currentMatches = (flagDayMatches[activeCategory] || []).filter(
+    m => activeMatchGroup === 'ALL' || m.group === activeMatchGroup
+  )
+
+  const rankLabel = (idx: number) => {
+    if (idx === 0) return { label: '1er', color: 'text-[#f5b041]', medal: '🥇' }
+    if (idx === 1) return { label: '2ème', color: 'text-[#a8b2c1]', medal: '🥈' }
+    if (idx === 2) return { label: '3ème', color: 'text-[#cd7f32]', medal: '🥉' }
+    return { label: (idx + 1) + 'ème', color: 'text-[#6a7f9f]', medal: '' }
+  }
 
   return (
     <div className="bg-[#f2f2f4] text-[#0a1d3a]">
       {/* ═══════ HERO ═══════ */}
       <section className="relative h-[650px] overflow-hidden bg-[#0a1d3a] text-white md:h-[800px] lg:h-screen lg:min-h-[700px]">
-        {/* Background Image */}
+        {/* Background Image — Vraie photo de victoire FC TORO */}
         <div className="absolute inset-0">
           <Image
-            src={heroImg}
-            alt="Flag Day Champion"
+            src={heroBgImg}
+            alt="FC TORO Flag Day Champion"
             fill
             priority
-            className="object-cover object-top opacity-80"
+            sizes="100vw"
+            className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a] via-[#0a1d3a]/30 to-transparent" />
-          <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-r from-[#0a1d3a]/60 to-transparent" />
+          {/* Overlay sombre progressif pour lisibilité du texte */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a] via-[#0a1d3a]/50 to-[#0a1d3a]/20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1d3a]/70 via-transparent to-transparent" />
         </div>
 
         <div className="relative z-10 mx-auto flex h-full max-w-[1200px] flex-col justify-end px-4 pb-20 sm:px-6 lg:px-8 lg:pb-32">
@@ -93,16 +109,17 @@ export default function FlagDayPageContent() {
             transition={{ duration: 0.7 }}
             className="overflow-hidden rounded-[2rem] bg-white shadow-2xl md:grid md:grid-cols[1fr_1.5fr] lg:grid-cols-2 lg:items-center"
           >
-            {/* Image side */}
-            <div className="relative h-[400px] w-full lg:h-full">
+            {/* Image side — Vraie photo de l'équipe FC TORO au stade */}
+            <div className="relative h-[420px] w-full overflow-hidden lg:h-full">
               <Image 
-                src={heroImg} 
-                alt="Jeunesse et Fierté" 
-                fill 
-                className="object-cover"
+                src={descriptionImg}
+                alt="FC TORO — Équipe Flag Day Tournament" 
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover object-center"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-8">
-                <p className="text-xl font-black uppercase text-white shadow-xl">Symbole de Fierté</p>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8">
+                <p className="text-xl font-black uppercase text-white drop-shadow-lg">FC TORO — Champions</p>
                 <p className="text-sm font-bold text-[#ef233c]">Unité & Résistance</p>
               </div>
             </div>
@@ -134,195 +151,418 @@ export default function FlagDayPageContent() {
         </div>
       </section>
 
-      {/* ═══════ IMMERSION / GALLERY COMPÉTITION ═══════ */}
-      <section className="bg-[#f2f2f4] px-4 py-24 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-[1200px]">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="mb-14 text-center"
-          >
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#1a4ea3]">Immersion</p>
-            <h2 className="mt-4 text-4xl font-black uppercase leading-[0.9] tracking-tighter text-[#0a1d3a] md:text-5xl">
-              Vivre la <span className="text-[#1a4ea3]">Passion.</span>
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base font-medium text-[#5b6f91]">
-              Joie, détermination et fraternité s'emparent des terrains pour honorer nos couleurs à travers le sport.
-            </p>
-          </motion.div>
+      {/* ═══════ BRACKET — ROUTE TO THE FINAL ═══════ */}
+      <ChampionsLeagueBracket />
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Grande image (2 cols / 2 rows) */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="group relative h-[400px] overflow-hidden rounded-[2rem] sm:col-span-2 lg:row-span-2 lg:h-[600px]"
-            >
-              <Image src={flagImg4} alt="Atmosphère Flag Day" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" />
-              <div className="absolute bottom-0 left-0 p-8">
-                <p className="text-[10px] font-black uppercase tracking-widest text-[#1a4ea3]">Célébration</p>
-                <p className="mt-2 text-2xl font-black uppercase text-white">Le football comme lien communautaire</p>
-              </div>
-            </motion.div>
-
-            {/* Images classiques */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="group relative h-[280px] overflow-hidden rounded-[2rem]"
-            >
-              <Image src={flagImg2} alt="Jeunes Talents" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-[#0a1d3a]/20 transition-colors duration-300 group-hover:bg-transparent" />
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="group relative h-[280px] overflow-hidden rounded-[2rem]"
-            >
-              <Image src={flagImg3} alt="Action de match" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-[#0a1d3a]/20 transition-colors duration-300 group-hover:bg-transparent" />
-            </motion.div>
-
-            {/* Image large */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="group relative h-[350px] overflow-hidden rounded-[2rem] sm:col-span-2 lg:col-span-3"
-            >
-              <Image src={heroImg} alt="Équipe rassemblée" fill className="object-cover object-center transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-8 flex flex-col justify-end">
-                <p className="text-[10px] font-black uppercase tracking-widest text-[#1a4ea3]">Cohésion</p>
-                <p className="mt-2 text-2xl font-black uppercase text-white">L'esprit d'équipe récompensé</p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════ FIXTURES (MATCHS RECENTS & A VENIR) ═══════ */}
+      {/* ═══════ SECTION MATCHS ═══════ */}
       <section className="bg-white px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-12"
+            className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
           >
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">Évolution</p>
-            <h2 className="mt-4 text-3xl font-black uppercase leading-[0.9] tracking-tighter text-[#0a1d3a]">
-              Performances & <br />
-              <span className="text-[#1a4ea3]">Affiches à Suivre.</span>
-            </h2>
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">Flag Day Tournament</p>
+              <h2 className="mt-3 text-3xl font-black uppercase leading-[0.9] tracking-tighter text-[#0a1d3a]">
+                Résultats <br />
+                <span className="text-[#1a4ea3]">des Matchs.</span>
+              </h2>
+            </div>
+
+            {/* Sélecteur catégorie matchs */}
+            <div className="flex flex-wrap gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => { setActiveCategory(cat); setActiveMatchGroup('ALL') }}
+                  className={`relative rounded-full px-5 py-2 text-xs font-black uppercase tracking-wider transition-all duration-300 ${
+                    activeCategory === cat
+                      ? 'bg-[#1a4ea3] text-white shadow-[0_6px_18px_rgba(26,78,163,0.3)]'
+                      : 'bg-[#f0f4f9] text-[#445b7f] hover:bg-[#e0e8f5] hover:text-[#0a1d3a]'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </motion.div>
 
-          <div className="grid gap-8 lg:grid-cols-2">
-            {/* Résultats récents */}
-            <section className="rounded-[28px] border border-[#d7dfec] bg-[#fbfcff] p-6 shadow-[0_14px_30px_rgba(10,29,58,0.06)] md:p-8">
-              <div className="mb-6 flex items-center gap-3">
-                <RiShieldStarLine className="h-6 w-6 text-[#1a4ea3]" />
-                <h3 className="text-xl font-black uppercase text-[#0a1d3a]">Résultats récents</h3>
-              </div>
-              
-              <div className="space-y-4">
-                {recentFixtures.map((fixture) => (
-                  <article
-                    key={fixture.id}
-                    className="group rounded-2xl border border-[#e7edf6] bg-white p-4 transition-colors hover:border-[#1a4ea3]/30"
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeCategory}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.35 }}
+              className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
+            >
+              {(flagDayMatches[activeCategory] || []).map((match: MatchResult, idx: number) => {
+                const grp = match.group
+                const homeWin = match.scoreHome > match.scoreAway
+                const awayWin = match.scoreAway > match.scoreHome
+                const isDraw = match.scoreHome === match.scoreAway
+                return (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: idx * 0.06 }}
+                    className="relative overflow-hidden rounded-2xl bg-[#f7f9fc] border border-[#d7dfec] shadow-sm hover:shadow-md hover:border-[#b0c4de] transition-all duration-300"
                   >
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <p className="text-[11px] font-bold uppercase tracking-wider text-[#6a7f9f]">
-                        {fixture.round} - {fixture.competition}
-                      </p>
-                      <p className="text-[11px] font-bold tracking-wider text-[#6a7f9f]">
-                        {formatKickoffDate(fixture.kickoff)}
-                      </p>
-                    </div>
-                    <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4">
-                      <div className="flex min-w-0 items-center justify-end gap-3">
-                        <span className="truncate text-right text-sm font-black uppercase text-[#0a1d3a]">
-                          {fixture.homeTeamName}
+                    <div className="p-4">
+
+                      {/* ── En-tête carte : Groupe + Full Time */}
+                      <div className="mb-3 flex items-center justify-between">
+                        {/* Badge Groupe */}
+                        <span className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-widest ${
+                          grp === 'A'
+                            ? 'bg-[#ef233c]/10 text-[#ef233c] border border-[#ef233c]/20'
+                            : 'bg-[#1a4ea3]/10 text-[#1a4ea3] border border-[#1a4ea3]/20'
+                        }`}>
+                          <span className={`h-1.5 w-1.5 rounded-full ${grp === 'A' ? 'bg-[#ef233c]' : 'bg-[#1a4ea3]'}`} />
+                          Gr. {grp}
                         </span>
-                        <Image src={fixture.homeLogoUrl} alt={fixture.homeTeamName} width={28} height={28} className="h-7 w-7 shrink-0 rounded-full object-cover shadow-sm" />
-                      </div>
-
-                      <div className="flex h-10 min-w-[70px] items-center justify-center rounded-lg bg-[#f0f4f9] px-3 font-black text-[#1a4ea3] shadow-inner">
-                        {fixture.homeScore} - {fixture.awayScore}
-                      </div>
-
-                      <div className="flex min-w-0 items-center gap-3">
-                        <Image src={fixture.awayLogoUrl} alt={fixture.awayTeamName} width={28} height={28} className="h-7 w-7 shrink-0 rounded-full object-cover shadow-sm" />
-                        <span className="min-w-0 truncate text-sm font-black uppercase text-[#0a1d3a]">
-                          {fixture.awayTeamName}
+                        {/* Badge Full Time */}
+                        <span className="rounded-full bg-[#0a1d3a]/6 px-2.5 py-1 text-[9px] font-black uppercase tracking-widest text-[#0a1d3a]/40">
+                          FT
                         </span>
                       </div>
+
+                      {/* ── Matchup ── */}
+                      <div className="flex items-center justify-between gap-1">
+
+                        {/* Équipe domicile */}
+                        <div className="flex flex-1 flex-col items-center gap-2.5">
+                          <div className={`relative h-16 w-16 rounded-full bg-white p-2 shadow-lg ring-2 transition-all duration-300 ${
+                            homeWin
+                              ? 'ring-[#22c55e] shadow-[0_0_18px_rgba(34,197,94,0.2)]'
+                              : awayWin
+                              ? 'ring-[#d7dfec] opacity-55'
+                              : 'ring-[#d7dfec]'
+                          }`}>
+                            <Image
+                              src={getLogo(match.home)}
+                              alt={match.home}
+                              fill
+                              sizes="64px"
+                              className="object-contain p-1.5"
+                            />
+                            {homeWin && (
+                              <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#22c55e] text-[8px] font-black text-white shadow">W</span>
+                            )}
+                          </div>
+                          <p className={`text-center text-[9px] font-black uppercase leading-tight max-w-[64px] ${
+                            homeWin ? 'text-[#0a1d3a]' : awayWin ? 'text-[#0a1d3a]/30' : 'text-[#445b7f]'
+                          }`}>{match.home}</p>
+                        </div>
+
+                        {/* Score + VS */}
+                        <div className="flex flex-col items-center shrink-0 px-1">
+                          <div className="flex items-center gap-1.5">
+                            <span className={`text-[26px] font-black tabular-nums leading-none ${
+                              homeWin ? 'text-[#0a1d3a]' : awayWin ? 'text-[#0a1d3a]/25' : 'text-[#445b7f]'
+                            }`}>{match.scoreHome}</span>
+                            <span className="text-xs font-black text-[#0a1d3a]/15">:</span>
+                            <span className={`text-[26px] font-black tabular-nums leading-none ${
+                              awayWin ? 'text-[#0a1d3a]' : homeWin ? 'text-[#0a1d3a]/25' : 'text-[#445b7f]'
+                            }`}>{match.scoreAway}</span>
+                          </div>
+                          <span className="mt-0.5 text-[8px] font-black uppercase tracking-[0.12em] text-[#0a1d3a]/25">
+                            {isDraw ? 'NUL' : 'VS'}
+                          </span>
+                        </div>
+
+                        {/* Équipe extérieure */}
+                        <div className="flex flex-1 flex-col items-center gap-2.5">
+                          <div className={`relative h-16 w-16 rounded-full bg-white p-2 shadow-lg ring-2 transition-all duration-300 ${
+                            awayWin
+                              ? 'ring-[#22c55e] shadow-[0_0_18px_rgba(34,197,94,0.2)]'
+                              : homeWin
+                              ? 'ring-[#d7dfec] opacity-55'
+                              : 'ring-[#d7dfec]'
+                          }`}>
+                            <Image
+                              src={getLogo(match.away)}
+                              alt={match.away}
+                              fill
+                              sizes="64px"
+                              className="object-contain p-1.5"
+                            />
+                            {awayWin && (
+                              <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#22c55e] text-[8px] font-black text-white shadow">W</span>
+                            )}
+                          </div>
+                          <p className={`text-center text-[9px] font-black uppercase leading-tight max-w-[64px] ${
+                            awayWin ? 'text-[#0a1d3a]' : homeWin ? 'text-[#0a1d3a]/30' : 'text-[#445b7f]'
+                          }`}>{match.away}</p>
+                        </div>
+
+                      </div>
                     </div>
-                  </article>
+                  </motion.div>
+                )
+              })}
+
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* ═══════ STATISTIQUES & CLASSEMENTS ═══════ */}
+      <section className="bg-[#f0f4f9] px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px]">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
+          >
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">Résultats</p>
+              <h2 className="mt-3 text-3xl font-black uppercase leading-[0.9] tracking-tighter text-[#0a1d3a]">
+                Statistiques & <br />
+                <span className="text-[#1a4ea3]">Classements.</span>
+              </h2>
+            </div>
+
+            {/* Sélecteur de catégories */}
+            <div className="flex flex-wrap gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`relative overflow-hidden rounded-full px-5 py-2 text-xs font-black uppercase tracking-wider transition-all duration-300 ${
+                    activeCategory === cat
+                      ? 'bg-[#0a1d3a] text-white shadow-[0_6px_18px_rgba(10,29,58,0.3)]'
+                      : 'bg-white text-[#445b7f] hover:bg-[#e7edf6] hover:text-[#0a1d3a] shadow-sm'
+                  }`}
+                >
+                  {activeCategory === cat && (
+                    <motion.div
+                      layoutId="activeCatStats"
+                      className="absolute inset-0 bg-[#0a1d3a]"
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10">{cat}</span>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeCategory + '-stats'}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="grid gap-8 xl:grid-cols-3"
+            >
+              {/* ── CLASSEMENTS (2/3 de l'espace) */}
+              <div className="xl:col-span-2 space-y-8">
+
+                {/* TABLE GROUPE A */}
+                {(['A', 'B'] as const).map((grp) => (
+                  <div key={grp} className="overflow-hidden rounded-[20px] bg-white shadow-[0_2px_20px_rgba(10,29,58,0.07)]">
+                    <div className={`flex items-center gap-3 px-6 py-4 ${grp === 'A' ? 'bg-[#ef233c]' : 'bg-[#1a4ea3]'}`}>
+                      <RiShieldStarLine className="h-5 w-5 text-white" />
+                      <h3 className="font-black uppercase tracking-widest text-white">Groupe {grp} — {activeCategory}</h3>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-sm">
+                        <thead>
+                          <tr className="bg-[#f7f9fc] text-[10px] font-black uppercase tracking-wider text-[#8fa3bf]">
+                            <th className="w-10 px-4 py-3 text-center">#</th>
+                            <th className="px-4 py-3">Équipe</th>
+                            <th className="px-3 py-3 text-center font-black text-[#0a1d3a]">Pts</th>
+                            <th className="px-2 py-3 text-center">J</th>
+                            <th className="px-2 py-3 text-center">V</th>
+                            <th className="px-2 py-3 text-center">N</th>
+                            <th className="px-2 py-3 text-center">D</th>
+                            <th className="px-2 py-3 text-center">BM</th>
+                            <th className="px-2 py-3 text-center">BC</th>
+                            <th className="px-3 py-3 text-center">+/-</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {currentData.groups[grp].map((row: StandingsRow, idx: number) => {
+                            const isToro = row.name.toLowerCase().includes('toro')
+                            return (
+                              <tr
+                                key={idx}
+                                className={`border-t border-[#f0f4f9] transition-colors hover:bg-[#f7f9fc] ${isToro ? 'bg-[#eff4ff]' : ''}`}
+                              >
+                                {/* Rang */}
+                                <td className="px-4 py-3.5 text-center">
+                                  <span className={`inline-flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-black ${
+                                    idx === 0 ? 'bg-[#f5b041] text-white' :
+                                    idx === 1 ? 'bg-[#a8b2c1] text-white' :
+                                    idx === 2 ? 'bg-[#cd7f32] text-white' :
+                                    'bg-[#f0f4f9] text-[#6a7f9f]'
+                                  }`}>
+                                    {idx + 1}
+                                  </span>
+                                </td>
+                                {/* Équipe */}
+                                <td className="px-4 py-3.5">
+                                  <div className="flex items-center gap-3">
+                                    <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-white shadow-sm p-0.5">
+                                      <Image
+                                        src={getLogo(row.name)}
+                                        alt={row.name}
+                                        fill
+                                        sizes="32px"
+                                        className="object-contain p-0.5"
+                                      />
+                                    </div>
+                                    <div>
+                                      <p className={`text-[13px] font-black ${isToro ? 'text-[#1a4ea3]' : 'text-[#0a1d3a]'}`}>{row.name}</p>
+                                      {isToro && <p className="text-[10px] font-bold text-[#ef233c]">HOME</p>}
+                                    </div>
+                                  </div>
+                                </td>
+                                {/* Stats */}
+                                <td className="px-3 py-3.5 text-center">
+                                  <span className="inline-flex h-8 min-w-[32px] items-center justify-center rounded-lg bg-[#0a1d3a] px-2 text-sm font-black text-white">
+                                    {row.pts}
+                                  </span>
+                                </td>
+                                <td className="px-2 py-3.5 text-center text-[13px] text-[#445b7f]">{row.m}</td>
+                                <td className="px-2 py-3.5 text-center text-[13px] font-bold text-[#22c55e]">{row.v}</td>
+                                <td className="px-2 py-3.5 text-center text-[13px] text-[#445b7f]">{row.n}</td>
+                                <td className="px-2 py-3.5 text-center text-[13px] font-bold text-[#ef233c]">{row.d}</td>
+                                <td className="px-2 py-3.5 text-center text-[13px] text-[#445b7f]">{row.bm}</td>
+                                <td className="px-2 py-3.5 text-center text-[13px] text-[#445b7f]">{row.bc}</td>
+                                <td className={`px-3 py-3.5 text-center text-[13px] font-black ${row.df > 0 ? 'text-[#22c55e]' : row.df < 0 ? 'text-[#ef233c]' : 'text-[#6a7f9f]'}`}>
+                                  {row.df > 0 ? '+' + row.df : row.df}
+                                </td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 ))}
               </div>
-            </section>
 
-            {/* Prochains matchs */}
-            <section className="rounded-[28px] border border-[#d7dfec] bg-[#fbfcff] p-6 shadow-[0_14px_30px_rgba(10,29,58,0.06)] md:p-8">
-              <div className="mb-6 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <RiTeamLine className="h-6 w-6 text-[#ef233c]" />
-                  <h3 className="text-xl font-black uppercase text-[#0a1d3a]">Prochains matchs</h3>
+              {/* ── COLONNE DROITE : BUTEURS + QUALIFIÉES */}
+              <div className="space-y-6">
+
+                {/* ── CLASSEMENT BUTEURS PREMIUM */}
+                <div className="overflow-hidden rounded-[20px] bg-[#0a1d3a] shadow-[0_8px_40px_rgba(10,29,58,0.25)]">
+                  {/* Header */}
+                  <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#ef233c]">
+                        <RiFireLine className="h-5 w-5 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40">Catégorie {activeCategory}</p>
+                        <h3 className="text-base font-black uppercase text-white">Top Buteurs</h3>
+                      </div>
+                    </div>
+                    <RiFootballLine className="h-6 w-6 text-white/20" />
+                  </div>
+
+                  {/* Liste buteurs */}
+                  <div className="divide-y divide-white/5 px-4 py-3">
+                    {currentData.scorers.map((scorer: Scorer, idx: number) => {
+                      const rank = rankLabel(idx)
+                      const isFirst = idx === 0
+                      return (
+                        <motion.div
+                          key={idx}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.08 }}
+                          className={`flex items-center gap-3 rounded-xl px-3 py-3.5 transition-colors ${isFirst ? 'bg-white/5' : 'hover:bg-white/5'}`}
+                        >
+                          {/* Rang médaille */}
+                          <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-black ${
+                            idx === 0 ? 'bg-[#f5b041] text-[#0a1d3a]' :
+                            idx === 1 ? 'bg-[#8a909a] text-white' :
+                            idx === 2 ? 'bg-[#a0654a] text-white' :
+                            'bg-white/10 text-white/50'
+                          }`}>
+                            {idx + 1}
+                          </div>
+
+                          {/* Icône personne */}
+                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10">
+                            <RiUser3Line className="h-4 w-4 text-white/60" />
+                          </div>
+
+                          {/* Infos joueur */}
+                          <div className="flex-1 min-w-0">
+                            <p className="truncate text-[12px] font-black uppercase text-white">{scorer.name}</p>
+                            <div className="flex items-center gap-1.5 mt-0.5">
+                              <div className="relative h-4 w-4 shrink-0 overflow-hidden rounded-full bg-white p-0.5">
+                                <Image
+                                  src={getLogo(scorer.team)}
+                                  alt={scorer.team}
+                                  fill sizes="16px"
+                                  className="object-contain"
+                                />
+                              </div>
+                              <span className="truncate text-[10px] font-bold text-white/40 uppercase">{scorer.team}</span>
+                            </div>
+                          </div>
+
+                          {/* Buts */}
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <RiFootballLine className="h-4 w-4 text-[#22c55e]" />
+                            <span className={`text-xl font-black tabular-nums ${
+                              idx === 0 ? 'text-[#f5b041]' : 'text-white'
+                            }`}>
+                              {scorer.goals}
+                            </span>
+                          </div>
+                        </motion.div>
+                      )
+                    })}
+                  </div>
                 </div>
+
+                {/* ── QUALIFIÉES */}
+                <div className="overflow-hidden rounded-[20px] bg-white shadow-sm">
+                  <div className="flex items-center gap-3 bg-gradient-to-r from-[#0a1d3a] to-[#1a4ea3] px-6 py-4">
+                    <RiTrophyLine className="h-5 w-5 text-[#f5b041]" />
+                    <h3 className="font-black uppercase tracking-wider text-white">Les Qualifiées</h3>
+                  </div>
+
+                  <div className="divide-y divide-[#f0f4f9] p-2">
+                    {(['A', 'B'] as const).map((grp) => {
+                      const qText = currentData.qualified[grp]
+                      const teams = qText.split(/---|----|—/).map(t => t.trim()).filter(Boolean)
+                      return (
+                        <div key={grp} className="px-4 py-4">
+                          <p className={`mb-3 text-[9px] font-black uppercase tracking-[0.25em] ${grp === 'A' ? 'text-[#ef233c]' : 'text-[#1a4ea3]'}`}>
+                            Groupe {grp}
+                          </p>
+                          <div className="flex flex-col gap-2">
+                            {teams.map((team, ti) => (
+                              <div key={ti} className="flex items-center gap-3 rounded-xl border border-[#e7edf6] bg-[#f7f9fc] px-3 py-2.5">
+                                <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-white shadow-sm p-0.5">
+                                  <Image src={getLogo(team)} alt={team} fill sizes="32px" className="object-contain" />
+                                </div>
+                                <span className="text-[12px] font-black uppercase text-[#0a1d3a]">{team}</span>
+                                <span className="ml-auto rounded-full bg-[#22c55e]/15 px-2 py-0.5 text-[9px] font-black text-[#22c55e] uppercase">Qualifié</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
               </div>
-
-              <div className="space-y-4">
-                {upcomingFixtures.map((fixture) => (
-                  <article
-                    key={fixture.id}
-                    className="group rounded-2xl border border-[#e7edf6] bg-white p-4 transition-colors hover:border-[#ef233c]/30"
-                  >
-                    <div className="flex items-center justify-between gap-3 border-b border-[#f0f4f9] pb-3">
-                      <div className="flex flex-col">
-                        <p className="text-[11px] font-bold uppercase tracking-wider text-[#6a7f9f]">
-                          {fixture.round} - {fixture.competition}
-                        </p>
-                        <p className="mt-1 text-[12px] font-bold text-[#ef233c]">
-                          {formatKickoffDate(fixture.kickoff)} - {formatKickoffTime(fixture.kickoff)}
-                        </p>
-                      </div>
-                      <span className="rounded-full bg-[#ffe9ed] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-[#c81f34]">
-                        À venir
-                      </span>
-                    </div>
-
-                    <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4">
-                      <div className="flex min-w-0 items-center justify-end gap-3">
-                        <span className="truncate text-right text-sm font-black uppercase text-[#0a1d3a]">
-                          {fixture.homeTeamName}
-                        </span>
-                        <Image src={fixture.homeLogoUrl} alt={fixture.homeTeamName} width={28} height={28} className="h-7 w-7 shrink-0 rounded-full object-cover shadow-sm" />
-                      </div>
-
-                      <span className="text-sm font-black uppercase text-[#6a7f9f]">vs</span>
-
-                      <div className="flex min-w-0 items-center gap-3">
-                        <Image src={fixture.awayLogoUrl} alt={fixture.awayTeamName} width={28} height={28} className="h-7 w-7 shrink-0 rounded-full object-cover shadow-sm" />
-                        <span className="min-w-0 truncate text-sm font-black uppercase text-[#0a1d3a]">
-                          {fixture.awayTeamName}
-                        </span>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
-          </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
     </div>
