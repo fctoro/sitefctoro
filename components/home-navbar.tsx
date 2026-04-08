@@ -215,6 +215,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
             title: 'Complement',
             links: [
               { label: 'Rejoindre le club', href: '/inscription' },
+              { label: 'Recrutement', href: '/recrutement' },
             ],
           },
 

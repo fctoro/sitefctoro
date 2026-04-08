@@ -66,14 +66,23 @@ const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
         details: 'Un versement de $1,700.00 a l\'enregistrement',
       },
       {
-        name: 'PLAN #2 (Echelonne)',
+        name: 'PLAN #2 (Trimestriel)',
         description: 'Paiement fractionne en 4 versements',
         total: '$1,750.00 USD',
         details: [
           "Premier versement : $750.00 a l'enregistrement",
           'Deuxieme versement : $450.00',
           'Troisieme versement : $450.00',
-          'Quatrieme versement : $50.00',
+          'Quatrieme versement : $100.00',
+        ],
+      },
+      {
+        name: 'PLAN #3 (Mensuel)',
+        description: 'Paiement fractionne en 8 versements',
+        total: '$1,800.00 USD',
+        details: [
+          "Premier versement : $600.00 a l'enregistrement",
+          '7 versements mensuels de $171.43',
         ],
       },
     ],
@@ -114,14 +123,23 @@ const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
         details: 'Un versement de $1,000.00 a l\'inscription',
       },
       {
-        name: 'PLAN #2 (Echelonne)',
+        name: 'PLAN #2 (Trimestriel)',
         description: 'Paiement fractionne en 4 versements',
         total: '$1,050.00 USD',
         details: [
           "Premier versement : $500.00 a l'inscription",
           'Deuxieme versement : $300.00',
-          'Troisieme versement : $150.00',
+          'Troisieme versement : $200.00',
           'Quatrieme versement : $50.00',
+        ],
+      },
+      {
+        name: 'PLAN #3 (Mensuel)',
+        description: 'Paiement fractionne en 8 versements',
+        total: '$1,100.00 USD',
+        details: [
+          "Premier versement : $400.00 a l'inscription",
+          '7 versements mensuels de $100.00',
         ],
       },
     ],

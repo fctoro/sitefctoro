@@ -8,7 +8,7 @@ import { RiCalendarEventLine, RiShieldStarLine, RiTeamLine, RiFlagLine } from '@
 import { flagDayFixtures } from '@/data/events-data'
 import { ClubFixture } from '@/types/club'
 
-const heroImg = '/flag-day/img-1131.jpg'
+const heroImg = '/flag-day/champion.png'
 const flagImg2 = '/flag-day/img-1644.jpg'
 const flagImg3 = '/flag-day/img-1802.jpg'
 const flagImg4 = '/flag-day/mg-0004.jpg'
@@ -46,21 +46,13 @@ export default function FlagDayPageContent() {
         <div className="absolute inset-0">
           <Image
             src={heroImg}
-            alt="Flag Day Tournament"
+            alt="Flag Day Champion"
             fill
             priority
-            className="object-cover object-center opacity-60 mix-blend-overlay"
+            className="object-cover object-top opacity-80"
           />
-          {/* Overlay / fallback */}
-          <div className="absolute inset-0 bg-[#0a1d3a]/50" />
-          <Image
-            src={flagImg4}
-            alt="Action Flag Day"
-            fill
-            className="object-cover object-top opacity-30"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a] via-[#0a1d3a]/60 to-transparent" />
-          <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-r from-[#0a1d3a]/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a] via-[#0a1d3a]/30 to-transparent" />
+          <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-r from-[#0a1d3a]/60 to-transparent" />
         </div>
 
         <div className="relative z-10 mx-auto flex h-full max-w-[1200px] flex-col justify-end px-4 pb-20 sm:px-6 lg:px-8 lg:pb-32">

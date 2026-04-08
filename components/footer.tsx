@@ -99,6 +99,7 @@ export default function Footer() {
                   { label: 'Le Club', href: '/le-club' },
                   { label: 'Sponsors', href: '/sponsors' },
                   { label: 'Staff', href: '/staff' },
+                  { label: 'Recrutement', href: '/recrutement' },
                   { label: 'Actualités', href: '/actualites' },
                 ].map((link) => (
                   <li key={link.label}>
