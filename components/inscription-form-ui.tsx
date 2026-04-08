@@ -140,6 +140,27 @@ export function InscriptionConsent({ children }: { children: ReactNode }) {
   )
 }
 
+export function InscriptionSignatureField({ label }: { label: string }) {
+  return (
+    <div className="space-y-3">
+      <label className="block text-[11px] font-black uppercase tracking-[0.16em] text-[#587193]">
+        {label} <span className="text-[#ef233c]">*</span>
+      </label>
+      <div className="relative overflow-hidden rounded-[28px] border-2 border-[#dce5f2] bg-white transition-all focus-within:border-[#1f4ea1]">
+        <input 
+          type="text" 
+          placeholder="Tapez votre nom complet pour signer"
+          className="h-20 w-full bg-transparent px-8 text-2xl font-['Dancing_Script',cursive] text-[#0a2347] outline-none placeholder:font-sans placeholder:text-sm placeholder:italic placeholder:text-[#8ea2bf]"
+        />
+        <div className="absolute bottom-4 left-8 right-8 h-px bg-[#dce5f2]" />
+      </div>
+      <p className="text-[10px] font-bold text-[#8ea2bf] italic">
+        En tapant votre nom, vous reconnaissez que cette signature numerique a la meme valeur legale qu'une signature manuscrite.
+      </p>
+    </div>
+  )
+}
+
 export function InscriptionSubmit({
   label,
   note,

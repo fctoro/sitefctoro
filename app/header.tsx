@@ -22,8 +22,8 @@ const joinOptions = [
   { label: 'Rejoindre le club', href: '/inscription' },
   { label: 'Devenir joueur', href: '/inscription/joueur' },
   { label: 'Devenir fan', href: '/inscription/fans' },
-  { label: 'Recrutement', href: '/scouting' },
 ]
+
 
 const eventOptions = [
   { label: 'Hub evenements', href: '/evenements' },

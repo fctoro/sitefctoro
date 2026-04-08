@@ -7,6 +7,9 @@ import {
   RiCheckLine,
   RiShieldStarLine,
   RiFireLine,
+  RiWallet3Line,
+  RiGroupLine,
+  RiPlayFill,
   RiFocusLine,
 } from '@remixicon/react'
 
@@ -70,16 +73,48 @@ const eliteData = {
 }
 
 const eliteRoster = [
-  { name: 'Andre Rayoholdy', image: '/elite/contract/andre-rayoholdy.png', tone: 'blue' },
-  { name: 'Fils-Aime Garryson', image: '/elite/contract/fils-aime-garryson.png', tone: 'red' },
-  { name: 'Jacquet Feguens', image: '/elite/contract/jacquet-feguens.png', tone: 'blue' },
-  { name: 'Jhon-Love Estime', image: '/elite/contract/jhon-love-estime.png', tone: 'red' },
-  { name: 'Joseph Jean-Wood', image: '/elite/contract/joseph-jean-wood.png', tone: 'blue' },
-  { name: 'Meranvil Bill', image: '/elite/contract/meranvil-bill.png', tone: 'red' },
-  { name: 'Metellus Rozales', image: '/elite/contract/metellus-rozales.png', tone: 'blue' },
-  { name: 'Orelus Andy', image: '/elite/contract/orelus-andy.png', tone: 'red' },
-  { name: 'Paul Jefferson', image: '/elite/contract/paul-jefferson.png', tone: 'blue' },
-  { name: 'Samon Christopher', image: '/elite/contract/samon-christopher.png', tone: 'red' },
+  {
+    name: 'Samuel BELLEVUE',
+    image: '/joueur/extracted/566965214_18535346428012336_1378637816694320324_n.jpg',
+    stats: { matches: 12, goals: 8, assists: 4 },
+    videoPreviewUrl: 'https://vimeo.com/fctoro/highlights-1',
+    tone: 'blue'
+  },
+  {
+    name: 'Nathan PIERRE',
+    image: '/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg',
+    stats: { matches: 15, goals: 12, assists: 2 },
+    videoPreviewUrl: 'https://vimeo.com/fctoro/highlights-2',
+    tone: 'red'
+  },
+  {
+    name: 'Jean-Richelieu DUVERGER',
+    image: '/joueur/extracted/583167774_18542869372012336_2307311757000245016_n.jpg',
+    stats: { matches: 10, goals: 3, assists: 9 },
+    videoPreviewUrl: 'https://vimeo.com/fctoro/highlights-3',
+    tone: 'blue'
+  },
+  {
+    name: 'Estiverne RICHARDSON',
+    image: '/joueur/extracted/560388188_18531457003012336_702922180697776333_n.jpg',
+    stats: { matches: 14, goals: 1, assists: 11 },
+    videoPreviewUrl: 'https://vimeo.com/fctoro/highlights-4',
+    tone: 'red'
+  },
+  {
+    name: 'Benoit ALEXANDRE',
+    image: '/joueur/extracted/IMG_1092.jpg',
+    stats: { matches: 11, goals: 0, assists: 1 },
+    videoPreviewUrl: 'https://vimeo.com/fctoro/highlights-5',
+    tone: 'blue'
+  },
+  {
+    name: 'Wiltz CHARLES',
+    image: '/joueur/extracted/IMG_0126.jpg',
+    stats: { matches: 13, goals: 5, assists: 3 },
+    videoPreviewUrl: 'https://vimeo.com/fctoro/highlights-6',
+    tone: 'red'
+  },
 ]
 
 export default function ElitePage() {
@@ -194,14 +229,46 @@ export default function ElitePage() {
                         />
                         <div className="absolute inset-y-0 right-[20%] z-20 w-px bg-white/12" />
 
-                        <div className="absolute bottom-0 left-[-4%] right-[18%] top-3 z-10">
+                        <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-white shadow-[0_20px_40px_rgba(10,29,58,0.08)]">
                           <Image
                             src={player.image}
                             alt={player.name}
                             fill
-                            sizes="(min-width: 1024px) 18vw, (min-width: 640px) 42vw, 92vw"
-                            className="object-contain object-bottom drop-shadow-[0_18px_28px_rgba(5,15,35,0.32)] scale-[1.08]"
+                            className="object-cover transition-transform duration-700 group-hover:scale-110"
                           />
+                          
+                          {/* VIDEO OVERLAY */}
+                          <div className="absolute inset-0 grid place-items-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            <div className="grid h-16 w-16 place-items-center rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white transition-transform duration-500 scale-75 group-hover:scale-100">
+                              <RiPlayFill className="h-8 w-8 ml-1" />
+                            </div>
+                          </div>
+
+                          <div
+                            className={`absolute inset-0 bg-gradient-to-t opacity-0 transition-opacity duration-300 group-hover:opacity-70 ${
+                              player.tone === 'blue'
+                                ? 'from-[#0a1d3a]'
+                                : 'from-[#ef233c]'
+                            }`}
+                          />
+                          
+                          {/* STATS OVERLAY */}
+                          <div className="absolute inset-x-0 bottom-0 p-6 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 lg:p-8">
+                             <div className="grid grid-cols-3 gap-2 border-t border-white/20 pt-4">
+                                <div className="text-center">
+                                   <p className="text-[14px] font-black text-white">{player.stats.matches}</p>
+                                   <p className="text-[8px] font-black uppercase tracking-widest text-white/60">Matchs</p>
+                                </div>
+                                <div className="text-center">
+                                   <p className="text-[14px] font-black text-white">{player.stats.goals}</p>
+                                   <p className="text-[8px] font-black uppercase tracking-widest text-white/60">Buts</p>
+                                </div>
+                                <div className="text-center">
+                                   <p className="text-[14px] font-black text-white">{player.stats.assists}</p>
+                                   <p className="text-[8px] font-black uppercase tracking-widest text-white/60">Passes</p>
+                                </div>
+                             </div>
+                          </div>
                         </div>
 
                         <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,rgba(6,15,35,0)_0%,rgba(6,15,35,0.34)_100%)]" />

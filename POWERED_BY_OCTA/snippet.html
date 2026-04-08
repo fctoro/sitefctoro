@@ -1,0 +1,105 @@
+<!-- Powered by Octacore (1 fichier) -->
+<style>
+  .octa-powered {
+    --oc-blue: #1e5bff;
+    --oc-text: #0f172a;
+    --oc-muted: #6b7280;
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 10px 4px 8px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-family: "Montserrat", "Poppins", sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    color: var(--oc-text);
+    background: linear-gradient(120deg, rgba(30, 91, 255, 0.08), rgba(30, 91, 255, 0.02));
+    overflow: hidden;
+    isolation: isolate;
+    border: 1px solid rgba(30, 91, 255, 0.15);
+    transition: background 450ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      box-shadow 450ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      border-color 450ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .octa-powered::before {
+    content: "";
+    position: absolute;
+    inset: -50% auto -50% -60%;
+    width: 60%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+    transform: skewX(-20deg);
+    animation: octa-shimmer 3.2s infinite;
+    opacity: 0.55;
+    z-index: -1;
+  }
+
+  @keyframes octa-shimmer {
+    0% { transform: translateX(-120%) skewX(-20deg); }
+    60% { transform: translateX(220%) skewX(-20deg); }
+    100% { transform: translateX(220%) skewX(-20deg); }
+  }
+
+  .octa-label {
+    font-size: 9px;
+    color: var(--oc-muted);
+    text-transform: uppercase;
+  }
+
+  .octa-logo-wrap {
+    height: 20px;
+    width: 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: transparent;
+    transition: transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .octa-logo {
+    height: 14px;
+    width: auto;
+    transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .octa-wordmark {
+    max-width: 0;
+    opacity: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 12px;
+    transition: max-width 500ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      opacity 350ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    filter: brightness(0) invert(1);
+    transform: translateX(-6px);
+  }
+
+  .octa-powered:hover .octa-logo {
+    transform: rotate(360deg);
+  }
+  .octa-powered:hover .octa-logo-wrap {
+    transform: translateX(-6px);
+  }
+  .octa-powered:hover {
+    background: linear-gradient(120deg, #152148, #1e5bff);
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 12px 30px rgba(30, 91, 255, 0.28);
+  }
+  .octa-powered:hover .octa-wordmark {
+    max-width: 160px;
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>
+
+<a class="octa-powered" href="https://octacore-ht.netlify.app/" target="_blank" rel="noopener">
+  <span class="octa-label">POWERED BY</span>
+  <span class="octa-logo-wrap">
+    <img src="Logomark.png" alt="Octacore logo" class="octa-logo" />
+  </span>
+  <img src="Wordmark-White.png" alt="Octacore" class="octa-wordmark" />
+</a>

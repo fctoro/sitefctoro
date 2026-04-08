@@ -49,8 +49,8 @@ type HomeNavbarProps = {
 const linkDescriptionMap: Record<string, string> = {
   'Devenir joueur': 'Dossier rapide et parcours d integration accompagne.',
   'Devenir fan': 'Supporters, benevoles et activations jour de match.',
-  Recrutement: 'Detection, observation et suivi des profils pour le club.',
   'Rejoindre le club': 'Vue d ensemble des parcours pour rejoindre FC TORO.',
+
   'Histoire du club': 'Parcours, jalons majeurs et ADN FC TORO.',
   Sponsors: 'Partenaires et soutiens qui accompagnent FC TORO.',
   Elite: 'Le pont entre formation et excellence FC TORO.',
@@ -120,7 +120,8 @@ const getMostSpecificMatchingHref = (pathname: string, links: NavSubLink[]) =>
   }, null)
 
 const isRejoindreSectionActive = (pathname: string) =>
-  isPageMatch(pathname, '/inscription') || isPageMatch(pathname, '/scouting')
+  isPageMatch(pathname, '/inscription')
+
 
 export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
   const [activeDesktopMenu, setActiveDesktopMenu] = useState<string | null>(null)
@@ -213,15 +214,15 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
           {
             title: 'Complement',
             links: [
-              { label: 'Recrutement', href: '/scouting' },
               { label: 'Rejoindre le club', href: '/inscription' },
             ],
           },
+
         ],
         spotlight: {
           image: '/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg',
           name: 'Parcours FC TORO',
-          role: 'Joueurs, fans et recrutement',
+          role: 'Joueurs et fans',
           href: '/inscription',
         },
       },

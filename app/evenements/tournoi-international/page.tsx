@@ -8,7 +8,8 @@ import {
   RiFireLine,
   RiTrophyLine,
   RiFlightTakeoffLine,
-  RiStarLine
+  RiStarLine,
+  RiGroupLine
 } from '@remixicon/react'
 
 // Importations d'images pour le Tournoi International
@@ -26,15 +27,16 @@ export default function TournoiInternationalPage() {
       <main className="pt-[116px] lg:pt-[78px]">
         {/* HERO SECTION */}
         <section className="relative h-[450px] overflow-hidden bg-[#0a1d3a] text-white md:h-[600px]">
-          <Image
-            src={heroImg}
-            alt="Tournoi International FC TORO"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-top opacity-50 scale-105"
-          />
+          <div className="absolute inset-0 bg-[#0a1d3a]">
+            {/* Background Text Pattern */}
+            <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 opacity-[0.03] select-none">
+              <p className="whitespace-nowrap text-[25vw] font-black uppercase italic leading-none text-white">
+                GLOBAL
+              </p>
+            </div>
+          </div>
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a] via-[#0a1d3a]/40 to-transparent" />
+          <div className="absolute bottom-0 left-0 h-2 w-full bg-gradient-to-r from-[#ffc107] via-[#ffc107]/50 to-transparent" />
           
           <div className="relative z-10 mx-auto flex h-full max-w-[1100px] flex-col justify-end px-6 pb-20">
             <motion.div
@@ -101,16 +103,15 @@ export default function TournoiInternationalPage() {
           </div>
         </section>
 
-        {/* HIGHLIGHT SECTION: BARCA */}
+        {/* HIGHLIGHT SECTION: BARCA (Replaced Images with Typography & Icons) */}
         <section className="relative overflow-hidden bg-[#0a1d3a] px-4 py-24 text-white sm:px-6 lg:px-8">
-          <div className="absolute inset-0 z-0">
-            <Image
-              src={barcaImg}
-              alt="Victoire contre Barcelone"
-              fill
-              className="object-cover opacity-20 filter grayscale"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0a1d3a] via-[#0a1d3a]/90 to-[#ef233c]/20" />
+          <div className="absolute inset-0 z-0 select-none pointer-events-none opacity-[0.05]">
+            <p className="absolute top-[10%] left-[-5%] rotate-[-12deg] text-[30vw] font-black uppercase leading-none text-[#ef233c]">
+              VICTOIRE
+            </p>
+            <p className="absolute bottom-[10%] right-[-5%] rotate-[-12deg] text-[30vw] font-black uppercase leading-none text-white">
+              HISTORIQUE
+            </p>
           </div>
 
           <div className="relative z-10 mx-auto max-w-[1100px]">
@@ -152,14 +153,39 @@ export default function TournoiInternationalPage() {
                 whileInView={{ opacity: 1, scale: 1 }} 
                 viewport={{ once: true }} 
                 transition={{ duration: 0.6 }}
-                className="relative aspect-square overflow-hidden rounded-[2rem] shadow-2xl border border-white/10 lg:aspect-auto lg:h-[500px]"
+                className="relative bg-white/5 backdrop-blur-sm rounded-[2.5rem] p-10 border border-white/10 shadow-2xl"
               >
-                <Image
-                  src={eliteImg}
-                  alt="Équipe U15 Elite"
-                  fill
-                  className="object-cover"
-                />
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4 border-b border-white/10 pb-6">
+                    <div className="h-12 w-12 rounded-full bg-[#ef233c] flex items-center justify-center">
+                      <RiTrophyLine className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-black uppercase tracking-tight">Excellence Tactique</h3>
+                      <p className="text-sm text-white/60">Maitrise collective face à un géant européen.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-4 border-b border-white/10 pb-6">
+                    <div className="h-12 w-12 rounded-full bg-[#1a4ea3] flex items-center justify-center">
+                      <RiGroupLine className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-black uppercase tracking-tight">Esprit de Corps</h3>
+                      <p className="text-sm text-white/60">Une solidarité sans faille durant 90 minutes.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-full bg-[#ffc107] flex items-center justify-center">
+                      <RiStarLine className="h-6 w-6 text-black" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-black uppercase tracking-tight text-[#ffc107]">Reconnaissance</h3>
+                      <p className="text-sm text-white/60">Saluée par les observateurs internationaux.</p>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             </div>
           </div>

@@ -11,6 +11,7 @@ import {
   InscriptionFormSection,
   InscriptionInput,
   InscriptionSelect,
+  InscriptionSignatureField,
   InscriptionSubmit,
 } from '@/components/inscription-form-ui'
 import {
@@ -53,33 +54,33 @@ const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
     annualTotal: '$1,700',
     annualCurrency: 'USD',
     feeIncludes: [
-      "L'enregistrement annuel",
-      'Les frais annuels',
-      'Pack uniformes complet',
+      "Frais annuels ($1,300.00)",
+      "Equipement d'entrainement ($300.00)",
+      "Enregistrement annuel ($100.00)",
     ],
     paymentPlans: [
       {
-        name: 'PLAN #1',
-        description: "Paiement unique a l'inscription",
-        total: '$1,700 USD',
-        details: 'Un paiement de $1,700 USD',
+        name: 'PLAN #1 (Complet)',
+        description: "Paiement unique a l'enregistrement",
+        total: '$1,700.00 USD',
+        details: 'Un versement de $1,700.00 a l\'enregistrement',
       },
       {
-        name: 'PLAN #2',
+        name: 'PLAN #2 (Echelonne)',
         description: 'Paiement fractionne en 4 versements',
-        total: '$1,700 USD',
+        total: '$1,750.00 USD',
         details: [
-          "Premier paiement : $750 a l'enregistrement",
-          'Deuxieme paiement : $450',
-          'Troisieme paiement : $450',
-          'Quatrieme paiement : $50',
+          "Premier versement : $750.00 a l'enregistrement",
+          'Deuxieme versement : $450.00',
+          'Troisieme versement : $450.00',
+          'Quatrieme versement : $50.00',
         ],
       },
     ],
     paymentMethods:
       "Les frais sont payables par cheque a l'ordre de FULMOUN PRODUCTION, en cash, par carte de credit ou par virement bancaire.",
     paymentLocations: [
-      'Kikloe a Petion-Ville',
+      'Kikloe a Petion-Ville (9h - 13h)',
       "Centre de Formation Maurice Bonnefil (Haytrac, route de l'aeroport)",
       'Note : Les paiements par carte de credit sont recus uniquement a Haytrac.',
     ],
@@ -100,32 +101,36 @@ const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
     annualLabel: 'Paiement annuel Ti Toro',
     annualTotal: '$1,000',
     annualCurrency: 'USD',
-    feeIncludes: ['Inscription', 'Frais annuels', 'Uniformes'],
+    feeIncludes: [
+      "Frais annuels ($700.00)",
+      "Uniforme ($200.00)",
+      "Enregistrement ($100.00)",
+    ],
     paymentPlans: [
       {
-        name: 'PLAN #1',
+        name: 'PLAN #1 (Complet)',
         description: "Paiement unique a l'inscription",
-        total: '$1,000 USD',
-        details: 'Un paiement de $1,000 USD',
+        total: '$1,000.00 USD',
+        details: 'Un versement de $1,000.00 a l\'inscription',
       },
       {
-        name: 'PLAN #2',
+        name: 'PLAN #2 (Echelonne)',
         description: 'Paiement fractionne en 4 versements',
-        total: '$1,000 USD',
+        total: '$1,050.00 USD',
         details: [
-          "Premier versement : $500 a l'inscription",
-          'Deuxieme versement : $300',
-          'Troisieme versement : $150',
-          'Quatrieme versement : $50',
+          "Premier versement : $500.00 a l'inscription",
+          'Deuxieme versement : $300.00',
+          'Troisieme versement : $150.00',
+          'Quatrieme versement : $50.00',
         ],
       },
     ],
     paymentMethods:
       "Les frais sont payables par cheque a l'ordre de FULMOUN PRODUCTION, en cash, par carte de credit ou par virement bancaire.",
     paymentLocations: [
-      'Kikloe a Petion-Ville',
-      "Centre de Formation Maurice Bonnefil a Haytrac, sur la route de l'aeroport",
-      'Les paiements par carte de credit sont recus a Haytrac.',
+      'Kikloe a Petion-Ville (9h - 13h)',
+      "Centre de Formation Maurice Bonnefil (Haytrac, route de l'aeroport)",
+      'Note : Les paiements par carte de credit sont recus uniquement a Haytrac.',
     ],
     familyTitle: 'Reduction famille',
     familyBody:
@@ -655,6 +660,29 @@ export default function InscriptionJoueurPage() {
                         </div>
                       </InscriptionField>
                     ))}
+                  </div>
+                </InscriptionFormSection>
+
+                <InscriptionFormSection
+                  index="07"
+                  title="Autorisation Parentale"
+                  description="Engagement et Decharge de responsabilite."
+                >
+                  <div className="space-y-6 rounded-3xl bg-white p-8 border border-[#dce5f2]">
+                     <div className="prose prose-sm text-[#5b6f91] max-w-none font-medium leading-relaxed">
+                        <p>
+                           J’autorise l’utilisation des photos de mon enfant sur les réseaux sociaux et sur tout matériel relatif à <strong>FC TORO</strong>.
+                        </p>
+                        <p className="mt-4">
+                           Je certifie que mon enfant n’a pas de contre-indication médicale à la pratique du sport.
+                        </p>
+                        <p className="mt-4">
+                           Je, soussigné(e) Monsieur ou Madame, autorise les responsables de prendre toutes les dispositions nécessaires en cas d’urgence.
+                        </p>
+                     </div>
+
+
+                     <InscriptionSignatureField label="Signature du parent ou tuteur legal" />
                   </div>
                 </InscriptionFormSection>
 
