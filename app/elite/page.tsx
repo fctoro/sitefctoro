@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
+import { EliteRosterSection } from '@/components/elite-roster-section'
 import {
   RiCheckLine,
   RiShieldStarLine,
@@ -72,59 +73,6 @@ const eliteData = {
   },
 }
 
-const eliteRoster = [
-  {
-    name: 'Samuel BELLEVUE',
-    image: '/joueur/extracted/566965214_18535346428012336_1378637816694320324_n.jpg',
-    tone: 'blue'
-  },
-  {
-    name: 'Nathan PIERRE',
-    image: '/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg',
-    tone: 'red'
-  },
-  {
-    name: 'Jean-Richelieu DUVERGER',
-    image: '/joueur/extracted/583167774_18542869372012336_2307311757000245016_n.jpg',
-    tone: 'blue'
-  },
-  {
-    name: 'Estiverne RICHARDSON',
-    image: '/joueur/extracted/560388188_18531457003012336_702922180697776333_n.jpg',
-    tone: 'red'
-  },
-  {
-    name: 'Nixon LOUIS',
-    image: '/joueur/extracted/487859566_18496314202012336_4490722394926427967_n.jpg',
-    tone: 'blue'
-  },
-  {
-    name: 'Kelvin MARCEL',
-    image: '/joueur/extracted/636967631_18560895763012336_6262024514087135809_n.jpg',
-    tone: 'red'
-  },
-  {
-    name: 'Dylan TORO',
-    image: '/joueur/extracted/542448727_18525142066012336_8843479393054800058_n.jpg',
-    tone: 'blue'
-  },
-  {
-    name: 'Matheo CHARLES',
-    image: '/joueur/extracted/621203459_18554581459012336_4537330016788795057_n.jpg',
-    tone: 'red'
-  },
-  {
-    name: 'Samuel DORVAL',
-    image: '/joueur/extracted/575274167_18540323572012336_6438757876049095178_n.jpg',
-    tone: 'blue'
-  },
-  {
-    name: 'Bryan CELESTIN',
-    image: '/joueur/extracted/622486917_18554464078012336_4014982399909732243_n.jpg',
-    tone: 'red'
-  },
-]
-
 export default function ElitePage() {
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
@@ -183,88 +131,7 @@ export default function ElitePage() {
           </div>
         </section>
 
-        <section className="relative overflow-hidden bg-white px-4 py-20 sm:px-6 lg:px-8">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#ef233c]/30 to-transparent" />
-          <div className="pointer-events-none absolute left-[-8rem] top-20 h-64 w-64 rounded-full bg-[#1a4ea3]/8 blur-3xl" />
-          <div className="pointer-events-none absolute bottom-0 right-[-6rem] h-72 w-72 rounded-full bg-[#ef233c]/8 blur-3xl" />
-
-          <div className="mx-auto max-w-[1280px]">
-            <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-              <div className="max-w-[760px]">
-                <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#ef233c]">
-                  Joueurs FC TORO Elite
-                </p>
-                <h2 className="mt-4 text-[clamp(1.65rem,3.2vw,2.8rem)] font-black uppercase leading-[0.9] tracking-[-0.05em] text-[#0d2d62]">
-                  10 joueurs faisant
-                  <br />
-                  partie de FC TORO Elite.
-                </h2>
-              </div>
-
-              <p className="max-w-[480px] text-sm leading-relaxed text-[#5c7297] sm:text-base">
-                Quelques joueurs faisant partie du groupe FC TORO Elite.
-              </p>
-            </div>
-
-            <div className="mt-12 rounded-[36px] border border-[#e3ebf7] bg-[linear-gradient(180deg,#ffffff_0%,#f7faff_100%)] p-4 shadow-[0_24px_70px_rgba(10,29,58,0.08)] sm:p-6">
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-                {eliteRoster.map((player, index) => {
-                  const isRed = player.tone === 'red'
-
-                  return (
-                    <motion.article
-                      key={player.name}
-                      initial={{ opacity: 0, scale: 0.96 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.45, delay: index * 0.04 }}
-                      viewport={{ once: true, amount: 0.18 }}
-                      className="group"
-                    >
-                      <div
-                        className={`relative aspect-[0.78] overflow-hidden rounded-[24px] shadow-sm transition-transform duration-300 group-hover:-translate-y-1 ${
-                          isRed
-                            ? 'bg-[#d71131]'
-                            : 'bg-[#1b63d2]'
-                        }`}
-                      >
-                        {/* Image takes full left area exactly like mockup */}
-                        <div className="absolute inset-y-0 left-0 right-[22%] z-10">
-                          <Image
-                            src={player.image}
-                            alt={player.name}
-                            fill
-                            className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
-                          />
-                          <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-black/20 to-transparent" />
-                        </div>
-
-                        {/* Right vertical strip like mockup */}
-                        <div
-                          className={`absolute inset-y-0 right-0 z-20 w-[22%] border-l-2 border-white/40 ${
-                            isRed
-                              ? 'bg-[#e21838]'
-                              : 'bg-[#185bc2]'
-                          }`}
-                        >
-                          <div className="absolute left-1/2 top-1/2 w-[240px] -translate-x-1/2 -translate-y-1/2 -rotate-90 text-center">
-                            <span className="block whitespace-nowrap text-[0.68rem] font-bold uppercase tracking-[0.15em] text-white">
-                              {player.name}
-                            </span>
-                          </div>
-                        </div>
-                        
-                        {/* Infinity loop / Logo placeholder indicator like mockup */}
-                        <div className="absolute bottom-3 left-4 z-20 text-white/80">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8.5 12a3.5 3.5 0 0 1-3.5 3.5c-2 0-3.5-1.5-3.5-3.5s1.5-3.5 3.5-3.5c1.4.0 2.6.9 3.1 2.2L12 15M15.5 12a3.5 3.5 0 0 1 3.5-3.5c2 0 3.5 1.5 3.5 3.5s-1.5 3.5-3.5 3.5c-1.4 0-2.6-.9-3.1-2.2L12 9"/></svg>
-                        </div>
-                      </div>
-                    </motion.article>
-                  )
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
+        <EliteRosterSection />
 
         <section className="bg-[#f8fafc] px-4 py-24 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1100px]">
