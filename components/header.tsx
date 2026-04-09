@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronDown, Menu, X } from 'lucide-react'
+import { IS_LIVE_ACTIVE } from '@/data/events-data'
 
 type DropdownKey = 'equipes' | 'rejoindre' | null
 
@@ -64,17 +65,23 @@ export function Header() {
           </div>
         </Link>
 
-        <Link
-          href="/evenements/live"
-          className="ml-auto inline-flex items-center gap-2 rounded-full bg-[#ef233c] px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white shadow-[0_10px_18px_rgba(239,35,60,0.28)] transition-all hover:bg-[#d71931] lg:hidden"
-          onClick={() => setOpenDropdown(null)}
-        >
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/80" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-white" />
-          </span>
-          Live
-        </Link>
+        {IS_LIVE_ACTIVE ? (
+          <Link
+            href="/evenements/live"
+            className="ml-auto inline-flex items-center gap-2 rounded-full bg-[#ef233c] px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white shadow-[0_10px_18px_rgba(239,35,60,0.28)] transition-all hover:bg-[#d71931] lg:hidden"
+            onClick={() => setOpenDropdown(null)}
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/80" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-white" />
+            </span>
+            Live
+          </Link>
+        ) : (
+          <div className="ml-auto inline-flex items-center gap-2 rounded-full bg-gray-400 px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white/50 opacity-60 grayscale lg:hidden cursor-default">
+            Live
+          </div>
+        )}
 
         <nav className="ml-5 hidden items-center gap-8 lg:flex">
           <Link
@@ -99,7 +106,7 @@ export function Header() {
             aria-expanded={openDropdown === 'equipes'}
             aria-controls="equipes-dropdown"
           >
-            Equipes
+            Équipes
             <ChevronDown className={`h-4 w-4 transition-transform ${openDropdown === 'equipes' ? 'rotate-180' : ''}`} />
           </button>
 
@@ -115,7 +122,7 @@ export function Header() {
             className="text-[1.02rem] font-semibold text-zinc-900 transition-colors hover:text-primary"
             onClick={() => setOpenDropdown(null)}
           >
-            Actualites
+            Actualités
           </Link>
 
           <button
@@ -144,7 +151,7 @@ export function Header() {
         <div id="equipes-dropdown" className="hidden border-t border-zinc-200 bg-white shadow-[0_14px_30px_rgba(0,0,0,0.08)] lg:block">
           <div className="mx-auto grid max-w-[1320px] gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_320px] lg:px-8">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.17em] text-zinc-500">Categories equipes</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.17em] text-zinc-500">Catégories équipes</p>
               <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
                 {teamCategories.map((item) => (
                   <Link
@@ -161,7 +168,7 @@ export function Header() {
 
             <aside className="rounded-2xl border border-zinc-200 bg-zinc-50 p-5">
               <p className="text-xs font-semibold uppercase tracking-[0.17em] text-zinc-500">Parcours joueur</p>
-              <p className="mt-3 text-lg font-semibold text-zinc-900">Formation continue de U7 a U21</p>
+              <p className="mt-3 text-lg font-semibold text-zinc-900">Formation continue de U7 à U21</p>
               <p className="mt-2 text-sm leading-relaxed text-zinc-600">
                 Chaque categorie suit un programme adapte: technique, intelligence de jeu, mental et performance.
               </p>
@@ -174,7 +181,7 @@ export function Header() {
         <div id="rejoindre-dropdown" className="hidden border-t border-zinc-200 bg-white shadow-[0_14px_30px_rgba(0,0,0,0.08)] lg:block">
           <div className="mx-auto grid max-w-[1320px] gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_340px] lg:px-8">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.17em] text-zinc-500">Recrutement et adhesion</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.17em] text-zinc-500">Recrutement et adhésion</p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {joinOptions.map((item) => (
                   <Link
@@ -193,7 +200,7 @@ export function Header() {
               <p className="text-xs font-semibold uppercase tracking-[0.17em] text-zinc-500">Dossier joueur</p>
               <p className="mt-3 text-lg font-semibold text-zinc-900">Informations a fournir pour postuler</p>
               <p className="mt-2 text-sm leading-relaxed text-zinc-600">
-                Nom complet, date de naissance, poste, video recente et contact d un responsable legal pour validation.
+                Nom complet, date de naissance, poste, vidéo récente et contact d'un responsable légal pour validation.
               </p>
             </aside>
           </div>
@@ -223,7 +230,7 @@ export function Header() {
               onClick={() => setMobileSection((value) => (value === 'equipes' ? null : 'equipes'))}
               className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
             >
-              Equipes
+              Équipes
               <ChevronDown className={`h-4 w-4 transition-transform ${mobileSection === 'equipes' ? 'rotate-180' : ''}`} />
             </button>
             {mobileSection === 'equipes' ? (
@@ -253,7 +260,7 @@ export function Header() {
               className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Actualites
+              Actualités
             </Link>
 
             <button

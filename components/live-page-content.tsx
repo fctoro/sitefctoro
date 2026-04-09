@@ -24,13 +24,13 @@ export default function LivePageContent() {
           text: 'Suivez le live FC TORO en direct.',
           url,
         })
-        setShareFeedback('Lien partage')
+        setShareFeedback('Lien partagé')
       } else {
         await navigator.clipboard.writeText(url)
-        setShareFeedback('Lien copie')
+        setShareFeedback('Lien copié')
       }
     } catch {
-      setShareFeedback('Partage annule')
+      setShareFeedback('Partage annulé')
     }
 
     window.setTimeout(() => setShareFeedback(null), 1800)
@@ -82,8 +82,8 @@ export default function LivePageContent() {
               <div className="relative aspect-video overflow-hidden rounded-[34px] border border-white/10 bg-black ring-1 ring-white/8 shadow-[0_20px_40px_rgba(0,0,0,0.28)]">
                 <iframe
                   className="absolute inset-0 h-full w-full"
-                  src="https://www.youtube-nocookie.com/embed/7UjId-sHFAM?rel=0&modestbranding=1"
-                  title="Final Flag Day"
+                  src={`https://www.youtube-nocookie.com/embed/${liveMatchData.youtubeId}?rel=0&modestbranding=1`}
+                  title="FC TORO Live"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
@@ -94,7 +94,7 @@ export default function LivePageContent() {
                     Final Flag Day
                   </span>
                   <span className="rounded-full bg-black/55 px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-white/82">
-                    Video officielle
+                    Vidéo officielle
                   </span>
                 </div>
 
@@ -168,7 +168,7 @@ export default function LivePageContent() {
 
                   <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center">
                     <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/40">
-                      Le flux sera actualise des le coup d envoi
+                      Le flux sera actualisé dès le coup d'envoi
                     </p>
                   </div>
                 </div>

@@ -6,19 +6,19 @@ import { HomeNavbar } from '@/components/home-navbar'
 
 export const metadata: Metadata = {
   title: 'Formation | FC TORO',
-  description: 'La structure de formation FC TORO pour le developpement technique, tactique et humain.',
+  description: 'La structure de formation FC TORO pour le développement technique, tactique et humain.',
 }
 
 const trainingPillars = [
   {
     icon: RiBookOpenLine,
     title: 'Comprendre le jeu',
-    body: 'Les joueurs apprennent a lire les espaces, reconnaitre les temps forts et mieux choisir leurs actions.',
+    body: 'Les joueurs apprennent à lire les espaces, reconnaître les temps forts et mieux choisir leurs actions.',
   },
   {
     icon: RiRunLine,
-    title: 'Repeter juste',
-    body: 'La repetition n est pas un volume vide: elle sert a stabiliser les bons gestes et les bonnes habitudes.',
+    title: 'Répéter juste',
+    body: "La répétition n'est pas un volume vide : elle sert à stabiliser les bons gestes et les bonnes habitudes.",
   },
   {
     icon: RiTeamLine,
@@ -30,8 +30,8 @@ const trainingPillars = [
 const developmentSteps = [
   'Base technique et coordination',
   'Lecture tactique et discipline collective',
-  'Gestion de l effort et du tempo',
-  'Responsabilite, constance et competition',
+  'Gestion de l\'effort et du tempo',
+  'Responsabilité, constance et compétition',
 ]
 
 export default function FormationPage() {
@@ -45,15 +45,15 @@ export default function FormationPage() {
           <div className="relative mx-auto grid max-w-[1200px] gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center">
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#d14a2e]">
-                Academie
+                Académie
               </p>
               <h1 className="mt-4 text-[clamp(2rem,4vw,4rem)] font-black uppercase leading-[0.88] tracking-[-0.05em]">
                 Formation
               </h1>
               <p className="mt-6 max-w-[720px] text-base leading-relaxed text-[#5d6e88] sm:text-lg">
-                FC TORO construit sa formation comme un parcours. On ne cherche pas juste a
-                remplir des seances: on veut donner aux joueurs une base durable pour jouer,
-                comprendre et evoluer.
+                FC TORO construit sa formation comme un parcours. On ne cherche pas juste à
+                remplir des séances : on veut donner aux joueurs une base durable pour jouer,
+                comprendre et évoluer.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -65,7 +65,7 @@ export default function FormationPage() {
                   <RiArrowRightLine className="h-4 w-4" />
                 </Link>
                 <div className="rounded-full border border-[#d8d0c3] px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#7a644b]">
-                  Progression pensee sur la duree
+                  Progression pensée sur la durée
                 </div>
               </div>
             </div>
@@ -91,7 +91,7 @@ export default function FormationPage() {
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#d14a2e]">
                     Cadre
                   </p>
-                  <p className="mt-2 text-sm font-semibold text-[#415472]">Discipline et repetition</p>
+                  <p className="mt-2 text-sm font-semibold text-[#415472]">Discipline et répétition</p>
                 </div>
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function FormationPage() {
           <div className="mx-auto grid max-w-[1200px] gap-6 lg:grid-cols-[0.95fr_1.05fr]">
             <div className="rounded-[30px] bg-[#10213f] p-6 text-white shadow-[0_20px_38px_rgba(16,33,63,0.18)] sm:p-8">
               <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#ff8b6f]">
-                Etapes de travail
+                Étapes de travail
               </p>
               <div className="mt-6 space-y-4">
                 {developmentSteps.map((step, index) => (

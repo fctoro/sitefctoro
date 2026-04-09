@@ -12,6 +12,7 @@ import {
   RiCloseLine,
   RiMenuLine,
 } from '@remixicon/react'
+import { IS_LIVE_ACTIVE } from '@/data/events-data'
 
 type NavSubLink = {
   label: string
@@ -53,14 +54,14 @@ const linkDescriptionMap: Record<string, string> = {
 
   'Histoire du club': 'Parcours, jalons majeurs et ADN FC TORO.',
   Sponsors: 'Partenaires et soutiens qui accompagnent FC TORO.',
-  Elite: 'Le pont entre formation et excellence FC TORO.',
+  Élite: 'Le pont entre formation et excellence FC TORO.',
   CASA: 'Projet Caribbean Sports Academy.',
   'Ti Toro': 'Initiation football 2 a 5 ans et premiere entree dans le projet FC TORO.',
   Staff: 'Encadrement, direction sportive et accompagnement des groupes.',
   'Vision et valeurs': 'Discipline, identite et ambition long terme.',
   'Installations': 'Terrains, equipements et environnement d entrainement.',
-  'Actualites club': 'Les dernieres informations officielles du club.',
-  'Calendrier complet': 'Toutes les rencontres et evenements a venir.',
+  'Actualités club': 'Les dernières informations officielles du club.',
+  'Calendrier complet': 'Toutes les rencontres et événements à venir.',
   'Live Diffusion': 'Diffusion live, flux de match et rappels avant coup d envoi.',
   'Vertieres Cup': 'Inscription equipe, logo officiel et liste des joueurs.',
   'Flag Day': 'Classement du tournoi, resultats recents et prochains matchs.',
@@ -129,7 +130,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
   const pathname = usePathname()
 
   const navItems: NavItem[] = [
-    { label: 'Actualites', href: '/actualites' },
+    { label: 'Actualités', href: '/actualites' },
     {
       label: 'Club',
       submenu: {
@@ -146,7 +147,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
           {
             title: 'Programmes',
             links: [
-              { label: 'Elite', href: '/elite' },
+              { label: 'Élite', href: '/elite' },
               { label: 'CASA', href: '/casa' },
               { label: 'Ti Toro', href: '/ti-toro' },
             ],
@@ -161,7 +162,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
       },
     },
     {
-      label: 'Equipe',
+      label: 'Équipe',
       href: '/equipes',
     },
     {
@@ -169,7 +170,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
       href: '/staff',
     },
     {
-      label: 'Evenements',
+      label: 'Événements',
       href: '/evenements',
       submenu: {
         intro: 'Tous les rendez-vous FC TORO: live, inscriptions tournoi et classement.',
@@ -192,7 +193,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
         spotlight: {
           image: '/joueur/extracted/583167774_18542869372012336_2307311757000245016_n.jpg',
           name: 'Flag Day',
-          role: 'Classement, resultats et affiches',
+          role: 'Classement, résultats et affiches',
           href: '/evenements/flag-day',
         },
       },
@@ -232,9 +233,9 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
   ]
 
   const mobilePrimaryLinks: Array<{ label: string; href: string; accent?: boolean }> = [
-    { label: 'Actualites', href: '/actualites' },
+    { label: 'Actualités', href: '/actualites' },
     { label: 'Club', href: '/le-club' },
-    { label: 'Equipe', href: '/equipes' },
+    { label: 'Équipe', href: '/equipes' },
     { label: 'Staff', href: '/staff' },
     { label: 'Flag Day', href: '/evenements/flag-day' },
   ]
@@ -270,16 +271,22 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
             </div>
           </Link>
 
-          <Link
-            href="/evenements/live"
-            className="ml-auto inline-flex items-center gap-2 rounded-full bg-[#ef233c] px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white shadow-[0_10px_18px_rgba(239,35,60,0.28)] transition-all hover:bg-[#d71931] lg:hidden"
-          >
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/80" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-white" />
-            </span>
-            Live
-          </Link>
+          {IS_LIVE_ACTIVE ? (
+            <Link
+              href="/evenements/live"
+              className="ml-auto inline-flex items-center gap-2 rounded-full bg-[#ef233c] px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white shadow-[0_10px_18px_rgba(239,35,60,0.28)] transition-all hover:bg-[#d71931] lg:hidden"
+            >
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/80" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-white" />
+              </span>
+              Live
+            </Link>
+          ) : (
+            <div className="ml-auto inline-flex items-center gap-2 rounded-full bg-gray-400 px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white/50 opacity-60 grayscale lg:hidden cursor-default">
+              Live
+            </div>
+          )}
 
           <nav className="ml-auto hidden items-center gap-2 lg:flex">
             {navItems.map((item) => {
@@ -514,30 +521,28 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
                       })),
                     )
                     .map(({ itemLabel, itemAccent, section }) => (
-                      <div key={`mobile-full-${itemLabel}-${section.title}`} className="border-b border-[#e6ebf3] pb-2">
-                        <p
-                          className={`text-[11px] font-black uppercase tracking-[0.11em] ${
-                            itemAccent ? 'text-[#ef233c]' : 'text-[#5b6f91]'
-                          }`}
-                        >
-                          {section.title}
-                        </p>
-
+                        <div key={`mobile-full-${itemLabel}-${section.title}`} className="border-b border-[#e6ebf3] pb-2">
+                          <p className="text-[11px] font-black uppercase tracking-[0.11em] text-[#ef233c]">
+                            {section.title}
+                          </p>
+ 
                         <div className="mt-1.5 space-y-1">
-                          {section.links.map((link) => (
-                            <Link
-                              key={`mobile-full-${itemLabel}-${section.title}-${link.label}`}
-                              href={link.href}
-                              onClick={() => setMobileMenuOpen(false)}
-                              className={`block text-sm font-semibold uppercase leading-tight tracking-[0.06em] transition-colors duration-200 ${
-                                activeMobileSubmenuHref === normalizePath(link.href)
-                                  ? 'text-[#ef233c]'
-                                  : 'text-[#2e436a] hover:text-[#ef233c]'
-                              }`}
-                            >
-                              {link.label}
-                            </Link>
-                          ))}
+                          {section.links.map((link) => {
+                            const linkColor = activeMobileSubmenuHref === normalizePath(link.href)
+                                ? 'text-[#ef233c]'
+                                : 'text-[#2e436a] hover:text-[#ef233c]'
+
+                            return (
+                              <Link
+                                key={`mobile-full-${itemLabel}-${section.title}-${link.label}`}
+                                href={link.href}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className={`block text-sm font-semibold uppercase leading-tight tracking-[0.06em] transition-all duration-200 active:scale-[0.97] active:opacity-70 ${linkColor}`}
+                              >
+                                {link.label}
+                              </Link>
+                            )
+                          })}
                         </div>
                       </div>
                     ))}

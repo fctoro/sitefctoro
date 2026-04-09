@@ -42,7 +42,7 @@ export default function Footer() {
           TORO
         </p>
       </div>
-      <div className="relative z-10 mx-auto max-w-[1400px] px-6 py-8 lg:px-12 text-white">
+      <div className="relative z-10 mx-auto max-w-[1400px] px-6 py-4 lg:py-8 lg:px-12 text-white">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
           {/* Logo & Info Section (3 Columns) */}
           <div className="flex flex-col items-center space-y-4 text-center lg:col-span-3 lg:items-start lg:text-left">
@@ -64,7 +64,7 @@ export default function Footer() {
               </div>
             </Link>
 
-            <p className="max-w-[280px] text-[14px] font-medium leading-relaxed text-white/70">
+            <p className="max-w-[280px] text-[12px] font-medium leading-relaxed text-white/70 lg:text-[14px]">
               Depuis 2012, l'excellence du football en Haïti. Une académie de vie dédiée à la formation.
             </p>
 
@@ -88,13 +88,13 @@ export default function Footer() {
           </div>
 
           {/* Links Section (6 Columns) */}
-          <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-2 lg:col-span-6 lg:grid-cols-4 lg:gap-4">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-4 lg:col-span-6 lg:grid-cols-4 lg:gap-4 lg:gap-y-8">
             {/* Column 1: Club */}
-            <div className="flex flex-col items-center space-y-3.5 lg:items-start">
+            <div className="flex flex-col items-center space-y-3 lg:space-y-8 lg:items-start">
               <h3 className="rounded-full border border-[#ef233c]/30 bg-[#ef233c]/10 px-3.5 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
                 Club
               </h3>
-              <ul className="space-y-2.5 text-center lg:text-left">
+              <ul className="space-y-1.5 lg:space-y-8 text-center lg:text-left">
                 {[
                   { label: 'Le Club', href: '/le-club' },
                   { label: 'Sponsors', href: '/sponsors' },
@@ -105,7 +105,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="group flex flex-col items-center text-[13px] font-bold uppercase tracking-wide text-white/60 transition-colors hover:text-white lg:items-start"
+                      className="group flex flex-col items-center text-[11px] font-bold uppercase tracking-wide text-white/60 transition-colors hover:text-white lg:items-start lg:text-[13px]"
                     >
                       <span className="whitespace-nowrap">{link.label}</span>
                       <span className="h-px w-0 bg-[#ef233c] transition-all duration-300 group-hover:w-full" />
@@ -116,21 +116,21 @@ export default function Footer() {
             </div>
 
             {/* Column 2: Football */}
-            <div className="flex flex-col items-center space-y-3.5 lg:items-start">
+            <div className="flex flex-col items-center space-y-3 lg:space-y-8 lg:items-start">
               <h3 className="rounded-full border border-[#ef233c]/30 bg-[#ef233c]/10 px-3.5 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
                 Football
               </h3>
-              <ul className="space-y-2.5 text-center lg:text-left">
+              <ul className="space-y-1.5 lg:space-y-8 text-center lg:text-left">
                 {[
-                  { label: 'Equipe Pro', href: '/equipes' },
+                  { label: 'Équipe Pro', href: '/equipes' },
                   { label: 'Formation', href: '/formation' },
-                  { label: 'Elite', href: '/elite' },
+                  { label: 'Élite', href: '/elite' },
                   { label: 'Ti Toro', href: '/ti-toro' },
                 ].map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="group flex flex-col items-center text-[13px] font-bold uppercase tracking-wide text-white/60 transition-colors hover:text-white lg:items-start"
+                      className="group flex flex-col items-center text-[11px] font-bold uppercase tracking-wide text-white/60 transition-colors hover:text-white lg:items-start lg:text-[13px]"
                     >
                       <span className="whitespace-nowrap">{link.label}</span>
                       <span className="h-px w-0 bg-[#ef233c] transition-all duration-300 group-hover:w-full" />
@@ -140,22 +140,22 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Column 3: Evenements */}
-            <div className="flex flex-col items-center space-y-3.5 lg:items-start">
+            {/* Column 3: Événements */}
+            <div className="flex flex-col items-center space-y-3 lg:space-y-8 lg:items-start">
               <h3 className="rounded-full border border-[#ef233c]/30 bg-[#ef233c]/10 px-3.5 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
                 Events
               </h3>
-              <ul className="space-y-2.5 text-center lg:text-left">
+              <ul className="space-y-1.5 lg:space-y-8 text-center lg:text-left">
                 {[
                   { label: 'Live Diffusion', href: '/evenements/live' },
-                  { label: 'Vertieres Cup', href: '/evenements/vertieres-cup' },
+                  { label: 'Vertières Cup', href: '/evenements/vertieres-cup' },
                   { label: 'Flag Day', href: '/evenements/flag-day' },
                   { label: 'International', href: '/evenements/tournoi-international' },
                 ].map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="group flex flex-col items-center text-[13px] font-bold uppercase tracking-wide text-white/60 transition-colors hover:text-white lg:items-start"
+                      className="group flex flex-col items-center text-[11px] font-bold uppercase tracking-wide text-white/60 transition-colors hover:text-white lg:items-start lg:text-[13px]"
                     >
                       <span className="whitespace-nowrap">{link.label}</span>
                       <span className="h-px w-0 bg-[#ef233c] transition-all duration-300 group-hover:w-full" />
@@ -166,11 +166,11 @@ export default function Footer() {
             </div>
 
             {/* Column 4: Rejoindre */}
-            <div className="flex flex-col items-center space-y-3.5 lg:items-start">
+            <div className="flex flex-col items-center space-y-3 lg:space-y-8 lg:items-start">
               <h3 className="rounded-full border border-[#ef233c]/30 bg-[#ef233c]/10 px-3.5 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
                 Inscrire
               </h3>
-              <ul className="space-y-2.5 text-center lg:text-left">
+              <ul className="space-y-1.5 lg:space-y-8 text-center lg:text-left">
                 {[
                   { label: 'Devenir Joueur', href: '/inscription/joueur' },
                   { label: 'Devenir Fan', href: '/inscription/fans' },
@@ -180,7 +180,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="group flex flex-col items-center text-[13px] font-bold uppercase tracking-wide text-white/60 transition-colors hover:text-white lg:items-start"
+                      className="group flex flex-col items-center text-[11px] font-bold uppercase tracking-wide text-white/60 transition-colors hover:text-white lg:items-start lg:text-[13px]"
                     >
                       <span className="whitespace-nowrap">{link.label}</span>
                       <span className="h-px w-0 bg-[#ef233c] transition-all duration-300 group-hover:w-full" />
@@ -198,7 +198,7 @@ export default function Footer() {
             </div>
 
             <div className="w-full space-y-4 text-center lg:text-right">
-              <p className="mx-auto max-w-[280px] text-[14px] font-semibold italic leading-relaxed text-white/80 lg:mr-0">
+              <p className="mx-auto max-w-[280px] text-[12px] font-semibold italic leading-relaxed text-white/80 lg:mr-0 lg:text-[14px]">
                 "Le talent peut faire briller un joueur, mais ce sont les valeurs qui construisent un parcours durable."
               </p>
 
@@ -207,13 +207,13 @@ export default function Footer() {
               <div className="flex flex-col items-center gap-4 lg:items-end">
                 <div className="flex w-full items-center justify-center gap-10 lg:justify-end">
                   <div className="flex flex-col items-center lg:items-end">
-                    <p className="text-[22px] font-black italic leading-none text-white tracking-tighter">
+                    <p className="text-[18px] font-black italic leading-none text-white tracking-tighter lg:text-[22px]">
                       500<span className="ml-0.5 text-[#ef233c]">+</span>
                     </p>
                     <p className="mt-1 text-[8px] font-black uppercase tracking-widest text-white/40">Joueurs</p>
                   </div>
                   <div className="flex flex-col items-center lg:items-end">
-                    <p className="text-[22px] font-black italic leading-none text-white tracking-tighter">
+                    <p className="text-[18px] font-black italic leading-none text-white tracking-tighter lg:text-[22px]">
                       14<span className="ml-0.5 text-[#ef233c]">+</span>
                     </p>
                     <p className="mt-1 text-[8px] font-black uppercase tracking-widest text-white/40">Ans</p>
@@ -221,7 +221,7 @@ export default function Footer() {
                 </div>
 
                 <div className="flex flex-col items-center lg:items-end">
-                  <p className="text-[14px] font-black uppercase italic leading-none tracking-wider text-[#ef233c]">
+                  <p className="text-[12px] font-black uppercase italic leading-none tracking-wider text-[#ef233c] lg:text-[14px]">
                     Fondation 2012
                   </p>
                   <p className="mt-1 text-[8px] font-extrabold uppercase tracking-[0.2em] text-white/30">

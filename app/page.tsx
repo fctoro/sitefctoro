@@ -23,7 +23,7 @@ const eliteShowcaseImage = '/home/elite-showcase-optimized.jpg'
 
 const eliteFocusPoints = [
   {
-    label: 'Passage vers Elite',
+    label: 'Passage vers Élite',
     icon: RiShieldStarLine,
   },
   {
@@ -31,32 +31,32 @@ const eliteFocusPoints = [
     icon: RiFlashlightLine,
   },
   {
-    label: 'Pret pour la competition',
+    label: 'Prêt pour la compétition',
     icon: RiTrophyLine,
   },
 ]
 
 const eliteStaffCards = [
   {
-    eyebrow: 'Staff Elite',
+    eyebrow: 'Staff Élite',
     title: 'Encadrement terrain',
-    description: 'Le groupe est accompagne de pres pour installer des seances plus exigeantes et plus lisibles.',
+    description: 'Le groupe est accompagné de près pour installer des séances plus exigeantes et plus lisibles.',
     image: '/home/staff-direction-optimized.jpg',
-    alt: 'Staff Elite FC TORO pendant une seance',
+    alt: 'Staff Élite FC TORO pendant une séance',
   },
   {
-    eyebrow: 'Staff Elite',
+    eyebrow: 'Staff Élite',
     title: 'Lecture du jeu',
-    description: 'Le staff affine les details tactiques, le tempo collectif et la qualite des prises de decision.',
+    description: 'Le staff affine les détails tactiques, le tempo collectif et la qualité des prises de décision.',
     image: '/home/staff-field-optimized.jpg',
     alt: 'Staff FC TORO sur le terrain',
   },
   {
-    eyebrow: 'Staff Elite',
+    eyebrow: 'Staff Élite',
     title: 'Suivi quotidien',
-    description: 'Preparation, correction et progression sont suivies au plus pres pour chaque cycle de travail.',
+    description: 'Préparation, correction et progression sont suivies au plus près pour chaque cycle de travail.',
     image: '/home/staff-support-optimized.jpg',
-    alt: 'Encadrement FC TORO Elite',
+    alt: 'Encadrement FC TORO Élite',
   },
 ]
 
@@ -230,17 +230,17 @@ export default function HomePage() {
                       Transition & ambition
                     </p>
                     <h3 className="mt-3 text-[clamp(1.7rem,3.1vw,2.7rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-white">
-                      Le projet Elite prend le relais.
+                      Le projet Élite prend le relais.
                     </h3>
 
                     <div className="mt-5 space-y-4 text-[15px] leading-relaxed text-white/88">
                       <p>
-                        FC TORO Elite relie l academie a un cadre plus exigeant pour accompagner les meilleurs profils
-                        vers la competition et une progression plus structuree.
+                        FC TORO Élite relie l'académie à un cadre plus exigeant pour accompagner les meilleurs profils
+                        vers la compétition et une progression plus structurée.
                       </p>
                       <p>
-                        Le groupe avance avec un travail plus precis sur le tempo, la discipline collective et la maturite
-                        tactique, afin de preparer la prochaine marche du parcours FC TORO.
+                        Le groupe avance avec un travail plus précis sur le tempo, la discipline collective et la maturité
+                        tactique, afin de préparer la prochaine marche du parcours FC TORO.
                       </p>
                     </div>
 
@@ -383,10 +383,10 @@ export default function HomePage() {
         <section id="actualites" className="px-4 pb-11 sm:px-6 lg:px-8">
           <NewsBarcaGrid
             items={newsCards}
-            eyebrow="Actualites du club"
-            heading="ACTUALITES"
+            eyebrow="Actualités du club"
+            heading="ACTUALITÉS"
             ctaHref="/actualites"
-            ctaLabel="Voir toute l actualite"
+            ctaLabel="Voir toute l'actualité"
             limit={4}
           />
         </section>

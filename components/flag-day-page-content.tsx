@@ -53,7 +53,7 @@ export default function FlagDayPageContent() {
   }
 
   return (
-    <div className="bg-[#f2f2f4] text-[#0a1d3a]">
+    <div className="min-h-screen bg-[#f8fafc] text-[#0a1d3a] max-w-full overflow-x-hidden">
       {/* ═══════ HERO ═══════ */}
       <section className="relative h-[650px] overflow-hidden bg-[#0a1d3a] text-white md:h-[800px] lg:h-screen lg:min-h-[700px]">
         {/* Background Image — Vraie photo de victoire FC TORO */}

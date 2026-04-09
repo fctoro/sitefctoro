@@ -55,8 +55,8 @@ const currentProjects = [
   },
   {
     label: 'Projet',
-    title: 'FC TORO Elite',
-    body: 'Le groupe Elite sert de passerelle vers une exigence plus haute et une lecture plus mature du jeu.',
+    title: 'FC TORO Élite',
+    body: 'Le groupe Élite sert de passerelle vers une exigence plus haute et une lecture plus mature du jeu.',
   },
   {
     label: 'Programme',
@@ -136,7 +136,7 @@ const philosophyItems = [
 
 const programItems = [
   { icon: RiGroupLine, title: 'École de Football', age: '2 à 19 ans', desc: 'Initiation, développement technique et plaisir du jeu.' },
-  { icon: RiStarLine, title: 'Programme Elite', age: 'Haut potentiel', desc: 'Parcours de performance pour joueurs à haut potentiel.' },
+  { icon: RiStarLine, title: 'Programme Élite', age: 'Haut potentiel', desc: 'Parcours de performance pour joueurs à haut potentiel.' },
   { icon: RiFireLine, title: 'Bootcamp Pré-saison', age: 'Tous niveaux', desc: 'Préparation physique et mentale intensive.' },
   { icon: RiEyeLine, title: 'Gardiens & Vision', age: 'Spécialisé', desc: 'Travail ciblé sur les réflexes, la prise de décision et la lecture du jeu.' },
   { icon: RiFlashlightLine, title: 'Power Zone', age: 'Rooftop', desc: 'Séances intensives axées sur la force, l\'endurance et l\'explosivité.' },
@@ -163,7 +163,7 @@ const timelineEvents = [
   { year: '2022', title: 'Écosystème renforcé', desc: 'Développement du média, des événements et de la production autour du club pour créer un impact plus large.' },
   { year: '2023', title: 'Projets structurants', desc: 'Lancement de la Vertières Cup. Relance du programme féminin « Girl Squad ». 7 joueurs ont intégré la FHF pour remporter le U14 – CFU Challenge et couronnés « Prince des Caraïbes ».', featured: true },
   { year: '2025', title: 'Projet CASA', desc: 'Pause de première pierre : un campus complet de formation pour ancrer la vision de FC TORO dans le long terme.' },
-  { year: '2026', title: 'Vision d\'expansion', desc: 'Digitalisation et structuration Elite pour une nouvelle ère de développement et d\'excellence.' },
+  { year: '2026', title: 'Vision d\'expansion', desc: 'Digitalisation et structuration Élite pour une nouvelle ère de développement et d\'excellence.' },
 ]
 
 export default function NotreHistoirePage() {

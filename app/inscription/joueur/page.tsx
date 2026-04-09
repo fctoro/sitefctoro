@@ -185,7 +185,7 @@ export default function InscriptionJoueurPage() {
   const pricing = pricingPrograms[activeProgram]
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-[#0a1d3a]">
+    <div className="min-h-screen bg-[#f8fafc] text-[#0a1d3a] max-w-full overflow-x-hidden">
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">

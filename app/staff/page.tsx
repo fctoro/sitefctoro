@@ -1,10 +1,17 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { HomeNavbar } from '@/components/home-navbar'
+import { Breadcrumb } from '@/components/breadcrumb'
 
 const staffMembers = [
+  {
+    name: 'Patrick Bonnefil',
+    role: 'Administration',
+    image: '/stafftoro/Mr. Bonnefil.jpg.jpeg',
+  },
   {
     name: 'Samuel Bellevue',
     role: 'Staff Technique',
@@ -52,7 +59,8 @@ export default function StaffPage() {
     <div className="min-h-screen bg-[#f8fafc] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
 
-      <main className="pt-[116px] lg:pt-[78px]">
+      <main className="relative pt-[116px] lg:pt-[78px]">
+        <Breadcrumb label="CLUB" href="/le-club" />
         {/* Header Section */}
         <section className="relative overflow-hidden bg-[#0a1d3a] px-4 py-20 text-white sm:px-6 lg:px-8 lg:py-28">
           <div className="absolute inset-0 select-none opacity-[0.05]">
@@ -82,38 +90,9 @@ export default function StaffPage() {
         {/* Staff Grid */}
         <section className="px-4 py-20 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1200px]">
-            <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
               {staffMembers.map((member, index) => (
-                <motion.div
-                  key={member.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className="flex flex-col items-center"
-                >
-                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2.5rem] bg-white shadow-[0_15px_45px_rgba(10,29,58,0.08)]">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-
-                  <div className="mt-8 text-center">
-                    <h3 className="text-2xl font-black uppercase tracking-tight text-[#0a1d3a]">
-                      {member.name}
-                    </h3>
-                    <div className="mt-2 flex items-center justify-center gap-2">
-                       <span className="h-px w-4 bg-[#ef233c]" />
-                       <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ef233c]">
-                         {member.role}
-                       </p>
-                       <span className="h-px w-4 bg-[#ef233c]" />
-                    </div>
-                  </div>
-                </motion.div>
+                <StaffMemberCard key={member.name} member={member} index={index} />
               ))}
             </div>
           </div>
@@ -122,5 +101,45 @@ export default function StaffPage() {
 
       </main>
     </div>
+  )
+}
+
+function StaffMemberCard({ member, index }: { member: any; index: number }) {
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.05 }}
+      className="flex flex-col items-center"
+    >
+      <div className="group relative aspect-[4/5] w-full overflow-hidden rounded-[2.5rem] bg-[#f1f5f9] shadow-[0_15px_45px_rgba(10,29,58,0.08)]">
+        <Image
+          src={member.image}
+          alt={member.name}
+          fill
+          priority
+          onLoad={() => setIsLoaded(true)}
+          className={`object-cover transition-all duration-1000 ease-in-out group-hover:scale-110 ${
+            isLoaded ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-105 blur-lg'
+          }`}
+        />
+      </div>
+
+      <div className="mt-8 text-center">
+        <h3 className="text-2xl font-black uppercase tracking-tight text-[#0a1d3a]">
+          {member.name}
+        </h3>
+        <div className="mt-2 flex items-center justify-center gap-2">
+           <span className="h-px w-4 bg-[#ef233c]" />
+           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ef233c]">
+             {member.role}
+           </p>
+           <span className="h-px w-4 bg-[#ef233c]" />
+        </div>
+      </div>
+    </motion.div>
   )
 }

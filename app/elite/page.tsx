@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
+import { Breadcrumb } from '@/components/breadcrumb'
 import { EliteRosterSection } from '@/components/elite-roster-section'
 import {
   RiCheckLine,
@@ -15,13 +16,13 @@ import {
 } from '@remixicon/react'
 
 const eliteData = {
-  title: 'FC TORO ELITE - Le pont entre formation et excellence',
+  title: 'FC TORO ÉLITE - Le pont entre formation et excellence',
   intro:
-    "Le programme FC TORO Elite est né d'un besoin clair : offrir une continuité aux joueurs talentueux issus de l'académie et de l'école de football FC TORO. Trop souvent, le passage entre la formation des jeunes et le football adulte laisse un vide. Notre responsabilité est de combler cet écart. L'Équipe Elite représente cette réponse.",
+    "Le programme FC TORO Élite est né d'un besoin clair : offrir une continuité aux joueurs talentueux issus de l'académie et de l'école de football FC TORO. Trop souvent, le passage entre la formation des jeunes et le football adulte laisse un vide. Notre responsabilité est de combler cet écart. L'Équipe Élite représente cette réponse.",
   section1: {
     title: 'Une Plateforme de Transition',
     text:
-      "FC TORO Elite est une structure dédiée à accompagner les joueurs dans leur évolution vers un niveau supérieur. C'est un espace où :",
+      "FC TORO Élite est une structure dédiée à accompagner les joueurs dans leur évolution vers un niveau supérieur. C'est un espace où :",
     items: [
       'Le talent est structuré',
       'Le potentiel est affiné',
@@ -46,7 +47,7 @@ const eliteData = {
     title: 'Le Code Toro',
     quote: '"Ce n\'est pas un simple symbole. C\'est un standard."',
     text:
-      "L'équipe Elite incarne un niveau d'exigence supérieur, symbolisé par Le Code Toro. Basé sur trois piliers fondamentaux :",
+      "L'équipe Élite incarne un niveau d'exigence supérieur, symbolisé par Le Code Toro. Basé sur trois piliers fondamentaux :",
     items: [
       'Présence - calme, concentration, maîtrise de soi',
       'Maîtrise - contrôle, précision, intelligence du jeu',
@@ -56,7 +57,7 @@ const eliteData = {
   section4: {
     title: 'Une Vision à Long Terme',
     text:
-      "L'Équipe Elite est la vitrine du club et la fondation du futur. Elle s'inscrit dans une vision structurée :",
+      "L'Équipe Élite est la vitrine du club et la fondation du futur. Elle s'inscrit dans une vision structurée :",
     items: [
       'Stabiliser un groupe compétitif',
       'Construire une culture professionnelle',
@@ -67,7 +68,7 @@ const eliteData = {
   section5: {
     title: "Plus qu'une équipe, un Mouvement",
     text:
-      "FC TORO Elite n'est pas seulement une équipe. C'est un passage. Un seuil. Une transformation. Un espace où les joueurs deviennent :",
+      "FC TORO Élite n'est pas seulement une équipe. C'est un passage. Un seuil. Une transformation. Un espace où les joueurs deviennent :",
     items: ['Plus conscients', 'Plus responsables', 'Plus complets'],
     outro: 'Et surtout, prêts.',
   },
@@ -78,7 +79,8 @@ export default function ElitePage() {
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
 
-      <main className="pt-[116px] lg:pt-[78px]">
+      <main className="relative pt-[116px] lg:pt-[78px]">
+        <Breadcrumb label="FOOTBALL" href="/#projets" />
         <section className="relative h-[220px] overflow-hidden bg-[#0a1d3a] text-white md:h-[300px]">
           <Image
             src="/joueur/extracted/591149277_18545355826012336_6701584250153829576_n.jpg"

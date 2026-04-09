@@ -151,23 +151,27 @@ export const eventsOverviewStats = [
 ]
 
 export const liveMatchData = {
-  home: { name: 'FC TORO Elite', logo: '/fc-toro-logo.png' },
+  home: { name: 'FC TORO Élite', logo: '/fc-toro-logo.png' },
   away: {
     name: 'Violette AC',
     logo: '/joueur/extracted/560388188_18531457003012336_702922180697776333_n.jpg',
   },
   competition: 'Flag Day Tournament 2026',
-  status: 'Bientot en direct',
+  status: 'Bientôt en direct',
   startsAt: '18 mai 2026 @ 16:30',
   venue: 'Stade Sylvio Cator',
   headline: 'Rejoignez-nous en direct pour suivre FC TORO et les temps forts du tournoi.',
+  youtubeId: '', // Laissez vide "" pour désactiver le bouton Live
+  isLive: false, // Mettre à true quand le match commence vraiment
 }
+
+export const IS_LIVE_ACTIVE = liveMatchData.isLive || !!liveMatchData.youtubeId
 
 export const liveFeed: LiveFeedEntry[] = [
   {
     label: 'Avant-match',
     title: 'Les joueurs arrivent au stade',
-    body: 'Le staff FC TORO installe le groupe, la mise en place video et le protocole media.',
+    body: 'Le staff FC TORO installe le groupe, la mise en place vidéo et le protocole média.',
   },
   {
     label: 'Brief officiel',
@@ -176,8 +180,8 @@ export const liveFeed: LiveFeedEntry[] = [
   },
   {
     label: 'A surveiller',
-    title: 'Temps fort attendu a 16:30',
-    body: 'Le direct demarre avec l entree des joueurs puis le flux match sera mis a jour en continu.',
+    title: 'Temps fort attendu à 16:30',
+    body: 'Le direct démarre avec l’entrée des joueurs puis le flux match sera mis à jour en continu.',
   },
 ]
 

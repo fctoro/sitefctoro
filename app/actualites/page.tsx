@@ -11,8 +11,8 @@ export default function ActualitesPage() {
         <section className="px-4 pb-11 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pt-12">
           <NewsBarcaGrid
             items={newsCards}
-            eyebrow="Actualites du club"
-            heading="ACTUALITES"
+            eyebrow="Actualités du club"
+            heading="ACTUALITÉS"
             ctaHref="/"
             ctaLabel="Retour accueil"
           />
