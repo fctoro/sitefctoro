@@ -62,12 +62,9 @@ export default function StaffPage() {
       <main className="relative pt-[116px] lg:pt-[78px]">
         <Breadcrumb label="CLUB" href="/le-club" />
         {/* Header Section */}
-        <section className="relative overflow-hidden bg-[#0a1d3a] px-4 py-20 text-white sm:px-6 lg:px-8 lg:py-28">
-          <div className="absolute inset-0 select-none opacity-[0.05]">
-            <p className="whitespace-nowrap text-[25vw] font-black uppercase italic leading-none">
-              STAFF
-            </p>
-          </div>
+        <section className="relative overflow-hidden bg-[#0a1d3a] px-4 py-20 text-white sm:px-6 lg:px-8 lg:py-40">
+          <Image src="/staff-team.jpg" alt="Team FC TORO Saison" fill priority style={{ objectPosition: 'center -140px' }} className="object-cover opacity-40" unoptimized />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a] via-[#0a1d3a]/60 to-[#0a1d3a]/30" />
           <div className="relative z-10 mx-auto max-w-[1100px] text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -120,7 +117,7 @@ function StaffMemberCard({ member, index }: { member: any; index: number }) {
           src={member.image}
           alt={member.name}
           fill
-          priority
+          unoptimized={true}
           onLoad={() => setIsLoaded(true)}
           className={`object-cover transition-all duration-1000 ease-in-out group-hover:scale-110 ${
             isLoaded ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-105 blur-lg'

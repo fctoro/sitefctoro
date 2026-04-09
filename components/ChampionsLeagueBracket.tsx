@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { getLogo, flagDayBracket, BracketData } from '@/data/flag-day-stats'
 
@@ -142,17 +143,19 @@ export default function ChampionsLeagueBracket() {
             whileInView={{ opacity: 1, scale: 1 }}
             className="flex flex-col items-center justify-center"
           >
-             {/* UEFA / League Logo placeholder - Replace with a real UEFA or Custom Logo */}
-            <div className="mb-6 mx-auto h-20 w-20 flex items-center justify-center rounded-full bg-white/5 border border-white/10 shadow-[0_0_30px_rgba(26,78,163,0.3)]">
-               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10 text-white">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
-               </svg>
+            <div className="mb-6 mx-auto h-32 w-32 flex items-center justify-center rounded-full bg-white/5 border border-white/10 shadow-[0_0_30px_rgba(26,78,163,0.3)] relative overflow-hidden p-4">
+               <Image 
+                  src="/flag-day/logo.png" 
+                  alt="Flag Day Logo" 
+                  fill 
+                  className="object-contain p-2" 
+               />
             </div>
             <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-              Route to the Final
+              La Finale Approche
             </h2>
-            <p className="mt-3 text-sm font-bold text-[#4a5f8a] uppercase tracking-[0.3em]">
-              Flag Day Tournament Series
+            <p className="mt-3 text-sm font-bold text-[#4a5f8a] uppercase tracking-[0.3em] text-center">
+              En route pour la finale le 18 mai 2026 <br className="md:hidden" />(Parc Sainte-Thérèse)
             </p>
           </motion.div>
         </div>
@@ -243,7 +246,7 @@ export default function ChampionsLeagueBracket() {
                    {/* FINAL MATCH */}
                    <div className="w-full max-w-[320px] mx-auto">
                      <div className="text-center mb-2">
-                       <span className="text-[12px] font-black uppercase tracking-[0.3em] text-[#f0b429] drop-shadow-[0_0_8px_rgba(240,180,41,0.5)]">Final</span>
+                       <span className="text-[12px] font-black uppercase tracking-[0.3em] text-[#f0b429] drop-shadow-[0_0_8px_rgba(240,180,41,0.5)]">Final - 18 Mai 2026</span>
                      </div>
                      <div className="space-y-1 bg-[#0a0e2e]/80 border border-[#1a2b5e] rounded-lg p-3 backdrop-blur-sm shadow-2xl">
                         <BracketTeamBox 

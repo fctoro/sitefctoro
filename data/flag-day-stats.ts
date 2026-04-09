@@ -24,8 +24,8 @@ export const logoMap: Record<string, string> = {
   'Academie Perf': '/logos/ACADEMIE PERFECTION.png',
   'Idelo FC': '/logos/IDELO FC.png',
   'Idelo': '/logos/IDELO FC.png',
-  'Legend EF': '/logos/FC LEGENDS.jpg',
-  'FC Legend': '/logos/FC LEGENDS.jpg',
+  'Legend EF': '/logos/FC LEGENDS.png',
+  'FC Legend': '/logos/FC LEGENDS.png',
   'SLG': '/logos/SLG ACADEMIE.png',
   'Saint Louis de G': '/logos/SLG ACADEMIE.png',
   'Rev United': '/logos/REV UNITED.png',
@@ -258,50 +258,50 @@ export type BracketData = { semiFinals: BracketMatch[]; final: BracketMatch; cha
 export const flagDayBracket: Record<string, BracketData> = {
   U9: {
     semiFinals: [
-      { home: 'Fc Toro Elite', away: 'ASF',      scoreHome: 2, scoreAway: 0 },
-      { home: 'CSP',           away: 'Jacot FP', scoreHome: 1, scoreAway: 0 },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
     ],
-    final:    { home: 'Fc Toro Elite', away: 'CSP', scoreHome: 3, scoreAway: 0 },
-    champion: 'Fc Toro Elite',
+    final:    { home: 'À déterminer', away: 'À déterminer', scoreHome: null, scoreAway: null },
+    champion: null,
   },
   U11: {
     semiFinals: [
-      { home: 'Fc Toro Elite', away: 'Star des Jeunes', scoreHome: 2, scoreAway: 1 },
-      { home: 'FC MDM',        away: 'AST',             scoreHome: 1, scoreAway: 0 },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
     ],
-    final:    { home: 'Fc Toro Elite', away: 'FC MDM', scoreHome: 2, scoreAway: 0 },
-    champion: 'Fc Toro Elite',
+    final:    { home: 'À déterminer', away: 'À déterminer', scoreHome: null, scoreAway: null },
+    champion: null,
   },
   U13: {
     semiFinals: [
-      { home: 'Fc Toro Elite', away: 'ASF',     scoreHome: 1, scoreAway: 0 },
-      { home: 'FC MDM',        away: 'Fc Seth', scoreHome: 2, scoreAway: 1 },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
     ],
-    final:    { home: 'Fc Toro Elite', away: 'FC MDM', scoreHome: 2, scoreAway: 1 },
-    champion: 'Fc Toro Elite',
+    final:    { home: 'À déterminer', away: 'À déterminer', scoreHome: null, scoreAway: null },
+    champion: null,
   },
   U15: {
     semiFinals: [
-      { home: 'Fc Toro Elite', away: 'Condor',     scoreHome: 1, scoreAway: 2 },
-      { home: 'ASF',           away: 'Fc Toro PV', scoreHome: 2, scoreAway: 0 },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
     ],
-    final:    { home: 'Condor', away: 'ASF', scoreHome: 2, scoreAway: 1 },
-    champion: 'Condor',
+    final:    { home: 'À déterminer', away: 'À déterminer', scoreHome: null, scoreAway: null },
+    champion: null,
   },
   U17: {
     semiFinals: [
-      { home: 'Fc Toro Elite',   away: 'Star des Jeunes', scoreHome: null, scoreAway: null },
-      { home: 'SLG',             away: 'Fc Seth',         scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
     ],
-    final:    { home: 'A determiner', away: 'A determiner', scoreHome: null, scoreAway: null },
+    final:    { home: 'À déterminer', away: 'À déterminer', scoreHome: null, scoreAway: null },
     champion: null,
   },
   U21: {
     semiFinals: [
-      { home: 'ADE30',         away: 'Aigle Noir',  scoreHome: null, scoreAway: null },
-      { home: 'Fc Toro Elite', away: 'Violette AC', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
     ],
-    final:    { home: 'A determiner', away: 'A determiner', scoreHome: null, scoreAway: null },
+    final:    { home: 'À déterminer', away: 'À déterminer', scoreHome: null, scoreAway: null },
     champion: null,
   },
 };
