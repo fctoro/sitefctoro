@@ -158,6 +158,13 @@ export function Header() {
               Rejoindre
               <ChevronDown className={`h-4 w-4 transition-transform ${openDropdown === 'rejoindre' ? 'rotate-180' : ''}`} />
             </button>
+            <Link
+              href="/contact"
+              className="whitespace-nowrap text-[0.95rem] font-semibold text-white transition-colors hover:text-primary"
+              onMouseEnter={closeMenuNow}
+            >
+              Contact
+            </Link>
           </nav>
 
           <button
@@ -372,6 +379,13 @@ export function Header() {
                   ))}
                 </div>
               ) : null}
+              <Link
+                href="/contact"
+                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact
+              </Link>
             </nav>
           </div>
         ) : null}
