@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
@@ -17,6 +18,7 @@ import {
   RiCheckLine,
   RiHeartLine,
   RiMegaphoneLine,
+  RiInformationLine,
 } from '@remixicon/react'
 
 const supporterBenefits = [
@@ -33,6 +35,97 @@ const supporterRoles = [
 ]
 
 export default function InscriptionFansPage() {
+  const [submitState, setSubmitState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [submitMessage, setSubmitMessage] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!submitMessage) return
+    const timeout = window.setTimeout(() => {
+      setSubmitMessage(null)
+      setSubmitState('idle')
+    }, 3000)
+    return () => window.clearTimeout(timeout)
+  }, [submitMessage])
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const form = event.currentTarget
+    const missingLabels: string[] = []
+    const requiredElements = Array.from(
+      form.querySelectorAll<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >('[required]')
+    )
+    requiredElements.forEach((element) => {
+      const type = element.getAttribute('type')
+      const isCheckbox = type === 'checkbox'
+      const isRadio = type === 'radio'
+      let isMissing = false
+      if (isCheckbox) {
+        isMissing = !(element as HTMLInputElement).checked
+      } else if (isRadio) {
+        const name = element.getAttribute('name')
+        if (name) {
+          const checked = form.querySelector<HTMLInputElement>(
+            `input[type="radio"][name="${name}"]:checked`
+          )
+          isMissing = !checked
+        }
+      } else {
+        isMissing = !element.value
+      }
+      if (isMissing) {
+        const label =
+          element.getAttribute('data-label') ||
+          element.closest('label')?.textContent?.trim() ||
+          element.closest('div')?.querySelector('label')?.textContent?.trim() ||
+          element.getAttribute('name') ||
+          'Champ obligatoire'
+        if (label && !missingLabels.includes(label)) {
+          missingLabels.push(label)
+        }
+      }
+    })
+
+    if (missingLabels.length > 0) {
+      setSubmitMessage(`Champs manquants: ${missingLabels.join(', ')}`)
+      setSubmitState('error')
+      return
+    }
+
+    setSubmitState('submitting')
+    setSubmitMessage(null)
+
+    const formData = new FormData(form)
+    try {
+      const response = await fetch('/api/inscriptions/fans', {
+        method: 'POST',
+        body: formData,
+      })
+      let data: any = null
+      const contentType = response.headers.get('content-type') || ''
+      if (contentType.includes('application/json')) {
+        data = await response.json().catch(() => null)
+      } else {
+        const text = await response.text().catch(() => '')
+        if (text) {
+          data = { message: text, error: text }
+        }
+      }
+      if (!response.ok) {
+        throw new Error(data?.error || "Une erreur est survenue lors de l'inscription.")
+      }
+      setSubmitState('success')
+      setSubmitMessage(data?.message || "Inscription envoyee avec succes.")
+      form.reset()
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Une erreur est survenue lors de l'inscription."
+      setSubmitState('error')
+      setSubmitMessage(message)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
@@ -120,7 +213,7 @@ export default function InscriptionFansPage() {
               description="Le formulaire permet au club de savoir comment vous souhaitez vous impliquer, sur quels temps forts et avec quel type de présence."
               badges={['Communauté', 'Matchday', 'Supporters']}
             >
-              <form className="space-y-8">
+              <form className="space-y-8" onSubmit={handleSubmit}>
                 <InscriptionFormSection
                   index="01"
                   title="Informations du fan"
@@ -130,15 +223,32 @@ export default function InscriptionFansPage() {
                     {/* --- BLOC GAUCHE (3 champs) --- */}
                     <div className="space-y-6">
                       <InscriptionField label="Nom" required>
-                        <InscriptionInput type="text" placeholder="Votre nom" />
+                        <InscriptionInput
+                          type="text"
+                          name="last_name"
+                          placeholder="Votre nom"
+                          required
+                          data-label="Nom"
+                        />
                       </InscriptionField>
 
                       <InscriptionField label="Numéro de téléphone" required>
-                        <InscriptionInput type="tel" placeholder="+509 XXXX XXXX" />
+                        <InscriptionInput
+                          type="tel"
+                          name="phone"
+                          placeholder="+509 XXXX XXXX"
+                          required
+                          data-label="Numero de telephone"
+                        />
                       </InscriptionField>
 
                       <InscriptionField label="Département" required>
-                        <InscriptionSelect defaultValue="Département">
+                        <InscriptionSelect
+                          name="department"
+                          defaultValue="Département"
+                          required
+                          data-label="Departement"
+                        >
                           <option disabled>Département</option>
                           <option>Artibonite</option>
                           <option>Centre</option>
@@ -157,28 +267,99 @@ export default function InscriptionFansPage() {
                     {/* --- BLOC DROIT (3 champs) --- */}
                     <div className="space-y-6 flex flex-col h-full">
                       <InscriptionField label="Prénom" required>
-                        <InscriptionInput type="text" placeholder="Votre prénom" />
+                        <InscriptionInput
+                          type="text"
+                          name="first_name"
+                          placeholder="Votre prénom"
+                          required
+                          data-label="Prenom"
+                        />
                       </InscriptionField>
 
                       <InscriptionField label="Email" required>
-                        <InscriptionInput type="email" placeholder="contact@email.com" />
+                        <InscriptionInput
+                          type="email"
+                          name="email"
+                          placeholder="contact@email.com"
+                          required
+                          data-label="Email"
+                        />
                       </InscriptionField>
 
                       <InscriptionField label="Adresse complète" required>
-                        <InscriptionInput type="text" placeholder="Votre adresse exacte (Rue, quartier, ville...)" />
+                        <InscriptionInput
+                          type="text"
+                          name="address"
+                          placeholder="Votre adresse exacte (Rue, quartier, ville...)"
+                          required
+                          data-label="Adresse complete"
+                        />
                       </InscriptionField>
                     </div>
                   </div>
                 </InscriptionFormSection>
 
-                <InscriptionConsent>
+                <InscriptionConsent
+                  name="consent_contact"
+                  required
+                  dataLabel="Autorisation contact"
+                >
                   J'accepte d'être contacté par FC TORO concernant la vie du club et les activations supporters.
                 </InscriptionConsent>
 
                 <InscriptionSubmit
                   label="Rejoindre la communauté"
                   note="Le club utilise ces informations uniquement pour vous intégrer à la famille des supporters officiels."
+                  isSubmitting={submitState === 'submitting'}
                 />
+                {submitMessage ? (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-[3px]"
+                  >
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.96, y: 10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.96, y: -8 }}
+                      className={`w-full max-w-[380px] overflow-hidden rounded-[28px] border bg-white text-center shadow-[0_30px_80px_rgba(10,29,58,0.35)] ${
+                        submitState === 'success'
+                          ? 'border-emerald-200'
+                          : 'border-rose-200'
+                      }`}
+                    >
+                      <div
+                        className={`h-2 w-full ${
+                          submitState === 'success' ? 'bg-emerald-500' : 'bg-rose-500'
+                        }`}
+                      />
+                      <div className="px-6 py-6">
+                        <div
+                          className={`mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full ${
+                            submitState === 'success'
+                              ? 'bg-emerald-100 text-emerald-600'
+                              : 'bg-rose-100 text-rose-600'
+                          }`}
+                        >
+                          {submitState === 'success' ? (
+                            <RiCheckLine className="h-6 w-6" />
+                          ) : (
+                            <RiInformationLine className="h-6 w-6" />
+                          )}
+                        </div>
+                        <p className="text-base font-black uppercase tracking-wide text-[#0a1d3a]">
+                          {submitState === 'success'
+                            ? 'Bienvenue dans la communaute !'
+                            : 'Action requise'}
+                        </p>
+                        <p className="mt-2 text-sm font-semibold text-[#5b6f91]">
+                          {submitMessage}
+                        </p>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                ) : null}
               </form>
             </InscriptionFormCard>
           </div>

@@ -129,27 +129,60 @@ export function InscriptionTextarea(props: ComponentPropsWithoutRef<'textarea'>)
   )
 }
 
-export function InscriptionConsent({ children }: { children: ReactNode }) {
+export function InscriptionConsent({
+  children,
+  name,
+  required = false,
+  defaultChecked,
+  dataLabel,
+}: {
+  children: ReactNode
+  name?: string
+  required?: boolean
+  defaultChecked?: boolean
+  dataLabel?: string
+}) {
   return (
     <div className="rounded-[24px] border border-[#e4ebf6] bg-white/90 p-4 shadow-[0_8px_16px_rgba(10,29,58,0.03)]">
       <label className="flex items-start gap-3 text-sm font-semibold leading-relaxed text-[#445b7f]">
-        <input type="checkbox" className="mt-1 h-4 w-4 rounded border-[#c7d4e7] text-[#ef233c]" />
+        <input
+          type="checkbox"
+          name={name}
+          required={required}
+          defaultChecked={defaultChecked}
+          value="yes"
+          data-label={dataLabel}
+          className="mt-1 h-4 w-4 rounded border-[#c7d4e7] text-[#ef233c]"
+        />
         <span>{children}</span>
       </label>
     </div>
   )
 }
 
-export function InscriptionSignatureField({ label }: { label: string }) {
+export function InscriptionSignatureField({
+  label,
+  name,
+  required = false,
+  placeholder = 'Tapez votre nom complet pour signer',
+}: {
+  label: string
+  name?: string
+  required?: boolean
+  placeholder?: string
+}) {
   return (
     <div className="space-y-3">
       <label className="block text-[11px] font-black uppercase tracking-[0.16em] text-[#587193]">
-        {label} <span className="text-[#ef233c]">*</span>
+        {label}
+        {required ? <span className="text-[#ef233c]"> *</span> : null}
       </label>
       <div className="relative overflow-hidden rounded-[28px] border-2 border-[#dce5f2] bg-white transition-all focus-within:border-[#1f4ea1]">
         <input 
           type="text" 
-          placeholder="Tapez votre nom complet pour signer"
+          name={name}
+          required={required}
+          placeholder={placeholder}
           className="h-20 w-full bg-transparent px-8 text-2xl font-['Dancing_Script',cursive] text-[#0a2347] outline-none placeholder:font-sans placeholder:text-sm placeholder:italic placeholder:text-[#8ea2bf]"
         />
         <div className="absolute bottom-4 left-8 right-8 h-px bg-[#dce5f2]" />
@@ -164,16 +197,24 @@ export function InscriptionSignatureField({ label }: { label: string }) {
 export function InscriptionSubmit({
   label,
   note,
+  isSubmitting = false,
+  loadingLabel = 'Envoi en cours...',
 }: {
   label: string
   note: string
+  isSubmitting?: boolean
+  loadingLabel?: string
 }) {
   return (
     <div className="rounded-[26px] border border-[#dbe6f3] bg-[#eef4ff] p-4">
       <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1f4ea1]">Traitement du dossier</p>
       <p className="mt-2 text-sm font-semibold leading-relaxed text-[#5b6f91]">{note}</p>
-      <button className="mt-5 w-full rounded-[20px] bg-[#ef233c] py-5 text-base font-black uppercase tracking-[0.18em] text-white shadow-[0_18px_30px_rgba(239,35,60,0.28)] transition-all hover:translate-y-[-1px] hover:bg-[#ff3f5c] active:translate-y-0">
-        {label}
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="mt-5 w-full rounded-[20px] bg-[#ef233c] py-5 text-base font-black uppercase tracking-[0.18em] text-white shadow-[0_18px_30px_rgba(239,35,60,0.28)] transition-all hover:translate-y-[-1px] hover:bg-[#ff3f5c] active:translate-y-0 disabled:cursor-not-allowed disabled:bg-[#ef233c]/70"
+      >
+        {isSubmitting ? loadingLabel : label}
       </button>
     </div>
   )
