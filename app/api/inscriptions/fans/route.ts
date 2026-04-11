@@ -71,7 +71,6 @@ export async function POST(request: Request) {
     await sendFanRegistrationEmail({
       to: payload.email,
       name: `${payload.first_name} ${payload.last_name}`.trim(),
-      registrationId,
     })
 
     return NextResponse.json({

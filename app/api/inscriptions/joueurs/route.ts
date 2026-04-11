@@ -305,7 +305,6 @@ export async function POST(request: Request) {
       to: payload.guardian_email,
       guardianName: payload.guardian_name,
       program: payload.program,
-      registrationId,
     })
 
     return NextResponse.json({
