@@ -1,12 +1,16 @@
-'use client'
-
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import { HomeNavbar } from '@/components/home-navbar'
 import { Breadcrumb } from '@/components/breadcrumb'
+import StaffPageContent from '@/components/staff-page-content'
+import { supabase } from '@/lib/supabase'
 
-const staffMembers = [
+export const metadata: Metadata = {
+  title: 'Staff | FC TORO',
+  description: "L'organisation et l'équipe technique du FC TORO. Une équipe dévouée au développement des jeunes talents.",
+}
+
+const staticStaffMembers = [
   {
     name: 'Patrick Bonnefil',
     role: 'Administration',
@@ -54,7 +58,24 @@ const staffMembers = [
   },
 ]
 
-export default function StaffPage() {
+// Composant Server Rendering pour la page Staff (pas de framer-motion ici directement)
+export default async function StaffPage() {
+  // Récupérer le staff dynamique depuis la base de données
+  const { data: cmsStaff } = await supabase
+    .from('club_staff')
+    .select('*')
+    .order('start_date', { ascending: true })
+
+  // Reformater le staff dynamique pour qu'il corresponde au format statique
+  const dynamicStaff = (cmsStaff || []).map((dbStaff) => ({
+    name: dbStaff.name,
+    role: dbStaff.role,
+    photo_url: dbStaff.photo_url, 
+    id: dbStaff.id,
+  }))
+
+  const allStaff = [...staticStaffMembers, ...dynamicStaff]
+
   return (
     <div className="min-h-screen bg-[#f8fafc] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
@@ -66,11 +87,7 @@ export default function StaffPage() {
           <Image src="/staff-team.jpg" alt="Team FC TORO Saison" fill priority style={{ objectPosition: 'center -140px' }} className="object-cover opacity-40" unoptimized />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a] via-[#0a1d3a]/60 to-[#0a1d3a]/30" />
           <div className="relative z-10 mx-auto max-w-[1100px] text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
+            <div className="animate-in fade-in slide-in-from-bottom-5 duration-700">
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
                 L'organisation
               </p>
@@ -80,63 +97,14 @@ export default function StaffPage() {
               <p className="mx-auto mt-6 max-w-[700px] text-lg font-medium text-white/70">
                 Une équipe dévouée au développement des jeunes talents et à l'excellence opérationnelle du club.
               </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Staff Grid */}
-        <section className="px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1200px]">
-            <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
-              {staffMembers.map((member, index) => (
-                <StaffMemberCard key={member.name} member={member} index={index} />
-              ))}
             </div>
           </div>
         </section>
 
+        {/* Staff Grid (Client Component avec Animations) */}
+        <StaffPageContent staffMembers={allStaff} />
 
       </main>
     </div>
-  )
-}
-
-function StaffMemberCard({ member, index }: { member: any; index: number }) {
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.05 }}
-      className="flex flex-col items-center"
-    >
-      <div className="group relative aspect-[4/5] w-full overflow-hidden rounded-[2.5rem] bg-[#f1f5f9] shadow-[0_15px_45px_rgba(10,29,58,0.08)]">
-        <Image
-          src={member.image}
-          alt={member.name}
-          fill
-          unoptimized={true}
-          onLoad={() => setIsLoaded(true)}
-          className={`object-cover transition-all duration-1000 ease-in-out group-hover:scale-110 ${
-            isLoaded ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-105 blur-lg'
-          }`}
-        />
-      </div>
-
-      <div className="mt-8 text-center">
-        <h3 className="text-2xl font-black uppercase tracking-tight text-[#0a1d3a]">
-          {member.name}
-        </h3>
-        <div className="mt-2 flex items-center justify-center gap-2">
-           <span className="h-px w-4 bg-[#ef233c]" />
-           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ef233c]">
-             {member.role}
-           </p>
-           <span className="h-px w-4 bg-[#ef233c]" />
-        </div>
-      </div>
-    </motion.div>
   )
 }

@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { RiArrowLeftLine, RiCalendarEventLine } from '@remixicon/react'
 import { HomeNavbar } from '@/components/home-navbar'
-import { newsCards } from '@/lib/joueur'
+import { newsCards, type NewsCard } from '@/lib/joueur'
+import { supabase } from '@/lib/supabase'
 
 type ArticlePageProps = {
   params: Promise<{
@@ -12,11 +13,38 @@ type ArticlePageProps = {
   }>
 }
 
-const getArticleBySlug = (slug: string) => newsCards.find((item) => item.slug === slug)
+const getArticleBySlug = async (slug: string): Promise<NewsCard | null> => {
+  // 1. Chercher dans le statique
+  const staticArticle = newsCards.find((item) => item.slug === slug)
+  if (staticArticle) return staticArticle
+
+  // 2. Chercher dans le CMS
+  const { data: cmsArticle } = await supabase
+    .from('articles')
+    .select('*')
+    .eq('slug', slug)
+    .single()
+
+  if (cmsArticle) {
+    return {
+      title: cmsArticle.title_fr,
+      slug: cmsArticle.slug,
+      category: cmsArticle.category,
+      excerpt: cmsArticle.excerpt_fr || '',
+      intro: cmsArticle.excerpt_fr || '',
+      dateLabel: cmsArticle.published_at ? new Date(cmsArticle.published_at).toLocaleDateString('fr-FR') : '',
+      image: cmsArticle.cover_image,
+      content: [cmsArticle.content_fr],
+      keyPoints: [] // Non géré dans le CMS pour le moment
+    }
+  }
+
+  return null
+}
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params
-  const article = getArticleBySlug(slug)
+  const article = await getArticleBySlug(slug)
 
   if (!article) {
     return {
@@ -31,12 +59,22 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 }
 
 export async function generateStaticParams() {
-  return newsCards.map((article) => ({ slug: article.slug }))
+  const staticSlugs = newsCards.map((article) => ({ slug: article.slug }))
+
+  // Récupérer les slugs du CMS pour le build statique
+  const { data: cmsArticles } = await supabase
+    .from('articles')
+    .select('slug')
+    .eq('status', 'published')
+
+  const cmsSlugs = cmsArticles?.map((a) => ({ slug: a.slug })) || []
+
+  return [...staticSlugs, ...cmsSlugs]
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params
-  const article = getArticleBySlug(slug)
+  const article = await getArticleBySlug(slug)
 
   if (!article) {
     notFound()

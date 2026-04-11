@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { ensureFansTable, pool } from '@/lib/db'
+import { ensureFansTable, pool, ensureSiteMessagesTable } from '@/lib/db'
 import { sendFanRegistrationEmail } from '@/lib/email'
 
 export const runtime = 'nodejs'
@@ -46,6 +46,7 @@ export async function POST(request: Request) {
     }
 
     await ensureFansTable()
+    await ensureSiteMessagesTable()
 
     const result = await pool.query(
       `
@@ -67,6 +68,23 @@ export async function POST(request: Request) {
     )
 
     const registrationId = result.rows[0]?.id as number
+
+    await pool.query(
+      `
+        insert into site_messages
+          (type, name, email, phone, message, payload)
+        values
+          ($1, $2, $3, $4, $5, $6)
+      `,
+      [
+        'fan',
+        `${payload.first_name} ${payload.last_name}`,
+        payload.email,
+        payload.phone,
+        `Nouvelle inscription de Fan de ${payload.department}.`,
+        JSON.stringify(payload),
+      ]
+    )
 
     await sendFanRegistrationEmail({
       to: payload.email,

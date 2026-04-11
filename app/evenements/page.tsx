@@ -2,13 +2,24 @@ import type { Metadata } from 'next'
 import { HomeNavbar } from '@/components/home-navbar'
 import EventsPageContent from '@/components/events-page-content'
 import { eventCards, eventsOverviewStats } from '@/data/events-data'
+import { supabase } from '@/lib/supabase'
 
 export const metadata: Metadata = {
   title: 'Evenements | FC TORO',
   description: 'Live, Vertieres Cup et Flag Day dans une section evenement dediee.',
 }
 
-export default function EvenementsPage() {
+export default async function EvenementsPage() {
+  // Récupérer les métriques additionnelles depuis le CMS
+  const { data: cmsMetrics } = await supabase
+    .from('home_hero_metrics')
+    .select('label, value')
+    .order('sort_order')
+
+  // Fusionner les stats statiques avec les métriques du CMS
+  const displayStats = cmsMetrics && cmsMetrics.length > 0 
+    ? [...eventsOverviewStats, ...cmsMetrics]
+    : eventsOverviewStats
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
@@ -33,7 +44,7 @@ export default function EvenementsPage() {
             </p>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              {eventsOverviewStats.map((item) => (
+              {displayStats.map((item) => (
                 <div
                   key={item.label}
                   className="rounded-2xl border border-white/12 bg-white/6 px-5 py-4"

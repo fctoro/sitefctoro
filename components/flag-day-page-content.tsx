@@ -35,13 +35,68 @@ const formatKickoffTime = (kickoff: string) =>
     minute: '2-digit',
   }).format(new Date(kickoff))
 
-export default function FlagDayPageContent() {
+type CmsData = {
+  categories: any[]
+  matches: any[]
+  standings: any[]
+  scorers: any[]
+}
+
+export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
   const [activeCategory, setActiveCategory] = useState<string>('U17')
   const [activeMatchGroup, setActiveMatchGroup] = useState<'A' | 'B' | 'ALL'>('ALL')
 
-  const categories = Object.keys(flagDayStatsData)
-  const currentData = flagDayStatsData[activeCategory]
-  const currentMatches = (flagDayMatches[activeCategory] || []).filter(
+  // 1. Fusionner les catégories
+  const staticCategories = Object.keys(flagDayStatsData)
+  const cmsCategoryNames = cmsData?.categories.map(c => c.name) || []
+  const categories = Array.from(new Set([...staticCategories, ...cmsCategoryNames]))
+
+  // 2. Préparer les données de la catégorie active
+  const staticData = flagDayStatsData[activeCategory] || { groups: { A: [], B: [] }, scorers: [], qualified: { A: '', B: '' } }
+  
+  // Extraire les données CMS pour la catégorie active
+  const activeCmsCat = cmsData?.categories.find(c => c.name === activeCategory)
+  const cmsStandingsRaw = activeCmsCat ? cmsData?.standings.filter(s => s.category_id === activeCmsCat.id) : []
+  const cmsScorersRaw = activeCmsCat ? cmsData?.scorers.filter(s => s.category_id === activeCmsCat.id) : []
+  const cmsMatchesRaw = activeCmsCat ? cmsData?.matches.filter(m => {
+     // Si le round contient le nom de la catégorie (ex: "U17 - Groupe A")
+     return m.round.includes(activeCategory)
+  }) : []
+
+  // Formatter les standings CMS pour correspondre au type StandingsRow
+  const formattedCmsStandings = {
+    A: cmsStandingsRaw?.filter(s => s.group_name === 'A').map(s => ({
+      name: s.team.name, pts: s.points, m: s.played, v: s.won, n: s.drawn, d: s.lost, bm: s.goals_for, bc: s.goals_against, df: s.goals_for - s.goals_against, pl: s.is_qualified ? 'Q' : ''
+    })) || [],
+    B: cmsStandingsRaw?.filter(s => s.group_name === 'B').map(s => ({
+      name: s.team.name, pts: s.points, m: s.played, v: s.won, n: s.drawn, d: s.lost, bm: s.goals_for, bc: s.goals_against, df: s.goals_for - s.goals_against, pl: s.is_qualified ? 'Q' : ''
+    })) || []
+  }
+
+  // Fusion finale des données de la catégorie
+  const currentData = {
+    groups: {
+      A: [...staticData.groups.A, ...formattedCmsStandings.A],
+      B: [...staticData.groups.B, ...formattedCmsStandings.B]
+    },
+    scorers: [
+      ...staticData.scorers,
+      ...(cmsScorersRaw?.map(s => ({ name: s.player_name, goals: s.goals, team: s.team_name })) || [])
+    ],
+    qualified: staticData.qualified // On garde les qualifiés statiques ou on pourrait aussi fusionner
+  }
+
+  // 3. Fusionner les matchs
+  const staticMatches = flagDayMatches[activeCategory] || []
+  const formattedCmsMatches = cmsMatchesRaw?.map(m => ({
+    home: m.home_team.name,
+    away: m.away_team.name,
+    scoreHome: m.home_score,
+    scoreAway: m.away_score,
+    group: m.round.includes('Groupe A') ? 'A' : (m.round.includes('Groupe B') ? 'B' : 'A') // Fallback simple
+  })) || []
+
+  const currentMatches = [...staticMatches, ...formattedCmsMatches].filter(
     m => activeMatchGroup === 'ALL' || m.group === activeMatchGroup
   )
 

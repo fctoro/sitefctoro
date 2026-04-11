@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import path from 'path'
 import { mkdir, writeFile } from 'fs/promises'
-import { ensurePlayersTables, pool } from '@/lib/db'
+import { ensurePlayersTables, ensureSiteMessagesTable, pool } from '@/lib/db'
 import { sendRegistrationEmail } from '@/lib/email'
 
 export const runtime = 'nodejs'
@@ -191,6 +191,7 @@ export async function POST(request: Request) {
     }
 
     await ensurePlayersTables()
+    await ensureSiteMessagesTable()
 
     const insertQuery = `
       insert into player_registrations (
@@ -292,6 +293,22 @@ export async function POST(request: Request) {
           [registrationId, docKey, info.filename, info.type, info.size, publicPath]
         )
       }
+        await client.query(
+          `
+            insert into site_messages
+              (type, name, email, phone, message, payload)
+            values
+              ($1, $2, $3, $4, $5, $6)
+          `,
+          [
+            'joueur',
+            `${payload.guardian_name} (Enfant: ${payload.child_first_name} ${payload.child_last_name})`,
+            payload.guardian_email,
+            payload.guardian_phone,
+            `Nouvelle inscription Joueur confirmée pour le programme ${payload.program}.`,
+            JSON.stringify(payload),
+          ]
+        )
 
       await client.query('commit')
     } catch (dbError) {

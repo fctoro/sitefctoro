@@ -10,8 +10,36 @@ import {
 } from '@remixicon/react'
 import { eventCards, liveFeed, liveMatchData } from '@/data/events-data'
 
-export default function LivePageContent() {
+function getYoutubeId(url: string) {
+  if (!url) return null
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
+  const match = url.match(regExp)
+  return (match && match[2].length === 11) ? match[2] : null
+}
+
+export default function LivePageContent({ cmsLiveMatch }: { cmsLiveMatch?: any }) {
   const [shareFeedback, setShareFeedback] = useState<string | null>(null)
+  
+  // Fusionner les données live : priorité au CMS
+  const activeMatch = cmsLiveMatch 
+    ? {
+        competition: cmsLiveMatch.title, // Le titre de l'événement (ex: Live Diffusion)
+        home: { 
+          name: cmsLiveMatch.home_team?.name || 'Équipe A', 
+          logo: cmsLiveMatch.home_team?.logo_url || liveMatchData.home.logo 
+        },
+        away: { 
+          name: cmsLiveMatch.away_team?.name || 'Équipe B', 
+          logo: cmsLiveMatch.away_team?.logo_url || liveMatchData.away.logo 
+        },
+        startsAt: new Date(cmsLiveMatch.event_date).toLocaleString('fr-FR', {
+          day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+        }),
+        youtubeId: getYoutubeId(cmsLiveMatch.youtube_url) || liveMatchData.youtubeId,
+        isLive: true // Par défaut pour les diffusions actives dans le CMS
+      }
+    : liveMatchData
+
   const sideEvents = eventCards.filter((card) => card.slug !== 'live')
 
   const handleShare = async () => {
@@ -54,7 +82,7 @@ export default function LivePageContent() {
             </div>
 
             <div className="rounded-full border border-white/10 bg-white/5 px-5 py-2 text-[11px] font-black uppercase tracking-[0.28em] text-white/55">
-              {liveMatchData.competition}
+              {activeMatch.competition}
             </div>
 
             <div className="flex items-center gap-3">
@@ -82,7 +110,7 @@ export default function LivePageContent() {
               <div className="relative aspect-video overflow-hidden rounded-[34px] border border-white/10 bg-black ring-1 ring-white/8 shadow-[0_20px_40px_rgba(0,0,0,0.28)]">
                 <iframe
                   className="absolute inset-0 h-full w-full"
-                  src={`https://www.youtube-nocookie.com/embed/${liveMatchData.youtubeId}?rel=0&modestbranding=1`}
+                  src={`https://www.youtube-nocookie.com/embed/${activeMatch.youtubeId}?rel=0&modestbranding=1`}
                   title="FC TORO Live"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
@@ -108,15 +136,15 @@ export default function LivePageContent() {
               <div className="rounded-[34px] border border-white/10 bg-white/5 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.18)] sm:p-8">
                 <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
                   <div className="flex items-center gap-5 text-center md:text-left">
-                    <Image
-                      src={liveMatchData.home.logo}
-                      alt={liveMatchData.home.name}
+                    <img
+                      src={activeMatch.home.logo}
+                      alt={activeMatch.home.name}
                       width={78}
                       height={78}
                       className="h-16 w-auto"
                     />
                     <div>
-                      <p className="text-lg font-black uppercase">{liveMatchData.home.name}</p>
+                      <p className="text-lg font-black uppercase">{activeMatch.home.name}</p>
                       <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/38">
                         Domicile
                       </p>
@@ -126,20 +154,26 @@ export default function LivePageContent() {
                   <div className="text-center">
                     <div className="text-4xl font-black italic tracking-tight text-[#ef233c]">VS</div>
                     <div className="mt-2 rounded-full bg-white/5 px-4 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-white/50">
-                      {liveMatchData.startsAt}
+                      {activeMatch.startsAt}
                     </div>
                   </div>
 
                   <div className="flex items-center gap-5 text-center md:text-right">
                     <div className="order-2 md:order-1">
-                      <p className="text-lg font-black uppercase">{liveMatchData.away.name}</p>
+                      <p className="text-lg font-black uppercase">{activeMatch.away.name}</p>
                       <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/38">
                         Visiteur
                       </p>
                     </div>
 
                     <div className="order-1 grid h-16 w-16 place-items-center overflow-hidden rounded-full border border-white/10 bg-white/5 md:order-2">
-                      <RiGroupLine className="h-8 w-8 text-white/20" />
+                      <img
+                        src={activeMatch.away.logo}
+                        alt={activeMatch.away.name}
+                        width={64}
+                        height={64}
+                        className="h-10 w-auto opacity-40"
+                      />
                     </div>
                   </div>
                 </div>

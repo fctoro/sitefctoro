@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
@@ -53,6 +54,10 @@ function WhatsappIcon() {
 /* ─────────────────────────────────────── Page ─────────────────────────────────────── */
 
 export default function ContactPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [submitSuccess, setSubmitSuccess] = useState(false)
+
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
@@ -205,8 +210,39 @@ export default function ContactPage() {
                   <form
                     id="contact-form"
                     className="mt-8 space-y-5"
-                    onSubmit={(e) => e.preventDefault()}
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      setIsSubmitting(true);
+                      setSubmitError(null);
+                      setSubmitSuccess(false);
+                      const formData = new FormData(e.currentTarget);
+                      const data = Object.fromEntries(formData.entries());
+                      try {
+                        const response = await fetch('/api/contact', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify(data),
+                        });
+                        if (!response.ok) throw new Error('Erreur lors de l\'envoi');
+                        setSubmitSuccess(true);
+                        (e.target as HTMLFormElement).reset();
+                      } catch (err: any) {
+                        setSubmitError(err.message || 'Une erreur est survenue');
+                      } finally {
+                        setIsSubmitting(false);
+                      }
+                    }}
                   >
+                    {submitSuccess && (
+                      <div className="rounded-xl border border-[#25d366]/20 bg-[#25d366]/10 p-4 text-sm font-medium text-[#1a9e4e]">
+                        Votre message a bien été envoyé. Nous vous répondrons très vite.
+                      </div>
+                    )}
+                    {submitError && (
+                      <div className="rounded-xl border border-[#ef233c]/20 bg-[#ef233c]/10 p-4 text-sm font-medium text-[#ef233c]">
+                        {submitError}
+                      </div>
+                    )}
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="space-y-1.5">
                         <label
@@ -219,6 +255,7 @@ export default function ContactPage() {
                           id="contact-nom"
                           type="text"
                           name="nom"
+                          required
                           placeholder="Votre nom"
                           className="w-full rounded-xl border border-[#dce5f2] bg-[#f8fafc] px-4 py-3 text-sm font-semibold text-[#0a1d3a] placeholder:text-[#b0bdd0] outline-none transition-all focus:border-[#ef233c]/50 focus:ring-2 focus:ring-[#ef233c]/12"
                         />
@@ -234,6 +271,7 @@ export default function ContactPage() {
                           id="contact-prenom"
                           type="text"
                           name="prenom"
+                          required
                           placeholder="Votre prenom"
                           className="w-full rounded-xl border border-[#dce5f2] bg-[#f8fafc] px-4 py-3 text-sm font-semibold text-[#0a1d3a] placeholder:text-[#b0bdd0] outline-none transition-all focus:border-[#ef233c]/50 focus:ring-2 focus:ring-[#ef233c]/12"
                         />
@@ -251,6 +289,7 @@ export default function ContactPage() {
                         id="contact-email"
                         type="email"
                         name="email"
+                        required
                         placeholder="votre@email.com"
                         className="w-full rounded-xl border border-[#dce5f2] bg-[#f8fafc] px-4 py-3 text-sm font-semibold text-[#0a1d3a] placeholder:text-[#b0bdd0] outline-none transition-all focus:border-[#ef233c]/50 focus:ring-2 focus:ring-[#ef233c]/12"
                       />
@@ -266,6 +305,7 @@ export default function ContactPage() {
                       <textarea
                         id="contact-message"
                         name="message"
+                        required
                         rows={5}
                         placeholder="Votre message..."
                         className="w-full resize-none rounded-xl border border-[#dce5f2] bg-[#f8fafc] px-4 py-3 text-sm font-semibold text-[#0a1d3a] placeholder:text-[#b0bdd0] outline-none transition-all focus:border-[#ef233c]/50 focus:ring-2 focus:ring-[#ef233c]/12"
@@ -275,11 +315,12 @@ export default function ContactPage() {
                     <button
                       id="contact-submit-btn"
                       type="submit"
-                      className="group relative w-full overflow-hidden rounded-xl bg-[#ef233c] py-3.5 text-sm font-black uppercase tracking-[0.18em] text-white shadow-[0_10px_26px_rgba(239,35,60,0.28)] transition-all duration-300 hover:bg-[#d71931] hover:shadow-[0_14px_32px_rgba(239,35,60,0.36)] active:scale-[0.98]"
+                      disabled={isSubmitting}
+                      className="group relative w-full overflow-hidden rounded-xl bg-[#ef233c] py-3.5 text-sm font-black uppercase tracking-[0.18em] text-white shadow-[0_10px_26px_rgba(239,35,60,0.28)] transition-all duration-300 hover:bg-[#d71931] hover:shadow-[0_14px_32px_rgba(239,35,60,0.36)] active:scale-[0.98] disabled:opacity-70"
                     >
-                      <span className="relative z-10">Envoyer le message</span>
+                      <span className="relative z-10">{isSubmitting ? 'Envoi...' : 'Envoyer le message'}</span>
                       {/* shimmer */}
-                      <span className="pointer-events-none absolute inset-0 -translate-x-full skew-x-[-18deg] bg-white/20 transition-transform duration-700 group-hover:translate-x-[120%]" />
+                      {!isSubmitting && <span className="pointer-events-none absolute inset-0 -translate-x-full skew-x-[-18deg] bg-white/20 transition-transform duration-700 group-hover:translate-x-[120%]" />}
                     </button>
                   </form>
                 </div>

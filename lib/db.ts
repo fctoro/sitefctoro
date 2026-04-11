@@ -93,3 +93,26 @@ export async function ensureFansTable() {
 
   hasEnsuredFansTable = true
 }
+
+let hasEnsuredSiteMessagesTable = false
+
+export async function ensureSiteMessagesTable() {
+  if (hasEnsuredSiteMessagesTable) return
+
+  await pool.query(`
+    create table if not exists site_messages (
+      id bigserial primary key,
+      created_at timestamptz not null default now(),
+      type text not null,
+      name text not null,
+      email text,
+      phone text,
+      message text,
+      payload jsonb,
+      is_read boolean not null default false
+    );
+  `)
+
+  hasEnsuredSiteMessagesTable = true
+}
+
