@@ -10,6 +10,7 @@ import { sponsors } from '@/lib/sponsors'
 import { NewsBarcaGrid } from '@/components/news-barca-grid'
 import VisionSection from '@/components/vision-section'
 import { HomeNavbar } from '@/components/home-navbar'
+import { supabase } from '@/lib/supabase'
 import {
   RiArrowLeftSLine,
   RiArrowRightLine,
@@ -64,7 +65,25 @@ export default function HomePage() {
   const [showIntro, setShowIntro] = useState(false)
   const [introReady, setIntroReady] = useState(false)
   const [activeHero, setActiveHero] = useState(0)
+  const [players, setPlayers] = useState(playerCards)
   const playerRailRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    async function loadPlayers() {
+      const { data, error } = await supabase
+        .from('club_players')
+        .select('*')
+        
+      if (data && data.length > 0) {
+        setPlayers(data.map((p) => ({
+          name: `${p.first_name || ''} ${p.last_name || ''}`.trim() || 'Joueur',
+          role: p.position || 'Joueur',
+          image: p.photo_url || '/joueur/extracted/default.jpg'
+        })))
+      }
+    }
+    loadPlayers()
+  }, [])
 
   useEffect(() => {
     const hasSeenIntro = window.sessionStorage.getItem(INTRO_SESSION_KEY) === 'true'
@@ -350,10 +369,10 @@ export default function HomePage() {
                 ref={playerRailRef}
                 className="flex gap-2.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:snap-x sm:snap-mandatory"
               >
-                {playerCards.map((player) => (
+                {players.map((player, idx) => (
                   <article
                     data-player-card="true"
-                    key={player.name}
+                    key={`${player.name}-${idx}`}
                     className="group relative h-[266px] min-w-[43%] overflow-hidden rounded-[12px] bg-[#0f2a4b] sm:h-[316px] sm:min-w-[220px] sm:snap-start lg:h-[356px] lg:min-w-[252px]"
                   >
                     <Image

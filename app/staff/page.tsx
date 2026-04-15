@@ -10,61 +10,13 @@ export const metadata: Metadata = {
   description: "L'organisation et l'équipe technique du FC TORO. Une équipe dévouée au développement des jeunes talents.",
 }
 
-const staticStaffMembers = [
-  {
-    name: 'Patrick Bonnefil',
-    role: 'Administration',
-    image: '/stafftoro/Mr. Bonnefil.jpg.jpeg',
-  },
-  {
-    name: 'Samuel Bellevue',
-    role: 'Staff Technique',
-    image: '/stafftoro/Samuel Bellevue.jpg.jpeg',
-  },
-  {
-    name: 'Antoinette Anilus',
-    role: 'Administration',
-    image: '/stafftoro/Antoinette Anilus.jpg.jpeg',
-  },
-  {
-    name: 'Fevilien James',
-    role: 'Staff Technique',
-    image: '/stafftoro/Fevilien James.jpg.jpeg',
-  },
-  {
-    name: 'Louis Nico',
-    role: 'Staff Technique',
-    image: '/stafftoro/Louis Nico.jpg.jpeg',
-  },
-  {
-    name: 'Lucner Jean',
-    role: 'Staff Technique',
-    image: '/stafftoro/Lucner Jean.jpg.jpeg',
-  },
-  {
-    name: 'Mme Jessica',
-    role: 'Administration',
-    image: '/stafftoro/Mme-Jessica.jpg.jpeg',
-  },
-  {
-    name: 'Neil Moise',
-    role: 'Staff Technique',
-    image: '/stafftoro/Neil Moise.jpg.jpeg',
-  },
-  {
-    name: 'Valdony Point Du Jour',
-    role: 'Staff Technique',
-    image: '/stafftoro/Valdony Point Du Jour.jpg.jpeg',
-  },
-]
-
 // Composant Server Rendering pour la page Staff (pas de framer-motion ici directement)
 export default async function StaffPage() {
   // Récupérer le staff dynamique depuis la base de données
   const { data: cmsStaff } = await supabase
     .from('club_staff')
     .select('*')
-    .order('start_date', { ascending: true })
+    .order('name', { ascending: true })
 
   // Reformater le staff dynamique pour qu'il corresponde au format statique
   const dynamicStaff = (cmsStaff || []).map((dbStaff) => ({
@@ -74,7 +26,7 @@ export default async function StaffPage() {
     id: dbStaff.id,
   }))
 
-  const allStaff = [...staticStaffMembers, ...dynamicStaff]
+  const allStaff = [...dynamicStaff]
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-[#0a1d3a]">

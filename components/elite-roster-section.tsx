@@ -1,129 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RiPlayFill, RiCloseLine } from '@remixicon/react'
 
-const eliteRoster = [
-  { 
-    firstname: 'Wendy', 
-    lastname: 'Pierre', 
-    name: 'Pierre Wendy', 
-    position: 'GK', 
-    club: 'Fc Flambo', 
-    weight: '58KG', 
-    height: '1M5', 
-    image: '/elite/contract/fils-aime-garryson.png', 
-    tone: 'blue' 
-  },
-  { 
-    firstname: 'Johnlove', 
-    lastname: 'Traine', 
-    name: 'Traine Johnlove', 
-    position: 'Ailier', 
-    club: 'Star des Jeunes', 
-    weight: '63kg', 
-    height: '1M45', 
-    image: '/elite/contract/jhon-love-estime.png', 
-    tone: 'red' 
-  },
-  { 
-    firstname: 'Angelo', 
-    lastname: 'LAURE', 
-    name: 'LAURE Angelo', 
-    position: 'Aillier Attaquant', 
-    club: 'FC TORO', 
-    weight: '40KG', 
-    height: '1M45', 
-    image: '/elite/contract/tida-vladimir.png', 
-    tone: 'blue' 
-  },
-  { 
-    firstname: 'Bill', 
-    lastname: 'Meranvil', 
-    name: 'Meranvil Bill', 
-    position: 'Milieu Defensif', 
-    club: 'Fc Toro', 
-    weight: '59KG', 
-    height: '1M30', 
-    image: '/elite/contract/meranvil-bill.png', 
-    tone: 'red',
-    video: '/elite/video/bill-meranvil-6.mp4'
-  },
-  { 
-    firstname: 'Jefferson', 
-    lastname: 'Paul', 
-    name: 'Paul Jefferson', 
-    position: 'Lateral Gauche', 
-    club: 'Abinadi', 
-    weight: '62KG', 
-    height: '1M50', 
-    image: '/elite/contract/paul-jefferson.png', 
-    tone: 'blue',
-    video: '/elite/video/paul-jefferson-12-laterale-gauche.mp4'
-  },
-  { 
-    firstname: 'Ralpholdy', 
-    lastname: 'Andre', 
-    name: 'Andre Ralpholdy', 
-    position: 'Lateral Droit', 
-    club: 'Violette', 
-    weight: '62KG', 
-    height: '1M69', 
-    image: '/elite/contract/andre-rayoholdy.png', 
-    tone: 'red',
-    video: '/elite/video/andre-rayoholdy-5.mp4'
-  },
-  { 
-    firstname: 'Jean Wood', 
-    lastname: 'Joseph', 
-    name: 'Joseph Jean Wood', 
-    position: 'Defenseur Central', 
-    club: 'Fc Toro', 
-    weight: '65KG', 
-    height: '1M50', 
-    image: '/elite/contract/joseph-jean-wood.png', 
-    tone: 'blue',
-    video: '/elite/video/joseph-jean-wood-14.mp4'
-  },
-  { 
-    firstname: 'Andy', 
-    lastname: 'Orelus', 
-    name: 'Orelus Andy', 
-    position: 'Milieu', 
-    club: 'Fc Flambo', 
-    weight: '66KG', 
-    height: '1M48', 
-    image: '/elite/contract/orelus-andy.png', 
-    tone: 'red' 
-  },
-  { 
-    firstname: 'Fegens', 
-    lastname: 'Jacquet', 
-    name: 'Jacquet Fegens', 
-    position: 'GK', 
-    club: 'Racing Fc', 
-    weight: '79KG', 
-    height: '1M60', 
-    image: '/elite/contract/jacquet-feguens.png', 
-    tone: 'blue',
-    video: '/elite/video/jacquet-feguens-1.mp4'
-  },
-  { 
-    firstname: 'Christopher', 
-    lastname: 'Sanon', 
-    name: 'Sanon Christopher', 
-    position: 'GK', 
-    club: 'ANAC', 
-    weight: '78KG', 
-    height: '1M68', 
-    image: '/elite/contract/samon-christopher.png', 
-    tone: 'red' 
-  },
-]
+// data will be passed as props
 
-export function EliteRosterSection() {
+export function EliteRosterSection({ eliteRoster = [] }: { eliteRoster?: Array<Record<string, any>> }) {
   const [activeVideo, setActiveVideo] = useState<string | null>(null)
 
   return (
@@ -150,13 +33,13 @@ export function EliteRosterSection() {
               >
                 <RiCloseLine className="h-6 w-6" />
               </button>
-              <video
+              <video key={activeVideo || 'video'}
                 controls
                 autoPlay
                 playsInline
                 className="h-full w-full object-contain"
               >
-                <source src={activeVideo} type="video/mp4" />
+                <source src={activeVideo || undefined} type="video/mp4" />
                 Votre navigateur ne supporte pas la lecture de vidéos.
               </video>
             </motion.div>
@@ -187,9 +70,14 @@ export function EliteRosterSection() {
         </div>
 
         <div className="mt-12 rounded-[36px] border border-[#e3ebf7] bg-[linear-gradient(180deg,#ffffff_0%,#f7faff_100%)] p-4 shadow-[0_24px_70px_rgba(10,29,58,0.08)] sm:p-6">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {eliteRoster.map((player, index) => {
-              const isRed = player.tone === 'red'
+          {eliteRoster.length === 0 ? (
+            <div className="flex min-h-[220px] items-center justify-center text-center text-sm font-semibold uppercase tracking-[0.2em] text-[#5c7297]">
+              Joueurs à venir
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+              {eliteRoster.map((player, index) => {
+                const isRed = player.tone === 'red'
 
               return (
                 <motion.article
@@ -218,13 +106,14 @@ export function EliteRosterSection() {
                     <div className="absolute inset-y-0 right-[20%] z-20 w-px bg-white/12" />
 
                     <div className="absolute bottom-0 left-[-4%] right-[18%] top-3 z-10">
-                      <Image
-                        src={player.image}
-                        alt={player.name}
-                        fill
-                        sizes="(min-width: 1024px) 18vw, (min-width: 640px) 42vw, 92vw"
-                        className="object-contain object-bottom drop-shadow-[0_18px_28px_rgba(5,15,35,0.32)] scale-[1.08]"
-                      />
+                      {player.photo_url && (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={player.photo_url as string}
+                          alt={player.name as string}
+                          className="h-full w-full object-cover object-top drop-shadow-2xl mix-blend-multiply"
+                        />
+                      )}
                     </div>
 
                     <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,rgba(6,15,35,0)_0%,rgba(6,15,35,0.34)_100%)]" />
@@ -248,10 +137,6 @@ export function EliteRosterSection() {
                             <p className="text-[10px] font-black uppercase text-white">{(player as any).position}</p>
                           </div>
                           <div className="space-y-0.5">
-                            <p className="text-[8px] font-bold uppercase tracking-wider text-white/40">Club</p>
-                            <p className="text-[10px] font-black uppercase text-white">{(player as any).club}</p>
-                          </div>
-                          <div className="space-y-0.5">
                             <p className="text-[8px] font-bold uppercase tracking-wider text-white/40">Poids</p>
                             <p className="text-[10px] font-black uppercase text-white">{(player as any).weight}</p>
                           </div>
@@ -261,11 +146,11 @@ export function EliteRosterSection() {
                           </div>
                         </div>
 
-                        {(player as any).video && (
+                        {(player as any).video_url && (
                           <button 
                             onClick={(e) => {
                               e.stopPropagation();
-                              setActiveVideo((player as any).video);
+                              setActiveVideo((player as any).video_url);
                             }}
                             className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-[#ef233c] py-2.5 text-[10px] font-black uppercase tracking-widest text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
                           >
@@ -290,6 +175,7 @@ export function EliteRosterSection() {
               )
             })}
           </div>
+          )}
         </div>
       </div>
     </section>

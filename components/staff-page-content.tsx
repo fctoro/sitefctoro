@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 
 export default function StaffPageContent({ staffMembers }: { staffMembers: any[] }) {
   return (
@@ -25,8 +24,8 @@ export default function StaffPageContent({ staffMembers }: { staffMembers: any[]
 }
 
 function StaffMemberCard({ member, index }: { member: any; index: number }) {
-  const imageUrl = member.image || member.photo_url || '/images/user/user-01.jpg'
-
+  const displayRole = member.role || "Staff";
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -35,25 +34,28 @@ function StaffMemberCard({ member, index }: { member: any; index: number }) {
       transition={{ duration: 0.5, delay: index * 0.05 }}
       className="flex flex-col items-center"
     >
-      <div className="group relative aspect-[4/5] w-full overflow-hidden rounded-[2.5rem] bg-[#f1f5f9] shadow-[0_15px_45px_rgba(10,29,58,0.08)]">
-        <img
-          src={imageUrl}
-          alt={member.name}
-          className="h-full w-full object-cover transition-all duration-1000 ease-in-out group-hover:scale-110"
-        />
+      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[40px] bg-gray-100 shadow-md transition-transform duration-300 hover:-translate-y-2">
+        {member.photo_url ? (
+          <img
+            src={member.photo_url}
+            alt={member.name}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-gray-200 font-medium text-gray-400">
+            {member.name}
+          </div>
+        )}
       </div>
-
-      <div className="mt-8 text-center">
-        <h3 className="text-2xl font-black uppercase tracking-tight text-[#0a1d3a]">
+      <div className="mt-5 text-center">
+        <h3 className="text-xl font-black uppercase md:text-2xl tracking-tight text-[#0a1d3a]">
           {member.name}
         </h3>
-        <div className="mt-2 flex items-center justify-center gap-2">
-           <span className="h-px w-4 bg-[#ef233c]" />
-           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ef233c]">
-             {member.role}
-           </p>
-           <span className="h-px w-4 bg-[#ef233c]" />
-        </div>
+        <p className="mt-2 text-xs font-bold uppercase tracking-[0.2em] text-[#ef233c] flex items-center justify-center gap-2">
+          <span className="w-4 h-[1px] bg-[#ef233c]"></span>
+          {displayRole}
+          <span className="w-4 h-[1px] bg-[#ef233c]"></span>
+        </p>
       </div>
     </motion.div>
   )

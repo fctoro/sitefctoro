@@ -1,10 +1,8 @@
-'use client'
-
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
 import { Breadcrumb } from '@/components/breadcrumb'
 import { EliteRosterSection } from '@/components/elite-roster-section'
+import { supabase } from '@/lib/supabase'
 import {
   RiCheckLine,
   RiShieldStarLine,
@@ -74,7 +72,25 @@ const eliteData = {
   },
 }
 
-export default function ElitePage() {
+export default async function ElitePage() {
+  const { data: dbPlayers } = await supabase
+    .from('club_elite_players')
+    .select('*')
+    .order('number', { ascending: true })
+
+  const eliteRoster = (dbPlayers || []).map((player: any, index: number) => ({
+    name: `${player.first_name || ''} ${player.last_name || ''}`.trim(),
+    firstname: player.first_name || '',
+    lastname: player.last_name || '',
+    position: player.position || '',
+    weight: player.weight || '',
+    height: player.height || '',
+    photo_url: player.photo_url || '/joueur/extracted/default.jpg',
+    video_url: player.video_url || null,
+    number: player.number || index + 1,
+    tone: index % 2 === 0 ? 'blue' : 'red'
+  }))
+
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
@@ -93,19 +109,14 @@ export default function ElitePage() {
           <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-[#ef233c] via-[#ef233c]/50 to-transparent" />
 
           <div className="relative z-10 mx-auto flex h-full max-w-[1100px] flex-col justify-center px-6">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="space-y-4"
-            >
+            <div className="space-y-4">
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
                 Excellence & Performance
               </p>
               <h1 className="text-3xl font-black uppercase leading-[0.8] tracking-tighter drop-shadow-2xl md:text-5xl">
                 {eliteData.title}
               </h1>
-            </motion.div>
+            </div>
           </div>
         </section>
 
@@ -133,7 +144,7 @@ export default function ElitePage() {
           </div>
         </section>
 
-        <EliteRosterSection />
+        <EliteRosterSection eliteRoster={eliteRoster} />
 
         <section className="bg-[#f8fafc] px-4 py-24 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1100px]">
