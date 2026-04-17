@@ -3,13 +3,35 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { getLogo, flagDayBracket, BracketData } from '@/data/flag-day-stats'
+import { getLogo, BracketData } from '@/data/flag-day-stats'
 
 const categories = ['U9', 'U11', 'U13', 'U15', 'U17', 'U21']
 
-export default function ChampionsLeagueBracket() {
+export default function ChampionsLeagueBracket({ cmsMatches }: { cmsMatches?: any[] }) {
   const [activeTab, setActiveTab] = useState('U9')
-  const defaultBracket = flagDayBracket[activeTab]
+  
+  // Extraire les matchs de phase finale du CMS pour la catégorie active
+  const bracketMatches = cmsMatches?.filter(m => m.round.includes(activeTab) && (m.round.includes("Demi") || m.round.includes("Finale"))) || []
+  
+  const sf1 = bracketMatches.find(m => m.round.includes("Demi-finale 1"))
+  const sf2 = bracketMatches.find(m => m.round.includes("Demi-finale 2"))
+  const finalMatch = bracketMatches.find(m => m.round.includes("Finale") && !m.round.includes("Demi"))
+
+  // Équipes des demi-finales CMS UNIQUEMENT
+  const semi1Home = sf1?.home_team?.name || ''
+  const semi1Away = sf1?.away_team?.name || ''
+  const semi2Home = sf2?.home_team?.name || ''
+  const semi2Away = sf2?.away_team?.name || ''
+
+  // Résultats CMS pour les demi-finales
+  const getWinner = (m: any) => {
+    if (!m || m.status !== 'finished') return null;
+    return m.home_score >= m.away_score ? m.home_team.name : m.away_team.name;
+  }
+  
+  const cmsFinalHome = getWinner(sf1)
+  const cmsFinalAway = getWinner(sf2)
+  const cmsChampion = getWinner(finalMatch)
 
   // State for interactive bracket: user clicks to advance
   // map: [category] -> { finalHome, finalAway, champion }
@@ -26,17 +48,10 @@ export default function ChampionsLeagueBracket() {
   // with user selections. However, if user hasn't selected, maybe we fallback to the default bracket if it's already played?
   // The user prompt: "Cases des rounds suivants vides par défaut. Cliquer sur une équipe la désigne vainqueur".
   
-  const semi1Home = defaultBracket.semiFinals[0]?.home || ''
-  const semi1Away = defaultBracket.semiFinals[0]?.away || ''
+  const finalHome = cmsFinalHome || currentSelection.finalHome || (finalMatch?.home_team?.name) || null
+  const finalAway = cmsFinalAway || currentSelection.finalAway || (finalMatch?.away_team?.name) || null
+  const champion = cmsChampion || currentSelection.champion || null
   
-  const semi2Home = defaultBracket.semiFinals[1]?.home || ''
-  const semi2Away = defaultBracket.semiFinals[1]?.away || ''
-
-  // Current Finalists
-  const finalHome = currentSelection.finalHome
-  const finalAway = currentSelection.finalAway
-  const champion = currentSelection.champion
-
   const handleAdvanceToFinal = (team: string, slot: 'home' | 'away') => {
     setSelections(prev => {
       const current = prev[activeTab] || { finalHome: null, finalAway: null, champion: null }

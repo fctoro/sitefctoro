@@ -7,7 +7,7 @@ import { RiCalendarEventLine, RiTrophyLine, RiShieldStarLine, RiMedalLine, RiFla
 
 // Stats Data
 import ChampionsLeagueBracket from './ChampionsLeagueBracket'
-import { flagDayStatsData, flagDayMatches, flagDayBracket, getLogo, StandingsRow, Scorer, MatchResult, BracketMatch } from '@/data/flag-day-stats'
+import { getLogo, StandingsRow, Scorer, MatchResult, BracketMatch } from '@/data/flag-day-stats'
 
 // Hero Background — Victoire avec confettis (spectaculaire)
 const heroBgImg = '/flag-day/hero-champion.jpg'
@@ -43,62 +43,67 @@ type CmsData = {
 }
 
 export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
-  const [activeCategory, setActiveCategory] = useState<string>('U17')
+  // 1. Catégories standards (On ne veut plus de statique, mais on garde les onglets pour la navigation)
+  const categories = ['U9', 'U11', 'U13', 'U15', 'U17', 'U21']
+
+  const [activeCategory, setActiveCategory] = useState<string>(categories[0])
   const [activeMatchGroup, setActiveMatchGroup] = useState<'A' | 'B' | 'ALL'>('ALL')
 
-  // 1. Fusionner les catégories
-  const staticCategories = Object.keys(flagDayStatsData)
-  const cmsCategoryNames = cmsData?.categories.map(c => c.name) || []
-  const categories = Array.from(new Set([...staticCategories, ...cmsCategoryNames]))
-
   // 2. Préparer les données de la catégorie active
-  const staticData = flagDayStatsData[activeCategory] || { groups: { A: [], B: [] }, scorers: [], qualified: { A: '', B: '' } }
+  const activeCompetition = cmsData?.competitions.find(c => 
+    c.age_category?.trim().toUpperCase() === activeCategory.trim().toUpperCase()
+  )
+  const activeCmsCat = cmsData?.categories.find(c => c.competition_id === activeCompetition?.id)
   
-  // Extraire les données CMS pour la catégorie active
-  const activeCmsCat = cmsData?.categories.find(c => c.name === activeCategory)
   const cmsStandingsRaw = activeCmsCat ? cmsData?.standings.filter(s => s.category_id === activeCmsCat.id) : []
-  const cmsScorersRaw = activeCmsCat ? cmsData?.scorers.filter(s => s.category_id === activeCmsCat.id) : []
-  const cmsMatchesRaw = activeCmsCat ? cmsData?.matches.filter(m => {
-     // Si le round contient le nom de la catégorie (ex: "U17 - Groupe A")
-     return m.round.includes(activeCategory)
-  }) : []
+  const cmsScorersRaw = activeCompetition ? cmsData?.scorers : [] // Déjà filtrés et agrégés par page.tsx
+  const cmsMatchesRaw = activeCompetition ? cmsData?.matches.filter(m => m.competition_id === activeCompetition.id) : []
 
-  // Formatter les standings CMS pour correspondre au type StandingsRow
+  // Formatter et TRIER les standings CMS
+  const sortStandings = (list: any[]) => {
+    return [...list].sort((a, b) => b.pts - a.pts || b.df - a.df || b.bm - a.bm)
+  }
+
   const formattedCmsStandings = {
-    A: cmsStandingsRaw?.filter(s => s.group_name === 'A').map(s => ({
+    A: sortStandings(cmsStandingsRaw?.filter(s => s.group_name === 'A').map(s => ({
       name: s.team.name, pts: s.points, m: s.played, v: s.won, n: s.drawn, d: s.lost, bm: s.goals_for, bc: s.goals_against, df: s.goals_for - s.goals_against, pl: s.is_qualified ? 'Q' : ''
-    })) || [],
-    B: cmsStandingsRaw?.filter(s => s.group_name === 'B').map(s => ({
+    })) || []),
+    B: sortStandings(cmsStandingsRaw?.filter(s => s.group_name === 'B').map(s => ({
       name: s.team.name, pts: s.points, m: s.played, v: s.won, n: s.drawn, d: s.lost, bm: s.goals_for, bc: s.goals_against, df: s.goals_for - s.goals_against, pl: s.is_qualified ? 'Q' : ''
-    })) || []
+    })) || [])
   }
 
-  // Fusion finale des données de la catégorie
+  // Gérer la priorité (UNIQUEMENT CMS)
+  const isCmsActive = !!activeCompetition
+
+  // Calculer les qualifiés CMS
+  const cmsQualified = {
+    A: cmsStandingsRaw?.filter(s => s.group_name === 'A' && s.is_qualified).map(s => s.team.name).join(' --- '),
+    B: cmsStandingsRaw?.filter(s => s.group_name === 'B' && s.is_qualified).map(s => s.team.name).join(' --- ')
+  }
+
   const currentData = {
-    groups: {
-      A: [...staticData.groups.A, ...formattedCmsStandings.A],
-      B: [...staticData.groups.B, ...formattedCmsStandings.B]
-    },
-    scorers: [
-      ...staticData.scorers,
-      ...(cmsScorersRaw?.map(s => ({ name: s.player_name, goals: s.goals, team: s.team_name })) || [])
-    ],
-    qualified: staticData.qualified // On garde les qualifiés statiques ou on pourrait aussi fusionner
+    groups: isCmsActive ? formattedCmsStandings : { A: [], B: [] },
+    scorers: isCmsActive 
+      ? cmsScorersRaw.map(s => ({ name: s.player_name, goals: s.goals, team: s.team_name })) 
+      : [],
+    qualified: (isCmsActive && (cmsQualified.A || cmsQualified.B)) ? cmsQualified : { A: '', B: '' }
   }
 
-  // 3. Fusionner les matchs
-  const staticMatches = flagDayMatches[activeCategory] || []
+  // 3. Fusionner les matchs (Priorité CMS totale)
   const formattedCmsMatches = cmsMatchesRaw?.map(m => ({
     home: m.home_team.name,
     away: m.away_team.name,
     scoreHome: m.home_score,
     scoreAway: m.away_score,
-    group: m.round.includes('Groupe A') ? 'A' : (m.round.includes('Groupe B') ? 'B' : 'A') // Fallback simple
+    group: m.round.includes('Groupe A') ? 'A' : (m.round.includes('Groupe B') ? 'B' : 'A')
   })) || []
 
-  const currentMatches = [...staticMatches, ...formattedCmsMatches].filter(
-    m => activeMatchGroup === 'ALL' || m.group === activeMatchGroup
-  )
+  const currentMatches = isCmsActive 
+    ? formattedCmsMatches.filter(m => activeMatchGroup === 'ALL' || m.group === activeMatchGroup)
+    : []
+
+  const hasData = isCmsActive
 
   const rankLabel = (idx: number) => {
     if (idx === 0) return { label: '1er', color: 'text-[#f5b041]', medal: '🥇' }
@@ -207,7 +212,7 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
       </section>
 
       {/* ═══════ BRACKET — ROUTE TO THE FINAL ═══════ */}
-      <ChampionsLeagueBracket />
+      <ChampionsLeagueBracket cmsMatches={cmsData?.matches} />
 
       {/* ═══════ SECTION MATCHS ═══════ */}
       <section className="bg-white px-4 py-20 sm:px-6 lg:px-8">
@@ -253,7 +258,19 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
               transition={{ duration: 0.35 }}
               className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
             >
-              {(flagDayMatches[activeCategory] || []).map((match: MatchResult, idx: number) => {
+              {!hasData ? (
+                <div className="col-span-full flex flex-col items-center justify-center py-20 bg-[#f7f9fc] rounded-3xl border-2 border-dashed border-[#d7dfec]">
+                  <RiFlagLine className="h-12 w-12 text-[#94a3b8] mb-4" />
+                  <p className="text-lg font-black uppercase tracking-widest text-[#64748b]">Pas de championnat disponible</p>
+                  <p className="text-sm text-[#94a3b8] mt-2 font-medium">Revenez bientôt pour suivre les résultats de cette catégorie.</p>
+                </div>
+              ) : currentMatches.length === 0 ? (
+                <div className="col-span-full flex flex-col items-center justify-center py-20 bg-[#f7f9fc] rounded-3xl border border-[#d7dfec]">
+                  <RiCalendarEventLine className="h-10 w-10 text-[#1a4ea3]/50 mb-3" />
+                  <p className="text-md font-black uppercase tracking-widest text-[#1a4ea3]">Matchs à venir</p>
+                  <p className="text-xs text-[#64748b] mt-1 font-bold">Le tirage a été effectué, restez connectés pour les scores.</p>
+                </div>
+              ) : currentMatches.map((match: any, idx: number) => {
                 const grp = match.group
                 const homeWin = match.scoreHome > match.scoreAway
                 const awayWin = match.scoreAway > match.scoreHome
@@ -416,8 +433,16 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
               transition={{ duration: 0.4 }}
               className="grid gap-8 xl:grid-cols-3"
             >
-              {/* ── CLASSEMENTS (2/3 de l'espace) */}
-              <div className="xl:col-span-2 space-y-8">
+              {!hasData ? (
+                <div className="xl:col-span-3 flex flex-col items-center justify-center py-32 bg-white rounded-[32px] border-2 border-dashed border-[#e2e8f0] shadow-sm">
+                  <RiTrophyLine className="h-16 w-16 text-[#cbd5e1] mb-6" />
+                  <h3 className="text-2xl font-black uppercase tracking-tighter text-[#1e293b]">Pas de statistiques disponibles</h3>
+                  <p className="text-[#94a3b8] mt-2 font-medium max-w-md text-center">Les classements et statistiques seront publiés dès le début de la compétition.</p>
+                </div>
+              ) : (
+                <>
+                  {/* ── CLASSEMENTS (2/3 de l'espace) */}
+                  <div className="xl:col-span-2 space-y-8">
 
                 {/* TABLE GROUPE A */}
                 {(['A', 'B'] as const).map((grp) => (
@@ -582,40 +607,10 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
                   </div>
                 </div>
 
-                {/* ── QUALIFIÉES */}
-                <div className="overflow-hidden rounded-[20px] bg-white shadow-sm">
-                  <div className="flex items-center gap-3 bg-gradient-to-r from-[#0a1d3a] to-[#1a4ea3] px-6 py-4">
-                    <RiTrophyLine className="h-5 w-5 text-[#f5b041]" />
-                    <h3 className="font-black uppercase tracking-wider text-white">Les Qualifiées</h3>
-                  </div>
 
-                  <div className="divide-y divide-[#f0f4f9] p-2">
-                    {(['A', 'B'] as const).map((grp) => {
-                      const qText = currentData.qualified[grp]
-                      const teams = qText.split(/---|----|—/).map(t => t.trim()).filter(Boolean)
-                      return (
-                        <div key={grp} className="px-4 py-4">
-                          <p className={`mb-3 text-[9px] font-black uppercase tracking-[0.25em] ${grp === 'A' ? 'text-[#ef233c]' : 'text-[#1a4ea3]'}`}>
-                            Groupe {grp}
-                          </p>
-                          <div className="flex flex-col gap-2">
-                            {teams.map((team, ti) => (
-                              <div key={ti} className="flex items-center gap-3 rounded-xl border border-[#e7edf6] bg-[#f7f9fc] px-3 py-2.5">
-                                <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-white shadow-sm p-0.5">
-                                  <Image src={getLogo(team)} alt={team} fill sizes="32px" className="object-contain" />
-                                </div>
-                                <span className="text-[12px] font-black uppercase text-[#0a1d3a]">{team}</span>
-                                <span className="ml-auto rounded-full bg-[#22c55e]/15 px-2 py-0.5 text-[9px] font-black text-[#22c55e] uppercase">Qualifié</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-
-              </div>
+                    </div>
+                </>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
