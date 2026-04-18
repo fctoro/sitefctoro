@@ -1,20 +1,18 @@
 import { Pool } from 'pg'
 
 const connectionString = process.env.DATABASE_URL
-
-if (!connectionString) {
-  throw new Error('DATABASE_URL is missing')
-}
-
-const ssl =
-  connectionString.includes('supabase.com') || connectionString.includes('pooler')
-    ? { rejectUnauthorized: false }
-    : undefined
-
-export const pool = new Pool({
-  connectionString,
-  ssl,
-})
+ 
+ const ssl =
+-  connectionString.includes('supabase.com') || connectionString.includes('pooler')
++  connectionString?.includes('supabase.com') || connectionString?.includes('pooler')
+     ? { rejectUnauthorized: false }
+     : undefined
+ 
+ export const pool = new Pool({
+-  connectionString,
++  connectionString: connectionString || undefined,
+   ssl,
+ })
 
 let hasEnsuredPlayersTables = false
 let hasEnsuredFansTable = false
