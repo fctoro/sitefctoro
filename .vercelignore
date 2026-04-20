@@ -1,0 +1,18 @@
+# Ignore large non-essential root folders to reduce function size
+VIEDO_JOUEURS_ELITE/
+stafftoro/
+img/
+bonmachetrading/
+LOGO DES EQUIPES/
+POWERED_BY_OCTA/
+
+# Local build artifacts
+.next/
+out/
+node_modules/
+
+# Metadata and logs
+*.txt
+*.log
+.env*.local
+.DS_Store
