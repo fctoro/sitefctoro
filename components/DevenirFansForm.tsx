@@ -61,16 +61,23 @@ export default function DevenirFansForm() {
                  animate={{ opacity: 1, scale: 1 }}
                  className="text-center py-12"
                >
-                 <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#22c55e]/10 text-[#22c55e]">
-                   <svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                   </svg>
+                 <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                   <motion.svg 
+                     initial={{ scale: 0.5, rotate: -45 }}
+                     animate={{ scale: 1, rotate: 0 }}
+                     className="h-10 w-10" 
+                     fill="none" 
+                     viewBox="0 0 24 24" 
+                     stroke="currentColor"
+                   >
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                   </motion.svg>
                  </div>
                  <h3 className="text-2xl font-black uppercase text-white mb-2">Bienvenue !</h3>
                  <p className="text-[#8da2c0]">Votre demande a été enregistrée avec succès. Merci pour votre soutien au FC TORO.</p>
                  <button 
                     onClick={() => setIsSubmitted(false)}
-                    className="mt-8 text-xs font-black uppercase tracking-wider text-[#ef233c] hover:text-white transition-colors"
+                    className="mt-8 text-xs font-black uppercase tracking-wider text-emerald-400 hover:text-white transition-colors"
                  >
                     Retourner au formulaire
                  </button>

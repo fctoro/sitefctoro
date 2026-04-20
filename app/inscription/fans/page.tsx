@@ -329,11 +329,6 @@ export default function InscriptionFansPage() {
                           : 'border-rose-200'
                       }`}
                     >
-                      <div
-                        className={`h-2 w-full ${
-                          submitState === 'success' ? 'bg-emerald-500' : 'bg-rose-500'
-                        }`}
-                      />
                       <div className="px-6 py-6">
                         <div
                           className={`mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full ${
@@ -343,7 +338,12 @@ export default function InscriptionFansPage() {
                           }`}
                         >
                           {submitState === 'success' ? (
-                            <RiCheckLine className="h-6 w-6" />
+                            <motion.div
+                              initial={{ scale: 0.5, rotate: -45 }}
+                              animate={{ scale: 1, rotate: 0 }}
+                            >
+                              <RiCheckLine className="h-6 w-6" />
+                            </motion.div>
                           ) : (
                             <RiInformationLine className="h-6 w-6" />
                           )}

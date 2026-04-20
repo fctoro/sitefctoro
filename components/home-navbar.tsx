@@ -12,7 +12,7 @@ import {
   RiCloseLine,
   RiMenuLine,
 } from '@remixicon/react'
-import { IS_LIVE_ACTIVE } from '@/data/events-data'
+import { LiveButton } from '@/components/live-button'
 
 type NavSubLink = {
   label: string
@@ -271,22 +271,9 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
             </div>
           </Link>
 
-          {IS_LIVE_ACTIVE ? (
-            <Link
-              href="/evenements/live"
-              className="ml-auto inline-flex items-center gap-2 rounded-full bg-[#ef233c] px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white shadow-[0_10px_18px_rgba(239,35,60,0.28)] transition-all hover:bg-[#d71931] lg:hidden"
-            >
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/80" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-white" />
-              </span>
-              Live
-            </Link>
-          ) : (
-            <div className="ml-auto inline-flex items-center gap-2 rounded-full bg-gray-400 px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white/50 opacity-60 grayscale lg:hidden cursor-default">
-              Live
-            </div>
-          )}
+          <div className="ml-auto lg:hidden">
+            <LiveButton />
+          </div>
 
           <nav className="ml-auto hidden items-center gap-2 lg:flex">
             {navItems.map((item) => {

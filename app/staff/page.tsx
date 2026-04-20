@@ -62,8 +62,8 @@ export default function StaffPage() {
       <main className="relative pt-[116px] lg:pt-[78px]">
         <Breadcrumb label="CLUB" href="/le-club" />
         {/* Header Section */}
-        <section className="relative overflow-hidden bg-[#0a1d3a] px-4 py-20 text-white sm:px-6 lg:px-8 lg:py-40">
-          <Image src="/staff-team.jpg" alt="Team FC TORO Saison" fill priority style={{ objectPosition: 'center -140px' }} className="object-cover opacity-40" unoptimized />
+        <section className="relative overflow-hidden bg-[#0a1d3a] px-4 pt-32 pb-24 text-white sm:px-6 lg:px-8 lg:py-40">
+          <Image src="/staff-team.jpg" alt="Team FC TORO Saison" fill priority className="object-cover opacity-40" unoptimized />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a] via-[#0a1d3a]/60 to-[#0a1d3a]/30" />
           <div className="relative z-10 mx-auto max-w-[1100px] text-center">
             <motion.div
@@ -74,10 +74,10 @@ export default function StaffPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
                 L'organisation
               </p>
-              <h1 className="mt-4 text-4xl font-black uppercase tracking-tight md:text-6xl lg:text-7xl">
+              <h1 className="mt-4 text-[clamp(2.2rem,6vw,4.5rem)] font-black uppercase leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
                 Staff <span className="text-[#ef233c]">FC TORO.</span>
               </h1>
-              <p className="mx-auto mt-6 max-w-[700px] text-lg font-medium text-white/70">
+              <p className="mx-auto mt-6 max-w-[700px] text-base font-medium leading-relaxed text-white/70 sm:text-lg">
                 Une équipe dévouée au développement des jeunes talents et à l'excellence opérationnelle du club.
               </p>
             </motion.div>

@@ -168,7 +168,7 @@ const timelineEvents = [
 
 export default function NotreHistoirePage() {
   return (
-    <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
+    <div className="min-h-screen overflow-x-hidden bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">

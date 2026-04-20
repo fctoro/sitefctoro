@@ -19,17 +19,15 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    outputFileTracingExcludes: {
-      '*': [
-        'public/elite/video/**/*',
-        'bonmachetrading/**/*',
-        'VIEDO_JOUEURS_ELITE/**/*',
-        'stafftoro/**/*',
-        'LOGO DES EQUIPES/**/*',
-        'out/**/*',
-      ],
-    },
+  outputFileTracingExcludes: {
+    '*': [
+      'public/elite/video/**/*',
+      'bonmachetrading/**/*',
+      'VIEDO_JOUEURS_ELITE/**/*',
+      'stafftoro/**/*',
+      'LOGO DES EQUIPES/**/*',
+      'out/**/*',
+    ],
   },
 }
 

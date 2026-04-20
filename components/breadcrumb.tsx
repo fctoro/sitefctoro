@@ -11,7 +11,7 @@ interface BreadcrumbProps {
 
 export function Breadcrumb({ label, href }: BreadcrumbProps) {
   return (
-    <div className="absolute top-[116px] left-0 right-0 z-[150] lg:top-[78px]">
+    <div className="absolute top-[124px] left-0 right-0 z-[150] lg:top-[78px]">
       <div className="mx-auto max-w-[1100px] px-6 py-4">
         <motion.div
           initial={{ opacity: 0, x: -10 }}
