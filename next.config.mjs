@@ -19,6 +19,15 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    outputFileTracingExcludes: {
+      '*': [
+        'public/elite/video/**',
+        'BON MARCHE TRADING/**',
+        'VIEDO_JOUEURS_ELITE/**',
+      ],
+    },
+  },
 }
 
 export default nextConfig
