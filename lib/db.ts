@@ -2,17 +2,14 @@ import { Pool } from 'pg'
 
 const connectionString = process.env.DATABASE_URL
  
- const ssl =
--  connectionString.includes('supabase.com') || connectionString.includes('pooler')
-+  connectionString?.includes('supabase.com') || connectionString?.includes('pooler')
-     ? { rejectUnauthorized: false }
-     : undefined
- 
- export const pool = new Pool({
--  connectionString,
-+  connectionString: connectionString || undefined,
-   ssl,
- })
+const ssl = connectionString?.includes('supabase.com') || connectionString?.includes('pooler')
+  ? { rejectUnauthorized: false }
+  : undefined
+
+export const pool = new Pool({
+  connectionString: connectionString || undefined,
+  ssl,
+})
 
 let hasEnsuredPlayersTables = false
 let hasEnsuredFansTable = false
