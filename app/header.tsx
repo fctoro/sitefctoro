@@ -155,6 +155,8 @@ export function Header() {
               href="/contact"
               className="whitespace-nowrap text-[0.95rem] font-semibold text-white transition-colors hover:text-primary"
               onMouseEnter={closeMenuNow}
+            >
+              Contact
             </Link>
           </nav>
 
