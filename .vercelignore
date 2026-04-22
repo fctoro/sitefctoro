@@ -1,0 +1,10 @@
+# Local build artifacts
+.next/
+out/
+node_modules/
+
+# Metadata and logs
+*.txt
+*.log
+.env*.local
+.DS_Store

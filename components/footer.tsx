@@ -90,11 +90,11 @@ export default function Footer() {
           {/* Links Section (6 Columns) */}
           <div className="grid grid-cols-2 gap-x-4 gap-y-4 lg:col-span-6 lg:grid-cols-4 lg:gap-4 lg:gap-y-8">
             {/* Column 1: Club */}
-            <div className="flex flex-col items-center space-y-3 lg:space-y-8 lg:items-start">
+            <div className="flex flex-col items-center space-y-3 lg:space-y-5 lg:items-start">
               <h3 className="rounded-full border border-[#ef233c]/30 bg-[#ef233c]/10 px-3.5 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
                 Club
               </h3>
-              <ul className="space-y-1.5 lg:space-y-8 text-center lg:text-left">
+              <ul className="space-y-2 lg:space-y-4 text-center lg:text-left">
                 {[
                   { label: 'Le Club', href: '/le-club' },
                   { label: 'Sponsors', href: '/sponsors' },
@@ -116,11 +116,11 @@ export default function Footer() {
             </div>
 
             {/* Column 2: Football */}
-            <div className="flex flex-col items-center space-y-3 lg:space-y-8 lg:items-start">
+            <div className="flex flex-col items-center space-y-3 lg:space-y-5 lg:items-start">
               <h3 className="rounded-full border border-[#ef233c]/30 bg-[#ef233c]/10 px-3.5 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
                 Football
               </h3>
-              <ul className="space-y-1.5 lg:space-y-8 text-center lg:text-left">
+              <ul className="space-y-2 lg:space-y-4 text-center lg:text-left">
                 {[
                   { label: 'Équipe Pro', href: '/equipes' },
                   { label: 'Formation', href: '/formation' },
@@ -141,11 +141,11 @@ export default function Footer() {
             </div>
 
             {/* Column 3: Événements */}
-            <div className="flex flex-col items-center space-y-3 lg:space-y-8 lg:items-start">
+            <div className="flex flex-col items-center space-y-3 lg:space-y-5 lg:items-start">
               <h3 className="rounded-full border border-[#ef233c]/30 bg-[#ef233c]/10 px-3.5 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
                 Events
               </h3>
-              <ul className="space-y-1.5 lg:space-y-8 text-center lg:text-left">
+              <ul className="space-y-2 lg:space-y-4 text-center lg:text-left">
                 {[
                   { label: 'Live Diffusion', href: '/evenements/live' },
                   { label: 'Vertières Cup', href: '/evenements/vertieres-cup' },
@@ -166,11 +166,11 @@ export default function Footer() {
             </div>
 
             {/* Column 4: Rejoindre */}
-            <div className="flex flex-col items-center space-y-3 lg:space-y-8 lg:items-start">
+            <div className="flex flex-col items-center space-y-3 lg:space-y-5 lg:items-start">
               <h3 className="rounded-full border border-[#ef233c]/30 bg-[#ef233c]/10 px-3.5 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
                 Inscrire
               </h3>
-              <ul className="space-y-1.5 lg:space-y-8 text-center lg:text-left">
+              <ul className="space-y-2 lg:space-y-4 text-center lg:text-left">
                 {[
                   { label: 'Devenir Joueur', href: '/inscription/joueur' },
                   { label: 'Devenir Fan', href: '/inscription/fans' },

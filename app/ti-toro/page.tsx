@@ -20,26 +20,20 @@ import {
 
 const highlights = [
   {
-    label: 'Age',
-    value: '2 a 5 ans',
-    note: 'Filles et garcons',
+    label: 'Âge',
+    value: '2 à 5 ans',
+    note: 'Filles et garçons',
     icon: RiUserSmileLine,
   },
   {
-    label: 'Horaires',
-    value: 'Mardi au vendredi',
-    note: '14h a 16h',
-    icon: RiTimeLine,
-  },
-  {
     label: 'Lieu',
-    value: 'Skyboul',
-    note: 'Petion-Ville',
+    value: 'Parc Sainte Thérèse',
+    note: 'Pétion-Ville',
     icon: RiMapPinLine,
   },
   {
     label: 'Approche',
-    value: 'Jeu et motricite',
+    value: 'Jeu et motricité',
     note: 'Cadre simple et progressif',
     icon: RiRunLine,
   },
@@ -69,31 +63,31 @@ const registrationSteps = [
     body: 'La famille contacte FC TORO pour demander les informations 2026 et confirmer la place disponible.',
   },
   {
-    title: 'Completer le dossier',
-    body: 'Le parent ou tuteur remplit la fiche avec les informations de l enfant et les documents demandes.',
+    title: 'Compléter le dossier',
+    body: 'Le parent ou tuteur remplit la fiche avec les informations de l\'enfant et les documents demandés.',
   },
   {
-    title: 'Valider l inscription',
-    body: 'Le club confirme la reception du dossier, les modalites 2026 et la prochaine etape de suivi.',
+    title: 'Valider l\'inscription',
+    body: 'Le club confirme la réception du dossier, les modalités 2026 et la prochaine étape de suivi.',
   },
 ]
 
 const requiredDocs = [
-  '2 photos d identification de l enfant',
-  'Copie de l acte de naissance du joueur',
-  'Copie de la piece d identite du parent ou tuteur',
+  '2 photos d\'identification de l\'enfant',
+  'Copie de l\'acte de naissance du joueur',
+  'Copie de la pièce d\'identité du parent ou tuteur',
 ]
 
 const formFields = [
   {
     title: 'Informations enfant',
     items: [
-      'Prenom et nom',
+      'Prénom et nom',
       'Date de naissance',
       'Sexe',
       'Adresse',
-      'Ecole frequentee',
-      'Experience football si disponible',
+      'École fréquentée',
+      'Expérience football si disponible',
     ],
   },
   {
@@ -101,16 +95,16 @@ const formFields = [
     items: [
       'Nom complet',
       'Email',
-      'Telephone / WhatsApp',
+      'Téléphone / WhatsApp',
       'Adresse',
     ],
   },
   {
-    title: 'Contact d urgence',
+    title: 'Contact d\'urgence',
     items: [
       'Nom complet',
       'Lien avec la famille',
-      'Telephone',
+      'Téléphone',
       'Email si disponible',
     ],
   },
@@ -119,7 +113,7 @@ const formFields = [
     items: [
       'Taille du haut',
       'Taille du short',
-      'Numero prefere',
+      'Numéro préféré',
       'Remarques utiles pour le staff',
     ],
   },
@@ -128,21 +122,21 @@ const formFields = [
 const notes2026 = [
   {
     title: 'Frais 2026',
-    body: 'Les frais, calendriers et modalites de paiement 2026 sont communiques directement par le club apres prise de contact.',
+    body: 'Les frais, calendriers et modalités de paiement 2026 sont communiqués directement par le club après prise de contact.',
   },
   {
-    title: 'Categories',
-    body: 'La repartition par annees de naissance reste indicative. Le staff peut ajuster selon le niveau et les besoins du joueur.',
+    title: 'Catégories',
+    body: 'La répartition par années de naissance reste indicative. Le staff peut ajuster selon le niveau et les besoins du joueur.',
   },
   {
     title: 'Documents',
-    body: 'Le dossier n est considere complet qu apres reception du formulaire et des documents demandes.',
+    body: 'Le dossier n\'est considéré complet qu\'après réception du formulaire et des documents demandés.',
   },
 ]
 
 const contactItems = [
   {
-    label: 'Telephone / WhatsApp',
+    label: 'Téléphone / WhatsApp',
     value: '+509 2817-8676',
     href: 'tel:+50928178676',
     icon: RiPhoneLine,
@@ -155,7 +149,7 @@ const contactItems = [
   },
   {
     label: 'Adresse',
-    value: 'Football Club TORO, 7 Rue Rigaud, Petion-Ville, Haiti',
+    value: 'Football Club TORO, 7 Rue Rigaud, Pétion-Ville, Haïti',
     href: '/contact',
     icon: RiMapPinLine,
   },
@@ -192,7 +186,7 @@ export default function TiToroPage() {
 
                 <h1 className="mt-8 text-[clamp(2.5rem,5vw,5rem)] font-black uppercase leading-[0.85] tracking-tight">
                   Ti Toro
-                  <span className="block text-[#ef233c]">Haiti</span>
+                  <span className="block text-[#ef233c]">Haïti</span>
                 </h1>
 
                 <div className="mt-8 h-1.5 w-24 rounded-full bg-[#ef233c]" />
@@ -281,7 +275,7 @@ export default function TiToroPage() {
         {/* --- HIGHLIGHTS --- */}
         <section className="bg-white py-16 px-6">
           <div className="mx-auto max-w-[1100px]">
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-6 lg:grid-cols-3">
               {highlights.map((item) => {
                 const Icon = item.icon
                 return (

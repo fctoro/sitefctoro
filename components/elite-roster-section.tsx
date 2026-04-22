@@ -118,45 +118,63 @@ export function EliteRosterSection({ eliteRoster = [] }: { eliteRoster?: Array<R
 
                     <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,rgba(6,15,35,0)_0%,rgba(6,15,35,0.34)_100%)]" />
 
-                    {/* Hover Overlay with Stats */}
-                    <div className="absolute inset-0 z-40 flex flex-col justify-end bg-black/60 p-6 opacity-0 backdrop-blur-[2px] transition-all duration-300 group-hover:opacity-100">
-                      <div className="space-y-3 translate-y-4 transition-transform duration-300 group-hover:translate-y-0">
+                    {/* Info Overlay with Stats & Video Button */}
+                    <div className="absolute inset-x-0 bottom-0 z-40 flex flex-col justify-end bg-gradient-to-t from-black/95 via-black/50 to-transparent p-5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 backdrop-blur-[1px] transition-all duration-300">
+                      <div className="translate-y-0 lg:group-hover:translate-y-0 lg:translate-y-4 transition-transform duration-300">
                         <div className="space-y-1">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-[#ef233c]">
+                          <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
                             Informations
                           </p>
-                          <h4 className="text-lg font-black uppercase leading-tight text-white">
+                          <h4 className="text-base font-black uppercase leading-[1.1] text-white">
                             {player.firstname}<br />
-                            <span className="text-[#ef233c]">{player.lastname}</span>
+                            <span className={isRed ? 'text-white' : 'text-[#ef233c]'}>{player.lastname}</span>
                           </h4>
                         </div>
-
-                        <div className="grid grid-cols-2 gap-2 border-t border-white/10 pt-3">
+ 
+                        <div className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2 border-t border-white/15 pt-3">
                           <div className="space-y-0.5">
-                            <p className="text-[8px] font-bold uppercase tracking-wider text-white/40">Poste</p>
-                            <p className="text-[10px] font-black uppercase text-white">{(player as any).position}</p>
+                            <p className="text-[7px] font-bold uppercase tracking-wider text-white/50">Poste</p>
+                            <p className="truncate text-[9px] font-black uppercase text-white">{(player as any).position}</p>
                           </div>
                           <div className="space-y-0.5">
+<<<<<<< HEAD
                             <p className="text-[8px] font-bold uppercase tracking-wider text-white/40">Poids</p>
                             <p className="text-[10px] font-black uppercase text-white">{(player as any).weight}</p>
+=======
+                            <p className="text-[7px] font-bold uppercase tracking-wider text-white/50">Club</p>
+                            <p className="truncate text-[9px] font-black uppercase text-white">{(player as any).club}</p>
                           </div>
                           <div className="space-y-0.5">
-                            <p className="text-[8px] font-bold uppercase tracking-wider text-white/40">Hauteur</p>
-                            <p className="text-[10px] font-black uppercase text-white">{(player as any).height}</p>
+                            <p className="text-[7px] font-bold uppercase tracking-wider text-white/50">Poids</p>
+                            <p className="truncate text-[9px] font-black uppercase text-white">{(player as any).weight}</p>
+>>>>>>> 358f643c5f72c5e92058ca40189e11bcfbb692a7
+                          </div>
+                          <div className="space-y-0.5">
+                            <p className="text-[7px] font-bold uppercase tracking-wider text-white/50">Hauteur</p>
+                            <p className="truncate text-[9px] font-black uppercase text-white">{(player as any).height}</p>
                           </div>
                         </div>
+<<<<<<< HEAD
 
                         {(player as any).video_url && (
+=======
+ 
+                        {(player as any).video ? (
+>>>>>>> 358f643c5f72c5e92058ca40189e11bcfbb692a7
                           <button 
                             onClick={(e) => {
                               e.stopPropagation();
                               setActiveVideo((player as any).video_url);
                             }}
-                            className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-[#ef233c] py-2.5 text-[10px] font-black uppercase tracking-widest text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                            className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#ef233c] py-3 text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-lg transition-all hover:bg-[#d91b34] hover:scale-[1.02] active:scale-[0.98]"
                           >
                             <RiPlayFill className="h-4 w-4" />
                             Voir Session
                           </button>
+                        ) : (
+                          <div className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-xl border border-white/10 bg-white/5 py-3 text-[9px] font-black uppercase tracking-[0.15em] text-white/60">
+                             Session Bientôt
+                          </div>
                         )}
                       </div>
                     </div>

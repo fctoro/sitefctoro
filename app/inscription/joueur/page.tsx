@@ -167,18 +167,18 @@ const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
 
 const requiredFiles = [
   {
-    label: "2 Photos d'identification",
-    description: 'Format passeport recommande',
+    label: "Photo d'identité",
+    description: 'Format passeport recommandé (JPG ou PNG)',
     name: 'document_photo_id',
   },
   {
     label: 'Acte de naissance',
-    description: 'Copie lisible du document original',
+    description: 'Copie lisible du document original (JPG ou PNG)',
     name: 'document_birth_certificate',
   },
   {
-    label: "Piece d'identite du parent",
-    description: "Passeport ou carte d'identite",
+    label: "Pièce d'identité du parent",
+    description: "Passeport ou carte d'identité (JPG ou PNG)",
     name: 'document_parent_id',
   },
 ]
@@ -519,32 +519,28 @@ export default function InscriptionJoueurPage() {
 
                 <div className="rounded-[32px] border border-[#dce5f2] bg-[#f8fafc] p-8">
                   <div className="mb-6 flex items-center gap-3">
-                    <RiWallet3Line className="h-6 w-6 text-[#ef233c]" />
+                    <RiUploadCloud2Line className="h-6 w-6 text-[#ef233c]" />
                     <h3 className="text-lg font-black uppercase">
-                      Modes de paiement
+                      Pièces à fournir
                     </h3>
                   </div>
-                  <p className="text-sm leading-relaxed text-[#5b6f91]">
-                    {pricing.paymentMethods}
-                  </p>
-                  <div className="mt-6 space-y-3">
-                    <p className="text-xs font-bold text-[#0d2d62] underline">
-                      Lieux de depot :
+                  <div className="space-y-4">
+                    <p className="text-sm font-medium text-[#5b6f91]">
+                      Pour compléter votre dossier, vous devrez télécharger les documents suivants :
                     </p>
-                    <div className="space-y-2 rounded-2xl bg-white p-4 text-xs italic text-[#5b6f91]">
-                      {pricing.paymentLocations.map((item) => (
-                        <p
-                          key={item}
-                          className={
-                            item.startsWith('Note') || item.startsWith('Les paiements')
-                              ? 'font-black not-italic text-[#ef233c]'
-                              : ''
-                          }
-                        >
-                          {item.startsWith('Note') || item.startsWith('Les paiements')
-                            ? item
-                            : `- ${item}`}
-                        </p>
+                    <div className="grid gap-3">
+                      {requiredFiles.map((doc) => (
+                        <div key={doc.name} className="flex flex-col rounded-2xl bg-white p-4 border border-[#eef2f8]">
+                          <div className="flex items-center gap-3">
+                            <RiCheckLine className="h-5 w-5 text-[#ef233c]" />
+                            <p className="text-sm font-black text-[#0d2d62]">
+                              {doc.label}
+                            </p>
+                          </div>
+                          <p className="mt-1 ml-8 text-[11px] font-medium text-[#5b6f91]">
+                             {doc.description}
+                          </p>
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -710,6 +706,36 @@ export default function InscriptionJoueurPage() {
                   title="Identite du joueur"
                   description="Informations personnelles de l'enfant."
                 >
+                  <div className="mb-8 grid place-items-center">
+                    <InscriptionField label="Photo d'identité" required helper="Format passeport (JPG ou PNG)">
+                      <div className="relative flex h-32 w-32 items-center justify-center rounded-3xl border-2 border-dashed border-[#dce5f2] bg-white transition-all hover:border-[#ef233c]/30 hover:bg-[#fffcfc]">
+                        <input
+                          type="file"
+                          name="document_photo_id"
+                          accept="image/jpeg,image/png"
+                          required
+                          data-label="Photo d'identité"
+                          onChange={(event) => {
+                            const file = event.target.files?.[0] ?? null
+                            handleFileChange('document_photo_id', file)
+                          }}
+                          className="absolute inset-0 z-10 cursor-pointer opacity-0"
+                        />
+                        <div className="text-center">
+                          <RiUploadCloud2Line className="mx-auto h-6 w-6 text-[#ef233c]/40" />
+                          <p className="mt-1 text-[10px] font-black uppercase tracking-widest text-[#0a1d3a]">
+                            {fileStates['document_photo_id'] ? 'Prêt' : 'Photo'}
+                          </p>
+                        </div>
+                      </div>
+                      {fileStates['document_photo_id'] ? (
+                        <p className="mt-2 text-center text-[10px] font-semibold text-[#0a2347]">
+                          {fileStates['document_photo_id']?.name}
+                        </p>
+                      ) : null}
+                    </InscriptionField>
+                  </div>
+
                   <div className="grid gap-5 sm:grid-cols-2">
                     <InscriptionField label="Prenom de l'enfant" required>
                       <InscriptionInput
@@ -1008,7 +1034,7 @@ export default function InscriptionJoueurPage() {
                   description="Veuillez telecharger les versions numeriques (scan ou photo claire) des documents suivants."
                 >
                   <div className="grid gap-8">
-                    {requiredFiles.map((doc) => (
+                    {requiredFiles.filter(d => d.name !== 'document_photo_id').map((doc) => (
                       <InscriptionField
                         key={doc.label}
                         label={doc.label}
@@ -1019,7 +1045,7 @@ export default function InscriptionJoueurPage() {
                           <input
                             type="file"
                             name={doc.name}
-                            accept="application/pdf,image/jpeg,image/png"
+                            accept="image/jpeg,image/png"
                             required
                             data-label={doc.label}
                             onChange={(event) => {
@@ -1036,7 +1062,7 @@ export default function InscriptionJoueurPage() {
                                 : 'Uploader le fichier'}
                             </p>
                             <p className="mt-1 text-[10px] text-[#5b6f91]">
-                              PDF, JPG ou PNG (Max 5MB)
+                              JPG ou PNG (Max 5MB)
                             </p>
                             {fileStates[doc.name] ? (
                               <p className="mt-2 text-[11px] font-semibold text-[#0a2347]">
@@ -1063,21 +1089,18 @@ export default function InscriptionJoueurPage() {
                   <div className="space-y-4">
                     <InscriptionConsent
                       name="consent_media"
-                      required
                       dataLabel="Autorisation photos"
                     >
                       J'autorise l'utilisation des photos de mon enfant sur les réseaux sociaux et sur tout matériel relatif à <strong>FC TORO</strong>.
                     </InscriptionConsent>
                     <InscriptionConsent
                       name="consent_health"
-                      required
                       dataLabel="Attestation medicale"
                     >
                       Je certifie que mon enfant n'a pas de contre-indication médicale à la pratique du sport.
                     </InscriptionConsent>
                     <InscriptionConsent
                       name="consent_emergency"
-                      required
                       dataLabel="Autorisation urgence"
                     >
                       Je, soussigné(e) Monsieur ou Madame, autorise les responsables de prendre toutes les dispositions nécessaires en cas d'urgence.
@@ -1125,11 +1148,6 @@ export default function InscriptionJoueurPage() {
                           : 'border-rose-200'
                       }`}
                     >
-                      <div
-                        className={`h-2 w-full ${
-                          submitState === 'success' ? 'bg-emerald-500' : 'bg-rose-500'
-                        }`}
-                      />
                       <div className="px-6 py-6">
                         <div
                           className={`mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full ${
@@ -1139,7 +1157,12 @@ export default function InscriptionJoueurPage() {
                           }`}
                         >
                           {submitState === 'success' ? (
-                            <RiCheckLine className="h-6 w-6" />
+                            <motion.div
+                              initial={{ scale: 0.5, rotate: -45 }}
+                              animate={{ scale: 1, rotate: 0 }}
+                            >
+                              <RiCheckLine className="h-6 w-6" />
+                            </motion.div>
                           ) : (
                             <RiInformationLine className="h-6 w-6" />
                           )}

@@ -1,19 +1,20 @@
 import { Pool } from 'pg'
 
 const connectionString = process.env.DATABASE_URL
-
-if (!connectionString) {
-  throw new Error('DATABASE_URL is missing')
-}
-
-const ssl =
-  connectionString.includes('supabase.com') || connectionString.includes('pooler')
-    ? { rejectUnauthorized: false }
-    : undefined
+ 
+const ssl = connectionString?.includes('supabase.com') || connectionString?.includes('pooler')
 
 export const pool = new Pool({
-  connectionString,
-  ssl,
+  connectionString: connectionString || undefined,
+  ssl: ssl ? { rejectUnauthorized: false } : undefined,
+  max: 10,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 10000,
+})
+
+// Database error logging
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle database client', err)
 })
 
 const dbHost = connectionString.match(/@([^:/]+)/)?.[1] || 'localhost'

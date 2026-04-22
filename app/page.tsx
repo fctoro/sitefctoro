@@ -10,7 +10,11 @@ import { sponsors } from '@/lib/sponsors'
 import { NewsBarcaGrid } from '@/components/news-barca-grid'
 import VisionSection from '@/components/vision-section'
 import { HomeNavbar } from '@/components/home-navbar'
+<<<<<<< HEAD
 import { supabase } from '@/lib/supabase'
+=======
+import { AnimatedCounter } from '@/components/animated-counter'
+>>>>>>> 358f643c5f72c5e92058ca40189e11bcfbb692a7
 import {
   RiArrowLeftSLine,
   RiArrowRightLine,
@@ -205,11 +209,19 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="toro-panel relative z-10 rounded-t-2xl border border-white/25 border-b-0 bg-[rgba(7,19,43,0.78)] p-3 backdrop-blur-md sm:p-5">
-              <div className="grid grid-cols-3 gap-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-white sm:gap-2 sm:text-xs">
-                <div className="border border-white/25 p-2 sm:p-3">Vertieres Cup 18 nov 2026</div>
-                <div className="border border-white/25 p-2 sm:p-3">Flag Day 18 mai 2026</div>
-                <div className="border border-white/25 p-2 sm:p-3">Academie en progression</div>
+            <div className="toro-panel relative z-10 rounded-t-2xl border border-white/20 border-b-0 bg-[rgba(7,19,43,0.45)] p-3 backdrop-blur-xl sm:p-5">
+              <div className="grid grid-cols-4 divide-x divide-white/15">
+                <AnimatedCounter to={500} label="Joueurs" />
+                <AnimatedCounter to={100} label="Trophées" />
+                <AnimatedCounter to={14} label="Ans" />
+                <div className="flex flex-col items-center justify-center p-1 sm:p-2 h-full">
+                  <p className="text-[1.1rem] sm:text-[1.3rem] font-black tracking-tighter text-white leading-none">
+                    2012
+                  </p>
+                  <p className="mt-1 text-[7px] sm:text-[9px] font-black uppercase tracking-[0.15em] text-white/50 whitespace-nowrap">
+                    Création
+                  </p>
+                </div>
               </div>
             </div>
           </div>
