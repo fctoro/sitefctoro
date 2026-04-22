@@ -36,6 +36,7 @@ const formatKickoffTime = (kickoff: string) =>
   }).format(new Date(kickoff))
 
 type CmsData = {
+  competitions: any[]
   categories: any[]
   matches: any[]
   standings: any[]
@@ -85,7 +86,7 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
   const currentData = {
     groups: isCmsActive ? formattedCmsStandings : { A: [], B: [] },
     scorers: isCmsActive 
-      ? cmsScorersRaw.map(s => ({ name: s.player_name, goals: s.goals, team: s.team_name })) 
+      ? (cmsScorersRaw ?? []).map(s => ({ name: s.player_name, goals: s.goals, team: s.team_name })) 
       : [],
     qualified: (isCmsActive && (cmsQualified.A || cmsQualified.B)) ? cmsQualified : { A: '', B: '' }
   }

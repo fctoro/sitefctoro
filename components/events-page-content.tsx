@@ -230,9 +230,8 @@ function EventsPageSections({ activeSlug }: { activeSlug: EventSlug }) {
 
 function EventsPageContentInner({ defaultActiveSlug }: EventsPageContentProps) {
   const searchParams = useSearchParams()
-  const activeSlug = isEventSlug(searchParams.get('focus'))
-    ? searchParams.get('focus')
-    : defaultActiveSlug
+  const focusParam = searchParams.get('focus')
+  const activeSlug: EventSlug = isEventSlug(focusParam) ? focusParam : defaultActiveSlug
 
   return <EventsPageSections activeSlug={activeSlug} />
 }

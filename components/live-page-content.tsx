@@ -32,6 +32,8 @@ export default function LivePageContent({ cmsLiveMatch }: { cmsLiveMatch?: any }
           name: cmsLiveMatch.away_team?.name || 'Équipe B', 
           logo: cmsLiveMatch.away_team?.logo_url || liveMatchData.away.logo 
         },
+        homeScore: cmsLiveMatch.home_score,
+        awayScore: cmsLiveMatch.away_score,
         startsAt: new Date(cmsLiveMatch.event_date).toLocaleString('fr-FR', {
           day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
         }),
@@ -152,7 +154,13 @@ export default function LivePageContent({ cmsLiveMatch }: { cmsLiveMatch?: any }
                   </div>
 
                   <div className="text-center">
-                    <div className="text-4xl font-black italic tracking-tight text-[#ef233c]">VS</div>
+                    {activeMatch.homeScore !== undefined && activeMatch.homeScore !== null && activeMatch.awayScore !== undefined && activeMatch.awayScore !== null ? (
+                      <div className="text-4xl sm:text-5xl font-black italic tracking-tight text-white px-6">
+                        {activeMatch.homeScore} - {activeMatch.awayScore}
+                      </div>
+                    ) : (
+                      <div className="text-4xl font-black italic tracking-tight text-[#ef233c]">VS</div>
+                    )}
                     <div className="mt-2 rounded-full bg-white/5 px-4 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-white/50">
                       {activeMatch.startsAt}
                     </div>

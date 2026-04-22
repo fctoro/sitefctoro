@@ -163,6 +163,8 @@ export const liveMatchData = {
   headline: 'Rejoignez-nous en direct pour suivre FC TORO et les temps forts du tournoi.',
   youtubeId: '', // Laissez vide "" pour désactiver le bouton Live
   isLive: false, // Mettre à true quand le match commence vraiment
+  homeScore: null as number | null,
+  awayScore: null as number | null,
 }
 
 export const IS_LIVE_ACTIVE = liveMatchData.isLive || !!liveMatchData.youtubeId

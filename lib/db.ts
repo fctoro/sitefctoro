@@ -16,6 +16,16 @@ export const pool = new Pool({
   ssl,
 })
 
+const dbHost = connectionString.match(/@([^:/]+)/)?.[1] || 'localhost'
+console.log(`[DB-SITE] Tentative de connexion à : ${dbHost}`)
+
+pool.on('connect', () => {
+  if (!(globalThis as any).__dbLogged) {
+    console.log(`[DB-SITE] Connexion établie sur : ${dbHost}`)
+    ;(globalThis as any).__dbLogged = true
+  }
+})
+
 let hasEnsuredPlayersTables = false
 let hasEnsuredFansTable = false
 
