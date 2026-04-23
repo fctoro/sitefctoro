@@ -137,10 +137,6 @@ export function EliteRosterSection({ eliteRoster = [] }: { eliteRoster?: Array<R
                             <p className="truncate text-[9px] font-black uppercase text-white">{(player as any).position}</p>
                           </div>
                           <div className="space-y-0.5">
-<<<<<<< HEAD
-                          <div className="space-y-0.5">
-=======
->>>>>>> 5ae2317882b66f85cf99bc914d5140b1b375a64e
                             <p className="text-[7px] font-bold uppercase tracking-wider text-white/50">Club</p>
                             <p className="truncate text-[9px] font-black uppercase text-white">{(player as any).club}</p>
                           </div>
@@ -153,10 +149,6 @@ export function EliteRosterSection({ eliteRoster = [] }: { eliteRoster?: Array<R
                             <p className="truncate text-[9px] font-black uppercase text-white">{(player as any).height}</p>
                           </div>
                         </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> 5ae2317882b66f85cf99bc914d5140b1b375a64e
                         {(player as any).video_url ? (
                           <button 
                             onClick={(e) => {
