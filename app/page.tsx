@@ -10,11 +10,8 @@ import { sponsors } from '@/lib/sponsors'
 import { NewsBarcaGrid } from '@/components/news-barca-grid'
 import VisionSection from '@/components/vision-section'
 import { HomeNavbar } from '@/components/home-navbar'
-<<<<<<< HEAD
 import { supabase } from '@/lib/supabase'
-=======
 import { AnimatedCounter } from '@/components/animated-counter'
->>>>>>> 358f643c5f72c5e92058ca40189e11bcfbb692a7
 import {
   RiArrowLeftSLine,
   RiArrowRightLine,

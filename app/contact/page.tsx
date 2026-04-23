@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
 
+import { Breadcrumb } from '@/components/breadcrumb'
+
 /* ─────────────────────────────────────── Icons ─────────────────────────────────────── */
 
 function PhoneIcon() {
@@ -63,6 +65,7 @@ export default function ContactPage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
+        <Breadcrumb label="ACCUEIL" href="/" />
 
         {/* ── Hero – compact banner ── */}
         <section className="relative h-[175px] overflow-hidden sm:h-[195px]">
@@ -72,7 +75,7 @@ export default function ContactPage() {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[center_30%]"
+            className="object-cover object-[center_22%]"
           />
           {/* strong dark overlay left → transparent right */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(6,14,38,0.88)_0%,rgba(6,14,38,0.72)_40%,rgba(6,14,38,0.42)_70%,rgba(6,14,38,0.18)_100%)]" />

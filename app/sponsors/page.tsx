@@ -12,6 +12,8 @@ import {
   RiGroupLine,
 } from '@remixicon/react'
 
+import { Breadcrumb } from '@/components/breadcrumb'
+
 const supportItems = [
   'Le soutien aux programmes sportifs',
   "L'organisation des competitions",
@@ -26,9 +28,10 @@ export default function SponsorsPage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
+        <Breadcrumb label="ACCUEIL" href="/" />
         <section className="relative h-[220px] overflow-hidden bg-[#0a1d3a] text-white md:h-[280px]">
           <Image
-            src="/joueur/extracted/634150827_18560832649012336_7495873752742897530_n.jpg"
+            src="/home/staff-direction.jpg"
             alt="Sponsors"
             fill
             priority

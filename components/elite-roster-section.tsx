@@ -137,30 +137,19 @@ export function EliteRosterSection({ eliteRoster = [] }: { eliteRoster?: Array<R
                             <p className="truncate text-[9px] font-black uppercase text-white">{(player as any).position}</p>
                           </div>
                           <div className="space-y-0.5">
-<<<<<<< HEAD
-                            <p className="text-[8px] font-bold uppercase tracking-wider text-white/40">Poids</p>
-                            <p className="text-[10px] font-black uppercase text-white">{(player as any).weight}</p>
-=======
                             <p className="text-[7px] font-bold uppercase tracking-wider text-white/50">Club</p>
                             <p className="truncate text-[9px] font-black uppercase text-white">{(player as any).club}</p>
                           </div>
                           <div className="space-y-0.5">
                             <p className="text-[7px] font-bold uppercase tracking-wider text-white/50">Poids</p>
                             <p className="truncate text-[9px] font-black uppercase text-white">{(player as any).weight}</p>
->>>>>>> 358f643c5f72c5e92058ca40189e11bcfbb692a7
                           </div>
                           <div className="space-y-0.5">
                             <p className="text-[7px] font-bold uppercase tracking-wider text-white/50">Hauteur</p>
                             <p className="truncate text-[9px] font-black uppercase text-white">{(player as any).height}</p>
                           </div>
                         </div>
-<<<<<<< HEAD
-
-                        {(player as any).video_url && (
-=======
- 
-                        {(player as any).video ? (
->>>>>>> 358f643c5f72c5e92058ca40189e11bcfbb692a7
+                        {(player as any).video_url ? (
                           <button 
                             onClick={(e) => {
                               e.stopPropagation();
