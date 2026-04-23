@@ -10,6 +10,9 @@ import {
   RiRunLine,
   RiShieldStarLine,
 } from '@remixicon/react'
+import playerHeroImage from '@/img/Kids/IMG_9452.jpg'
+
+import { Breadcrumb } from '@/components/breadcrumb'
 
 const pathways = [
   {
@@ -36,7 +39,7 @@ const pathways = [
     description:
       'Premiere entree dans le football pour les enfants de 2 a 5 ans, avec un cadre simple, ludique et progressif.',
     href: '/ti-toro',
-    image: '/home/vision-fille.jpg',
+    image: playerHeroImage,
     icon: RiRunLine,
   },
 ]
@@ -62,6 +65,7 @@ export default function InscriptionPage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
+        <Breadcrumb label="ACCUEIL" href="/" />
         <section className="relative overflow-hidden bg-[#0a1d3a] px-4 py-16 text-white sm:px-6 lg:px-8 lg:py-20">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(239,35,60,0.16),transparent_34%)]" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(49,92,191,0.18),transparent_30%)]" />

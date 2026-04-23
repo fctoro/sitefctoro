@@ -26,7 +26,30 @@ export default async function StaffPage() {
     id: dbStaff.id,
   }))
 
-  const allStaff = [...dynamicStaff]
+  const staticStaff = [
+    { name: 'Patrick Bonnefil', role: 'Staff', photo_url: '/stafftoro/Mr. Bonnefil.jpg.jpeg' },
+    { name: 'Mme Jessica', role: 'Staff', photo_url: '/stafftoro/Mme-Jessica.jpg.jpeg' },
+    { name: 'Antoinette Anilus', role: 'Staff', photo_url: '/stafftoro/Antoinette Anilus.jpg.jpeg' },
+    { name: 'Fevilien James', role: 'Staff', photo_url: '/stafftoro/Fevilien James.jpg.jpeg' },
+    { name: 'Louis Nico', role: 'Staff', photo_url: '/stafftoro/Louis Nico.jpg.jpeg' },
+    { name: 'Lucner Jean', role: 'Staff', photo_url: '/stafftoro/Lucner Jean.jpg.jpeg' },
+    { name: 'Neil Moise', role: 'Staff', photo_url: '/stafftoro/Neil Moise.jpg.jpeg' },
+    { name: 'Samuel Bellevue', role: 'Staff', photo_url: '/stafftoro/Samuel Bellevue.jpg.jpeg' },
+    { name: 'Valdony Point Du Jour', role: 'Staff', photo_url: '/stafftoro/Valdony Point Du Jour.jpg.jpeg' },
+    { name: 'Pierre Richard', role: 'Staff', photo_url: '/staff-photos/c-pierre-richard.jpg' },
+    { name: 'Sherlo', role: 'Staff', photo_url: '/staff-photos/c-sherlo.jpg' },
+    { name: 'Wildor', role: 'Staff', photo_url: '/staff-photos/c-wildor.jpg' },
+    { name: 'Brunel', role: 'Staff', photo_url: '/staff-photos/m-brunel.jpg' },
+    { name: 'Erns', role: 'Staff', photo_url: '/staff-photos/m-erns.jpg' },
+    { name: 'Sammuel Saint-Claire', role: 'Staff', photo_url: '/staff-photos/sammuel-saint-claire.jpg' },
+    { name: 'Sheelove', role: 'Staff', photo_url: '/staff-photos/sheelove-2.jpg' },
+  ]
+
+  // Fusionner: garder ceux de la BDD en priorité, ajouter les statiques qui n'y sont pas
+  const dbNames = new Set(dynamicStaff.map((s: any) => s.name.toLowerCase().trim()))
+  const newStaticStaff = staticStaff.filter(s => !dbNames.has(s.name.toLowerCase().trim()))
+
+  const allStaff = [...dynamicStaff, ...newStaticStaff]
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-[#0a1d3a]">

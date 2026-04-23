@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Breadcrumb } from '@/components/breadcrumb'
 import {
   RiGroupLine,
   RiShareLine,
@@ -69,6 +70,7 @@ export default function LivePageContent({ cmsLiveMatch }: { cmsLiveMatch?: any }
   return (
     <div className="min-h-screen bg-[#08162f] text-white">
       <main className="min-h-[calc(100vh-100px)] pb-14 pt-[116px] lg:pt-[78px]">
+        <Breadcrumb label="ACCUEIL" href="/" />
         <section className="border-b border-white/10 px-4 py-8 sm:px-6 lg:px-8">
           <div className="mx-auto flex max-w-[1200px] flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center gap-4">
@@ -134,58 +136,6 @@ export default function LivePageContent({ cmsLiveMatch }: { cmsLiveMatch?: any }
                   </p>
                 </div>
               </div>
-
-              <div className="rounded-[34px] border border-white/10 bg-white/5 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.18)] sm:p-8">
-                <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                  <div className="flex items-center gap-5 text-center md:text-left">
-                    <img
-                      src={activeMatch.home.logo}
-                      alt={activeMatch.home.name}
-                      width={78}
-                      height={78}
-                      className="h-16 w-auto"
-                    />
-                    <div>
-                      <p className="text-lg font-black uppercase">{activeMatch.home.name}</p>
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/38">
-                        Domicile
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="text-center">
-                    {activeMatch.homeScore !== undefined && activeMatch.homeScore !== null && activeMatch.awayScore !== undefined && activeMatch.awayScore !== null ? (
-                      <div className="text-4xl sm:text-5xl font-black italic tracking-tight text-white px-6">
-                        {activeMatch.homeScore} - {activeMatch.awayScore}
-                      </div>
-                    ) : (
-                      <div className="text-4xl font-black italic tracking-tight text-[#ef233c]">VS</div>
-                    )}
-                    <div className="mt-2 rounded-full bg-white/5 px-4 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-white/50">
-                      {activeMatch.startsAt}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-5 text-center md:text-right">
-                    <div className="order-2 md:order-1">
-                      <p className="text-lg font-black uppercase">{activeMatch.away.name}</p>
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/38">
-                        Visiteur
-                      </p>
-                    </div>
-
-                    <div className="order-1 grid h-16 w-16 place-items-center overflow-hidden rounded-full border border-white/10 bg-white/5 md:order-2">
-                      <img
-                        src={activeMatch.away.logo}
-                        alt={activeMatch.away.name}
-                        width={64}
-                        height={64}
-                        className="h-10 w-auto opacity-40"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div className="space-y-6">
@@ -196,21 +146,9 @@ export default function LivePageContent({ cmsLiveMatch }: { cmsLiveMatch?: any }
                 </h3>
 
                 <div className="mt-5 space-y-4">
-                  {liveFeed.map((entry) => (
-                    <article key={entry.title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
-                        {entry.label}
-                      </p>
-                      <p className="mt-2 text-sm font-black uppercase tracking-[0.06em] text-white">
-                        {entry.title}
-                      </p>
-                      <p className="mt-2 text-sm leading-relaxed text-white/70">{entry.body}</p>
-                    </article>
-                  ))}
-
                   <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center">
                     <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/40">
-                      Le flux sera actualisé dès le coup d'envoi
+                      Il n'y a pas encore de feed..
                     </p>
                   </div>
                 </div>

@@ -7,6 +7,8 @@ import { HomeNavbar } from '@/components/home-navbar'
 import { playerCards } from '@/lib/joueur'
 import { RiStarSFill } from '@remixicon/react'
 
+import { Breadcrumb } from '@/components/breadcrumb'
+
 const featuredPlayers = playerCards.slice(0, 5)
 const rosterPlayers = playerCards.slice(5)
 const featuredUnits = ['U11', 'U13', 'U15', 'U17', 'U20']
@@ -27,6 +29,7 @@ export default function EquipesPage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[70px]">
+        <Breadcrumb label="ACCUEIL" href="/" />
         <section className="relative overflow-hidden bg-[radial-gradient(circle_at_50%_20%,rgba(32,93,255,0.18),transparent_28%),linear-gradient(180deg,#07101f_0%,#040914_55%,#02050d_100%)] px-4 pb-6 pt-5 sm:px-6 lg:px-8 lg:pb-8 lg:pt-5">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#ff244a] to-transparent" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#3f7bff] to-transparent" />
@@ -111,12 +114,16 @@ export default function EquipesPage() {
                       </span>
                     </div>
 
-                    <div className="absolute inset-x-0 bottom-0 z-10 p-4 sm:p-5">
-                      <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/70">
+                    <div className="absolute inset-x-0 bottom-0 z-10 p-2 sm:p-5">
+                      <p className="truncate text-[7px] font-black uppercase tracking-[0.1em] text-white/70 sm:text-[10px] sm:tracking-[0.22em]">
                         {player.role}
                       </p>
-                      <p className="mt-2 text-[clamp(1.15rem,1.8vw,2.4rem)] font-black uppercase leading-[0.88] tracking-[-0.06em] text-white">
-                        {player.name}
+                      <p className="mt-1 flex flex-col text-[0.65rem] font-black uppercase leading-[1.1] tracking-tight text-white sm:mt-2 sm:block sm:text-[clamp(1.15rem,1.8vw,2.4rem)] sm:leading-[0.88] sm:tracking-[-0.06em]">
+                        {player.name.split(' ').map((word, i) => (
+                          <span key={i} className="block hyphens-auto break-words sm:inline sm:break-normal">
+                            {word}{' '}
+                          </span>
+                        ))}
                       </p>
                     </div>
 
@@ -197,10 +204,6 @@ export default function EquipesPage() {
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
                     />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,7,15,0.08)_0%,rgba(4,7,15,0.28)_45%,rgba(4,7,15,0.95)_100%)]" />
-                    <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-black/25 px-2.5 py-1 text-[8px] font-black uppercase tracking-[0.16em] text-white/80 backdrop-blur sm:left-4 sm:top-4 sm:gap-2 sm:px-3 sm:text-[10px] sm:tracking-[0.18em]">
-                      <RiStarSFill className="h-3 w-3 text-[#ff244a] sm:h-3.5 sm:w-3.5" />
-                      Core Squad
-                    </div>
 
                     <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-5">
                       <div>

@@ -166,20 +166,23 @@ const timelineEvents = [
   { year: '2026', title: 'Vision d\'expansion', desc: 'Digitalisation et structuration Élite pour une nouvelle ère de développement et d\'excellence.' },
 ]
 
+import { Breadcrumb } from '@/components/breadcrumb'
+
 export default function NotreHistoirePage() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
+        <Breadcrumb label="ACCUEIL" href="/" />
         <section className="relative h-[220px] overflow-hidden bg-[#0a1d3a] text-white md:h-[320px]">
           <Image
-            src="/home/staff-direction.jpg"
+            src="/joueur/extracted/634150827_18560832649012336_7495873752742897530_n.jpg"
             alt="Staff FC TORO"
             fill
             priority
             sizes="100vw"
-            className="object-cover object-center opacity-55"
+            className="object-cover object-[center_10%] opacity-55"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a1d3a] via-[#0a1d3a]/65 to-transparent" />
           <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-[#ef233c] via-[#ef233c]/55 to-transparent" />

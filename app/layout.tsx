@@ -14,8 +14,8 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'FC TORO HAITI - MACHE SOU YO',
-  description: 'La #1 Academie de Football en Haiti U7-U19. Puissance, Fierte, Ambition.',
+  title: 'FC TORO | MACHE SOU YO',
+  description: ' ',
   generator: 'v0.app',
   icons: {
     icon: '/fc-toro-logo.png',

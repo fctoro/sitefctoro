@@ -31,14 +31,14 @@ export const playerCards: PlayerCard[] = [
   { name: 'Nixon Louis', role: 'Defenseur', image: '/joueur/extracted/560388188_18531457003012336_702922180697776333_n.jpg' },
   { name: 'Dylan Toro', role: 'Ailier', image: '/joueur/extracted/487859566_18496314202012336_4490722394926427967_n.jpg' },
   { name: 'Ruben Alexis', role: 'Capitaine', image: '/joueur/extracted/634150827_18560832649012336_7495873752742897530_n.jpg' },
-  { name: 'Kelvin Marcel', role: 'Gardien', image: '/joueur/extracted/636967631_18560895763012336_6262024514087135809_n.jpg' },
-  { name: 'Junior Lafleur', role: 'Futsal', image: '/joueur/extracted/641694175_18567320974012336_5379991601628482744_n.jpg' },
-  { name: 'Matheo Charles', role: 'Arriere', image: '/joueur/extracted/621203459_18554581459012336_4537330016788795057_n.jpg' },
-  { name: 'Samuel Dorval', role: 'Milieu', image: '/joueur/extracted/575274167_18540323572012336_6438757876049095178_n.jpg' },
-  { name: 'Bryan Celestin', role: 'Defenseur', image: '/joueur/extracted/622486917_18554464078012336_4014982399909732243_n.jpg' },
-  { name: 'Lenny Martin', role: 'Ailier', image: '/joueur/extracted/566965214_18535346428012336_1378637816694320324_n.jpg' },
-  { name: 'Theo Basile', role: 'Capitaine', image: '/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg' },
-  { name: 'Noah Laurent', role: 'Gardien', image: '/joueur/extracted/568745333_18536029291012336_2541205262935954829_n.jpg' },
+  { name: 'Aguero Michel', role: 'Attaquant', image: '/staff-photos/aguero-michel.jpg' },
+  { name: 'Angelo Lauré', role: 'Milieu', image: '/staff-photos/angelo-lauré.jpg' },
+  { name: 'Angelson Fils-Aimé', role: 'Ailier', image: '/staff-photos/angelson-fils-aimé-2.jpg' },
+  { name: 'Billy Vilsaint', role: 'Defenseur', image: '/staff-photos/billy-vilsaint.jpg' },
+  { name: 'Dave Olivier Julbert', role: 'Attaquant', image: '/staff-photos/dave-olivier-julbert.jpg' },
+  { name: 'Meranvil Bill', role: 'Milieu', image: '/staff-photos/meranvil-bill.jpg' },
+  { name: 'Taino Solh Moise', role: 'Ailier', image: '/staff-photos/taino-solh-moise.jpg' },
+  { name: 'Johnlove Traine', role: 'Milieu', image: '/staff-photos/img_1770.jpg' },
 ]
 
 export const heroSlides: HeroSlide[] = [

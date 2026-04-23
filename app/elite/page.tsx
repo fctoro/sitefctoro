@@ -99,11 +99,11 @@ export default async function ElitePage() {
         <Breadcrumb label="FOOTBALL" href="/#projets" />
         <section className="relative h-[220px] overflow-hidden bg-[#0a1d3a] text-white md:h-[300px]">
           <Image
-            src="/joueur/extracted/591149277_18545355826012336_6701584250153829576_n.jpg"
+            src="/home/hero-elite.jpg"
             alt="FC TORO ELITE"
             fill
             priority
-            className="object-cover opacity-50"
+            className="object-cover object-[center_20%] opacity-50"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a1d3a] via-[#0a1d3a]/60 to-transparent" />
           <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-[#ef233c] via-[#ef233c]/50 to-transparent" />

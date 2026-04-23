@@ -414,7 +414,7 @@ export default function InscriptionJoueurPage() {
             alt="Devenir joueur FC TORO"
             fill
             priority
-            className="object-cover opacity-40"
+            className="object-cover object-[center_25%] opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a1d3a] via-transparent to-transparent" />
           <div className="relative z-10 mx-auto flex h-full max-w-[1100px] flex-col justify-end px-6 pb-16">
