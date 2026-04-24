@@ -4,13 +4,8 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { RiMapPinLine, RiCalendarEventLine, RiTrophyLine, RiGlobalLine, RiMap2Line } from '@remixicon/react'
 
-// Import images
 import heroImg from '@/img/vertiere cup/IMG-20241021-WA0021.jpg'
 import match1 from '@/img/Match/FC-Toro.jpg'
-import match2 from '@/img/Match/IMG_2341.jpg'
-import tournoi1 from '@/img/Elite/IMG_5150.jpg'
-import atmos1 from '@/img/Match/IMG_2453.jpg'
-import teamImg from '@/img/Match/IMG_2471.jpg'
 
 export default function VertieresCupPageContent() {
   return (
@@ -126,79 +121,31 @@ export default function VertieresCupPageContent() {
         </div>
       </section>
 
-      {/* ═══════ IMMERSION / GALLERY COMPÉTITION ═══════ */}
+      {/* ═══════ INSCRIPTIONS (BIENTÔT) ═══════ */}
       <section className="bg-[#f2f2f4] px-4 py-24 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-[1200px]">
+        <div className="mx-auto max-w-[800px]">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="mb-14 text-center"
+            className="text-center"
           >
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">Immersion</p>
+            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-sm">
+              <RiCalendarEventLine className="h-10 w-10 text-[#0a1d3a]" />
+            </div>
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">Inscriptions</p>
             <h2 className="mt-4 text-4xl font-black uppercase leading-[0.9] tracking-tighter text-[#0a1d3a] md:text-5xl">
-              Vivre <span className="text-[#ef233c]">L'Événement.</span>
+              Bientôt <span className="text-[#ef233c]">Disponibles.</span>
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base font-medium text-[#5b6f91]">
-              De l'intensité sur le terrain à la ferveur dans les gradins, découvrez l'atmosphère unique de la Vertières Cup.
+            <p className="mx-auto mt-6 max-w-2xl text-base font-medium leading-relaxed text-[#5b6f91] sm:text-lg">
+              Les inscriptions pour la prochaine édition de la Vertières Cup ouvriront prochainement. Préparez votre équipe pour le tournoi le plus attendu de l'année à Bord de Mer de Limonade !
             </p>
+            <div className="mt-8">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#ef233c]/10 px-6 py-3 text-[11px] font-black uppercase tracking-widest text-[#ef233c]">
+                Restez connectés
+              </span>
+            </div>
           </motion.div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Grande image (2 cols / 2 rows) */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="group relative h-[400px] overflow-hidden rounded-[2rem] sm:col-span-2 lg:row-span-2 lg:h-[600px]"
-            >
-              <Image src={match2} alt="Atmosphère Vertières Cup" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" />
-              <div className="absolute bottom-0 left-0 p-8">
-                <p className="text-[10px] font-black uppercase tracking-widest text-[#ef233c]">Action</p>
-                <p className="mt-2 text-2xl font-black uppercase text-white">L'intensité d'une grande compétition</p>
-              </div>
-            </motion.div>
-
-            {/* Images classiques */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="group relative h-[280px] overflow-hidden rounded-[2rem]"
-            >
-              <Image src={tournoi1} alt="Bord de mer Limonade" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-[#0a1d3a]/20 transition-colors duration-300 group-hover:bg-transparent" />
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="group relative h-[280px] overflow-hidden rounded-[2rem]"
-            >
-              <Image src={atmos1} alt="Ferveur Vertieres" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-[#0a1d3a]/20 transition-colors duration-300 group-hover:bg-transparent" />
-            </motion.div>
-
-            {/* Image large */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="group relative h-[350px] overflow-hidden rounded-[2rem] sm:col-span-2 lg:col-span-3"
-            >
-              <Image src={teamImg} alt="Équipe rassemblée" fill className="object-cover object-center transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-8 flex flex-col justify-end">
-                <p className="text-[10px] font-black uppercase tracking-widest text-[#ef233c]">Rassemblement</p>
-                <p className="mt-2 text-2xl font-black uppercase text-white">Un tremplin pour les talents émergents</p>
-              </div>
-            </motion.div>
-          </div>
         </div>
       </section>
 

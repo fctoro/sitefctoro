@@ -98,7 +98,7 @@ export default async function ElitePage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="relative pt-[116px] lg:pt-[78px]">
-        <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Club', href: '/le-club' }, { label: 'Programmes', href: '/#projets' }, { label: 'Elite', href: '/elite' }]} />
+        <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Club', href: '/le-club' }, { label: 'Elite', href: '/elite' }]} />
         <section className="relative h-[220px] overflow-hidden bg-[#0a1d3a] text-white md:h-[300px]">
           <Image
             src="/home/hero-elite.jpg"

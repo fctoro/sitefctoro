@@ -281,21 +281,39 @@ export default function ContactPage() {
                       </div>
                     </div>
 
-                    <div className="space-y-1.5">
-                      <label
-                        htmlFor="contact-email"
-                        className="block text-[11px] font-black uppercase tracking-[0.18em] text-[#5b6f91]"
-                      >
-                        Email
-                      </label>
-                      <input
-                        id="contact-email"
-                        type="email"
-                        name="email"
-                        required
-                        placeholder="votre@email.com"
-                        className="w-full rounded-xl border border-[#dce5f2] bg-[#f8fafc] px-4 py-3 text-sm font-semibold text-[#0a1d3a] placeholder:text-[#b0bdd0] outline-none transition-all focus:border-[#ef233c]/50 focus:ring-2 focus:ring-[#ef233c]/12"
-                      />
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <label
+                          htmlFor="contact-email"
+                          className="block text-[11px] font-black uppercase tracking-[0.18em] text-[#5b6f91]"
+                        >
+                          Email
+                        </label>
+                        <input
+                          id="contact-email"
+                          type="email"
+                          name="email"
+                          required
+                          placeholder="votre@email.com"
+                          className="w-full rounded-xl border border-[#dce5f2] bg-[#f8fafc] px-4 py-3 text-sm font-semibold text-[#0a1d3a] placeholder:text-[#b0bdd0] outline-none transition-all focus:border-[#ef233c]/50 focus:ring-2 focus:ring-[#ef233c]/12"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label
+                          htmlFor="contact-phone"
+                          className="block text-[11px] font-black uppercase tracking-[0.18em] text-[#5b6f91]"
+                        >
+                          Numero
+                        </label>
+                        <input
+                          id="contact-phone"
+                          type="tel"
+                          name="phone"
+                          required
+                          placeholder="+509 XXXX XXXX"
+                          className="w-full rounded-xl border border-[#dce5f2] bg-[#f8fafc] px-4 py-3 text-sm font-semibold text-[#0a1d3a] placeholder:text-[#b0bdd0] outline-none transition-all focus:border-[#ef233c]/50 focus:ring-2 focus:ring-[#ef233c]/12"
+                        />
+                      </div>
                     </div>
 
                     <div className="space-y-1.5">

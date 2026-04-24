@@ -215,7 +215,6 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
           {
             title: 'Complement',
             links: [
-              { label: 'Rejoindre le club', href: '/inscription' },
               { label: 'Recrutement', href: '/recrutement' },
             ],
           },
@@ -414,7 +413,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
                             className={`mt-4 grid gap-4 ${
                               section.links.length === 1
                                 ? 'grid-cols-1'
-                                : section.links.length === 2
+                                : section.links.length === 2 || section.links.length === 4
                                   ? 'grid-cols-2'
                                   : 'grid-cols-3'
                             }`}

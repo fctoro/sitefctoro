@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { HomeNavbar } from '@/components/home-navbar'
+import { Breadcrumb } from '@/components/breadcrumb'
 import LivePageContent from '@/components/live-page-content'
 import { supabase } from '@/lib/supabase'
 
@@ -25,6 +26,7 @@ export default async function LivePage() {
   return (
     <>
       <HomeNavbar anchorPrefix="/" />
+      <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Événements' }, { label: 'Live', href: '/evenements/live' }]} />
       <LivePageContent cmsLiveMatch={cmsLiveMatch} />
     </>
   )

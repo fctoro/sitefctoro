@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { RiArrowLeftLine, RiCalendarEventLine } from '@remixicon/react'
+import { RiCalendarEventLine } from '@remixicon/react'
 import { HomeNavbar } from '@/components/home-navbar'
+import { Breadcrumb } from '@/components/breadcrumb'
 import { newsCards, type NewsCard } from '@/lib/joueur'
 import { supabase } from '@/lib/supabase'
 
@@ -91,6 +92,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
+        <Breadcrumb 
+          items={[
+            { label: 'Accueil', href: '/' }, 
+            { label: 'Actualités', href: '/actualites' },
+            { label: article.title }
+          ]} 
+        />
         <section className="relative overflow-hidden bg-[#091a35] px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-16">
           <Image
             src={article.image}
@@ -102,14 +110,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(9,26,53,0.95)_0%,rgba(9,26,53,0.8)_58%,rgba(9,26,53,0.92)_100%)]" />
 
           <div className="relative mx-auto max-w-[980px]">
-            <Link
-              href="/actualites"
-              className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.18em] text-[#ffd7de]"
-            >
-              <RiArrowLeftLine className="h-4 w-4" />
-              Retour aux actualites
-            </Link>
-
             <div className="mt-8">
               <p className="text-[10px] font-black uppercase tracking-[0.32em] text-[#ef233c]">
                 {article.category}
@@ -152,22 +152,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </article>
 
             <aside className="space-y-6">
-              <div className="rounded-[28px] bg-[#ef233c] p-6 text-white shadow-[0_22px_34px_rgba(239,35,60,0.3)]">
-                <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/72">
-                  A retenir
-                </p>
-                <div className="mt-4 space-y-3">
-                  {article.keyPoints.map((point) => (
-                    <div
-                      key={point}
-                      className="rounded-2xl border border-white/10 bg-white/10 px-4 py-4 text-sm leading-relaxed text-white"
-                    >
-                      {point}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               <div className="rounded-[28px] border border-[#d7dfec] bg-white p-6 shadow-[0_16px_28px_rgba(10,29,58,0.08)]">
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
                   Lire aussi

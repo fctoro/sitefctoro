@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { HomeNavbar } from '@/components/home-navbar'
+import { Breadcrumb } from '@/components/breadcrumb'
 import FlagDayPageContent from '@/components/flag-day-page-content'
 import { supabase } from '@/lib/supabase'
 
@@ -109,6 +110,7 @@ export default async function FlagDayPage() {
   return (
     <>
       <HomeNavbar anchorPrefix="/" />
+      <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Événements' }, { label: 'Flag Day', href: '/evenements/flag-day' }]} />
       <FlagDayPageContent 
         cmsData={{
           competitions: competitions || [],

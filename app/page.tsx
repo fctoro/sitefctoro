@@ -68,16 +68,18 @@ export default function HomePage() {
   const [introReady, setIntroReady] = useState(false)
   const [activeHero, setActiveHero] = useState(0)
   const [players, setPlayers] = useState(playerCards)
+  const [allNews, setAllNews] = useState(newsCards)
   const playerRailRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    async function loadPlayers() {
-      const { data, error } = await supabase
+    async function loadData() {
+      // Load Players
+      const { data: playersData } = await supabase
         .from('club_players')
         .select('*')
         
-      if (data && data.length > 0) {
-        setPlayers(data.map((p) => {
+      if (playersData && playersData.length > 0) {
+        setPlayers(playersData.map((p) => {
           return {
             name: `${p.first_name || ''} ${p.last_name || ''}`.trim() || 'Joueur',
             role: p.position || 'Joueur',
@@ -85,8 +87,30 @@ export default function HomePage() {
           };
         }))
       }
+
+      // Load News
+      const { data: cmsArticles } = await supabase
+        .from('articles')
+        .select('*')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false })
+
+      if (cmsArticles && cmsArticles.length > 0) {
+        const formattedCmsArticles = cmsArticles.map((a: any) => ({
+          title: a.title_fr,
+          slug: a.slug,
+          excerpt: a.excerpt_fr || '',
+          image: resolveCmsImage(a.cover_image),
+          category: a.category,
+          dateLabel: a.published_at ? new Date(a.published_at).toLocaleDateString('fr-FR') : '',
+          intro: a.excerpt_fr || '',
+          content: [a.content_fr || ''],
+          keyPoints: []
+        }))
+        setAllNews([...formattedCmsArticles, ...newsCards])
+      }
     }
-    loadPlayers()
+    loadData()
   }, [])
 
   useEffect(() => {
@@ -417,7 +441,7 @@ export default function HomePage() {
 
         <section id="actualites" className="px-4 pb-11 sm:px-6 lg:px-8">
           <NewsBarcaGrid
-            items={newsCards}
+            items={allNews}
             eyebrow="Actualités du club"
             heading="ACTUALITÉS"
             ctaHref="/actualites"

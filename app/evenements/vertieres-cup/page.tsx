@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { HomeNavbar } from '@/components/home-navbar'
+import { Breadcrumb } from '@/components/breadcrumb'
 import VertieresCupPageContent from '@/components/vertieres-cup-page-content'
 
 export const metadata: Metadata = {
@@ -11,6 +12,7 @@ export default function VertieresCupPage() {
   return (
     <>
       <HomeNavbar anchorPrefix="/" />
+      <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Événements' }, { label: 'Vertières Cup', href: '/evenements/vertieres-cup' }]} />
       <VertieresCupPageContent />
     </>
   )

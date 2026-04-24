@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
+import { Breadcrumb } from '@/components/breadcrumb'
 import { 
   RiGlobalLine, 
   RiFireLine,
@@ -25,6 +26,7 @@ export default function TournoiInternationalPage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
+        <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Événements' }, { label: 'Tournois Internationaux', href: '/evenements/tournoi-international' }]} />
         {/* HERO SECTION */}
         <section className="relative h-[450px] overflow-hidden bg-[#0a1d3a] text-white md:h-[600px]">
           <div className="absolute inset-0 bg-[#0a1d3a]">

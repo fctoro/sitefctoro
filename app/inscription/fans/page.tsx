@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
+import { Breadcrumb } from '@/components/breadcrumb'
 import {
   InscriptionConsent,
   InscriptionField,
@@ -131,6 +132,7 @@ export default function InscriptionFansPage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
+        <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Inscription' }, { label: 'Devenir Fan', href: '/inscription/fans' }]} />
         <section className="relative h-[240px] overflow-hidden bg-[#0a1d3a] text-white md:h-[320px]">
           <Image
             src="/joueur/extracted/583167774_18542869372012336_2307311757000245016_n.jpg"
