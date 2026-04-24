@@ -29,7 +29,7 @@ export default function EquipesPage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[70px]">
-        <Breadcrumb label="ACCUEIL" href="/" />
+        <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Equipes', href: '/equipes' }]} />
         <section className="relative overflow-hidden bg-[radial-gradient(circle_at_50%_20%,rgba(32,93,255,0.18),transparent_28%),linear-gradient(180deg,#07101f_0%,#040914_55%,#02050d_100%)] px-4 pb-6 pt-5 sm:px-6 lg:px-8 lg:pb-8 lg:pt-5">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#ff244a] to-transparent" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#3f7bff] to-transparent" />
@@ -41,7 +41,7 @@ export default function EquipesPage() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.95, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-3 flex justify-center pt-3 sm:mb-4 sm:pt-3 lg:mb-4 lg:pt-4"
+              className="mb-3 flex justify-center pt-8 sm:mb-4 sm:pt-8 lg:mb-4 lg:pt-10"
             >
               <div className="text-center">
                 <h1 className="max-w-[92vw] text-[0.78rem] font-black uppercase leading-[1.2] tracking-[0.16em] text-white/92 sm:max-w-none sm:text-[0.95rem] sm:tracking-[0.18em] lg:text-[clamp(1rem,1.9vw,1.45rem)] lg:leading-[1.05] lg:tracking-[0.22em]">

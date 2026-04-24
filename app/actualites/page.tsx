@@ -3,6 +3,7 @@ import { HomeNavbar } from '@/components/home-navbar'
 import { NewsBarcaGrid } from '@/components/news-barca-grid'
 import { supabase } from '@/lib/supabase'
 import { resolveCmsImage } from '@/lib/utils'
+import { Breadcrumb } from '@/components/breadcrumb'
 
 export default async function ActualitesPage() {
   // Récupérer les articles depuis le CMS
@@ -33,6 +34,7 @@ export default async function ActualitesPage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
+        <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Actualités', href: '/actualites' }]} />
         <section className="px-4 pb-11 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pt-12">
           <NewsBarcaGrid
             items={allArticles}

@@ -28,7 +28,7 @@ export default function SponsorsPage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
-        <Breadcrumb label="ACCUEIL" href="/" />
+        <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Sponsors', href: '/sponsors' }]} />
         <section className="relative h-[220px] overflow-hidden bg-[#0a1d3a] text-white md:h-[280px]">
           <Image
             src="/home/staff-direction.jpg"

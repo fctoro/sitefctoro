@@ -65,17 +65,17 @@ export default function ContactPage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
-        <Breadcrumb label="ACCUEIL" href="/" />
+        <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Contact', href: '/contact' }]} />
 
         {/* ── Hero – compact banner ── */}
         <section className="relative h-[175px] overflow-hidden sm:h-[195px]">
           <Image
-            src="/joueur/extracted/566965214_18535346428012336_1378637816694320324_n.jpg"
+            src="/TEAMPICTURES/Billy Vilsaint.jpg.jpeg"
             alt="Contact FC TORO"
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[center_22%]"
+            className="object-cover object-[center_5%]"
           />
           {/* strong dark overlay left → transparent right */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(6,14,38,0.88)_0%,rgba(6,14,38,0.72)_40%,rgba(6,14,38,0.42)_70%,rgba(6,14,38,0.18)_100%)]" />
@@ -166,7 +166,7 @@ export default function ContactPage() {
                     <a
                       id="contact-email-link"
                       href="mailto:footballclubtoro@gmail.com"
-                      className="mt-2 block break-all text-[15px] font-black text-[#0a1d3a] transition-colors hover:text-[#ef233c]"
+                      className="mt-2 block whitespace-nowrap text-[11px] font-black tracking-tight text-[#0a1d3a] transition-colors hover:text-[#ef233c] min-[375px]:text-[12px] sm:text-[14px]"
                     >
                       footballclubtoro@gmail.com
                     </a>

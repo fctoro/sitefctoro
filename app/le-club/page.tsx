@@ -174,7 +174,7 @@ export default function NotreHistoirePage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
-        <Breadcrumb label="ACCUEIL" href="/" />
+        <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Club', href: '/le-club' }]} />
         <section className="relative h-[220px] overflow-hidden bg-[#0a1d3a] text-white md:h-[320px]">
           <Image
             src="/joueur/extracted/634150827_18560832649012336_7495873752742897530_n.jpg"

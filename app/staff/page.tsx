@@ -58,7 +58,7 @@ export default async function StaffPage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="relative pt-[116px] lg:pt-[78px]">
-        <Breadcrumb label="CLUB" href="/le-club" />
+        <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Club', href: '/le-club' }, { label: 'Staff', href: '/staff' }]} />
         {/* Header Section */}
         <section className="relative overflow-hidden bg-[#0a1d3a] px-4 pt-32 pb-24 text-white sm:px-6 lg:px-8 lg:py-40">
           <Image src="/staff-team.jpg" alt="Team FC TORO Saison" fill priority className="object-cover opacity-40" unoptimized />

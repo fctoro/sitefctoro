@@ -70,7 +70,7 @@ export default function LivePageContent({ cmsLiveMatch }: { cmsLiveMatch?: any }
   return (
     <div className="min-h-screen bg-[#08162f] text-white">
       <main className="min-h-[calc(100vh-100px)] pb-14 pt-[116px] lg:pt-[78px]">
-        <Breadcrumb label="ACCUEIL" href="/" />
+        <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Live', href: '/live' }]} />
         <section className="border-b border-white/10 px-4 py-8 sm:px-6 lg:px-8">
           <div className="mx-auto flex max-w-[1200px] flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center gap-4">

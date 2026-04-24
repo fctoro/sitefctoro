@@ -17,7 +17,7 @@ pool.on('error', (err) => {
   console.error('Unexpected error on idle database client', err)
 })
 
-const dbHost = connectionString.match(/@([^:/]+)/)?.[1] || 'localhost'
+const dbHost = connectionString?.match(/@([^:/]+)/)?.[1] || 'localhost'
 console.log(`[DB-SITE] Tentative de connexion à : ${dbHost}`)
 
 pool.on('connect', () => {

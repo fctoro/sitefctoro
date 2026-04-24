@@ -98,7 +98,7 @@ export default async function ElitePage() {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="relative pt-[116px] lg:pt-[78px]">
-        <Breadcrumb label="FOOTBALL" href="/#projets" />
+        <Breadcrumb items={[{ label: 'Accueil', href: '/' }, { label: 'Club', href: '/le-club' }, { label: 'Programmes', href: '/#projets' }, { label: 'Elite', href: '/elite' }]} />
         <section className="relative h-[220px] overflow-hidden bg-[#0a1d3a] text-white md:h-[300px]">
           <Image
             src="/home/hero-elite.jpg"
@@ -136,10 +136,10 @@ export default async function ElitePage() {
 
               <div className="relative h-[350px] w-full rotate-2 overflow-hidden rounded-3xl shadow-2xl md:w-[350px]">
                 <Image
-                  src="/joueur/extracted/634150827_18560832649012336_7495873752742897530_n.jpg"
-                  alt="Elite Training"
+                  src="/TEAMPICTURES/Angelo Lauré.jpg.jpeg"
+                  alt="Angelo Lauré - Elite"
                   fill
-                  className="object-cover"
+                  className="object-cover object-[center_10%]"
                 />
               </div>
             </div>
@@ -233,10 +233,10 @@ export default async function ElitePage() {
               <div className="relative">
                 <div className="relative aspect-square w-full overflow-hidden rounded-[40px] border-8 border-white/5">
                   <Image
-                    src="/joueur/extracted/542448727_18525142066012336_8843479393054800058_n.jpg"
-                    alt="Code Toro Football"
+                    src="/TEAMPICTURES/Dave Olivier Julbert.jpg.jpeg"
+                    alt="Dave Olivier Julbert - Elite"
                     fill
-                    className="object-cover"
+                    className="object-cover object-[center_10%]"
                   />
                 </div>
               </div>
