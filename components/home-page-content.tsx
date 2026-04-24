@@ -450,6 +450,7 @@ export function HomePageContent({
                       alt={s.name}
                       width={120}
                       height={60}
+                      style={{ width: 'auto' }}
                       className="h-7 w-auto object-contain md:h-10"
                     />
                   </div>

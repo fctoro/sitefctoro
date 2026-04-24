@@ -1,7 +1,9 @@
 import Image from 'next/image'
+import { headers } from 'next/headers'
 import { HomeNavbar } from '@/components/home-navbar'
 import { Breadcrumb } from '@/components/breadcrumb'
 import { EliteRosterApiSection } from '@/components/elite-roster-api-section'
+import type { EliteRosterPlayer } from '@/lib/players'
 import {
   RiCheckLine,
   RiShieldStarLine,
@@ -70,7 +72,36 @@ const eliteData = {
 
 export const dynamic = 'force-dynamic'
 
-export default function ElitePage() {
+async function getEliteRosterFromApi(): Promise<EliteRosterPlayer[]> {
+  try {
+    const headerStore = await headers()
+    const forwardedHost = headerStore.get('x-forwarded-host')
+    const host = forwardedHost || headerStore.get('host')
+    const protocol =
+      headerStore.get('x-forwarded-proto') || (host?.includes('localhost') ? 'http' : 'https')
+    const baseUrl = host
+      ? `${protocol}://${host}`
+      : (process.env.BASE_URL || process.env.FRONTEND_URL || 'https://fctoro.com').replace(/\/$/, '')
+
+    const response = await fetch(`${baseUrl}/api/elite`, {
+      next: { revalidate: 300 },
+    })
+
+    if (!response.ok) {
+      throw new Error(`Elite API error: ${response.status}`)
+    }
+
+    const payload = (await response.json()) as { eliteRoster?: EliteRosterPlayer[] }
+    return Array.isArray(payload.eliteRoster) ? payload.eliteRoster : []
+  } catch (error) {
+    console.error("[ELITE] Impossible de precharger l'effectif via l'API.", error)
+    return []
+  }
+}
+
+export default async function ElitePage() {
+  const initialEliteRoster = await getEliteRosterFromApi()
+
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
@@ -124,7 +155,7 @@ export default function ElitePage() {
           </div>
         </section>
 
-        <EliteRosterApiSection />
+        <EliteRosterApiSection initialEliteRoster={initialEliteRoster} />
 
         <section className="bg-[#f8fafc] px-4 py-24 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1100px]">

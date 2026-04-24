@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RiPlayFill, RiCloseLine } from '@remixicon/react'
@@ -21,6 +22,35 @@ type EliteRosterCard = {
 type EliteRosterSectionProps = {
   eliteRoster?: EliteRosterCard[]
   isLoading?: boolean
+}
+
+function ElitePlayerPhoto({
+  src,
+  alt,
+  priority = false,
+}: {
+  src: string
+  alt: string
+  priority?: boolean
+}) {
+  const [imageSrc, setImageSrc] = useState(src || '/placeholder-user.jpg')
+
+  return (
+    <Image
+      src={imageSrc || '/placeholder-user.jpg'}
+      alt={alt}
+      fill
+      priority={priority}
+      quality={78}
+      sizes="(min-width: 1280px) 16vw, (min-width: 1024px) 18vw, (min-width: 640px) 42vw, 84vw"
+      className="object-cover object-top drop-shadow-2xl"
+      onError={() => {
+        if (imageSrc !== '/placeholder-user.jpg') {
+          setImageSrc('/placeholder-user.jpg')
+        }
+      }}
+    />
+  )
 }
 
 export function EliteRosterSection({
@@ -143,17 +173,10 @@ export function EliteRosterSection({
 
                       <div className="absolute bottom-0 left-[-4%] right-[18%] top-3 z-10">
                         {player.photo_url ? (
-                          /* eslint-disable-next-line @next/next/no-img-element */
-                          <img
+                          <ElitePlayerPhoto
                             src={player.photo_url}
                             alt={player.name}
-                            loading={index < 4 ? 'eager' : 'lazy'}
-                            fetchPriority={index < 4 ? 'high' : 'low'}
-                            decoding="async"
-                            className="h-full w-full object-cover object-top drop-shadow-2xl"
-                            onError={(event) => {
-                              event.currentTarget.src = '/placeholder-user.jpg'
-                            }}
+                            priority={index < 5}
                           />
                         ) : null}
                       </div>

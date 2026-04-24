@@ -10,7 +10,7 @@ export async function GET() {
     { eliteRoster },
     {
       headers: {
-        'Cache-Control': 'no-store',
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=86400',
       },
     },
   )

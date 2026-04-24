@@ -135,7 +135,19 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                       <p className="mt-2 text-sm font-black uppercase leading-tight text-[#0a1d3a]">
                         {item.title}
                       </p>
-                      <p className="mt-2 text-sm leading-relaxed text-[#5c718f]">{item.excerpt}</p>
+                      {item.excerpt ? (
+                        <p
+                          className="mt-2 text-sm leading-relaxed text-[#5c718f]"
+                          style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: 4,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                          }}
+                        >
+                          {item.excerpt}
+                        </p>
+                      ) : null}
                     </Link>
                   ))}
                 </div>

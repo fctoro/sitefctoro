@@ -17,18 +17,27 @@ type EliteRosterCard = {
   tone: 'blue' | 'red'
 }
 
-export function EliteRosterApiSection() {
-  const [eliteRoster, setEliteRoster] = useState<EliteRosterCard[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+type EliteRosterApiSectionProps = {
+  initialEliteRoster?: EliteRosterCard[]
+}
+
+export function EliteRosterApiSection({
+  initialEliteRoster = [],
+}: EliteRosterApiSectionProps) {
+  const [eliteRoster, setEliteRoster] = useState<EliteRosterCard[]>(initialEliteRoster)
+  const [isLoading, setIsLoading] = useState(initialEliteRoster.length === 0)
 
   useEffect(() => {
+    if (initialEliteRoster.length > 0) {
+      return
+    }
+
     const controller = new AbortController()
     let isMounted = true
 
     const loadEliteRoster = async () => {
       try {
         const response = await fetch('/api/elite', {
-          cache: 'no-store',
           signal: controller.signal,
         })
 
@@ -58,7 +67,7 @@ export function EliteRosterApiSection() {
       isMounted = false
       controller.abort()
     }
-  }, [])
+  }, [initialEliteRoster.length])
 
   return <EliteRosterSection eliteRoster={eliteRoster} isLoading={isLoading} />
 }
