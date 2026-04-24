@@ -72,6 +72,9 @@ function mapRowToStageOpening(row: any): StageOpening {
 }
 
 export async function getStageOpenings(): Promise<StageOpening[]> {
+  if (!process.env.DATABASE_URL) {
+    return [];
+  }
   try {
     const { rows } = await pool.query("SELECT * FROM stages WHERE status = 'published' ORDER BY created_at DESC");
     return rows.map(mapRowToStageOpening);
@@ -82,6 +85,9 @@ export async function getStageOpenings(): Promise<StageOpening[]> {
 }
 
 export async function getStageBySlug(slug: string): Promise<StageOpening | undefined> {
+  if (!process.env.DATABASE_URL) {
+    return undefined;
+  }
   try {
     const { rows } = await pool.query("SELECT * FROM stages WHERE slug = $1 AND status = 'published' LIMIT 1", [slug]);
     if (rows.length === 0) return undefined;

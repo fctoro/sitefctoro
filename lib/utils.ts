@@ -11,7 +11,7 @@ export function resolveCmsImage(url: string | null | undefined): string {
   
   const cmsPrefixes = ['/images/', '/elite/', '/uploads/'];
   if (cmsPrefixes.some(prefix => url.startsWith(prefix))) {
-    const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3000';
+    const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL || 'https://fctoro.com';
     return `${cmsUrl}${url}`;
   }
   

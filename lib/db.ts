@@ -12,6 +12,10 @@ export const pool = new Pool({
   connectionTimeoutMillis: 10000,
 })
 
+if (!connectionString) {
+  console.log('[DB-SITE] DATABASE_URL non définie. Les appels DB seront ignorés ou utiliseront localhost.')
+}
+
 // Database error logging
 pool.on('error', (err) => {
   console.error('Unexpected error on idle database client', err)
