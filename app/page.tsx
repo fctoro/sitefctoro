@@ -1,5 +1,6 @@
 'use client'
 
+import { resolveCmsImage } from '@/lib/utils'
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -76,11 +77,13 @@ export default function HomePage() {
         .select('*')
         
       if (data && data.length > 0) {
-        setPlayers(data.map((p) => ({
-          name: `${p.first_name || ''} ${p.last_name || ''}`.trim() || 'Joueur',
-          role: p.position || 'Joueur',
-          image: p.photo_url || '/joueur/extracted/default.jpg'
-        })))
+        setPlayers(data.map((p) => {
+          return {
+            name: `${p.first_name || ''} ${p.last_name || ''}`.trim() || 'Joueur',
+            role: p.position || 'Joueur',
+            image: resolveCmsImage(p.photo_url) || '/placeholder-user.jpg'
+          };
+        }))
       }
     }
     loadPlayers()
@@ -390,6 +393,10 @@ export default function HomePage() {
                       fill
                       sizes="(min-width: 1536px) 16vw, (min-width: 1280px) 18vw, (min-width: 768px) 27vw, 58vw"
                       className="object-cover transition-transform duration-500 sm:group-hover:scale-[1.04]"
+                      onError={(e) => {
+                        e.currentTarget.srcset = '';
+                        e.currentTarget.src = '/placeholder-user.jpg';
+                      }}
                     />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,8,18,0.08)_36%,rgba(4,8,18,0.9)_100%)]" />
                     <div className="absolute inset-x-0 bottom-0 z-10 p-3 text-white sm:p-3.5">

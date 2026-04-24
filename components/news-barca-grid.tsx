@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { RiArrowRightLine, RiCalendarEventLine } from '@remixicon/react'
@@ -47,11 +49,15 @@ export function NewsBarcaGrid({ items, heading, eyebrow, ctaHref, ctaLabel, limi
           >
             <div className="relative h-[56%] overflow-hidden bg-[#f3f6fb]">
               <Image
-                src={card.image}
+                src={card.image || '/placeholder.jpg'}
                 alt={card.title}
                 fill
                 sizes="(min-width: 1280px) 24vw, (min-width: 640px) 48vw, 100vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                onError={(e) => {
+                  e.currentTarget.srcset = '';
+                  e.currentTarget.src = '/placeholder.jpg';
+                }}
               />
             </div>
 

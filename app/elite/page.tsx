@@ -72,6 +72,8 @@ const eliteData = {
   },
 }
 
+import { resolveCmsImage } from '@/lib/utils'
+
 export default async function ElitePage() {
   const { data: dbPlayers } = await supabase
     .from('club_elite_players')
@@ -85,8 +87,8 @@ export default async function ElitePage() {
     position: player.position || '',
     weight: player.weight || '',
     height: player.height || '',
-    photo_url: player.photo_url || '/joueur/extracted/default.jpg',
-    video_url: player.video_url || null,
+    photo_url: resolveCmsImage(player.photo_url) || '/joueur/extracted/default.jpg',
+    video_url: player.video_url ? resolveCmsImage(player.video_url) : null,
     number: player.number || index + 1,
     tone: index % 2 === 0 ? 'blue' : 'red'
   }))

@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "L'organisation et l'équipe technique du FC TORO. Une équipe dévouée au développement des jeunes talents.",
 }
 
+import { resolveCmsImage } from '@/lib/utils'
+
 // Composant Server Rendering pour la page Staff (pas de framer-motion ici directement)
 export default async function StaffPage() {
   // Récupérer le staff dynamique depuis la base de données
@@ -22,7 +24,7 @@ export default async function StaffPage() {
   const dynamicStaff = (cmsStaff || []).map((dbStaff) => ({
     name: dbStaff.name,
     role: dbStaff.role,
-    photo_url: dbStaff.photo_url, 
+    photo_url: resolveCmsImage(dbStaff.photo_url) || '/placeholder-user.jpg', 
     id: dbStaff.id,
   }))
 

@@ -13,6 +13,8 @@ type ArticlePageProps = {
   }>
 }
 
+import { resolveCmsImage } from '@/lib/utils'
+
 const getArticleBySlug = async (slug: string): Promise<NewsCard | null> => {
   // 1. Chercher dans le statique
   const staticArticle = newsCards.find((item) => item.slug === slug)
@@ -33,7 +35,7 @@ const getArticleBySlug = async (slug: string): Promise<NewsCard | null> => {
       excerpt: cmsArticle.excerpt_fr || '',
       intro: cmsArticle.excerpt_fr || '',
       dateLabel: cmsArticle.published_at ? new Date(cmsArticle.published_at).toLocaleDateString('fr-FR') : '',
-      image: cmsArticle.cover_image,
+      image: resolveCmsImage(cmsArticle.cover_image),
       content: [cmsArticle.content_fr],
       keyPoints: [] // Non géré dans le CMS pour le moment
     }

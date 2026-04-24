@@ -239,6 +239,7 @@ export default function InscriptionJoueurPage() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (submitState === 'submitting') return;
     const form = event.currentTarget
     const missingLabels: string[] = []
     const requiredElements = Array.from(

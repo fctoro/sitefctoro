@@ -112,6 +112,9 @@ export function EliteRosterSection({ eliteRoster = [] }: { eliteRoster?: Array<R
                           src={player.photo_url as string}
                           alt={player.name as string}
                           className="h-full w-full object-cover object-top drop-shadow-2xl mix-blend-multiply"
+                          onError={(e) => {
+                            e.currentTarget.src = '/placeholder-user.jpg';
+                          }}
                         />
                       )}
                     </div>

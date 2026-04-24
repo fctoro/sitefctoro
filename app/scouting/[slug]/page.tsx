@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { HomeNavbar } from '@/components/home-navbar'
-import { getStageBySlug, stageOpenings } from '@/lib/stages'
+import { getStageBySlug, getStageOpenings } from '@/lib/stages'
 
 type StageDetailPageProps = {
   params: Promise<{
@@ -13,13 +13,14 @@ const languageLevels = ['Debutant', 'Intermediaire', 'Avance', 'Courant']
 
 export const dynamicParams = false
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const stageOpenings = await getStageOpenings()
   return stageOpenings.map((stage) => ({ slug: stage.slug }))
 }
 
 export default async function StageDetailPage({ params }: StageDetailPageProps) {
   const { slug } = await params
-  const stage = getStageBySlug(slug)
+  const stage = await getStageBySlug(slug)
 
   if (!stage) {
     notFound()

@@ -40,6 +40,9 @@ function StaffMemberCard({ member, index }: { member: any; index: number }) {
             src={member.photo_url}
             alt={member.name}
             className="h-full w-full object-cover"
+            onError={(e) => {
+              e.currentTarget.src = '/placeholder-user.jpg';
+            }}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-gray-200 font-medium text-gray-400">

@@ -2,6 +2,7 @@ import { newsCards, type NewsCard } from '@/lib/joueur'
 import { HomeNavbar } from '@/components/home-navbar'
 import { NewsBarcaGrid } from '@/components/news-barca-grid'
 import { supabase } from '@/lib/supabase'
+import { resolveCmsImage } from '@/lib/utils'
 
 export default async function ActualitesPage() {
   // Récupérer les articles depuis le CMS
@@ -16,7 +17,7 @@ export default async function ActualitesPage() {
     title: a.title_fr,
     slug: a.slug,
     excerpt: a.excerpt_fr || '',
-    image: a.cover_image,
+    image: resolveCmsImage(a.cover_image),
     category: a.category,
     dateLabel: a.published_at ? new Date(a.published_at).toLocaleDateString('fr-FR') : '',
     intro: a.excerpt_fr || '',

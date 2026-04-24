@@ -1,8 +1,11 @@
 import { HomeNavbar } from '@/components/home-navbar'
 import { StagesBoard } from '@/components/stages-board'
-import { stageOpenings } from '@/lib/stages'
+import { getStageOpenings } from '@/lib/stages'
 
-export default function RecrutementPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function RecrutementPage() {
+  const stageOpenings = await getStageOpenings()
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />

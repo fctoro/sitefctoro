@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { HomeNavbar } from '@/components/home-navbar'
 import { StagesBoard } from '@/components/stages-board'
-import { stageOpenings } from '@/lib/stages'
+import { getStageOpenings } from '@/lib/stages'
+
+export const dynamic = 'force-dynamic'
 
 const clubValues = [
   'Pedagogie',
@@ -11,7 +13,8 @@ const clubValues = [
   'Progression',
 ]
 
-export default function StagesPage() {
+export default async function StagesPage() {
+  const stageOpenings = await getStageOpenings()
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />

@@ -2,7 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { HomeNavbar } from '@/components/home-navbar'
 import { StagesBoard } from '@/components/stages-board'
-import { stageOpenings } from '@/lib/stages'
+import { getStageOpenings } from '@/lib/stages'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Recrutement | FC TORO',
@@ -17,7 +19,8 @@ const clubValues = [
   'Progression',
 ]
 
-export default function ScoutingPage() {
+export default async function ScoutingPage() {
+  const stageOpenings = await getStageOpenings()
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
