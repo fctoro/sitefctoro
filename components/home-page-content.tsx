@@ -185,7 +185,7 @@ export function HomePageContent({
               <p className="inline-flex items-center rounded bg-[#ef233c] px-4 py-1.5 text-xs sm:px-5 sm:py-2 sm:text-sm font-black uppercase tracking-[0.1em] text-white">
                 {activeHeroSlide.label}
               </p>
-              <h1 className="mt-3 text-[1.6rem] font-black uppercase leading-[0.95] text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.25)] sm:text-[2rem] sm:mt-6 lg:text-5xl">
+              <h1 className="mt-3 text-[1.95rem] font-black uppercase leading-[0.95] text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.25)] sm:text-[2.2rem] sm:mt-6 lg:text-5xl">
                 {activeHeroTitle}
               </h1>
               <Link

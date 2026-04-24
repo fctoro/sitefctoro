@@ -15,7 +15,7 @@ export function AnimatedCounter({ from = 0, to, duration = 4.0, suffix = '+', la
   const count = useMotionValue(from)
   const rounded = useTransform(count, (latest) => Math.round(latest))
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-50px" })
+  const isInView = useInView(ref, { once: true })
 
   useEffect(() => {
     if (isInView) {
