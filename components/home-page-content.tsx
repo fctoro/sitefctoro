@@ -390,6 +390,8 @@ export function HomePageContent({
                       src={player.image}
                       alt={player.name}
                       fill
+                      unoptimized={true}
+                      priority={true}
                       sizes="(min-width: 1536px) 16vw, (min-width: 1280px) 18vw, (min-width: 768px) 27vw, 58vw"
                       className="object-cover scale-[1.01] transform-gpu transition-transform duration-500 sm:group-hover:scale-[1.05]"
                       onError={(e) => {

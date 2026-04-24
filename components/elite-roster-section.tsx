@@ -41,6 +41,7 @@ function ElitePlayerPhoto({
       alt={alt}
       fill
       priority={priority}
+      unoptimized={true}
       quality={78}
       sizes="(min-width: 1280px) 16vw, (min-width: 1024px) 18vw, (min-width: 640px) 42vw, 84vw"
       className="object-cover object-top drop-shadow-2xl"

@@ -145,9 +145,10 @@ export default async function ElitePage() {
 
               <div className="relative h-[350px] w-full rotate-2 overflow-hidden rounded-3xl shadow-2xl md:w-[350px]">
                 <Image
-                  src="/TEAMPICTURES/Angelo Lauré.jpg.jpeg"
+                  src="/IMG_7332.jpg"
                   alt="Angelo Laure - Elite"
                   fill
+                  unoptimized={true}
                   className="object-cover object-[center_10%]"
                 />
               </div>
@@ -242,9 +243,10 @@ export default async function ElitePage() {
               <div className="relative">
                 <div className="relative aspect-square w-full overflow-hidden rounded-[40px] border-8 border-white/5">
                   <Image
-                    src="/TEAMPICTURES/Dave Olivier Julbert.jpg.jpeg"
+                    src="/IMG_7310.jpg"
                     alt="Dave Olivier Julbert - Elite"
                     fill
+                    unoptimized={true}
                     className="object-cover object-[center_10%]"
                   />
                 </div>

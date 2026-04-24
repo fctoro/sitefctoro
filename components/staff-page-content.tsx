@@ -52,8 +52,8 @@ function StaffMemberCard({ member, index }: { member: StaffMemberCardData; index
             src={member.photo_url}
             alt={member.name}
             className="h-full w-full scale-[1.01] transform-gpu object-cover object-top"
-            loading={isPriorityImage ? 'eager' : 'lazy'}
-            fetchPriority={isPriorityImage ? 'high' : 'low'}
+            loading="eager"
+            fetchPriority="high"
             decoding="async"
             onError={(e) => {
               e.currentTarget.src = '/placeholder-user.jpg'
