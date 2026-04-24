@@ -2,96 +2,77 @@ import Image from 'next/image'
 import { HomeNavbar } from '@/components/home-navbar'
 import { Breadcrumb } from '@/components/breadcrumb'
 import { EliteRosterSection } from '@/components/elite-roster-section'
-import { supabase } from '@/lib/supabase'
+import { getEliteRoster } from '@/lib/players'
 import {
   RiCheckLine,
   RiShieldStarLine,
   RiFireLine,
-  RiWallet3Line,
-  RiGroupLine,
-  RiPlayFill,
   RiFocusLine,
 } from '@remixicon/react'
 
 const eliteData = {
-  title: 'FC TORO ÉLITE - Le pont entre formation et excellence',
+  title: 'FC TORO ELITE - Le pont entre formation et excellence',
   intro:
-    "Le programme FC TORO Élite est né d'un besoin clair : offrir une continuité aux joueurs talentueux issus de l'académie et de l'école de football FC TORO. Trop souvent, le passage entre la formation des jeunes et le football adulte laisse un vide. Notre responsabilité est de combler cet écart. L'Équipe Élite représente cette réponse.",
+    "Le programme FC TORO Elite est ne d'un besoin clair : offrir une continuite aux joueurs talentueux issus de l'academie et de l'ecole de football FC TORO. Trop souvent, le passage entre la formation des jeunes et le football adulte laisse un vide. Notre responsabilite est de combler cet ecart. L'equipe Elite represente cette reponse.",
   section1: {
     title: 'Une Plateforme de Transition',
     text:
-      "FC TORO Élite est une structure dédiée à accompagner les joueurs dans leur évolution vers un niveau supérieur. C'est un espace où :",
+      "FC TORO Elite est une structure dediee a accompagner les joueurs dans leur evolution vers un niveau superieur. C'est un espace ou :",
     items: [
-      'Le talent est structuré',
-      'Le potentiel est affiné',
-      "La compétition devient un terrain d'apprentissage",
+      'Le talent est structure',
+      'Le potentiel est affine',
+      "La competition devient un terrain d'apprentissage",
     ],
     outro:
-      'Le programme agit comme un accélérateur de développement, préparant les joueurs à :',
+      'Le programme agit comme un accelerateur de developpement, preparant les joueurs a :',
     outroItems: [
-      'Intégrer le projet CASA (Caribbean Sports Academy)',
-      'Accéder aux sélections nationales',
-      'Rejoindre les clubs de première division et le football professionnel',
+      'Integrer le projet CASA (Caribbean Sports Academy)',
+      'Acceder aux selections nationales',
+      'Rejoindre les clubs de premiere division et le football professionnel',
     ],
   },
   section2: {
-    title: 'Une Identité Forte',
-    quote: '"Nous ne copions pas. Nous créons."',
+    title: 'Une Identite Forte',
+    quote: '"Nous ne copions pas. Nous creons."',
     text:
-      "Le développement ne se limite pas à la performance immédiate. Il s'appuie sur des fondations durables :",
-    items: ['Identité > Résultat', 'Processus > Performance', 'Valeurs > Talent'],
+      "Le developpement ne se limite pas a la performance immediate. Il s'appuie sur des fondations durables :",
+    items: ['Identite > Resultat', 'Processus > Performance', 'Valeurs > Talent'],
   },
   section3: {
     title: 'Le Code Toro',
-    quote: '"Ce n\'est pas un simple symbole. C\'est un standard."',
+    quote: "\"Ce n'est pas un simple symbole. C'est un standard.\"",
     text:
-      "L'équipe Élite incarne un niveau d'exigence supérieur, symbolisé par Le Code Toro. Basé sur trois piliers fondamentaux :",
+      "L'equipe Elite incarne un niveau d'exigence superieur, symbolise par le Code Toro. Base sur trois piliers fondamentaux :",
     items: [
-      'Présence - calme, concentration, maîtrise de soi',
-      'Maîtrise - contrôle, précision, intelligence du jeu',
-      "Émergence - évolution consciente vers le haut niveau",
+      'Presence - calme, concentration, maitrise de soi',
+      'Maitrise - controle, precision, intelligence du jeu',
+      'Emergence - evolution consciente vers le haut niveau',
     ],
   },
   section4: {
-    title: 'Une Vision à Long Terme',
+    title: 'Une Vision a Long Terme',
     text:
-      "L'Équipe Élite est la vitrine du club et la fondation du futur. Elle s'inscrit dans une vision structurée :",
+      "L'equipe Elite est la vitrine du club et la fondation du futur. Elle s'inscrit dans une vision structuree :",
     items: [
-      'Stabiliser un groupe compétitif',
+      'Stabiliser un groupe competitif',
       'Construire une culture professionnelle',
-      'Exposer les joueurs à des compétitions semi-professionnelles',
-      "Créer une identité reconnue à l'échelle nationale",
+      'Exposer les joueurs a des competitions semi-professionnelles',
+      "Creer une identite reconnue a l'echelle nationale",
     ],
   },
   section5: {
-    title: "Plus qu'une équipe, un Mouvement",
+    title: "Plus qu'une equipe, un mouvement",
     text:
-      "FC TORO Élite n'est pas seulement une équipe. C'est un passage. Un seuil. Une transformation. Un espace où les joueurs deviennent :",
+      "FC TORO Elite n'est pas seulement une equipe. C'est un passage. Un seuil. Une transformation. Un espace ou les joueurs deviennent :",
     items: ['Plus conscients', 'Plus responsables', 'Plus complets'],
-    outro: 'Et surtout, prêts.',
+    outro: 'Et surtout, prets.',
   },
 }
 
-import { resolveCmsImage } from '@/lib/utils'
+export const dynamic = 'force-dynamic'
 
 export default async function ElitePage() {
-  const { data: dbPlayers } = await supabase
-    .from('club_elite_players')
-    .select('*')
-    .order('number', { ascending: true })
-
-  const eliteRoster = (dbPlayers || []).map((player: any, index: number) => ({
-    name: `${player.first_name || ''} ${player.last_name || ''}`.trim(),
-    firstname: player.first_name || '',
-    lastname: player.last_name || '',
-    position: player.position || '',
-    weight: player.weight || '',
-    height: player.height || '',
-    photo_url: resolveCmsImage(player.photo_url) || '/joueur/extracted/default.jpg',
-    video_url: player.video_url ? resolveCmsImage(player.video_url) : null,
-    number: player.number || index + 1,
-    tone: index % 2 === 0 ? 'blue' : 'red'
-  }))
+  const eliteRoster = await getEliteRoster()
 
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
@@ -137,7 +118,7 @@ export default async function ElitePage() {
               <div className="relative h-[350px] w-full rotate-2 overflow-hidden rounded-3xl shadow-2xl md:w-[350px]">
                 <Image
                   src="/TEAMPICTURES/Angelo Lauré.jpg.jpeg"
-                  alt="Angelo Lauré - Elite"
+                  alt="Angelo Laure - Elite"
                   fill
                   className="object-cover object-[center_10%]"
                 />

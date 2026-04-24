@@ -3,10 +3,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { RiCalendarEventLine } from '@remixicon/react'
-import { HomeNavbar } from '@/components/home-navbar'
 import { Breadcrumb } from '@/components/breadcrumb'
-import { newsCards, type NewsCard } from '@/lib/joueur'
-import { supabase } from '@/lib/supabase'
+import { HomeNavbar } from '@/components/home-navbar'
+import {
+  getPublishedCmsArticleBySlug,
+  getPublishedCmsArticles,
+} from '@/lib/articles'
+import type { NewsCard } from '@/lib/joueur'
+
+export const dynamic = 'force-dynamic'
 
 type ArticlePageProps = {
   params: Promise<{
@@ -14,35 +19,8 @@ type ArticlePageProps = {
   }>
 }
 
-import { resolveCmsImage } from '@/lib/utils'
-
 const getArticleBySlug = async (slug: string): Promise<NewsCard | null> => {
-  // 1. Chercher dans le statique
-  const staticArticle = newsCards.find((item) => item.slug === slug)
-  if (staticArticle) return staticArticle
-
-  // 2. Chercher dans le CMS
-  const { data: cmsArticle } = await supabase
-    .from('articles')
-    .select('*')
-    .eq('slug', slug)
-    .single()
-
-  if (cmsArticle) {
-    return {
-      title: cmsArticle.title_fr,
-      slug: cmsArticle.slug,
-      category: cmsArticle.category,
-      excerpt: cmsArticle.excerpt_fr || '',
-      intro: cmsArticle.excerpt_fr || '',
-      dateLabel: cmsArticle.published_at ? new Date(cmsArticle.published_at).toLocaleDateString('fr-FR') : '',
-      image: resolveCmsImage(cmsArticle.cover_image),
-      content: [cmsArticle.content_fr],
-      keyPoints: [] // Non géré dans le CMS pour le moment
-    }
-  }
-
-  return null
+  return getPublishedCmsArticleBySlug(slug)
 }
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
@@ -61,20 +39,6 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   }
 }
 
-export async function generateStaticParams() {
-  const staticSlugs = newsCards.map((article) => ({ slug: article.slug }))
-
-  // Récupérer les slugs du CMS pour le build statique
-  const { data: cmsArticles } = await supabase
-    .from('articles')
-    .select('slug')
-    .eq('status', 'published')
-
-  const cmsSlugs = cmsArticles?.map((a) => ({ slug: a.slug })) || []
-
-  return [...staticSlugs, ...cmsSlugs]
-}
-
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params
   const article = await getArticleBySlug(slug)
@@ -83,7 +47,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound()
   }
 
-  const relatedArticles = newsCards
+  const cmsArticles = await getPublishedCmsArticles()
+  const relatedArticles = cmsArticles
     .filter((item) => item.slug !== article.slug)
     .slice(0, 3)
 
@@ -92,12 +57,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <HomeNavbar anchorPrefix="/" />
 
       <main className="pt-[116px] lg:pt-[78px]">
-        <Breadcrumb 
+        <Breadcrumb
           items={[
-            { label: 'Accueil', href: '/' }, 
-            { label: 'Actualités', href: '/actualites' },
-            { label: article.title }
-          ]} 
+            { label: 'Accueil', href: '/' },
+            { label: 'Actualites', href: '/actualites' },
+            { label: article.title },
+          ]}
         />
         <section className="relative overflow-hidden bg-[#091a35] px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-16">
           <Image

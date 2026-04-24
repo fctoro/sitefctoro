@@ -1,0 +1,165 @@
+import 'server-only'
+
+import type { PlayerCard } from '@/lib/joueur'
+import { playerCards } from '@/lib/joueur'
+import { pool } from '@/lib/db'
+import { resolveCmsImage } from '@/lib/utils'
+
+type ClubPlayerRow = {
+  first_name: string | null
+  last_name: string | null
+  photo_url: string | null
+  position: string | null
+  category: string | null
+}
+
+type ElitePlayerRow = {
+  number: string | null
+  first_name: string | null
+  last_name: string | null
+  position: string | null
+  club: string | null
+  weight: string | null
+  height: string | null
+  photo_url: string | null
+  video_url: string | null
+}
+
+export type EliteRosterPlayer = {
+  name: string
+  firstname: string
+  lastname: string
+  position: string
+  club: string
+  weight: string
+  height: string
+  photo_url: string
+  video_url: string | null
+  number: number
+  tone: 'blue' | 'red'
+}
+
+function buildPlayerName(firstName?: string | null, lastName?: string | null) {
+  return `${firstName || ''} ${lastName || ''}`.trim() || 'Joueur'
+}
+
+function mapClubPlayer(row: ClubPlayerRow): PlayerCard {
+  return {
+    name: buildPlayerName(row.first_name, row.last_name),
+    role: row.position || row.category || 'Joueur',
+    image: resolveCmsImage(row.photo_url) || '/placeholder-user.jpg',
+  }
+}
+
+function parsePlayerCardName(name: string) {
+  const [firstname = 'Joueur', ...rest] = name.trim().split(/\s+/)
+
+  return {
+    firstname,
+    lastname: rest.join(' ') || firstname,
+  }
+}
+
+function buildEliteFallback(): EliteRosterPlayer[] {
+  return playerCards.slice(0, 10).map((player, index) => {
+    const { firstname, lastname } = parsePlayerCardName(player.name)
+
+    return {
+      name: player.name,
+      firstname,
+      lastname,
+      position: player.role || 'Joueur',
+      club: 'FC TORO',
+      weight: '-',
+      height: '-',
+      photo_url: player.image || '/placeholder-user.jpg',
+      video_url: null,
+      number: index + 1,
+      tone: index % 2 === 0 ? 'blue' : 'red',
+    }
+  })
+}
+
+function mapElitePlayer(row: ElitePlayerRow, index: number): EliteRosterPlayer {
+  const digits = (row.number || '').replace(/\D/g, '')
+  const parsedNumber = digits ? Number.parseInt(digits, 10) : index + 1
+  const firstname = row.first_name?.trim() || 'Joueur'
+  const lastname = row.last_name?.trim() || ''
+  const videoUrl = row.video_url?.trim()
+
+  return {
+    name: buildPlayerName(firstname, lastname),
+    firstname,
+    lastname: lastname || firstname,
+    position: row.position?.trim() || '',
+    club: row.club?.trim() || 'FC TORO',
+    weight: row.weight?.trim() || '-',
+    height: row.height?.trim() || '-',
+    photo_url: resolveCmsImage(row.photo_url) || '/placeholder-user.jpg',
+    video_url: videoUrl ? resolveCmsImage(videoUrl) : null,
+    number: parsedNumber,
+    tone: index % 2 === 0 ? 'blue' : 'red',
+  }
+}
+
+export async function getHomePlayers(): Promise<PlayerCard[]> {
+  if (!process.env.DATABASE_URL) {
+    return playerCards
+  }
+
+  try {
+    const { rows } = await pool.query<ClubPlayerRow>(`
+      select
+        first_name,
+        last_name,
+        photo_url,
+        position,
+        category
+      from club_players
+      where coalesce(status, 'actif') = 'actif'
+      order by created_at desc nulls last
+    `)
+
+    const players = rows.map(mapClubPlayer).filter((player) => Boolean(player.image))
+    return players.length > 0 ? players : playerCards
+  } catch (error) {
+    console.error('[PLAYERS] Impossible de recuperer les joueurs du site.', error)
+    return playerCards
+  }
+}
+
+export async function getEliteRoster(): Promise<EliteRosterPlayer[]> {
+  const fallback = buildEliteFallback()
+
+  if (!process.env.DATABASE_URL) {
+    return fallback
+  }
+
+  try {
+    const { rows } = await pool.query<ElitePlayerRow>(`
+      select
+        number,
+        first_name,
+        last_name,
+        position,
+        club,
+        weight,
+        height,
+        photo_url,
+        video_url
+      from club_elite_players
+      order by
+        case
+          when nullif(regexp_replace(coalesce(number, ''), '[^0-9]', '', 'g'), '') is null then null
+          else regexp_replace(coalesce(number, ''), '[^0-9]', '', 'g')::int
+        end asc nulls last,
+        created_at asc nulls last
+    `)
+
+    const eliteRoster = rows.map(mapElitePlayer)
+    return eliteRoster.length > 0 ? eliteRoster : fallback
+  } catch (error) {
+    console.error('[PLAYERS] Impossible de recuperer les joueurs elite.', error)
+    return fallback
+  }
+}

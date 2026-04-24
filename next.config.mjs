@@ -17,6 +17,21 @@ const nextConfig = {
         hostname: 'ui-avatars.com',
         pathname: '/api/**',
       },
+      {
+        protocol: 'https',
+        hostname: '**.supabase.co',
+        pathname: '/storage/v1/object/public/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'fctoro.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.fctoro.com',
+        pathname: '/**',
+      },
     ],
   },
   output: 'standalone',

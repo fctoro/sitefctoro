@@ -1,6 +1,6 @@
 import { existsSync } from 'fs'
-import path from 'path'
 import nodemailer from 'nodemailer'
+import { fileURLToPath } from 'url'
 
 type RegistrationEmailInput = {
   to: string
@@ -78,35 +78,36 @@ const smtpFrom = process.env.SMTP_FROM
 const smtpFromName = process.env.SMTP_FROM_NAME || 'FC TORO'
 
 const frontendUrl = (process.env.FRONTEND_URL || process.env.BASE_URL || 'https://fctoro.com').replace(/\/$/, '')
+const publicAssetPath = (filename: string) => fileURLToPath(new URL(`../public/${filename}`, import.meta.url))
 const logoCid = 'fc-toro-logo'
-const logoPath = path.join(process.cwd(), 'public', 'fc-toro-logo.png')
+const logoPath = publicAssetPath('fc-toro-logo.png')
 const hasInlineLogo = existsSync(logoPath)
 const fanSocialLinks: SocialLink[] = [
   {
     href: 'https://www.instagram.com/fctoro/',
     label: 'Instagram',
-    iconPath: path.join(process.cwd(), 'public', 'email-instagram.png'),
+    iconPath: publicAssetPath('email-instagram.png'),
     iconCid: 'social-instagram',
     iconFilename: 'instagram.png',
   },
   {
     href: 'https://www.facebook.com/fctoro?locale=fr_FR',
     label: 'Facebook',
-    iconPath: path.join(process.cwd(), 'public', 'email-facebook.png'),
+    iconPath: publicAssetPath('email-facebook.png'),
     iconCid: 'social-facebook',
     iconFilename: 'facebook.png',
   },
   {
     href: 'https://www.tiktok.com/@fctoroayiti',
     label: 'TikTok',
-    iconPath: path.join(process.cwd(), 'public', 'email-tiktok.png'),
+    iconPath: publicAssetPath('email-tiktok.png'),
     iconCid: 'social-tiktok',
     iconFilename: 'tiktok.png',
   },
   {
     href: 'https://www.youtube.com/@fctorohaiti2023',
     label: 'YouTube',
-    iconPath: path.join(process.cwd(), 'public', 'email-youtube.png'),
+    iconPath: publicAssetPath('email-youtube.png'),
     iconCid: 'social-youtube',
     iconFilename: 'youtube.png',
   },

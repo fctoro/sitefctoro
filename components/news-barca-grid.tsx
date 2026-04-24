@@ -14,7 +14,14 @@ type NewsBarcaGridProps = {
   limit?: number
 }
 
-export function NewsBarcaGrid({ items, heading, eyebrow, ctaHref, ctaLabel, limit = 8 }: NewsBarcaGridProps) {
+export function NewsBarcaGrid({
+  items,
+  heading,
+  eyebrow,
+  ctaHref,
+  ctaLabel,
+  limit = 8,
+}: NewsBarcaGridProps) {
   const cards = items.slice(0, limit)
 
   return (
@@ -45,8 +52,8 @@ export function NewsBarcaGrid({ items, heading, eyebrow, ctaHref, ctaLabel, limi
                 sizes="(min-width: 1280px) 24vw, (min-width: 640px) 48vw, 100vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 onError={(e) => {
-                  e.currentTarget.srcset = '';
-                  e.currentTarget.src = '/placeholder.jpg';
+                  e.currentTarget.srcset = ''
+                  e.currentTarget.src = '/placeholder.jpg'
                 }}
               />
               <div className="absolute right-3 top-3 z-10">
@@ -62,7 +69,7 @@ export function NewsBarcaGrid({ items, heading, eyebrow, ctaHref, ctaLabel, limi
 
               <div className="mt-auto flex items-center justify-between pt-2">
                 <p className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.08em] text-[#ef233c]">
-                  {card.category.replace(/actualite/i, 'Actualité')}
+                  {card.category.replace(/actualite/i, 'Actualite')}
                 </p>
                 <p className="inline-flex items-center text-[10px] font-semibold text-[#607398]">
                   <RiCalendarEventLine className="mr-1 h-3.5 w-3.5 text-[#607398]" />
@@ -73,7 +80,6 @@ export function NewsBarcaGrid({ items, heading, eyebrow, ctaHref, ctaLabel, limi
           </Link>
         ))}
       </div>
-
     </div>
   )
 }
