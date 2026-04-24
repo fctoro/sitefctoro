@@ -180,17 +180,17 @@ export function HomePageContent({
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,18,40,0.85)_0%,rgba(6,18,40,0.35)_48%,rgba(6,18,40,0.88)_100%)]" />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,19,43,0.1)_0%,rgba(7,19,43,0.74)_100%)]" />
 
-          <div className="relative mx-auto grid min-h-[calc(100svh-116px)] max-w-[1100px] items-end px-4 pb-0 pt-5 sm:min-h-[calc(100svh-98px)] sm:px-6 lg:min-h-[calc(100svh-74px)] lg:px-8 lg:pt-8">
-            <div className="relative z-10 max-w-[560px] pb-7 sm:pb-14">
-              <p className="inline-flex items-center rounded bg-[#ef233c] px-5 py-2 text-sm font-black uppercase tracking-[0.1em] text-white">
+          <div className="relative mx-auto grid min-h-[calc(100svh-116px)] max-w-[1100px] items-end px-4 pb-0 pt-4 sm:pt-5 sm:min-h-[calc(100svh-98px)] sm:px-6 lg:min-h-[calc(100svh-74px)] lg:px-8 lg:pt-8">
+            <div className="relative z-10 max-w-[560px] pb-4 sm:pb-14">
+              <p className="inline-flex items-center rounded bg-[#ef233c] px-4 py-1.5 text-xs sm:px-5 sm:py-2 sm:text-sm font-black uppercase tracking-[0.1em] text-white">
                 {activeHeroSlide.label}
               </p>
-              <h1 className="mt-4 text-[2rem] font-black uppercase leading-[0.95] text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.25)] sm:mt-6 lg:text-5xl">
+              <h1 className="mt-3 text-[1.6rem] font-black uppercase leading-[0.95] text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.25)] sm:text-[2rem] sm:mt-6 lg:text-5xl">
                 {activeHeroTitle}
               </h1>
               <Link
                 href={activeHeroSlide.href}
-                className="toro-cta mt-6 inline-flex items-center border border-white/70 px-6 py-2.5 text-sm font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-white hover:text-[#0a1d3a] sm:mt-8 sm:px-7 sm:py-3"
+                className="toro-cta mt-5 inline-flex items-center border border-white/70 px-5 py-2 text-xs sm:text-sm font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-white hover:text-[#0a1d3a] sm:mt-8 sm:px-7 sm:py-3"
               >
                 {activeHeroSlide.cta}
               </Link>
@@ -208,7 +208,7 @@ export function HomePageContent({
               </div>
             </div>
 
-            <div className="toro-panel relative z-10 rounded-t-2xl border border-white/20 border-b-0 bg-[rgba(7,19,43,0.45)] p-3 backdrop-blur-xl sm:p-5">
+            <div className="toro-panel relative z-10 rounded-t-2xl border border-white/20 border-b-0 bg-[rgba(7,19,43,0.45)] p-2 backdrop-blur-xl sm:p-5">
               <div className="grid grid-cols-4 divide-x divide-white/15">
                 <AnimatedCounter to={500} label="Joueurs" />
                 <AnimatedCounter to={100} label="Trophées" />
