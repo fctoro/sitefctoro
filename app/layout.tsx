@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   icons: {
     icon: '/fc-toro-logo.png',
   },
+  verification: {
+    google: 'pZXJgrf--Ym5BqOvkJo2KuyBtUhvMlR8kMfczSfHMC4',
+  },
 }
 
 export default function RootLayout({
