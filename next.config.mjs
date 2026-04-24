@@ -19,14 +19,20 @@ const nextConfig = {
       },
     ],
   },
+  output: 'standalone',
   outputFileTracingExcludes: {
     '*': [
+      'node_modules/@swc/core-linux-x64-gnu',
+      'node_modules/@swc/core-linux-x64-musl',
       'public/elite/video/**/*',
+      'public/TEAMPICTURES/**/*',
       'bonmachetrading/**/*',
       'VIEDO_JOUEURS_ELITE/**/*',
+      'TEAMPICTURES/**/*',
       'stafftoro/**/*',
       'LOGO DES EQUIPES/**/*',
       'out/**/*',
+      '.next/cache/**/*',
     ],
   },
 }
