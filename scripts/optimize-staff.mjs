@@ -1,32 +1,50 @@
-import sharp from 'sharp';
-import fs from 'fs';
-import path from 'path';
+import sharp from 'sharp'
+import fs from 'fs'
+import path from 'path'
 
-const srcDir = 'public/TEAMPICTURES';
-const outDir = 'public/staff-photos';
+const outputDir = 'public/staff-photos'
+const sourceDirs = ['public/TEAMPICTURES', 'public/stafftoro']
 
-if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+if (!fs.existsSync(outputDir)) {
+  fs.mkdirSync(outputDir, { recursive: true })
+}
 
-const files = fs.readdirSync(srcDir).filter(f => f.endsWith('.jpeg') || f.endsWith('.jpg'));
-
-for (const file of files) {
-  const inPath = path.join(srcDir, file);
-  // Clean filename: remove ".jpg.jpeg" → ".jpg", replace spaces with hyphens, lowercase
-  const cleanName = file
+function buildOutputName(file) {
+  return file
     .replace('.jpg.jpeg', '.jpg')
     .replace(/\s+/g, '-')
     .replace(/[()]/g, '')
-    .toLowerCase();
-  const outPath = path.join(outDir, cleanName);
-  
-  try {
-    await sharp(inPath)
-      .resize(600, 800, { fit: 'cover', position: 'top' })
-      .jpeg({ quality: 75 })
-      .toFile(outPath);
-    console.log(`✓ ${file} → ${cleanName} (${(fs.statSync(outPath).size / 1024).toFixed(0)}KB)`);
-  } catch (err) {
-    console.error(`✗ ${file}: ${err.message}`);
+    .toLowerCase()
+}
+
+for (const sourceDir of sourceDirs) {
+  if (!fs.existsSync(sourceDir)) {
+    console.warn(`skip ${sourceDir}: directory not found`)
+    continue
+  }
+
+  const files = fs
+    .readdirSync(sourceDir)
+    .filter((file) => file.endsWith('.jpeg') || file.endsWith('.jpg'))
+
+  for (const file of files) {
+    const inputPath = path.join(sourceDir, file)
+    const outputName = buildOutputName(file)
+    const outputPath = path.join(outputDir, outputName)
+
+    try {
+      await sharp(inputPath)
+        .resize(600, 800, { fit: 'cover', position: 'top' })
+        .jpeg({ quality: 75 })
+        .toFile(outputPath)
+
+      console.log(
+        `ok ${sourceDir}/${file} -> ${outputName} (${(fs.statSync(outputPath).size / 1024).toFixed(0)}KB)`,
+      )
+    } catch (error) {
+      console.error(`fail ${sourceDir}/${file}: ${error.message}`)
+    }
   }
 }
-console.log('Done!');
+
+console.log('Done!')

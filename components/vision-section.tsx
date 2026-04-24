@@ -1,21 +1,21 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image'
+import Link from 'next/link'
 import {
   RiArrowRightLine,
-  RiHeartLine,
   RiFocus3Line,
+  RiHeartLine,
   RiMedalLine,
   RiShieldStarLine,
   RiTrophyLine,
-} from "@remixicon/react";
+} from '@remixicon/react'
 
 const values = [
-  { label: "Discipline", icon: RiShieldStarLine },
-  { label: "Respect", icon: RiHeartLine },
-  { label: "Courage", icon: RiFocus3Line },
-  { label: "Humilité", icon: RiMedalLine },
-  { label: "Passion", icon: RiTrophyLine },
-];
+  { label: 'Discipline', icon: RiShieldStarLine },
+  { label: 'Respect', icon: RiHeartLine },
+  { label: 'Courage', icon: RiFocus3Line },
+  { label: 'Humilité', icon: RiMedalLine },
+  { label: 'Passion', icon: RiTrophyLine },
+]
 
 export default function VisionSection() {
   return (
@@ -36,16 +36,15 @@ export default function VisionSection() {
               </p>
 
               <h2 className="max-w-md text-2xl font-black uppercase leading-[0.95] tracking-tighter md:text-3xl">
-                À FC TORO, le football est un espace d'apprentissage où les
-                jeunes développent discipline, confiance, respect et sens du
-                collectif
+                À FC TORO, le football est un espace d&apos;apprentissage où les jeunes développent discipline,
+                confiance, respect et sens du collectif
                 <span className="text-[#ef233c]">.</span>
               </h2>
             </div>
 
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {values.map((item) => {
-                const Icon = item.icon;
+                const Icon = item.icon
 
                 return (
                   <div
@@ -53,11 +52,9 @@ export default function VisionSection() {
                     className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 transition-all hover:border-[#ef233c]/30 hover:bg-[#ef233c]/10"
                   >
                     <Icon className="h-4 w-4 text-[#ef233c]" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">
-                      {item.label}
-                    </span>
+                    <span className="text-[10px] font-black uppercase tracking-widest">{item.label}</span>
                   </div>
-                );
+                )
               })}
             </div>
 
@@ -71,7 +68,7 @@ export default function VisionSection() {
                   En savoir plus
                 </p>
                 <p className="text-xs font-black uppercase tracking-widest text-white/60 transition-colors group-hover:text-white">
-                  Notre Philosophie
+                  Notre philosophie
                 </p>
               </div>
             </Link>
@@ -87,15 +84,13 @@ export default function VisionSection() {
                   alt="Philosophie FC TORO"
                   fill
                   sizes="(min-width: 1024px) 320px, 78vw"
-                  className="object-cover object-center transition-transform duration-1000 group-hover:scale-105"
+                  className="object-cover object-center scale-[1.01] transform-gpu transition-transform duration-1000 group-hover:scale-105"
                 />
 
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0a1d3a] to-transparent p-6">
-                  <p className="text-xl font-black uppercase leading-none tracking-tight">
-                    Depuis 2012
-                  </p>
+                  <p className="text-xl font-black uppercase leading-none tracking-tight">Depuis 2012</p>
                   <p className="mt-2 text-[10px] font-bold uppercase tracking-widest text-[#ef233c] italic">
-                    L'excellence au coeur d'Haiti
+                    L&apos;excellence au cœur d&apos;Haïti
                   </p>
                 </div>
               </div>
@@ -106,5 +101,5 @@ export default function VisionSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

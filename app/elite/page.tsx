@@ -1,8 +1,7 @@
 import Image from 'next/image'
 import { HomeNavbar } from '@/components/home-navbar'
 import { Breadcrumb } from '@/components/breadcrumb'
-import { EliteRosterSection } from '@/components/elite-roster-section'
-import { getEliteRoster } from '@/lib/players'
+import { EliteRosterApiSection } from '@/components/elite-roster-api-section'
 import {
   RiCheckLine,
   RiShieldStarLine,
@@ -71,9 +70,7 @@ const eliteData = {
 
 export const dynamic = 'force-dynamic'
 
-export default async function ElitePage() {
-  const eliteRoster = await getEliteRoster()
-
+export default function ElitePage() {
   return (
     <div className="min-h-screen bg-[#f2f2f4] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
@@ -127,7 +124,7 @@ export default async function ElitePage() {
           </div>
         </section>
 
-        <EliteRosterSection eliteRoster={eliteRoster} />
+        <EliteRosterApiSection />
 
         <section className="bg-[#f8fafc] px-4 py-24 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1100px]">

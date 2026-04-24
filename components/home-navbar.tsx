@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   RiArrowDownSLine,
@@ -48,38 +48,37 @@ type HomeNavbarProps = {
 }
 
 const linkDescriptionMap: Record<string, string> = {
-  'Devenir joueur': 'Dossier rapide et parcours d integration accompagne.',
-  'Devenir fan': 'Supporters, benevoles et activations jour de match.',
-  'Rejoindre le club': 'Vue d ensemble des parcours pour rejoindre FC TORO.',
-
+  'Devenir joueur': "Dossier rapide et parcours d'intégration accompagné.",
+  'Devenir fan': 'Supporters, bénévoles et activations jour de match.',
+  'Rejoindre le club': "Vue d'ensemble des parcours pour rejoindre FC TORO.",
   'Histoire du club': 'Parcours, jalons majeurs et ADN FC TORO.',
   Sponsors: 'Partenaires et soutiens qui accompagnent FC TORO.',
   Élite: 'Le pont entre formation et excellence FC TORO.',
   CASA: 'Projet Caribbean Sports Academy.',
-  'Ti Toro': 'Initiation football 2 a 5 ans et premiere entree dans le projet FC TORO.',
+  'Ti Toro': "Initiation football 2 à 5 ans et première entrée dans le projet FC TORO.",
   Staff: 'Encadrement, direction sportive et accompagnement des groupes.',
-  'Vision et valeurs': 'Discipline, identite et ambition long terme.',
-  'Installations': 'Terrains, equipements et environnement d entrainement.',
+  'Vision et valeurs': 'Discipline, identité et ambition long terme.',
+  Installations: "Terrains, équipements et environnement d'entraînement.",
   'Actualités club': 'Les dernières informations officielles du club.',
   'Calendrier complet': 'Toutes les rencontres et événements à venir.',
-  'Live Diffusion': 'Diffusion live, flux de match et rappels avant coup d envoi.',
-  'Vertieres Cup': 'Inscription equipe, logo officiel et liste des joueurs.',
-  'Flag Day': 'Classement du tournoi, resultats recents et prochains matchs.',
-  'Intrasquad': 'Competition interne pour evaluer et preparer nos athletes.',
-  'International': 'Participation aux tournois majeurs sur la scene mondiale.',
-  'Contact officiel': 'Acces direct aux canaux du club.',
-  'Equipe Pro': 'Effectif principal et dynamique competitive.',
+  'Live Diffusion': "Diffusion live, flux de match et rappels avant coup d'envoi.",
+  'Vertieres Cup': "Inscription équipe, logo officiel et liste des joueurs.",
+  'Flag Day': 'Classement du tournoi, résultats récents et prochains matchs.',
+  Intrasquad: 'Compétition interne pour évaluer et préparer nos athlètes.',
+  International: 'Participation aux tournois majeurs sur la scène mondiale.',
+  'Contact officiel': 'Accès direct aux canaux du club.',
+  'Equipe Pro': 'Effectif principal et dynamique compétitive.',
   'Staff technique': 'Encadrement tactique et performance.',
-  'Performance et suivi': 'Developpement, data et progression joueur.',
+  'Performance et suivi': 'Développement, data et progression joueur.',
   U13: 'Fondamentaux techniques et intelligence de jeu.',
   U15: 'Transition tactique, rythme et discipline collective.',
-  U17: 'Progression competitive et maitrise des phases de jeu.',
-  U19: 'Preparation haut niveau et responsabilisation.',
+  U17: 'Progression compétitive et maîtrise des phases de jeu.',
+  U19: 'Préparation haut niveau et responsabilisation.',
   U21: 'Passerelle vers le groupe pro et performance continue.',
 }
 
 const getLinkDescription = (label: string) =>
-  linkDescriptionMap[label] ?? 'Decouvrir le programme FC TORO.'
+  linkDescriptionMap[label] ?? 'Découvrir le programme FC TORO.'
 
 const normalizePath = (href?: string) => {
   if (!href) return null
@@ -123,18 +122,18 @@ const getMostSpecificMatchingHref = (pathname: string, links: NavSubLink[]) =>
 const isRejoindreSectionActive = (pathname: string) =>
   isPageMatch(pathname, '/inscription')
 
-
 export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
   const [activeDesktopMenu, setActiveDesktopMenu] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
 
   const navItems: NavItem[] = [
     { label: 'Actualités', href: '/actualites' },
     {
       label: 'Club',
       submenu: {
-        intro: 'Identite FC TORO, infrastructures, programmes et vie du club.',
+        intro: 'Identité FC TORO, infrastructures, programmes et vie du club.',
         backdropImage: '/joueur/extracted/583167774_18542869372012336_2307311757000245016_n.jpg',
         sections: [
           {
@@ -156,7 +155,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
         spotlight: {
           image: '/joueur/extracted/591149277_18545355826012336_6701584250153829576_n.jpg',
           name: 'FC TORO Club',
-          role: 'Histoire, Elite, CASA et Ti Toro',
+          role: 'Histoire, Élite, CASA et Ti Toro',
           href: '/le-club',
         },
       },
@@ -202,7 +201,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
       label: 'Rejoindre',
       accent: true,
       submenu: {
-        intro: 'Parcours, recrutement et integration au club.',
+        intro: "Parcours, recrutement et intégration au club.",
         backdropImage: '/joueur/extracted/560435029_18532793887012336_3999511270054224397_n.jpg',
         sections: [
           {
@@ -213,7 +212,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
             ],
           },
           {
-            title: 'Complement',
+            title: 'Complément',
             links: [
               { label: 'Recrutement', href: '/recrutement' },
             ],
@@ -302,9 +301,14 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
                     type="button"
                     onMouseEnter={() => setActiveDesktopMenu(item.label)}
                     onFocus={() => setActiveDesktopMenu(item.label)}
-                    onClick={() =>
+                    onClick={() => {
+                      if (item.label === 'Rejoindre') {
+                        router.push('/inscription/fans')
+                        return
+                      }
+
                       setActiveDesktopMenu((prev) => (prev === item.label ? null : item.label))
-                    }
+                    }}
                     aria-expanded={activeDesktopMenu === item.label}
                     className={`inline-flex items-center gap-1 px-3 py-2 text-sm font-black uppercase tracking-[0.06em] transition-colors ${itemIsActive ? itemActiveTone : itemTone}`}
                   >
@@ -380,7 +384,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
 
                       <div className="mt-6">
                         <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#6d82a3]">
-                          Acces principal
+                          Accès principal
                         </p>
                         <Link
                           href={activeDesktopItem.submenu.spotlight.href}
@@ -507,16 +511,16 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
                       })),
                     )
                     .map(({ itemLabel, itemAccent, section }) => (
-                        <div key={`mobile-full-${itemLabel}-${section.title}`} className="border-b border-[#e6ebf3] pb-2">
-                          <p className="text-[11px] font-black uppercase tracking-[0.11em] text-[#ef233c]">
-                            {section.title}
-                          </p>
- 
+                      <div key={`mobile-full-${itemLabel}-${section.title}`} className="border-b border-[#e6ebf3] pb-2">
+                        <p className="text-[11px] font-black uppercase tracking-[0.11em] text-[#ef233c]">
+                          {section.title}
+                        </p>
+
                         <div className="mt-1.5 space-y-1">
                           {section.links.map((link) => {
                             const linkColor = activeMobileSubmenuHref === normalizePath(link.href)
-                                ? 'text-[#ef233c]'
-                                : 'text-[#2e436a] hover:text-[#ef233c]'
+                              ? 'text-[#ef233c]'
+                              : 'text-[#2e436a] hover:text-[#ef233c]'
 
                             return (
                               <Link

@@ -11,7 +11,6 @@ import { Breadcrumb } from '@/components/breadcrumb'
 
 const featuredPlayers = playerCards.slice(0, 5)
 const rosterPlayers = playerCards.slice(5)
-const featuredUnits = ['U11', 'U13', 'U15', 'U17', 'U20']
 const featuredDetails = [
   { focus: 'Percussion', note: 'Profil offensif direct' },
   { focus: 'Projection', note: 'Volume et intensite' },
@@ -108,12 +107,6 @@ export default function EquipesPage() {
                     <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-70" />
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#ff244a] to-transparent opacity-95" />
 
-                    <div className="absolute left-3 top-3 z-10 flex items-center gap-2">
-                      <span className="border border-white/14 bg-black/25 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.22em] text-white/84 backdrop-blur">
-                        {featuredUnits[index] ?? 'U'}
-                      </span>
-                    </div>
-
                     <div className="absolute inset-x-0 bottom-0 z-10 p-2 sm:p-5">
                       <p className="truncate text-[7px] font-black uppercase tracking-[0.1em] text-white/70 sm:text-[10px] sm:tracking-[0.22em]">
                         {player.role}
@@ -136,10 +129,6 @@ export default function EquipesPage() {
                       </p>
 
                       <div className="mt-4 space-y-2 border-t border-white/20 pt-3 text-[10px] font-black uppercase tracking-[0.2em] text-white/86">
-                        <div className="flex items-center justify-between gap-3">
-                          <span className="text-white/60">Categorie</span>
-                          <span>{featuredUnits[index] ?? 'U'}</span>
-                        </div>
                         <div className="flex items-center justify-between gap-3">
                           <span className="text-white/60">Poste</span>
                           <span>{player.role}</span>

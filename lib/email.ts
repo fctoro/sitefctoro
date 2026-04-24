@@ -78,36 +78,39 @@ const smtpFrom = process.env.SMTP_FROM
 const smtpFromName = process.env.SMTP_FROM_NAME || 'FC TORO'
 
 const frontendUrl = (process.env.FRONTEND_URL || process.env.BASE_URL || 'https://fctoro.com').replace(/\/$/, '')
-const publicAssetPath = (filename: string) => fileURLToPath(new URL(`../public/${filename}`, import.meta.url))
 const logoCid = 'fc-toro-logo'
-const logoPath = publicAssetPath('fc-toro-logo.png')
+const logoPath = fileURLToPath(new URL('../public/fc-toro-logo.png', import.meta.url))
+const instagramIconPath = fileURLToPath(new URL('../public/email-instagram.png', import.meta.url))
+const facebookIconPath = fileURLToPath(new URL('../public/email-facebook.png', import.meta.url))
+const tiktokIconPath = fileURLToPath(new URL('../public/email-tiktok.png', import.meta.url))
+const youtubeIconPath = fileURLToPath(new URL('../public/email-youtube.png', import.meta.url))
 const hasInlineLogo = existsSync(logoPath)
 const fanSocialLinks: SocialLink[] = [
   {
     href: 'https://www.instagram.com/fctoro/',
     label: 'Instagram',
-    iconPath: publicAssetPath('email-instagram.png'),
+    iconPath: instagramIconPath,
     iconCid: 'social-instagram',
     iconFilename: 'instagram.png',
   },
   {
     href: 'https://www.facebook.com/fctoro?locale=fr_FR',
     label: 'Facebook',
-    iconPath: publicAssetPath('email-facebook.png'),
+    iconPath: facebookIconPath,
     iconCid: 'social-facebook',
     iconFilename: 'facebook.png',
   },
   {
     href: 'https://www.tiktok.com/@fctoroayiti',
     label: 'TikTok',
-    iconPath: publicAssetPath('email-tiktok.png'),
+    iconPath: tiktokIconPath,
     iconCid: 'social-tiktok',
     iconFilename: 'tiktok.png',
   },
   {
     href: 'https://www.youtube.com/@fctorohaiti2023',
     label: 'YouTube',
-    iconPath: publicAssetPath('email-youtube.png'),
+    iconPath: youtubeIconPath,
     iconCid: 'social-youtube',
     iconFilename: 'youtube.png',
   },

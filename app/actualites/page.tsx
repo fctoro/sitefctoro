@@ -16,17 +16,17 @@ export default async function ActualitesPage() {
         <Breadcrumb
           items={[
             { label: 'Accueil', href: '/' },
-            { label: 'Actualites', href: '/actualites' },
+            { label: 'Actualités', href: '/actualites' },
           ]}
           theme="light"
         />
         <section className="px-4 pb-11 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pt-12">
           <NewsBarcaGrid
             items={cmsArticles}
-            eyebrow="Actualites du club"
-            heading="ACTUALITES"
+            eyebrow="Actualités du club"
+            heading="ACTUALITÉS"
             ctaHref="/"
-            ctaLabel="Retour accueil"
+            ctaLabel="Retour à l’accueil"
           />
         </section>
       </main>

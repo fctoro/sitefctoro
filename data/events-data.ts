@@ -28,12 +28,6 @@ export type EventReadingDetail = {
   }>
 }
 
-export type LiveFeedEntry = {
-  label: string
-  title: string
-  body: string
-}
-
 export type VertieresRequirement = {
   title: string
   body: string
@@ -168,24 +162,6 @@ export const liveMatchData = {
 }
 
 export const IS_LIVE_ACTIVE = liveMatchData.isLive || !!liveMatchData.youtubeId
-
-export const liveFeed: LiveFeedEntry[] = [
-  {
-    label: 'Avant-match',
-    title: 'Les joueurs arrivent au stade',
-    body: 'Le staff FC TORO installe le groupe, la mise en place vidéo et le protocole média.',
-  },
-  {
-    label: 'Brief officiel',
-    title: 'Verification des feuilles de match',
-    body: 'Les arbitres valident les equipements, les bancs et l ordre de passage des equipes.',
-  },
-  {
-    label: 'A surveiller',
-    title: 'Temps fort attendu à 16:30',
-    body: 'Le direct démarre avec l’entrée des joueurs puis le flux match sera mis à jour en continu.',
-  },
-]
 
 export const vertieresHighlights = [
   'Tournoi structure pour academies, centres de formation et selections locales.',

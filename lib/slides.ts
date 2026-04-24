@@ -12,6 +12,14 @@ type HeroSlideRow = {
   image_url: string | null
 }
 
+function normalizeSlideText(value?: string | null) {
+  return value
+    ?.trim()
+    .replace(/\bElite\b/g, 'Élite')
+    .replace(/\bELITE\b/g, 'ÉLITE')
+    .replace(/\bDECOUVRIR\b/g, 'DÉCOUVRIR')
+}
+
 function normalizeSlideUrl(url: string | null | undefined, fallbackUrl: string) {
   const value = url?.trim()
 
@@ -47,9 +55,9 @@ function mapHeroSlide(row: HeroSlideRow, index: number): HeroSlide | null {
   const image = resolveCmsImage(row.image_url?.trim()) || fallback.image
 
   return {
-    label: row.badge?.trim() || fallback.label,
-    title,
-    cta: row.btn_label?.trim() || fallback.cta,
+    label: normalizeSlideText(row.badge) || fallback.label,
+    title: normalizeSlideText(title) || title,
+    cta: normalizeSlideText(row.btn_label) || fallback.cta,
     href: normalizeSlideUrl(row.btn_url, fallback.href),
     image,
   }

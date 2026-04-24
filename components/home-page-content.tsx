@@ -30,7 +30,7 @@ const eliteShowcaseImage = '/home/elite-showcase-optimized.jpg'
 
 const eliteFocusPoints = [
   {
-    label: 'Passage vers Elite',
+    label: "Passage vers l'Élite",
     icon: RiShieldStarLine,
   },
   {
@@ -38,32 +38,32 @@ const eliteFocusPoints = [
     icon: RiFlashlightLine,
   },
   {
-    label: 'Pret pour la competition',
+    label: 'Prêt pour la compétition',
     icon: RiTrophyLine,
   },
 ]
 
 const eliteStaffCards = [
   {
-    eyebrow: 'Staff Elite',
+    eyebrow: 'Staff Élite',
     title: 'Encadrement terrain',
-    description: 'Le groupe est accompagne de pres pour installer des seances plus exigeantes et plus lisibles.',
+    description: 'Le groupe est accompagné de près pour installer des séances plus exigeantes et plus lisibles.',
     image: '/home/staff-direction-optimized.jpg',
-    alt: 'Staff Elite FC TORO pendant une seance',
+    alt: 'Staff Élite FC TORO pendant une séance',
   },
   {
-    eyebrow: 'Staff Elite',
+    eyebrow: 'Staff Élite',
     title: 'Lecture du jeu',
-    description: 'Le staff affine les details tactiques, le tempo collectif et la qualite des prises de decision.',
+    description: 'Le staff affine les détails tactiques, le tempo collectif et la qualité des prises de décision.',
     image: '/home/staff-field-optimized.jpg',
     alt: 'Staff FC TORO sur le terrain',
   },
   {
-    eyebrow: 'Staff Elite',
+    eyebrow: 'Staff Élite',
     title: 'Suivi quotidien',
-    description: 'Preparation, correction et progression sont suivies au plus pres pour chaque cycle de travail.',
+    description: 'Préparation, correction et progression sont suivies au plus près pour chaque cycle de travail.',
     image: '/home/staff-support-optimized.jpg',
-    alt: 'Encadrement FC TORO Elite',
+    alt: 'Encadrement FC TORO Élite',
   },
 ]
 
@@ -211,14 +211,14 @@ export function HomePageContent({
             <div className="toro-panel relative z-10 rounded-t-2xl border border-white/20 border-b-0 bg-[rgba(7,19,43,0.45)] p-3 backdrop-blur-xl sm:p-5">
               <div className="grid grid-cols-4 divide-x divide-white/15">
                 <AnimatedCounter to={500} label="Joueurs" />
-                <AnimatedCounter to={100} label="Trophees" />
+                <AnimatedCounter to={100} label="Trophées" />
                 <AnimatedCounter to={14} label="Ans" />
                 <div className="flex flex-col items-center justify-center p-1 sm:p-2 h-full">
                   <p className="text-[1.1rem] sm:text-[1.3rem] font-black tracking-tighter text-white leading-none">
                     2012
                   </p>
                   <p className="mt-1 text-[7px] sm:text-[9px] font-black uppercase tracking-[0.15em] text-white/50 whitespace-nowrap">
-                    Creation
+                    Création
                   </p>
                 </div>
               </div>
@@ -234,22 +234,22 @@ export function HomePageContent({
                 <div className="relative min-h-[380px] bg-[#0f2a4b] xl:min-h-[520px]">
                   <Image
                     src={eliteShowcaseImage}
-                    alt="Equipe Elite FC TORO"
+                    alt="Équipe Élite FC TORO"
                     fill
                     sizes="(min-width: 1280px) 52vw, 100vw"
-                    className="object-cover object-[44%_center]"
+                    className="object-cover object-[44%_center] scale-[1.01] transform-gpu"
                   />
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,18,40,0.14)_12%,rgba(6,18,40,0.88)_100%)]" />
                   <div className="absolute inset-y-0 right-0 hidden w-24 bg-[linear-gradient(90deg,transparent,rgba(10,29,58,0.58))] xl:block" />
                   <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
                     <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#ff8c9a]">
-                      Projet Elite
+                      Projet Élite
                     </p>
                     <h3 className="mt-3 text-[clamp(1.85rem,3.5vw,3.1rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]">
-                      FC TORO Elite
+                      FC TORO Élite
                     </h3>
                     <p className="mt-3 max-w-[580px] text-sm leading-relaxed text-white/76 sm:text-base">
-                      Une equipe pensee pour hausser le rythme, la discipline et la lecture du jeu.
+                      Une équipe pensée pour hausser le rythme, la discipline et la lecture du jeu.
                     </p>
                   </div>
                 </div>
@@ -257,20 +257,20 @@ export function HomePageContent({
                 <div className="relative z-10 overflow-hidden border-t border-[#c91c34] bg-[linear-gradient(180deg,#ef233c_0%,#d91933_55%,#b90f28_100%)] p-6 text-white sm:p-8 xl:-ml-16 xl:my-8 xl:mr-8 xl:rounded-[28px] xl:border xl:border-[#ff8b99]/45 xl:p-10 xl:shadow-[0_24px_44px_rgba(10,29,58,0.18)] xl:border-t">
                   <div className="relative z-10">
                     <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#ffd5db]">
-                      Transition & ambition
+                      Transition et ambition
                     </p>
                     <h3 className="mt-3 text-[clamp(1.7rem,3.1vw,2.7rem)] font-black uppercase leading-[0.92] tracking-[-0.05em] text-white">
-                      Le projet Elite prend le relais.
+                      Le projet Élite prend le relais.
                     </h3>
 
                     <div className="mt-5 space-y-4 text-[15px] leading-relaxed text-white/88">
                       <p>
-                        FC TORO Elite relie l'academie a un cadre plus exigeant pour accompagner les meilleurs profils
-                        vers la competition et une progression plus structuree.
+                        FC TORO Élite relie l'académie à un cadre plus exigeant pour accompagner les meilleurs profils
+                        vers la compétition et une progression plus structurée.
                       </p>
                       <p>
-                        Le groupe avance avec un travail plus precis sur le tempo, la discipline collective et la maturite
-                        tactique, afin de preparer la prochaine marche du parcours FC TORO.
+                        Le groupe avance avec un travail plus précis sur le tempo, la discipline collective et la maturité
+                        tactique, afin de préparer la prochaine marche du parcours FC TORO.
                       </p>
                     </div>
 
@@ -294,7 +294,7 @@ export function HomePageContent({
                       href="/elite"
                       className="mt-7 inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[11px] font-black uppercase tracking-[0.14em] text-[#b90f28] transition-all hover:bg-[#ffe3e7] hover:pr-5"
                     >
-                      Decouvrir
+                      Découvrir
                       <RiArrowRightLine className="h-3.5 w-3.5" />
                     </Link>
                   </div>
@@ -305,7 +305,7 @@ export function HomePageContent({
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div>
                 <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#1f4ea1]">
-                  Staff Elite
+                  Staff Élite
                 </p>
                 <h4 className="mt-2 text-[clamp(1.5rem,2.4vw,2.15rem)] font-black uppercase leading-[0.92] tracking-[-0.04em] text-[#0d2d62]">
                   Les visages qui accompagnent le groupe.
@@ -313,7 +313,7 @@ export function HomePageContent({
               </div>
 
               <p className="max-w-[520px] text-sm leading-relaxed text-[#526887] sm:text-base">
-                Le staff encadre le projet Elite au quotidien avec une presence terrain forte, un suivi precis et une
+                Le staff encadre le projet Élite au quotidien avec une présence terrain forte, un suivi précis et une
                 exigence claire autour de la progression du groupe.
               </p>
             </div>
@@ -324,13 +324,13 @@ export function HomePageContent({
                   key={card.title}
                   className="overflow-hidden rounded-[28px] bg-[#0f2a4b] shadow-[0_20px_40px_rgba(10,29,58,0.18)]"
                 >
-                  <div className="relative h-[380px] lg:h-[420px]">
+                  <div className="relative h-[380px] bg-[#eef2f7] lg:h-[420px]">
                     <Image
                       src={card.image}
                       alt={card.alt}
                       fill
                       sizes="(min-width: 1024px) 30vw, 100vw"
-                      className="object-cover"
+                      className="object-cover scale-[1.01] transform-gpu"
                     />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,19,43,0)_15%,rgba(7,19,43,0.3)_45%,rgba(7,19,43,0.95)_100%)]" />
                     <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
@@ -360,7 +360,7 @@ export function HomePageContent({
                   <button
                     type="button"
                     onClick={() => slidePlayers('left')}
-                    aria-label="Voir les joueurs precedents"
+                    aria-label="Voir les joueurs précédents"
                     className="grid h-9 w-9 place-items-center rounded-full text-white/70 transition-colors hover:text-white"
                   >
                     <RiArrowLeftSLine className="h-7 w-7" />
@@ -391,7 +391,7 @@ export function HomePageContent({
                       alt={player.name}
                       fill
                       sizes="(min-width: 1536px) 16vw, (min-width: 1280px) 18vw, (min-width: 768px) 27vw, 58vw"
-                      className="object-cover transition-transform duration-500 sm:group-hover:scale-[1.04]"
+                      className="object-cover scale-[1.01] transform-gpu transition-transform duration-500 sm:group-hover:scale-[1.05]"
                       onError={(e) => {
                         e.currentTarget.srcset = ''
                         e.currentTarget.src = '/placeholder-user.jpg'
@@ -402,9 +402,6 @@ export function HomePageContent({
                       <p className="text-[11px] font-black uppercase tracking-[0.12em] text-white/88">{player.role}</p>
                       <p className="mt-1 text-[1.08rem] font-black uppercase leading-[0.94] sm:text-[1.45rem] lg:text-[1.7rem]">
                         {player.name}
-                      </p>
-                      <p className="mt-2 inline-flex items-center text-[11px] font-black uppercase tracking-[0.08em] text-white/92">
-                        Voir profil <RiArrowRightSLine className="ml-0.5 h-4 w-4" />
                       </p>
                     </div>
                   </article>
@@ -417,10 +414,10 @@ export function HomePageContent({
         <section id="actualites" className="px-4 pb-11 sm:px-6 lg:px-8">
           <NewsBarcaGrid
             items={allNews}
-            eyebrow="Actualites du club"
-            heading="ACTUALITES"
+            eyebrow="Actualités du club"
+            heading="ACTUALITÉS"
             ctaHref="/actualites"
-            ctaLabel="Voir toute l'actualite"
+            ctaLabel="Voir toute l'actualité"
             limit={4}
           />
         </section>

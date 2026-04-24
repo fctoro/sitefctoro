@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
   if (!article) {
     return {
-      title: 'Actualite | FC TORO',
+      title: 'Actualité | FC TORO',
     }
   }
 
@@ -51,6 +51,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const relatedArticles = cmsArticles
     .filter((item) => item.slug !== article.slug)
     .slice(0, 3)
+  const articleImage = article.image || '/placeholder.jpg'
 
   return (
     <div className="min-h-screen bg-[#f3f4f8] text-[#0a1d3a]">
@@ -60,17 +61,17 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <Breadcrumb
           items={[
             { label: 'Accueil', href: '/' },
-            { label: 'Actualites', href: '/actualites' },
+            { label: 'Actualités', href: '/actualites' },
             { label: article.title },
           ]}
         />
         <section className="relative overflow-hidden bg-[#091a35] px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-16">
           <Image
-            src={article.image}
+            src={articleImage}
             alt={article.title}
             fill
             priority
-            className="object-cover opacity-28"
+            className="object-cover scale-[1.01] transform-gpu opacity-28"
           />
           <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(9,26,53,0.95)_0%,rgba(9,26,53,0.8)_58%,rgba(9,26,53,0.92)_100%)]" />
 
@@ -99,11 +100,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <article className="overflow-hidden rounded-[30px] border border-[#d7dfec] bg-white shadow-[0_18px_34px_rgba(10,29,58,0.08)]">
               <div className="relative h-[280px] sm:h-[360px]">
                 <Image
-                  src={article.image}
+                  src={articleImage}
                   alt={article.title}
                   fill
                   sizes="(min-width: 1280px) 70vw, 100vw"
-                  className="object-cover"
+                  className="object-cover scale-[1.01] transform-gpu"
                 />
               </div>
 

@@ -43,10 +43,32 @@ function buildPlayerName(firstName?: string | null, lastName?: string | null) {
   return `${firstName || ''} ${lastName || ''}`.trim() || 'Joueur'
 }
 
+function normalizeRoleLabel(value?: string | null) {
+  const label = value?.trim()
+
+  if (!label) {
+    return ''
+  }
+
+  const key = label
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+
+  switch (key) {
+    case 'defenseur':
+      return 'Défenseur'
+    case 'elite':
+      return 'Élite'
+    default:
+      return label
+  }
+}
+
 function mapClubPlayer(row: ClubPlayerRow): PlayerCard {
   return {
     name: buildPlayerName(row.first_name, row.last_name),
-    role: row.position || row.category || 'Joueur',
+    role: normalizeRoleLabel(row.position) || normalizeRoleLabel(row.category) || 'Joueur',
     image: resolveCmsImage(row.photo_url) || '/placeholder-user.jpg',
   }
 }
@@ -102,6 +124,10 @@ function mapElitePlayer(row: ElitePlayerRow, index: number): EliteRosterPlayer {
   }
 }
 
+type GetEliteRosterOptions = {
+  useFallback?: boolean
+}
+
 export async function getHomePlayers(): Promise<PlayerCard[]> {
   if (!process.env.DATABASE_URL) {
     return playerCards
@@ -128,8 +154,8 @@ export async function getHomePlayers(): Promise<PlayerCard[]> {
   }
 }
 
-export async function getEliteRoster(): Promise<EliteRosterPlayer[]> {
-  const fallback = buildEliteFallback()
+export async function getEliteRoster({ useFallback = true }: GetEliteRosterOptions = {}): Promise<EliteRosterPlayer[]> {
+  const fallback = useFallback ? buildEliteFallback() : []
 
   if (!process.env.DATABASE_URL) {
     return fallback

@@ -36,7 +36,7 @@ function mapArticleRow(row: ArticleRow): NewsCard | null {
     slug: row.slug,
     excerpt: row.excerpt_fr || '',
     image: resolveCmsImage(row.cover_image),
-    category: row.category || 'Actualite',
+    category: row.category || 'Actualité',
     dateLabel: row.published_at ? new Date(row.published_at).toLocaleDateString('fr-FR') : '',
     intro: row.excerpt_fr || row.content_fr || '',
     content: row.content_fr ? [row.content_fr] : row.excerpt_fr ? [row.excerpt_fr] : [],

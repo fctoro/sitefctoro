@@ -2,16 +2,28 @@
 
 import { motion } from 'framer-motion'
 
-export default function StaffPageContent({ staffMembers }: { staffMembers: any[] }) {
+type StaffMemberCardData = {
+  id?: string
+  name: string
+  role?: string
+  photo_url?: string
+}
+
+export default function StaffPageContent({ staffMembers }: { staffMembers: StaffMemberCardData[] }) {
+  const staffGridClassName =
+    staffMembers.length === 6
+      ? 'grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8 xl:grid-cols-6'
+      : 'grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8 xl:grid-cols-5'
+
   return (
     <section className="px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-[1200px]">
         {staffMembers.length === 0 ? (
           <div className="py-10 text-center text-gray-500">
-            Aucun membre du staff trouve. Ajouter du staff depuis le CMS.
+            Aucun membre du staff trouvé. Ajoutez le staff depuis le CMS.
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={staffGridClassName}>
             {staffMembers.map((member, index) => (
               <StaffMemberCard key={member.id || member.name} member={member} index={index} />
             ))}
@@ -22,8 +34,9 @@ export default function StaffPageContent({ staffMembers }: { staffMembers: any[]
   )
 }
 
-function StaffMemberCard({ member, index }: { member: any; index: number }) {
+function StaffMemberCard({ member, index }: { member: StaffMemberCardData; index: number }) {
   const displayRole = member.role || 'Staff'
+  const isPriorityImage = index < 4
 
   return (
     <motion.div
@@ -33,12 +46,15 @@ function StaffMemberCard({ member, index }: { member: any; index: number }) {
       transition={{ duration: 0.5, delay: index * 0.05 }}
       className="flex flex-col items-center"
     >
-      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[40px] bg-gray-100 shadow-md transition-transform duration-300 hover:-translate-y-2">
+      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[40px] bg-[#eef2f7] shadow-md transition-transform duration-300 hover:-translate-y-2">
         {member.photo_url ? (
           <img
             src={member.photo_url}
             alt={member.name}
-            className="h-full w-full object-cover"
+            className="h-full w-full scale-[1.01] transform-gpu object-cover object-top"
+            loading={isPriorityImage ? 'eager' : 'lazy'}
+            fetchPriority={isPriorityImage ? 'high' : 'low'}
+            decoding="async"
             onError={(e) => {
               e.currentTarget.src = '/placeholder-user.jpg'
             }}
@@ -50,10 +66,10 @@ function StaffMemberCard({ member, index }: { member: any; index: number }) {
         )}
       </div>
       <div className="mt-5 text-center">
-        <h3 className="text-xl font-black uppercase tracking-tight text-[#0a1d3a] md:text-2xl">
+        <h3 className="max-w-[140px] text-sm font-black uppercase leading-[1.05] tracking-tight text-[#0a1d3a] sm:max-w-[180px] sm:text-base md:text-lg">
           {member.name}
         </h3>
-        <p className="mt-2 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-[#ef233c]">
+        <p className="mt-2 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#ef233c] sm:text-xs sm:tracking-[0.2em]">
           <span className="h-[1px] w-4 bg-[#ef233c]"></span>
           {displayRole}
           <span className="h-[1px] w-4 bg-[#ef233c]"></span>

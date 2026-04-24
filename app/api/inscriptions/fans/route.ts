@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { ensureFansTable, pool, ensureSiteMessagesTable } from '@/lib/db'
-import { sendFanRegistrationEmail } from '@/lib/email'
+import { sendFanRegistrationEmail } from '@/lib/fan-email'
 
 export const runtime = 'nodejs'
 
