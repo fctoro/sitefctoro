@@ -172,7 +172,7 @@ export function EliteRosterSection({
                       />
                       <div className="absolute inset-y-0 right-[20%] z-20 w-px bg-white/12" />
 
-                      <div className="absolute bottom-0 left-[-4%] right-[18%] top-3 z-10">
+                      <div className="absolute inset-0 z-10 lg:bottom-0 lg:left-[-4%] lg:right-[18%] lg:top-3">
                         {player.photo_url ? (
                           <ElitePlayerPhoto
                             src={player.photo_url}

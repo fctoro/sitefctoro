@@ -80,10 +80,10 @@ const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
       {
         name: 'PLAN #3 (Mensuel)',
         description: 'Paiement fractionne en 8 versements',
-        total: '$1,800.00 USD',
+        total: '$1,650.00 USD',
         details: [
           "Premier versement : $600.00 a l'enregistrement",
-          '7 versements mensuels de $171.43',
+          '7 versements mensuels de $150.00',
         ],
       },
     ],
@@ -137,10 +137,10 @@ const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
       {
         name: 'PLAN #3 (Mensuel)',
         description: 'Paiement fractionne en 8 versements',
-        total: '$1,100.00 USD',
+        total: '$1,450.00 USD',
         details: [
           "Premier versement : $400.00 a l'inscription",
-          '7 versements mensuels de $100.00',
+          '7 versements mensuels de $150.00',
         ],
       },
     ],

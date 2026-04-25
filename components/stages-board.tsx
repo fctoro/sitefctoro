@@ -72,7 +72,7 @@ export function StagesBoard({ stages, detailBasePath = '/stages' }: StagesBoardP
               onChange={(event) => setCategory(event.target.value)}
               className="rounded-[12px] border border-[#d6dfec] bg-white px-4 py-3 text-sm font-medium text-[#0a1d3a] outline-none transition-colors focus:border-[#ef233c]"
             >
-              <option value="all">Toutes categories</option>
+              <option value="all">Toutes catégories</option>
               {categoryOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
@@ -136,19 +136,19 @@ export function StagesBoard({ stages, detailBasePath = '/stages' }: StagesBoardP
 
         <div className="mt-8 overflow-hidden border border-[#dce4f0] bg-white shadow-[0_16px_34px_rgba(10,29,58,0.05)]">
           <div className="hidden grid-cols-[minmax(0,3.1fr)_0.95fr_1.35fr_0.85fr_1fr_0.95fr] gap-6 border-b border-[#e7edf5] bg-[#f8fafc] px-7 py-4 text-[11px] font-black uppercase tracking-[0.14em] text-[#6f84a7] lg:grid">
-            <p>Opportunite</p>
+            <p>Opportunité</p>
             <p>Format</p>
             <p>Localisation</p>
             <p>Groupe</p>
             <p>Langues</p>
-            <p className="text-right">Details</p>
+            <p className="text-right">Détails</p>
           </div>
 
           {filteredStages.length === 0 ? (
             <div className="px-6 py-12 text-center">
-              <p className="text-lg font-black uppercase text-[#0a1d3a]">Aucun stage trouve</p>
+              <p className="text-lg font-black uppercase text-[#0a1d3a]">Aucun stage trouvé</p>
               <p className="mt-2 text-sm font-medium text-[#5c6f90]">
-                Ajuste les filtres pour voir les opportunites disponibles.
+                Ajustez les filtres pour voir les opportunités disponibles.
               </p>
             </div>
           ) : (
@@ -197,7 +197,7 @@ export function StagesBoard({ stages, detailBasePath = '/stages' }: StagesBoardP
 
                     <div className="flex items-start justify-end">
                       <span className="inline-flex items-center whitespace-nowrap text-[11px] font-black uppercase tracking-[0.1em] text-[#1f4ea1]">
-                        Voir details <RiArrowRightLine className="ml-1 h-4 w-4" />
+                        Voir détails <RiArrowRightLine className="ml-1 h-4 w-4" />
                       </span>
                     </div>
                   </Link>
