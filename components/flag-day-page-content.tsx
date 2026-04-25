@@ -3,7 +3,7 @@
 import { useState } from 'react' // trigger refresh
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { RiCalendarEventLine, RiTrophyLine, RiShieldStarLine, RiMedalLine, RiFlagLine, RiUser3Line, RiFootballLine, RiFireLine } from '@remixicon/react'
+import { RiCalendarEventLine, RiTrophyLine, RiShieldStarLine, RiMedalLine, RiFlagLine, RiUser3Line, RiFootballLine, RiFireLine, RiMapPin2Line } from '@remixicon/react'
 
 // Stats Data
 import ChampionsLeagueBracket from './ChampionsLeagueBracket'
@@ -27,6 +27,7 @@ const formatKickoffDate = (kickoff: string) =>
     weekday: 'short',
     day: '2-digit',
     month: 'short',
+    timeZone: 'UTC'
   }).format(new Date(kickoff))
 
 const formatKickoffTime = (kickoff: string) =>
@@ -49,6 +50,7 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
 
   const [activeCategory, setActiveCategory] = useState<string>(categories[0])
   const [activeMatchGroup, setActiveMatchGroup] = useState<'A' | 'B' | 'ALL'>('ALL')
+  const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid')
 
   // 2. Préparer les données de la catégorie active
   const activeCompetition = cmsData?.competitions.find(c => 
@@ -99,7 +101,9 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
     awayLogo: m.away_team.logo_url,
     scoreHome: m.home_score,
     scoreAway: m.away_score,
-    group: m.round.includes('Groupe A') ? 'A' : (m.round.includes('Groupe B') ? 'B' : 'A')
+    kickoff: m.kickoff,
+    venue: m.venue,
+    group: m.round.includes('Groupe A') ? 'A' : (m.round.includes('Groupe B') ? 'B' : 'ALL')
   })) || []
 
   const currentMatches = isCmsActive 
@@ -252,20 +256,65 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
             </div>
           </motion.div>
 
+          {/* ── Sélecteur de Groupes Matchs + View Mode ── */}
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap gap-2">
+              {(['ALL', 'A', 'B'] as const).map((grp) => (
+                <button
+                  key={grp}
+                  onClick={() => setActiveMatchGroup(grp)}
+                  className={`relative px-6 py-3 text-xs font-black uppercase tracking-widest transition-all duration-300 ${
+                    activeMatchGroup === grp
+                      ? 'text-white'
+                      : 'bg-white text-[#445b7f] hover:bg-[#f1f5f9]'
+                  }`}
+                >
+                  {activeMatchGroup === grp && (
+                    <motion.div
+                      layoutId="matchGroupBg"
+                      className="absolute inset-0 bg-[#0a1d3a]"
+                      transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative z-10">
+                    {grp === 'ALL' ? 'Tous les Matchs' : `Groupe ${grp}`}
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-1 rounded-xl bg-white p-1 shadow-sm border border-[#d7dfec]">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`flex items-center gap-2 rounded-lg px-4 py-2 text-[10px] font-black uppercase transition-all ${
+                  viewMode === 'grid' ? 'bg-[#0a1d3a] text-white' : 'text-[#445b7f] hover:bg-gray-100'
+                }`}
+              >
+                Grille
+              </button>
+              <button
+                onClick={() => setViewMode('table')}
+                className={`flex items-center gap-2 rounded-lg px-4 py-2 text-[10px] font-black uppercase transition-all ${
+                  viewMode === 'table' ? 'bg-[#0a1d3a] text-white' : 'text-[#445b7f] hover:bg-gray-100'
+                }`}
+              >
+                Tableau Détails
+              </button>
+            </div>
+          </div>
+
           <AnimatePresence mode="wait">
             <motion.div
-              key={activeCategory}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.35 }}
-              className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
+              key={activeCategory + activeMatchGroup + viewMode}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.4 }}
+              className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-8"
             >
               {!hasData ? (
-                <div className="col-span-full flex flex-col items-center justify-center py-20 bg-[#f7f9fc] rounded-3xl border-2 border-dashed border-[#d7dfec]">
-                  <RiFlagLine className="h-12 w-12 text-[#94a3b8] mb-4" />
-                  <p className="text-lg font-black uppercase tracking-widest text-[#64748b]">Pas de championnat disponible</p>
-                  <p className="text-sm text-[#94a3b8] mt-2 font-medium">Revenez bientôt pour suivre les résultats de cette catégorie.</p>
+                <div className="col-span-full py-20 text-center">
+                  <p className="text-sm font-bold text-gray-500">Chargement des données...</p>
                 </div>
               ) : currentMatches.length === 0 ? (
                 <div className="col-span-full flex flex-col items-center justify-center py-20 bg-[#f7f9fc] rounded-3xl border border-[#d7dfec]">
@@ -273,113 +322,159 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
                   <p className="text-md font-black uppercase tracking-widest text-[#1a4ea3]">Matchs à venir</p>
                   <p className="text-xs text-[#64748b] mt-1 font-bold">Le tirage a été effectué, restez connectés pour les scores.</p>
                 </div>
-              ) : currentMatches.map((match: any, idx: number) => {
-                const grp = match.group
-                const homeWin = match.scoreHome > match.scoreAway
-                const awayWin = match.scoreAway > match.scoreHome
-                const isDraw = match.scoreHome === match.scoreAway
-                return (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: idx * 0.06 }}
-                    className="relative overflow-hidden rounded-2xl bg-[#f7f9fc] border border-[#d7dfec] shadow-sm hover:shadow-md hover:border-[#b0c4de] transition-all duration-300"
-                  >
-                    <div className="p-4">
-
-                      {/* ── En-tête carte : Groupe + Full Time */}
-                      <div className="mb-3 flex items-center justify-between">
-                        {/* Badge Groupe */}
-                        <span className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-widest ${
-                          grp === 'A'
-                            ? 'bg-[#ef233c]/10 text-[#ef233c] border border-[#ef233c]/20'
-                            : 'bg-[#1a4ea3]/10 text-[#1a4ea3] border border-[#1a4ea3]/20'
-                        }`}>
-                          <span className={`h-1.5 w-1.5 rounded-full ${grp === 'A' ? 'bg-[#ef233c]' : 'bg-[#1a4ea3]'}`} />
-                          Gr. {grp}
-                        </span>
-                        {/* Badge Full Time */}
-                        <span className="rounded-full bg-[#0a1d3a]/6 px-2.5 py-1 text-[9px] font-black uppercase tracking-widest text-[#0a1d3a]/40">
-                          FT
-                        </span>
-                      </div>
-
-                      {/* ── Matchup ── */}
-                      <div className="flex items-center justify-between gap-1">
-
-                        {/* Équipe domicile */}
-                        <div className="flex flex-1 flex-col items-center gap-2.5">
-                          <div className={`relative h-16 w-16 rounded-full bg-white p-2 shadow-lg ring-2 transition-all duration-300 ${
-                            homeWin
-                              ? 'ring-[#22c55e] shadow-[0_0_18px_rgba(34,197,94,0.2)]'
-                              : awayWin
-                              ? 'ring-[#d7dfec] opacity-55'
-                              : 'ring-[#d7dfec]'
+              ) : viewMode === 'grid' ? (
+                currentMatches.map((match: any, idx: number) => {
+                  const grp = match.group
+                  const isPlayed = match.scoreHome !== null && match.scoreHome !== undefined
+                  const homeWin = isPlayed && match.scoreHome > match.scoreAway
+                  const awayWin = isPlayed && match.scoreAway > match.scoreHome
+                  const isDraw = isPlayed && match.scoreHome === match.scoreAway
+                  return (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35, delay: idx * 0.06 }}
+                      className="relative overflow-hidden rounded-2xl bg-[#f7f9fc] border border-[#d7dfec] shadow-sm hover:shadow-md hover:border-[#b0c4de] transition-all duration-300"
+                    >
+                      <div className="p-4">
+                        <div className="mb-3 flex items-center justify-between">
+                          <span className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-widest ${
+                            grp === 'A'
+                              ? 'bg-[#ef233c]/10 text-[#ef233c] border border-[#ef233c]/20'
+                              : (grp === 'B' ? 'bg-[#1a4ea3]/10 text-[#1a4ea3] border border-[#1a4ea3]/20' : 'bg-gray-100 text-gray-500 border border-gray-200')
                           }`}>
-                            <Image
-                              src={match.homeLogo || getLogo(match.home)}
-                              alt={match.home}
-                              fill
-                              sizes="64px"
-                              className="object-contain p-1.5"
-                            />
-                            {homeWin && (
-                              <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#22c55e] text-[8px] font-black text-white shadow">W</span>
-                            )}
-                          </div>
-                          <p className={`text-center text-[9px] font-black uppercase leading-tight max-w-[64px] ${
-                            homeWin ? 'text-[#0a1d3a]' : awayWin ? 'text-[#0a1d3a]/30' : 'text-[#445b7f]'
-                          }`}>{match.home}</p>
-                        </div>
-
-                        {/* Score + VS */}
-                        <div className="flex flex-col items-center shrink-0 px-1">
-                          <div className="flex items-center gap-1.5">
-                            <span className={`text-[26px] font-black tabular-nums leading-none ${
-                              homeWin ? 'text-[#0a1d3a]' : awayWin ? 'text-[#0a1d3a]/25' : 'text-[#445b7f]'
-                            }`}>{match.scoreHome}</span>
-                            <span className="text-xs font-black text-[#0a1d3a]/15">:</span>
-                            <span className={`text-[26px] font-black tabular-nums leading-none ${
-                              awayWin ? 'text-[#0a1d3a]' : homeWin ? 'text-[#0a1d3a]/25' : 'text-[#445b7f]'
-                            }`}>{match.scoreAway}</span>
-                          </div>
-                          <span className="mt-0.5 text-[8px] font-black uppercase tracking-[0.12em] text-[#0a1d3a]/25">
-                            {isDraw ? 'NUL' : 'VS'}
+                            <span className={`h-1.5 w-1.5 rounded-full ${grp === 'A' ? 'bg-[#ef233c]' : (grp === 'B' ? 'bg-[#1a4ea3]' : 'bg-gray-400')}`} />
+                            {grp === 'ALL' ? 'Phase Finale' : `Gr. ${grp}`}
+                          </span>
+                          <span className={`rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-widest ${
+                            isPlayed ? 'bg-[#0a1d3a]/6 text-[#0a1d3a]/40' : 'bg-green-100 text-green-600'
+                          }`}>
+                            {isPlayed ? 'Terminé' : 'À venir'}
                           </span>
                         </div>
 
-                        {/* Équipe extérieure */}
-                        <div className="flex flex-1 flex-col items-center gap-2.5">
-                          <div className={`relative h-16 w-16 rounded-full bg-white p-2 shadow-lg ring-2 transition-all duration-300 ${
-                            awayWin
-                              ? 'ring-[#22c55e] shadow-[0_0_18px_rgba(34,197,94,0.2)]'
-                              : homeWin
-                              ? 'ring-[#d7dfec] opacity-55'
-                              : 'ring-[#d7dfec]'
-                          }`}>
-                            <Image
-                              src={match.awayLogo || getLogo(match.away)}
-                              alt={match.away}
-                              fill
-                              sizes="64px"
-                              className="object-contain p-1.5"
-                            />
-                            {awayWin && (
-                              <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#22c55e] text-[8px] font-black text-white shadow">W</span>
-                            )}
+                        {/* ── Kickoff + Venue Info ── */}
+                        <div className="mb-4 flex items-center justify-between border-b border-[#d7dfec] pb-3 text-[10px]">
+                          <div className="flex items-center gap-1.5 font-bold text-[#0a1d3a]/60">
+                            <RiCalendarEventLine className="h-3 w-3 text-[#1a4ea3]" />
+                            <span>{match.kickoff ? formatKickoffDate(match.kickoff) : 'Date à venir'}</span>
                           </div>
-                          <p className={`text-center text-[9px] font-black uppercase leading-tight max-w-[64px] ${
-                            awayWin ? 'text-[#0a1d3a]' : homeWin ? 'text-[#0a1d3a]/30' : 'text-[#445b7f]'
-                          }`}>{match.away}</p>
+                          <div className="flex items-center gap-1.5 font-bold text-[#0a1d3a]/60">
+                            <span className="truncate max-w-[90px] text-right">{match.venue || 'Ste Thérèse'}</span>
+                            <RiMapPin2Line className="h-3 w-3 text-[#ef233c]" />
+                          </div>
                         </div>
 
-                      </div>
-                    </div>
-                  </motion.div>
-                )
-              })}
+                        <div className="flex items-center justify-between gap-1">
+                          <div className="flex flex-1 flex-col items-center gap-2.5">
+                            <div className={`relative h-16 w-16 rounded-full bg-white p-2 shadow-lg ring-2 transition-all duration-300 ${
+                              homeWin
+                                ? 'ring-[#22c55e] shadow-[0_0_18px_rgba(34,197,94,0.2)]'
+                                : (awayWin && isPlayed)
+                                ? 'ring-[#d7dfec] opacity-55'
+                                : 'ring-[#d7dfec]'
+                            }`}>
+                              <Image src={match.homeLogo || getLogo(match.home)} alt={match.home} fill sizes="64px" className="object-contain p-1.5" />
+                              {homeWin && <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#22c55e] text-[8px] font-black text-white shadow">W</span>}
+                            </div>
+                            <p className={`text-center text-[9px] font-black uppercase leading-tight max-w-[64px] ${homeWin ? 'text-[#0a1d3a]' : (awayWin && isPlayed) ? 'text-[#0a1d3a]/30' : 'text-[#445b7f]'}`}>{match.home}</p>
+                          </div>
 
+                          <div className="flex flex-col items-center shrink-0 px-1">
+                            <div className="flex items-center gap-1.5">
+                              {isPlayed ? (
+                                <>
+                                  <span className={`text-[26px] font-black tabular-nums leading-none ${homeWin ? 'text-[#0a1d3a]' : awayWin ? 'text-[#0a1d3a]/25' : 'text-[#445b7f]'}`}>{match.scoreHome}</span>
+                                  <span className="text-xs font-black text-[#0a1d3a]/15">:</span>
+                                  <span className={`text-[26px] font-black tabular-nums leading-none ${awayWin ? 'text-[#0a1d3a]' : homeWin ? 'text-[#0a1d3a]/25' : 'text-[#445b7f]'}`}>{match.scoreAway}</span>
+                                </>
+                              ) : (
+                                <span className="text-sm font-black text-[#0a1d3a]/20 uppercase tracking-widest">VS</span>
+                              )}
+                            </div>
+                            {isPlayed && <span className="mt-0.5 text-[8px] font-black uppercase tracking-[0.12em] text-[#0a1d3a]/25">{isDraw ? 'NUL' : 'FINI'}</span>}
+                          </div>
+
+                          <div className="flex flex-1 flex-col items-center gap-2.5">
+                            <div className={`relative h-16 w-16 rounded-full bg-white p-2 shadow-lg ring-2 transition-all duration-300 ${awayWin ? 'ring-[#22c55e] shadow-[0_0_18px_rgba(34,197,94,0.2)]' : (homeWin && isPlayed) ? 'ring-[#d7dfec] opacity-55' : 'ring-[#d7dfec]'}`}>
+                              <Image src={match.awayLogo || getLogo(match.away)} alt={match.away} fill sizes="64px" className="object-contain p-1.5" />
+                              {awayWin && <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#22c55e] text-[8px] font-black text-white shadow">W</span>}
+                            </div>
+                            <p className={`text-center text-[9px] font-black uppercase leading-tight max-w-[64px] ${awayWin ? 'text-[#0a1d3a]' : (homeWin && isPlayed) ? 'text-[#0a1d3a]/30' : 'text-[#445b7f]'}`}>{match.away}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )
+                })
+              ) : (
+                <div className="col-span-full overflow-hidden rounded-2xl border border-[#d7dfec] bg-white shadow-sm">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="bg-[#f8fafc] border-b border-[#d7dfec]">
+                          <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-[#445b7f]">Date</th>
+                          <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-[#445b7f]">Groupe</th>
+                          <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-[#445b7f] text-right">Équipe A</th>
+                          <th className="px-4 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-[#445b7f] text-center">Score</th>
+                          <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-[#445b7f]">Équipe B</th>
+                          <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-[#445b7f]">Terrain</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-[#f1f5f9]">
+                        {currentMatches.map((m: any, idx: number) => {
+                           const isPlayed = m.scoreHome !== null && m.scoreHome !== undefined
+                           return (
+                            <tr key={idx} className="hover:bg-blue-50/30 transition-colors">
+                              <td className="px-6 py-4">
+                                <div className="flex flex-col">
+                                  <span className="text-[11px] font-bold text-[#0a1d3a]">{m.kickoff ? formatKickoffDate(m.kickoff) : 'TBD'}</span>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[8px] font-black uppercase tracking-wider ${m.group === 'A' ? 'bg-red-50 text-red-600' : (m.group === 'B' ? 'bg-blue-50 text-blue-600' : 'bg-gray-50 text-gray-500')}`}>
+                                  {m.group === 'ALL' ? 'Finale' : `Gr. ${m.group}`}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 text-right">
+                                <div className="flex items-center justify-end gap-3">
+                                  <span className="text-xs font-black text-[#0a1d3a] uppercase">{m.home}</span>
+                                  <div className="relative h-8 w-8 rounded-full border border-gray-100 bg-white p-1 shadow-sm">
+                                    <Image src={m.homeLogo || getLogo(m.home)} alt={m.home} fill className="object-contain p-1" />
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="px-4 py-4 text-center">
+                                {isPlayed ? (
+                                  <div className="inline-flex items-center gap-1.5 rounded bg-[#0a1d3a] px-2.5 py-1 text-xs font-black text-white tabular-nums shadow-sm">
+                                    <span>{m.scoreHome}</span>
+                                    <span className="opacity-40">-</span>
+                                    <span>{m.scoreAway}</span>
+                                  </div>
+                                ) : (
+                                  <span className="text-[9px] font-black text-[#445b7f]/40 uppercase tracking-widest">VS</span>
+                                )}
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="relative h-8 w-8 rounded-full border border-gray-100 bg-white p-1 shadow-sm">
+                                    <Image src={m.awayLogo || getLogo(m.away)} alt={m.away} fill className="object-contain p-1" />
+                                  </div>
+                                  <span className="text-xs font-black text-[#0a1d3a] uppercase">{m.away}</span>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <span className="text-[10px] font-medium text-[#445b7f] truncate block max-w-[120px]">{m.venue || 'À confirmer'}</span>
+                              </td>
+                            </tr>
+                           )
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -402,7 +497,6 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
               </h2>
             </div>
 
-            {/* Sélecteur de catégories */}
             <div className="flex flex-wrap gap-2">
               {categories.map((cat) => (
                 <button
