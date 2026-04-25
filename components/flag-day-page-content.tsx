@@ -556,11 +556,11 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
                             <th className="px-4 py-3">Équipe</th>
                             <th className="px-3 py-3 text-center font-black text-[#0a1d3a]">Pts</th>
                             <th className="px-2 py-3 text-center">J</th>
-                            <th className="px-2 py-3 text-center">V</th>
-                            <th className="px-2 py-3 text-center">N</th>
-                            <th className="px-2 py-3 text-center">D</th>
-                            <th className="px-2 py-3 text-center">BM</th>
-                            <th className="px-2 py-3 text-center">BC</th>
+                            <th className="hidden md:table-cell px-2 py-3 text-center">V</th>
+                            <th className="hidden md:table-cell px-2 py-3 text-center">N</th>
+                            <th className="hidden md:table-cell px-2 py-3 text-center">D</th>
+                            <th className="hidden md:table-cell px-2 py-3 text-center">BM</th>
+                            <th className="hidden md:table-cell px-2 py-3 text-center">BC</th>
                             <th className="px-3 py-3 text-center">+/-</th>
                           </tr>
                         </thead>
@@ -575,9 +575,9 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
                                 {/* Rang */}
                                 <td className="px-4 py-3.5 text-center">
                                   <span className={`inline-flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-black ${
-                                    idx === 0 ? 'bg-[#f5b041] text-white' :
-                                    idx === 1 ? 'bg-[#a8b2c1] text-white' :
-                                    idx === 2 ? 'bg-[#cd7f32] text-white' :
+                                    idx === 0 ? 'bg-[#f5b041] text-white shadow-sm' :
+                                    idx === 1 ? 'bg-[#a8b2c1] text-white shadow-sm' :
+                                    idx === 2 ? 'bg-[#cd7f32] text-white shadow-sm' :
                                     'bg-[#f0f4f9] text-[#6a7f9f]'
                                   }`}>
                                     {idx + 1}
@@ -596,23 +596,23 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
                                       />
                                     </div>
                                     <div>
-                                      <p className={`text-[13px] font-black ${isToro ? 'text-[#1a4ea3]' : 'text-[#0a1d3a]'}`}>{row.name}</p>
-                                      {isToro && <p className="text-[10px] font-bold text-[#ef233c]">HOME</p>}
+                                      <p className={`text-[13px] font-black leading-tight ${isToro ? 'text-[#1a4ea3]' : 'text-[#0a1d3a]'}`}>{row.name}</p>
+                                      {isToro && <p className="text-[10px] font-bold text-[#ef233c] mt-0.5">HOME</p>}
                                     </div>
                                   </div>
                                 </td>
                                 {/* Stats */}
                                 <td className="px-3 py-3.5 text-center">
-                                  <span className="inline-flex h-8 min-w-[32px] items-center justify-center rounded-lg bg-[#0a1d3a] px-2 text-sm font-black text-white">
+                                  <span className="inline-flex h-8 min-w-[32px] items-center justify-center rounded-lg bg-[#0a1d3a] px-2 text-sm font-black text-white shadow-sm">
                                     {row.pts}
                                   </span>
                                 </td>
-                                <td className="px-2 py-3.5 text-center text-[13px] text-[#445b7f]">{row.m}</td>
-                                <td className="px-2 py-3.5 text-center text-[13px] font-bold text-[#22c55e]">{row.v}</td>
-                                <td className="px-2 py-3.5 text-center text-[13px] text-[#445b7f]">{row.n}</td>
-                                <td className="px-2 py-3.5 text-center text-[13px] font-bold text-[#ef233c]">{row.d}</td>
-                                <td className="px-2 py-3.5 text-center text-[13px] text-[#445b7f]">{row.bm}</td>
-                                <td className="px-2 py-3.5 text-center text-[13px] text-[#445b7f]">{row.bc}</td>
+                                <td className="px-2 py-3.5 text-center text-[13px] font-bold text-[#445b7f]">{row.m}</td>
+                                <td className="hidden md:table-cell px-2 py-3.5 text-center text-[13px] font-bold text-[#22c55e]">{row.v}</td>
+                                <td className="hidden md:table-cell px-2 py-3.5 text-center text-[13px] font-bold text-[#445b7f]">{row.n}</td>
+                                <td className="hidden md:table-cell px-2 py-3.5 text-center text-[13px] font-bold text-[#ef233c]">{row.d}</td>
+                                <td className="hidden md:table-cell px-2 py-3.5 text-center text-[13px] font-bold text-[#445b7f]">{row.bm}</td>
+                                <td className="hidden md:table-cell px-2 py-3.5 text-center text-[13px] font-bold text-[#445b7f]">{row.bc}</td>
                                 <td className={`px-3 py-3.5 text-center text-[13px] font-black ${row.df > 0 ? 'text-[#22c55e]' : row.df < 0 ? 'text-[#ef233c]' : 'text-[#6a7f9f]'}`}>
                                   {row.df > 0 ? '+' + row.df : row.df}
                                 </td>
