@@ -59,7 +59,7 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
   const activeCmsCat = cmsData?.categories.find(c => c.competition_id === activeCompetition?.id)
   
   const cmsStandingsRaw = activeCmsCat ? cmsData?.standings.filter(s => s.category_id === activeCmsCat.id) : []
-  const cmsScorersRaw = activeCompetition ? cmsData?.scorers : [] // Déjà filtrés et agrégés par page.tsx
+  const cmsScorersRaw = activeCompetition ? cmsData?.scorers.filter(s => s.competition_id === activeCompetition.id) : []
   const cmsMatchesRaw = activeCompetition ? cmsData?.matches.filter(m => m.competition_id === activeCompetition.id) : []
 
   // Formatter et TRIER les standings CMS

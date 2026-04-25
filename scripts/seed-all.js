@@ -152,7 +152,12 @@ const ALL_DATA = {
         { name: 'ASF',              pts: 1, m: 3, v: 0, n: 1, d: 2, bm: 2, bc: 5, qualified: false },
       ],
     },
-    scorers: [],
+    scorers: [
+      { name: 'Momplaisir Tristen',     goals: 3, team: 'Fc Toro Elite'   },
+      { name: 'Fenelon Levidson',       goals: 3, team: 'Stars des Jeunes'},
+      { name: 'Jules Giovanni',         goals: 2, team: 'Fc Toro Elite'   },
+      { name: 'Bolivard Rolph Davens',  goals: 2, team: 'Fc MDM'          },
+    ],
     matches: [
       // Groupe A
       { home: 'Fc Toro Elite', away: 'Valencia',  scoreHome: 6, scoreAway: 0, group: 'A', kickoff: '2026-02-15T12:00:00Z', venue: 'Ste Thérèse' },
@@ -186,7 +191,12 @@ const ALL_DATA = {
         { name: 'Valencia', pts: 0, m: 3, v: 0, n: 0, d: 3, bm: 2,  bc: 5,  qualified: false },
       ],
     },
-    scorers: [],
+    scorers: [
+      { name: 'Richemond Kerry',    goals: 4, team: 'Fc MDM'        },
+      { name: 'Gamael Ricardens',   goals: 4, team: 'ASF'           },
+      { name: 'Jerry Petit Homme',  goals: 3, team: 'Fc Toro Elite' },
+      { name: 'Dieudonné Kenson',   goals: 2, team: 'Fc Toro Elite' },
+    ],
     matches: [
       // Groupe A
       { home: 'Fc Toro Elite',  away: 'Fc Flambo',     scoreHome: 3, scoreAway: 1, group: 'A', kickoff: '2026-02-15T12:00:00Z', venue: 'Ste Thérèse' },
@@ -220,7 +230,12 @@ const ALL_DATA = {
         { name: 'Fc MDM',     pts: 1, m: 3, v: 0, n: 1, d: 2, bm: 1, bc: 7, qualified: false },
       ],
     },
-    scorers: [],
+    scorers: [
+      { name: 'Charles Colson',   goals: 3, team: 'Fc Condor'     },
+      { name: 'Jeudi Wubens',     goals: 2, team: 'ASF'           },
+      { name: 'Perrin Dylan',     goals: 1, team: 'Fc Toro Elite' },
+      { name: 'Messie Israel',    goals: 1, team: 'Fc Idelo'      },
+    ],
     matches: [
       // Groupe A
       { home: 'Fc Toro Elite', away: 'Fc Idelo',  scoreHome: 2, scoreAway: 0, group: 'A', kickoff: '2026-02-22T12:00:00Z', venue: 'Thomassin' },
@@ -254,7 +269,12 @@ const ALL_DATA = {
         { name: 'Fc Seth',         pts: 3, m: 3, v: 1, n: 0, d: 2, bm: 2, bc: 3, qualified: false },
       ],
     },
-    scorers: [],
+    scorers: [
+      { name: 'Bob Philias',        goals: 3, team: 'SLG'             },
+      { name: 'Dumay Fernando',     goals: 2, team: 'Star des jeunes' },
+      { name: 'Paul Emerson',       goals: 2, team: 'Fc Toro Elite'   },
+      { name: 'Charles Christopher',goals: 1, team: 'Idelo'           },
+    ],
     matches: [
       // Groupe A
       { home: 'Fc Toro Elite', away: 'SLG',   scoreHome: 0, scoreAway: 3, group: 'A', kickoff: '2026-02-21T12:00:00Z', venue: 'Ste Thérèse' },
@@ -288,7 +308,12 @@ const ALL_DATA = {
         { name: 'Ac Perfection', pts: 0, m: 3, v: 0, n: 0, d: 3, bm: 2, bc: 8, qualified: false },
       ],
     },
-    scorers: [],
+    scorers: [
+      { name: 'Paul Jefferson',      goals: 2, team: 'Fc Toro Elite' },
+      { name: 'Jeanty Maxime',       goals: 1, team: 'VAC'           },
+      { name: 'Merger Stanley',      goals: 1, team: 'Ade 30'        },
+      { name: 'Thierry Danilo Luca', goals: 1, team: 'SLG'           },
+    ],
     matches: [
       // Groupe A
       { home: 'Fc Toro Elite', away: 'Fc Flambo', scoreHome: 3, scoreAway: 0, group: 'A', kickoff: '2026-04-03T12:00:00Z', venue: 'Ste Thérèse' },
