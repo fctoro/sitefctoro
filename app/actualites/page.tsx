@@ -19,8 +19,9 @@ export default async function ActualitesPage() {
             { label: 'Actualités', href: '/actualites' },
           ]}
           theme="light"
+          absolute={false}
         />
-        <section className="px-4 pb-11 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pt-12">
+        <section className="px-4 pb-11 pt-4 sm:px-6 sm:pt-6 lg:px-8 lg:pt-8">
           <NewsBarcaGrid
             items={cmsArticles}
             eyebrow="Actualités du club"

@@ -50,9 +50,9 @@ export function NewsBarcaGrid({
           <Link
             key={`barca-news-${card.slug}`}
             href={`/actualites/${card.slug}`}
-            className="group aspect-square overflow-hidden bg-white shadow-[0_10px_18px_rgba(10,29,58,0.1)] transition-transform duration-300 hover:-translate-y-1"
+            className="group flex flex-col overflow-hidden bg-white shadow-[0_10px_18px_rgba(10,29,58,0.1)] transition-transform duration-300 hover:-translate-y-1"
           >
-            <div className="relative h-[52%] overflow-hidden bg-[#eef2f7]">
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#eef2f7]">
               <Image
                 src={card.image || '/placeholder.jpg'}
                 alt={card.title}
@@ -71,11 +71,11 @@ export function NewsBarcaGrid({
               </div>
             </div>
 
-            <div className="flex h-[48%] flex-col px-3.5 py-3">
+            <div className="flex flex-1 flex-col px-4 py-4">
               <h3 className="text-[1.15rem] font-black leading-[1.05] text-[#0a1d3a] line-clamp-2">{card.title}</h3>
               <p className="mt-1.5 text-[12px] leading-snug text-[#556987] line-clamp-2">{card.excerpt}</p>
 
-              <div className="mt-auto flex items-center justify-between pt-2">
+              <div className="mt-auto flex items-center justify-between pt-4">
                 <p className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.08em] text-[#ef233c]">
                   {card.category.replace(/actualite/i, 'Actualité')}
                 </p>

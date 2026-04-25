@@ -13,12 +13,16 @@ export interface BreadcrumbItem {
 interface BreadcrumbProps {
   items: BreadcrumbItem[]
   theme?: 'light' | 'dark'
+  absolute?: boolean
 }
 
-export function Breadcrumb({ items, theme = 'dark' }: BreadcrumbProps) {
+export function Breadcrumb({ items, theme = 'dark', absolute = true }: BreadcrumbProps) {
+  const positionClasses = absolute 
+    ? "absolute top-[124px] left-0 right-0 z-[150] lg:top-[78px]" 
+    : "relative z-[150]"
 
   return (
-    <div className="absolute top-[124px] left-0 right-0 z-[150] lg:top-[78px]">
+    <div className={positionClasses}>
       <div className="mx-auto max-w-[1100px] px-6 py-4">
         <motion.div
           initial={{ opacity: 0, x: -10 }}
