@@ -186,12 +186,12 @@ export default function ChampionsLeagueBracket({ cmsMatches }: { cmsMatches?: an
   }
 
   return (
-    <section className="relative min-h-[600px] w-full bg-[#0a0e2e] pt-32 pb-20 px-4 sm:px-6 lg:px-8 font-sans overflow-hidden mt-12">
+    <section className="relative min-h-[500px] w-full bg-[#0a0e2e] pt-12 pb-20 px-4 sm:px-6 lg:px-8 font-sans overflow-hidden mt-8">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#131d4f] via-[#0a0e2e] to-[#040614]" />
-      <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-[#1a4ea3]/20 to-transparent blur-3xl opacity-50" />
+      <div className="absolute top-0 left-0 w-full h-[400px] bg-gradient-to-b from-[#1a4ea3]/20 to-transparent blur-3xl opacity-50" />
       
-      <div className="relative mx-auto max-w-[1400px] z-10 mt-12">
-        <div className="text-center mb-16">
+      <div className="relative mx-auto max-w-[1400px] z-10 mt-4">
+        <div className="text-center mb-8">
           <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} className="flex flex-col items-center justify-center">
             <div className="mb-6 mx-auto h-32 w-32 flex items-center justify-center rounded-full bg-white/5 border border-white/10 shadow-[0_0_30px_rgba(26,78,163,0.3)] relative overflow-hidden p-4">
                <Image src="/flag-day/logo.png" alt="Flag Day Logo" fill className="object-contain p-2" />
@@ -205,7 +205,7 @@ export default function ChampionsLeagueBracket({ cmsMatches }: { cmsMatches?: an
           </motion.div>
         </div>
 
-        <div className="mb-14 flex flex-wrap justify-center gap-3 relative z-20">
+        <div className="mb-8 flex flex-wrap justify-center gap-3 relative z-20">
           {categories.map((cat) => (
             <button key={cat} onClick={() => setActiveTab(cat)} className={`relative px-6 py-2 text-xs font-black uppercase tracking-widest transition-all duration-300 rounded-full overflow-hidden ${activeTab === cat ? 'text-white' : 'text-[#4a5f8a] hover:text-white'}`}>
               {activeTab === cat && <motion.div layoutId="active-tab-uefa" className="absolute inset-0 bg-gradient-to-r from-[#1a4ea3] to-[#2563eb] border border-[#3b82f6] shadow-[0_0_20px_rgba(59,130,246,0.6)]" style={{ borderRadius: 9999 }} />}
@@ -227,84 +227,128 @@ export default function ChampionsLeagueBracket({ cmsMatches }: { cmsMatches?: an
                initial={{ opacity: 0, scale: 0.95 }}
                animate={{ opacity: 1, scale: 1 }}
                exit={{ opacity: 0, scale: 0.95 }}
-               transition={{ duration: 0.4, ease: "easeOut" }}
-               className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-4 items-center"
+               className="grid grid-cols-1 lg:grid-cols-5 gap-y-16 lg:gap-x-32 items-center"
              >
-                {/* 1/4 FINALES GAUCHE */}
-                <div className="space-y-12">
-                   {/* QF 1 */}
-                   <div className="space-y-2">
-                     <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#4a72d9]/60 block text-center">1/4 Finale 1</span>
-                     <BracketTeamBox team={qf1?.home_team?.name || ''} onClick={() => handleAdvanceToSemi(qf1?.home_team?.name, 1)} isWinner={sf1Home === qf1?.home_team?.name} isSelectable />
-                     <BracketTeamBox team={qf1?.away_team?.name || ''} onClick={() => handleAdvanceToSemi(qf1?.away_team?.name, 1)} isWinner={sf1Home === qf1?.away_team?.name} isSelectable />
-                   </div>
-                   {/* QF 2 */}
-                   <div className="space-y-2">
-                     <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#4a72d9]/60 block text-center">1/4 Finale 2</span>
-                     <BracketTeamBox team={qf2?.home_team?.name || ''} onClick={() => handleAdvanceToSemi(qf2?.home_team?.name, 2)} isWinner={sf1Away === qf2?.home_team?.name} isSelectable />
-                     <BracketTeamBox team={qf2?.away_team?.name || ''} onClick={() => handleAdvanceToSemi(qf2?.away_team?.name, 2)} isWinner={sf1Away === qf2?.away_team?.name} isSelectable />
-                   </div>
-                </div>
-
-                {/* 1/2 FINALE GAUCHE */}
-                <div className="space-y-4">
-                   <div className="text-center">
-                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4a72d9]">Demi Finale 1</span>
-                   </div>
-                   <BracketTeamBox team={sf1Home} onClick={() => handleAdvanceToFinal(sf1Home!, 'home')} isWinner={finalHome === sf1Home && sf1Home !== null} isSelectable={sf1Home !== null} placeholder="Winner 1/4-1" />
-                   <BracketTeamBox team={sf1Away} onClick={() => handleAdvanceToFinal(sf1Away!, 'home')} isWinner={finalHome === sf1Away && sf1Away !== null} isSelectable={sf1Away !== null} placeholder="Winner 1/4-2" />
-                </div>
-
-                {/* FINALE */}
-                <div className="flex flex-col items-center space-y-8">
-                   <div className="w-full max-w-[320px] mx-auto bg-[#0a0e2e]/80 border border-[#1a2b5e] rounded-lg p-3 backdrop-blur-sm shadow-2xl">
-                      <div className="text-center mb-4">
-                        <span className="text-[12px] font-black uppercase tracking-[0.3em] text-[#f0b429] drop-shadow-[0_0_8px_rgba(240,180,41,0.5)]">Finale</span>
+                 {/* 1/4 FINALES GAUCHE */}
+                 <div className="relative space-y-24 py-12">
+                    {/* QF 1 */}
+                    <div className="relative">
+                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#4a72d9]/60 block text-center mb-2">1/4 Finale 1</span>
+                      <div className="relative space-y-1">
+                        <BracketTeamBox team={qf1?.home_team?.name || ''} onClick={() => handleAdvanceToSemi(qf1?.home_team?.name, 1)} isWinner={sf1Home === qf1?.home_team?.name} isSelectable />
+                        <BracketTeamBox team={qf1?.away_team?.name || ''} onClick={() => handleAdvanceToSemi(qf1?.away_team?.name, 1)} isWinner={sf1Home === qf1?.away_team?.name} isSelectable />
+                        {/* Fork ]- */}
+                        <div className="hidden lg:block absolute pointer-events-none -right-4 lg:-right-6 top-[25px] bottom-[25px] w-4 lg:w-6 border-t-[2px] border-r-[2px] border-b-[2px] border-[#3b82f6] rounded-r-sm" />
+                        {/* Horizontal line to big vertical */}
+                        <div className="hidden lg:block absolute pointer-events-none -right-8 lg:-right-12 top-1/2 w-4 lg:w-6 h-[2px] bg-[#3b82f6]" />
                       </div>
-                      <BracketTeamBox team={finalHome} onClick={() => handleAdvanceToChampion(finalHome!)} isWinner={champion === finalHome && champion !== null} isSelectable={finalHome !== null} placeholder="Winner SF1" />
-                      <div className="flex items-center gap-2 py-3">
-                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#1a2b5e] to-transparent" />
-                        <span className="text-[10px] font-black text-[#4a5f8a]">VS</span>
-                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#1a2b5e] to-transparent" />
+                    </div>
+                    {/* QF 2 */}
+                    <div className="relative">
+                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#4a72d9]/60 block text-center mb-2">1/4 Finale 2</span>
+                      <div className="relative space-y-1">
+                        <BracketTeamBox team={qf2?.home_team?.name || ''} onClick={() => handleAdvanceToSemi(qf2?.home_team?.name, 2)} isWinner={sf1Away === qf2?.home_team?.name} isSelectable />
+                        <BracketTeamBox team={qf2?.away_team?.name || ''} onClick={() => handleAdvanceToSemi(qf2?.away_team?.name, 2)} isWinner={sf1Away === qf2?.away_team?.name} isSelectable />
+                        {/* Fork ]- */}
+                        <div className="hidden lg:block absolute pointer-events-none -right-4 lg:-right-6 top-[25px] bottom-[25px] w-4 lg:w-6 border-t-[2px] border-r-[2px] border-b-[2px] border-[#3b82f6] rounded-r-sm" />
+                        {/* Horizontal line to big vertical */}
+                        <div className="hidden lg:block absolute pointer-events-none -right-8 lg:-right-12 top-1/2 w-4 lg:w-6 h-[2px] bg-[#3b82f6]" />
                       </div>
-                      <BracketTeamBox team={finalAway} onClick={() => handleAdvanceToChampion(finalAway!)} isWinner={champion === finalAway && champion !== null} isSelectable={finalAway !== null} placeholder="Winner SF2" />
-                   </div>
-                   
-                   {champion && (
-                      <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="w-[280px] bg-gradient-to-b from-[#1a4ea3] to-[#0f1738] p-4 rounded-2xl text-center shadow-[0_0_40px_rgba(26,78,163,0.5)] border border-white/10">
-                         <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#f0b429] mb-4">Champion {activeTab}</p>
-                         <div className="h-20 w-20 mx-auto bg-white rounded-full p-2 mb-4">
-                            <img src={getLogo(champion)} alt={champion} className="h-full w-full object-contain" />
+                    </div>
+                    {/* Vertical Fork Left */}
+                    <div className="hidden lg:block absolute pointer-events-none -right-8 lg:-right-12 top-[120px] bottom-[98px] w-[2px] bg-[#3b82f6]" />
+                    <div className="hidden lg:block absolute pointer-events-none -right-16 lg:-right-[128px] top-1/2 h-[2px] w-8 lg:w-[80px] bg-[#3b82f6]" />
+                 </div>
+
+                 {/* 1/2 FINALE GAUCHE */}
+                 <div className="relative space-y-8">
+                    <div className="text-center">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4a72d9] mb-3 block">Demi Finale 1</span>
+                    </div>
+                    <div className="relative space-y-1">
+                      <BracketTeamBox team={sf1Home} onClick={() => handleAdvanceToFinal(sf1Home!, 'home')} isWinner={finalHome === sf1Home && sf1Home !== null} isSelectable={sf1Home !== null} placeholder="Winner 1/4-1" />
+                      <BracketTeamBox team={sf1Away} onClick={() => handleAdvanceToFinal(sf1Away!, 'home')} isWinner={finalHome === sf1Away && sf1Away !== null} isSelectable={sf1Away !== null} placeholder="Winner 1/4-2" />
+                      {/* Fork ]- */}
+                      <div className="hidden lg:block absolute pointer-events-none -right-4 lg:-right-6 top-[25px] bottom-[25px] w-4 lg:w-6 border-t-[2px] border-r-[2px] border-b-[2px] border-[#3b82f6] rounded-r-sm" />
+                      {/* Horizontal to Final */}
+                      <div className="hidden lg:block absolute pointer-events-none -right-16 lg:-right-[128px] top-1/2 w-12 lg:w-[104px] h-[2px] bg-[#3b82f6]" />
+                    </div>
+                 </div>
+
+                 {/* FINALE */}
+                 <div className="relative flex flex-col items-center space-y-12">
+                    <div className="w-full max-w-[320px] mx-auto bg-[#0a0e2e]/80 border border-[#1a2b5e] rounded-lg p-4 backdrop-blur-sm shadow-2xl relative z-10">
+                       <div className="text-center mb-6">
+                         <span className="text-[14px] font-black uppercase tracking-[0.4em] text-[#f0b429] drop-shadow-[0_0_10px_rgba(240,180,41,0.4)]">Finale</span>
+                       </div>
+                       <div className="space-y-1">
+                         <BracketTeamBox team={finalHome} onClick={() => handleAdvanceToChampion(finalHome!)} isWinner={champion === finalHome && champion !== null} isSelectable={finalHome !== null} placeholder="Winner SF1" />
+                         <div className="flex items-center gap-2 py-4">
+                           <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-[#3b82f6]/50 to-transparent" />
+                           <span className="text-[10px] font-black text-[#4a5f8a] px-2">VS</span>
+                           <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-[#3b82f6]/50 to-transparent" />
                          </div>
-                         <p className="text-xl font-black uppercase text-white">{champion}</p>
-                      </motion.div>
-                   )}
-                </div>
+                         <BracketTeamBox team={finalAway} onClick={() => handleAdvanceToChampion(finalAway!)} isWinner={champion === finalAway && champion !== null} isSelectable={finalAway !== null} placeholder="Winner SF2" />
+                       </div>
+                    </div>
+                    
+                    {champion && (
+                       <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="w-[280px] bg-gradient-to-b from-[#1a4ea3] to-[#0f1738] p-5 rounded-2xl text-center shadow-[0_0_50px_rgba(26,78,163,0.4)] border border-white/10">
+                          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#f0b429] mb-4">Champion {activeTab}</p>
+                          <div className="h-24 w-24 mx-auto bg-white rounded-full p-2.5 mb-4 shadow-inner">
+                             {/* eslint-disable-next-line @next/next/no-img-element */}
+                             <img src={getLogo(champion)} alt={champion} className="h-full w-full object-contain" />
+                          </div>
+                          <p className="text-2xl font-black uppercase text-white tracking-tight">{champion}</p>
+                       </motion.div>
+                    )}
+                 </div>
 
-                {/* 1/2 FINALE DROITE */}
-                <div className="space-y-4">
-                   <div className="text-center">
-                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4a72d9]">Demi Finale 2</span>
-                   </div>
-                   <BracketTeamBox team={sf2Home} onClick={() => handleAdvanceToFinal(sf2Home!, 'away')} isWinner={finalAway === sf2Home && sf2Home !== null} isSelectable={sf2Home !== null} placeholder="Winner 1/4-3" />
-                   <BracketTeamBox team={sf2Away} onClick={() => handleAdvanceToFinal(sf2Away!, 'away')} isWinner={finalAway === sf2Away && sf2Away !== null} isSelectable={sf2Away !== null} placeholder="Winner 1/4-4" />
-                </div>
+                 {/* 1/2 FINALE DROITE */}
+                 <div className="relative space-y-8">
+                    <div className="text-center">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4a72d9] mb-3 block">Demi Finale 2</span>
+                    </div>
+                    <div className="relative space-y-1">
+                       {/* Fork -[ */}
+                       <div className="hidden lg:block absolute pointer-events-none -left-4 lg:-left-6 top-[25px] bottom-[25px] w-4 lg:w-6 border-t-[2px] border-l-[2px] border-b-[2px] border-[#3b82f6] rounded-l-sm" />
+                       {/* Horizontal to Final */}
+                       <div className="hidden lg:block absolute pointer-events-none -left-16 lg:-left-[128px] top-1/2 w-12 lg:w-[104px] h-[2px] bg-[#3b82f6]" />
+                       <BracketTeamBox team={sf2Home} onClick={() => handleAdvanceToFinal(sf2Home!, 'away')} isWinner={finalAway === sf2Home && sf2Home !== null} isSelectable={sf2Home !== null} placeholder="Winner 1/4-3" />
+                       <BracketTeamBox team={sf2Away} onClick={() => handleAdvanceToFinal(sf2Away!, 'away')} isWinner={finalAway === sf2Away && sf2Away !== null} isSelectable={sf2Away !== null} placeholder="Winner 1/4-4" />
+                    </div>
+                 </div>
 
-                {/* 1/4 FINALES DROITE */}
-                <div className="space-y-12">
-                   {/* QF 3 */}
-                   <div className="space-y-2">
-                     <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#4a72d9]/60 block text-center">1/4 Finale 3</span>
-                     <BracketTeamBox team={qf3?.home_team?.name || ''} onClick={() => handleAdvanceToSemi(qf3?.home_team?.name, 3)} isWinner={sf2Home === qf3?.home_team?.name} isSelectable />
-                     <BracketTeamBox team={qf3?.away_team?.name || ''} onClick={() => handleAdvanceToSemi(qf3?.away_team?.name, 3)} isWinner={sf2Home === qf3?.away_team?.name} isSelectable />
-                   </div>
-                   {/* QF 4 */}
-                   <div className="space-y-2">
-                     <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#4a72d9]/60 block text-center">1/4 Finale 4</span>
-                     <BracketTeamBox team={qf4?.home_team?.name || ''} onClick={() => handleAdvanceToSemi(qf4?.home_team?.name, 4)} isWinner={sf2Away === qf4?.home_team?.name} isSelectable />
-                     <BracketTeamBox team={qf4?.away_team?.name || ''} onClick={() => handleAdvanceToSemi(qf4?.away_team?.name, 4)} isWinner={sf2Away === qf4?.away_team?.name} isSelectable />
-                   </div>
-                </div>
+                 {/* 1/4 FINALES DROITE */}
+                 <div className="relative space-y-24 py-12">
+                    {/* QF 3 */}
+                    <div className="relative">
+                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#4a72d9]/60 block text-center mb-2">1/4 Finale 3</span>
+                      <div className="relative space-y-1">
+                        {/* Fork -[ */}
+                        <div className="hidden lg:block absolute pointer-events-none -left-4 lg:-left-6 top-[25px] bottom-[25px] w-4 lg:w-6 border-t-[2px] border-l-[2px] border-b-[2px] border-[#3b82f6] rounded-l-sm" />
+                        {/* Horizontal line to big vertical */}
+                        <div className="hidden lg:block absolute pointer-events-none -left-8 lg:-left-12 top-1/2 w-4 lg:w-6 h-[2px] bg-[#3b82f6]" />
+                        <BracketTeamBox team={qf3?.home_team?.name || ''} onClick={() => handleAdvanceToSemi(qf3?.home_team?.name, 3)} isWinner={sf2Home === qf3?.home_team?.name} isSelectable />
+                        <BracketTeamBox team={qf3?.away_team?.name || ''} onClick={() => handleAdvanceToSemi(qf3?.away_team?.name, 3)} isWinner={sf2Home === qf3?.away_team?.name} isSelectable />
+                      </div>
+                    </div>
+                    {/* QF 4 */}
+                    <div className="relative">
+                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#4a72d9]/60 block text-center mb-2">1/4 Finale 4</span>
+                      <div className="relative space-y-1">
+                        {/* Fork -[ */}
+                        <div className="hidden lg:block absolute pointer-events-none -left-4 lg:-left-6 top-[25px] bottom-[25px] w-4 lg:w-6 border-t-[2px] border-l-[2px] border-b-[2px] border-[#3b82f6] rounded-l-sm" />
+                        {/* Horizontal line to big vertical */}
+                        <div className="hidden lg:block absolute pointer-events-none -left-8 lg:-left-12 top-1/2 w-4 lg:w-6 h-[2px] bg-[#3b82f6]" />
+                        <BracketTeamBox team={qf4?.home_team?.name || ''} onClick={() => handleAdvanceToSemi(qf4?.home_team?.name, 4)} isWinner={sf2Away === qf4?.home_team?.name} isSelectable />
+                        <BracketTeamBox team={qf4?.away_team?.name || ''} onClick={() => handleAdvanceToSemi(qf4?.away_team?.name, 4)} isWinner={sf2Away === qf4?.away_team?.name} isSelectable />
+                      </div>
+                    </div>
+                    {/* Vertical Fork Right */}
+                    <div className="hidden lg:block absolute pointer-events-none -left-8 lg:-left-12 top-[120px] bottom-[98px] w-[2px] bg-[#3b82f6]" />
+                    <div className="hidden lg:block absolute pointer-events-none -left-16 lg:-left-[128px] top-1/2 h-[2px] w-8 lg:w-[80px] bg-[#3b82f6]" />
+                 </div>
              </motion.div>
            </AnimatePresence>
         </div>

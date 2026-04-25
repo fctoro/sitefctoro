@@ -150,11 +150,11 @@ export async function POST(request: Request) {
       return acc
     }, {})
 
-    const missingConsents = Object.values(consents).some((value) => !value)
-    if (missingConsents) {
+    // Seule la confirmation de l'exactitude des informations est strictement obligatoire
+    if (!consents.consent_accuracy) {
       return NextResponse.json(
         {
-          error: 'Veuillez accepter toutes les autorisations requises.',
+          error: 'Veuillez confirmer que les informations sont exactes.',
         },
         { status: 400 }
       )
@@ -318,11 +318,11 @@ export async function POST(request: Request) {
       client.release()
     }
 
-    await sendRegistrationEmail({
+    sendRegistrationEmail({
       to: payload.guardian_email,
       guardianName: payload.guardian_name,
       program: payload.program,
-    })
+    }).catch((err) => console.error("Erreur d'envoi email en arrière-plan:", err))
 
     return NextResponse.json({
       message:

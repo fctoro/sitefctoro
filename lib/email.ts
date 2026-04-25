@@ -77,13 +77,15 @@ const smtpPass = process.env.SMTP_PASS
 const smtpFrom = process.env.SMTP_FROM
 const smtpFromName = process.env.SMTP_FROM_NAME || 'FC TORO'
 
+import path from 'path'
+
 const frontendUrl = (process.env.FRONTEND_URL || process.env.BASE_URL || 'https://fctoro.com').replace(/\/$/, '')
 const logoCid = 'fc-toro-logo'
-const logoPath = fileURLToPath(new URL('../public/fc-toro-logo.png', import.meta.url))
-const instagramIconPath = fileURLToPath(new URL('../public/email-instagram.png', import.meta.url))
-const facebookIconPath = fileURLToPath(new URL('../public/email-facebook.png', import.meta.url))
-const tiktokIconPath = fileURLToPath(new URL('../public/email-tiktok.png', import.meta.url))
-const youtubeIconPath = fileURLToPath(new URL('../public/email-youtube.png', import.meta.url))
+const logoPath = path.join(process.cwd(), 'public', 'fc-toro-logo.png')
+const instagramIconPath = path.join(process.cwd(), 'public', 'email-instagram.png')
+const facebookIconPath = path.join(process.cwd(), 'public', 'email-facebook.png')
+const tiktokIconPath = path.join(process.cwd(), 'public', 'email-tiktok.png')
+const youtubeIconPath = path.join(process.cwd(), 'public', 'email-youtube.png')
 const hasInlineLogo = existsSync(logoPath)
 const fanSocialLinks: SocialLink[] = [
   {

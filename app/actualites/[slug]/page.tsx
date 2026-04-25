@@ -109,9 +109,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </div>
 
               <div className="p-6 sm:p-8">
-                <div className="space-y-5 text-[15px] leading-relaxed text-[#4f6484] sm:text-base">
-                  {article.content.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
+                <div className="text-[15px] leading-relaxed text-[#4f6484] sm:text-base">
+                  {article.content.map((paragraph, idx) => (
+                    <div 
+                      key={idx}
+                      dangerouslySetInnerHTML={{ __html: paragraph }}
+                      className="[&_p]:mb-5 [&>div]:mb-5 [&_a]:text-[#ef233c] hover:[&_a]:text-[#d91f34] [&_a]:underline [&_strong]:font-bold [&_strong]:text-[#0a1d3a] [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-5 [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:text-[#0a1d3a] [&_h1]:mb-4 [&_h1]:mt-8 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-[#0a1d3a] [&_h2]:mb-3 [&_h2]:mt-6 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-[#0a1d3a] [&_h3]:mb-3 [&_h3]:mt-6"
+                    />
                   ))}
                 </div>
               </div>
