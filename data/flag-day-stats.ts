@@ -4,6 +4,7 @@ export const logoMap: Record<string, string> = {
   'Fc Toro PV': '/logos/FC-TORO.png',
   'FC Toro Elite': '/logos/FC-TORO.png',
   'CSP': '/logos/CSP.png',
+  'CPS': '/logos/CSP.png',
   'Fc Colonne': '/logos/FC COLOGNE.png',
   'PAC': '/logos/PAC.png',
   'JACOT': '/logos/JACOT FOOTBAL PASSION.png',
@@ -15,6 +16,11 @@ export const logoMap: Record<string, string> = {
   'Condor EF': '/logos/CONDOR EF.png',
   'Condor': '/logos/CONDOR EF.png',
   'Condor Ef': '/logos/CONDOR EF.png',
+  'FC CONDOR': '/logos/CONDOR EF.png',
+  'Fc Condor': '/logos/CONDOR EF.png',
+  'Conddor': '/logos/CONDOR EF.png',
+  'Conddor EF': '/logos/CONDOR EF.png',
+  'Conddor Ef': '/logos/CONDOR EF.png',
   'ASF': '/logos/ASF.png',
   'AST': '/logos/AST.png',
   'FC MDM': '/logos/FCDM.png',
@@ -28,10 +34,17 @@ export const logoMap: Record<string, string> = {
   'Academie Perf': '/logos/ACADEMIE PERFECTION.png',
   'Ac. Perfection': '/logos/ACADEMIE PERFECTION.png',
   'Ac Perfection': '/logos/ACADEMIE PERFECTION.png',
+  'FC Perfection': '/logos/PERFECTION FC.png',
+  'FC PERFECTION': '/logos/PERFECTION FC.png',
+  'Fc Perfection': '/logos/PERFECTION FC.png',
   'Idelo FC': '/logos/IDELO FC.png',
   'Idelo': '/logos/IDELO FC.png',
+  'FC IDELO': '/logos/IDELO FC.png',
   'Legend EF': '/logos/FC LEGENDS.png',
   'FC Legend': '/logos/FC LEGENDS.png',
+  'FC LEGEND': '/logos/FC LEGENDS.png',
+  'EF.LEGEND': '/logos/FC LEGENDS.png',
+  'EF LEGEND': '/logos/FC LEGENDS.png',
   'SLG': '/logos/SLG ACADEMIE.png',
   'Saint Louis de G': '/logos/SLG ACADEMIE.png',
   'Rev United': '/logos/REV UNITED.png',
@@ -45,7 +58,19 @@ export const logoMap: Record<string, string> = {
   'ANAC': '/logos/AIGLE NOIR.png',
 };
 
-export const getLogo = (name: string) => logoMap[name] || '/placeholder-logo.png';
+export const getLogo = (name: string) => {
+  if (!name) return '/placeholder-logo.png';
+  const trimmed = name.trim();
+  // Try direct match
+  if (logoMap[trimmed]) return logoMap[trimmed];
+  
+  // Try case-insensitive match
+  const lowerName = trimmed.toLowerCase();
+  const found = Object.keys(logoMap).find(key => key.toLowerCase() === lowerName);
+  if (found) return logoMap[found];
+
+  return '/placeholder-logo.png';
+};
 
 export type StandingsRow = { name: string; pts: number; m: number; v: number; n: number; d: number; bm: number; bc: number; df: number; pl: string };
 export type Scorer = { name: string; goals: number; team: string };
@@ -263,10 +288,16 @@ export const flagDayMatches: Record<string, MatchResult[]> = {
 
 // Route to the Final bracket
 export type BracketMatch = { home: string; away: string; scoreHome: number | null; scoreAway: number | null };
-export type BracketData = { semiFinals: BracketMatch[]; final: BracketMatch; champion: string | null };
+export type BracketData = { quarterFinals: BracketMatch[]; semiFinals: BracketMatch[]; final: BracketMatch; champion: string | null };
 
 export const flagDayBracket: Record<string, BracketData> = {
   U9: {
+    quarterFinals: [
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+    ],
     semiFinals: [
       { home: '', away: '', scoreHome: null, scoreAway: null },
       { home: '', away: '', scoreHome: null, scoreAway: null },
@@ -275,6 +306,12 @@ export const flagDayBracket: Record<string, BracketData> = {
     champion: null,
   },
   U11: {
+    quarterFinals: [
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+    ],
     semiFinals: [
       { home: '', away: '', scoreHome: null, scoreAway: null },
       { home: '', away: '', scoreHome: null, scoreAway: null },
@@ -283,6 +320,12 @@ export const flagDayBracket: Record<string, BracketData> = {
     champion: null,
   },
   U13: {
+    quarterFinals: [
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+    ],
     semiFinals: [
       { home: '', away: '', scoreHome: null, scoreAway: null },
       { home: '', away: '', scoreHome: null, scoreAway: null },
@@ -291,6 +334,12 @@ export const flagDayBracket: Record<string, BracketData> = {
     champion: null,
   },
   U15: {
+    quarterFinals: [
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+      { home: '', away: '', scoreHome: null, scoreAway: null },
+    ],
     semiFinals: [
       { home: '', away: '', scoreHome: null, scoreAway: null },
       { home: '', away: '', scoreHome: null, scoreAway: null },

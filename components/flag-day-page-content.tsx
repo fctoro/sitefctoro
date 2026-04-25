@@ -67,10 +67,10 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
 
   const formattedCmsStandings = {
     A: sortStandings(cmsStandingsRaw?.filter(s => s.group_name === 'A').map(s => ({
-      name: s.team.name, pts: s.points, m: s.played, v: s.won, n: s.drawn, d: s.lost, bm: s.goals_for, bc: s.goals_against, df: s.goals_for - s.goals_against, pl: s.is_qualified ? 'Q' : ''
+      name: s.team.name, logo: s.team.logo_url, pts: s.points, m: s.played, v: s.won, n: s.drawn, d: s.lost, bm: s.goals_for, bc: s.goals_against, df: s.goals_for - s.goals_against, pl: s.is_qualified ? 'Q' : ''
     })) || []),
     B: sortStandings(cmsStandingsRaw?.filter(s => s.group_name === 'B').map(s => ({
-      name: s.team.name, pts: s.points, m: s.played, v: s.won, n: s.drawn, d: s.lost, bm: s.goals_for, bc: s.goals_against, df: s.goals_for - s.goals_against, pl: s.is_qualified ? 'Q' : ''
+      name: s.team.name, logo: s.team.logo_url, pts: s.points, m: s.played, v: s.won, n: s.drawn, d: s.lost, bm: s.goals_for, bc: s.goals_against, df: s.goals_for - s.goals_against, pl: s.is_qualified ? 'Q' : ''
     })) || [])
   }
 
@@ -86,7 +86,7 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
   const currentData = {
     groups: isCmsActive ? formattedCmsStandings : { A: [], B: [] },
     scorers: isCmsActive 
-      ? (cmsScorersRaw ?? []).map(s => ({ name: s.player_name, goals: s.goals, team: s.team_name })) 
+      ? (cmsScorersRaw ?? []).map(s => ({ name: s.player_name, goals: s.goals, team: s.team_name, logo: s.team_logo_url })) 
       : [],
     qualified: (isCmsActive && (cmsQualified.A || cmsQualified.B)) ? cmsQualified : { A: '', B: '' }
   }
@@ -94,7 +94,9 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
   // 3. Fusionner les matchs (Priorité CMS totale)
   const formattedCmsMatches = cmsMatchesRaw?.map(m => ({
     home: m.home_team.name,
+    homeLogo: m.home_team.logo_url,
     away: m.away_team.name,
+    awayLogo: m.away_team.logo_url,
     scoreHome: m.home_score,
     scoreAway: m.away_score,
     group: m.round.includes('Groupe A') ? 'A' : (m.round.includes('Groupe B') ? 'B' : 'A')
@@ -316,7 +318,7 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
                               : 'ring-[#d7dfec]'
                           }`}>
                             <Image
-                              src={getLogo(match.home)}
+                              src={match.homeLogo || getLogo(match.home)}
                               alt={match.home}
                               fill
                               sizes="64px"
@@ -357,7 +359,7 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
                               : 'ring-[#d7dfec]'
                           }`}>
                             <Image
-                              src={getLogo(match.away)}
+                              src={match.awayLogo || getLogo(match.away)}
                               alt={match.away}
                               fill
                               sizes="64px"
@@ -492,7 +494,7 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
                                   <div className="flex items-center gap-3">
                                     <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-white shadow-sm p-0.5">
                                       <Image
-                                        src={getLogo(row.name)}
+                                        src={row.logo || getLogo(row.name)}
                                         alt={row.name}
                                         fill
                                         sizes="32px"
@@ -583,7 +585,7 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
                             <div className="flex items-center gap-1.5 mt-0.5">
                               <div className="relative h-4 w-4 shrink-0 overflow-hidden rounded-full bg-white p-0.5">
                                 <Image
-                                  src={getLogo(scorer.team)}
+                                  src={scorer.logo || getLogo(scorer.team)}
                                   alt={scorer.team}
                                   fill sizes="16px"
                                   className="object-contain"

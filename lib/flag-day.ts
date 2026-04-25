@@ -212,20 +212,22 @@ export async function getFlagDayCmsData(): Promise<FlagDayCmsData> {
       }
     })
 
-    const { rows: scorerRows } = await pool.query<ScorerRow>(
+    const { rows: scorerRows } = await pool.query<ScorerRow & { team_logo_url: string | null }>(
       `
         select
           s.player_name,
           s.team_name,
-          s.goals
+          s.goals,
+          t.logo_url as team_logo_url
         from flagday_match_scorers s
         inner join flagday_matches m on m.id = s.match_id
+        left join flagday_teams t on t.name = s.team_name
         where m.competition_id = any($1::uuid[])
       `,
       [publishedIds],
     )
 
-    const aggregatedScorersMap: Record<string, { player_name: string; team_name: string; goals: number }> = {}
+    const aggregatedScorersMap: Record<string, { player_name: string; team_name: string; goals: number; team_logo_url: string | null }> = {}
 
     scorerRows.forEach((scorer) => {
       const playerName = scorer.player_name?.trim()
@@ -242,6 +244,7 @@ export async function getFlagDayCmsData(): Promise<FlagDayCmsData> {
           player_name: playerName,
           team_name: teamName,
           goals: 0,
+          team_logo_url: scorer.team_logo_url,
         }
       }
 
