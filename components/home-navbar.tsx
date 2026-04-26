@@ -356,7 +356,10 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
         </nav>
 
         <div className="toro-tricolor-bar" aria-hidden="true">
-          <div className="toro-tricolor-track" />
+          <div className="flex h-full w-full">
+            <div className="toro-tricolor-track" />
+            <div className="toro-tricolor-track" />
+          </div>
         </div>
 
         <AnimatePresence>
