@@ -135,7 +135,7 @@
 
 @keyframes toro-tricolor-slide-right {
   0% {
-    transform: translateX(-33.333%);
+    transform: translateX(-50%);
   }
   100% {
     transform: translateX(0);
@@ -202,14 +202,20 @@
     background-image: linear-gradient(
       90deg,
       #05070d 0%,
-      #ef233c 16.66%,
-      #ff5b73 33.33%,
-      #101826 50%,
-      #dbe7ff 66.66%,
-      #1a4ea3 83.33%,
+      #ef233c 8.33%,
+      #ff5b73 16.66%,
+      #101826 25%,
+      #dbe7ff 33.33%,
+      #1a4ea3 41.66%,
+      #05070d 50%,
+      #ef233c 58.33%,
+      #ff5b73 66.66%,
+      #101826 75%,
+      #dbe7ff 83.33%,
+      #1a4ea3 91.66%,
       #05070d 100%
     );
-    background-size: 50% 100%;
+    background-size: 100% 100%;
     background-repeat: repeat-x;
     animation: toro-tricolor-slide-right 8s linear infinite;
     will-change: transform;
