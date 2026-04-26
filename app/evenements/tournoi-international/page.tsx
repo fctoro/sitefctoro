@@ -159,7 +159,7 @@ export default function TournoiInternationalPage() {
               >
                 <div className="space-y-6">
                   <div className="flex items-center gap-4 border-b border-white/10 pb-6">
-                    <div className="h-12 w-12 rounded-full bg-[#ef233c] flex items-center justify-center">
+                    <div className="h-12 w-12 shrink-0 rounded-full bg-[#ef233c] flex items-center justify-center">
                       <RiTrophyLine className="h-6 w-6 text-white" />
                     </div>
                     <div>
@@ -169,7 +169,7 @@ export default function TournoiInternationalPage() {
                   </div>
                   
                   <div className="flex items-center gap-4 border-b border-white/10 pb-6">
-                    <div className="h-12 w-12 rounded-full bg-[#1a4ea3] flex items-center justify-center">
+                    <div className="h-12 w-12 shrink-0 rounded-full bg-[#1a4ea3] flex items-center justify-center">
                       <RiGroupLine className="h-6 w-6 text-white" />
                     </div>
                     <div>
@@ -179,7 +179,7 @@ export default function TournoiInternationalPage() {
                   </div>
 
                   <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-full bg-[#ffc107] flex items-center justify-center">
+                    <div className="h-12 w-12 shrink-0 rounded-full bg-[#ffc107] flex items-center justify-center">
                       <RiStarLine className="h-6 w-6 text-black" />
                     </div>
                     <div>
