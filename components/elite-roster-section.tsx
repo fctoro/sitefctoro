@@ -44,7 +44,7 @@ function ElitePlayerPhoto({
       unoptimized={true}
       quality={78}
       sizes="(min-width: 1280px) 16vw, (min-width: 1024px) 18vw, (min-width: 640px) 42vw, 84vw"
-      className="object-cover object-top drop-shadow-2xl"
+      className="object-cover object-top"
       onError={() => {
         if (imageSrc !== '/placeholder-user.jpg') {
           setImageSrc('/placeholder-user.jpg')
@@ -156,7 +156,7 @@ export function EliteRosterSection({
                     className="group"
                   >
                     <div
-                      className={`relative aspect-[0.78] overflow-hidden rounded-[28px] border border-white/10 shadow-[0_18px_38px_rgba(10,29,58,0.18)] transition-transform duration-300 group-hover:-translate-y-1 ${
+                      className={`relative aspect-[0.78] isolate overflow-hidden rounded-[28px] border border-white/10 shadow-[0_18px_38px_rgba(10,29,58,0.18)] transition-transform duration-300 group-hover:-translate-y-1 [mask-image:radial-gradient(white,black)] ${
                         isRed
                           ? 'bg-[linear-gradient(180deg,#ff304c_0%,#d71131_100%)]'
                           : 'bg-[linear-gradient(180deg,#1b63d2_0%,#0f377d_100%)]'
@@ -172,15 +172,13 @@ export function EliteRosterSection({
                       />
                       <div className="absolute inset-y-0 right-[20%] z-20 w-px bg-white/12" />
 
-                      <div className="absolute inset-0 z-10 p-[1%] lg:bottom-0 lg:left-[-4%] lg:right-[18%] lg:top-3 lg:p-0">
+                      <div className="absolute inset-0 z-10 lg:bottom-0 lg:left-[-4%] lg:right-[18%] lg:top-3">
                         {player.photo_url ? (
-                          <div className="relative h-full w-full">
-                            <ElitePlayerPhoto
-                              src={player.photo_url}
-                              alt={player.name}
-                              priority={index < 5}
-                            />
-                          </div>
+                          <ElitePlayerPhoto
+                            src={player.photo_url}
+                            alt={player.name}
+                            priority={index < 5}
+                          />
                         ) : null}
                       </div>
 
