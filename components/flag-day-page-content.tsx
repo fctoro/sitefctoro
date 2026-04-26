@@ -53,14 +53,21 @@ export default function FlagDayPageContent({ cmsData }: { cmsData?: CmsData }) {
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid')
 
   // 2. Préparer les données de la catégorie active
-  const activeCompetition = cmsData?.competitions.find(c => 
-    c.age_category?.trim().toUpperCase() === activeCategory.trim().toUpperCase()
+  // On cherche d'abord la catégorie par son nom (ex: "U9")
+  const activeCmsCat = cmsData?.categories.find(c => 
+    c.name?.trim().toUpperCase() === activeCategory.trim().toUpperCase()
   )
-  const activeCmsCat = cmsData?.categories.find(c => c.competition_id === activeCompetition?.id)
+
+  // On trouve la compétition associée à cette catégorie
+  const activeCompetition = activeCmsCat 
+    ? cmsData?.competitions.find(c => c.id === activeCmsCat.competition_id)
+    : cmsData?.competitions.find(c => 
+        c.age_category?.trim().toUpperCase() === activeCategory.trim().toUpperCase()
+      )
   
   const cmsStandingsRaw = activeCmsCat ? cmsData?.standings.filter(s => s.category_id === activeCmsCat.id) : []
-  const cmsScorersRaw = activeCompetition ? cmsData?.scorers.filter(s => s.competition_id === activeCompetition.id) : []
-  const cmsMatchesRaw = activeCompetition ? cmsData?.matches.filter(m => m.competition_id === activeCompetition.id) : []
+  const cmsScorersRaw = activeCmsCat ? cmsData?.scorers.filter(s => s.category_id === activeCmsCat.id) : []
+  const cmsMatchesRaw = activeCmsCat ? cmsData?.matches.filter(m => m.category_id === activeCmsCat.id) : []
 
   // Formatter et TRIER les standings CMS
   const sortStandings = (list: any[]) => {

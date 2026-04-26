@@ -29,6 +29,7 @@ type CategoryRow = {
 type MatchRow = {
   id: string
   competition_id: string
+  category_id?: string | null
   round: string | null
   kickoff: string | Date | null
   status: string | null
@@ -76,9 +77,9 @@ type ScorerRow = {
 export type FlagDayCmsData = {
   competitions: CompetitionRow[]
   categories: CategoryRow[]
-  matches: Array<MatchRow & { home_team: { name: string; logo_url: string | null }; away_team: { name: string; logo_url: string | null } }>
+  matches: Array<MatchRow & { home_team: { name: string; logo_url: string | null }; away_team: { name: string; logo_url: string | null }; category_id: string | null }>
   standings: Array<StandingRow & { team: { name: string; logo_url: string | null } }>
-  scorers: Array<{ player_name: string; team_name: string; goals: number }>
+  scorers: Array<{ player_name: string; team_name: string; goals: number; category_id: string }>
 }
 
 function emptyFlagDayData(): FlagDayCmsData {
@@ -122,7 +123,7 @@ export async function getFlagDayCmsData(): Promise<FlagDayCmsData> {
 
     const categoryIds = categories.map((category) => category.id)
 
-    const { rows: matchesRows } = await pool.query<MatchRow>(
+    const { rows: matchesRows } = await pool.query<MatchRow & { category_id: string | null }>(
       `
         select
           m.*,
@@ -173,12 +174,13 @@ export async function getFlagDayCmsData(): Promise<FlagDayCmsData> {
     // Remove the in-memory recalculation of standings to avoid cross-category aggregation bugs.
     // The standings are already correctly calculated and stored in the database via the seed script.
 
-    const { rows: scorerRows } = await pool.query<ScorerRow & { team_logo_url: string | null; competition_id: string }>(
+    const { rows: scorerRows } = await pool.query<ScorerRow & { team_logo_url: string | null; competition_id: string; category_id: string }>(
       `
         select
           s.player_name,
           s.team_name,
           s.goals,
+          s.category_id,
           t.logo_url as team_logo_url,
           cat.competition_id
         from flagday_top_scorers s
@@ -200,8 +202,7 @@ export async function getFlagDayCmsData(): Promise<FlagDayCmsData> {
         return
       }
 
-      // Group scorers by player, team AND competition (category) to keep stats isolated.
-      const key = `${compId}-${playerName}-${teamName}`
+      const key = `${compId}-${playerName}-${teamName}-${scorer.category_id}`
 
       if (!aggregatedScorersMap[key]) {
         aggregatedScorersMap[key] = {
@@ -209,7 +210,8 @@ export async function getFlagDayCmsData(): Promise<FlagDayCmsData> {
           team_name: teamName,
           goals: 0,
           team_logo_url: scorer.team_logo_url,
-          competition_id: compId
+          competition_id: compId,
+          category_id: scorer.category_id
         }
       }
 
