@@ -200,19 +200,19 @@
     inset: -1px 0 -1px 0;
     width: 300%;
     background-image: linear-gradient(
-      92deg,
+      90deg,
       #05070d 0%,
-      #ef233c 14%,
-      #ff5b73 27%,
-      #101826 42%,
-      #dbe7ff 57%,
-      #1a4ea3 74%,
-      #0d1224 88%,
+      #ef233c 16.66%,
+      #ff5b73 33.33%,
+      #101826 50%,
+      #dbe7ff 66.66%,
+      #1a4ea3 83.33%,
       #05070d 100%
     );
-    background-size: 33.333% 100%;
-    background-repeat: repeat;
-    animation: toro-tricolor-slide-right 6.2s linear infinite;
+    background-size: 50% 100%;
+    background-repeat: repeat-x;
+    animation: toro-tricolor-slide-right 8s linear infinite;
+    will-change: transform;
   }
 
   .toro-hero-section {
