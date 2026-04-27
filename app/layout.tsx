@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import { Analytics } from '@vercel/analytics/next'
 import Footer from '@/components/footer'
 import { SiteRuntimeManager } from '@/components/site-runtime-manager'
+import { AnalyticsProvider } from '@/components/analytics-provider'
 import './globals.css'
 
 const poppins = Poppins({
@@ -38,6 +39,7 @@ export default function RootLayout({
       <body className={`${poppins.variable} font-sans antialiased text-zinc-900`}>
         <Suspense fallback={null}>
           <SiteRuntimeManager />
+          <AnalyticsProvider />
         </Suspense>
         {children}
         <Footer />

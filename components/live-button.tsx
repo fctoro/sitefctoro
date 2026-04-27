@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { IS_LIVE_ACTIVE } from '@/data/events-data'
+import { trackEvent } from '@/lib/analytics-client'
 
 export function LiveButton() {
   const isActive = IS_LIVE_ACTIVE
@@ -9,6 +10,7 @@ export function LiveButton() {
   return (
     <Link
       href="/evenements/live"
+      onClick={() => trackEvent('click_header_live', 'click', { isActive })}
       className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white transition-all hover:scale-[1.02] active:scale-[0.98] ${
         isActive
           ? 'bg-[#ef233c] shadow-[0_10px_20px_rgba(239,35,60,0.32)] hover:bg-[#d71931] animate-toro-live'

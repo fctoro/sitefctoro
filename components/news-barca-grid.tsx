@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { RiArrowRightLine, RiCalendarEventLine } from '@remixicon/react'
 import type { NewsCard } from '@/lib/joueur'
+import { trackEvent } from '@/lib/analytics-client'
 
 type NewsBarcaGridProps = {
   items: NewsCard[]
@@ -50,6 +51,7 @@ export function NewsBarcaGrid({
           <Link
             key={`barca-news-${card.slug}`}
             href={`/actualites/${card.slug}`}
+            onClick={() => trackEvent(`click_news_card`, 'click', { title: card.title, slug: card.slug })}
             className="group flex flex-col overflow-hidden bg-white shadow-[0_10px_18px_rgba(10,29,58,0.1)] transition-transform duration-300 hover:-translate-y-1"
           >
             <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#eef2f7]">

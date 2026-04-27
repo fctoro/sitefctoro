@@ -10,6 +10,7 @@ import {
   getPublishedCmsArticles,
 } from '@/lib/articles'
 import type { NewsCard } from '@/lib/joueur'
+import { ArticleTracker } from '@/components/article-tracker'
 
 export const dynamic = 'force-dynamic'
 
@@ -56,6 +57,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   return (
     <div className="min-h-screen bg-[#f3f4f8] text-[#0a1d3a]">
       <HomeNavbar anchorPrefix="/" />
+      <ArticleTracker title={article.title} slug={article.slug} />
 
       <main className="pt-[116px] lg:pt-[78px]">
         <Breadcrumb
