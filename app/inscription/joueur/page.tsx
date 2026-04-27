@@ -740,15 +740,6 @@ export default function InscriptionJoueurPage() {
                   </div>
 
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <InscriptionField label="Prenom de l'enfant" required>
-                      <InscriptionInput
-                        type="text"
-                        name="child_first_name"
-                        placeholder="Nathan"
-                        required
-                        data-label="Prenom de l'enfant"
-                      />
-                    </InscriptionField>
                     <InscriptionField label="Nom de l'enfant" required>
                       <InscriptionInput
                         type="text"
@@ -756,6 +747,15 @@ export default function InscriptionJoueurPage() {
                         placeholder="Pierre"
                         required
                         data-label="Nom de l'enfant"
+                      />
+                    </InscriptionField>
+                    <InscriptionField label="Prenom de l'enfant" required>
+                      <InscriptionInput
+                        type="text"
+                        name="child_first_name"
+                        placeholder="Nathan"
+                        required
+                        data-label="Prenom de l'enfant"
                       />
                     </InscriptionField>
                   </div>

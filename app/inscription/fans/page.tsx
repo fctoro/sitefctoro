@@ -221,9 +221,7 @@ export default function InscriptionFansPage() {
                   title="Informations du fan"
                   description="Complétez ces champs pour rejoindre officiellement notre communauté."
                 >
-                  <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 items-start">
-                    {/* --- BLOC GAUCHE (3 champs) --- */}
-                    <div className="space-y-6">
+                    <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 items-start">
                       <InscriptionField label="Nom" required>
                         <InscriptionInput
                           type="text"
@@ -234,6 +232,16 @@ export default function InscriptionFansPage() {
                         />
                       </InscriptionField>
 
+                      <InscriptionField label="Prénom" required>
+                        <InscriptionInput
+                          type="text"
+                          name="first_name"
+                          placeholder="Votre prénom"
+                          required
+                          data-label="Prenom"
+                        />
+                      </InscriptionField>
+
                       <InscriptionField label="Numéro de téléphone" required>
                         <InscriptionInput
                           type="tel"
@@ -241,6 +249,16 @@ export default function InscriptionFansPage() {
                           placeholder="+509 XXXX XXXX"
                           required
                           data-label="Numero de telephone"
+                        />
+                      </InscriptionField>
+
+                      <InscriptionField label="Email" required>
+                        <InscriptionInput
+                          type="email"
+                          name="email"
+                          placeholder="contact@email.com"
+                          required
+                          data-label="Email"
                         />
                       </InscriptionField>
 
@@ -264,29 +282,6 @@ export default function InscriptionFansPage() {
                           <option>Sud-Est</option>
                         </InscriptionSelect>
                       </InscriptionField>
-                    </div>
-
-                    {/* --- BLOC DROIT (3 champs) --- */}
-                    <div className="space-y-6 flex flex-col h-full">
-                      <InscriptionField label="Prénom" required>
-                        <InscriptionInput
-                          type="text"
-                          name="first_name"
-                          placeholder="Votre prénom"
-                          required
-                          data-label="Prenom"
-                        />
-                      </InscriptionField>
-
-                      <InscriptionField label="Email" required>
-                        <InscriptionInput
-                          type="email"
-                          name="email"
-                          placeholder="contact@email.com"
-                          required
-                          data-label="Email"
-                        />
-                      </InscriptionField>
 
                       <InscriptionField label="Adresse complète" required>
                         <InscriptionInput
@@ -298,7 +293,6 @@ export default function InscriptionFansPage() {
                         />
                       </InscriptionField>
                     </div>
-                  </div>
                 </InscriptionFormSection>
 
                 <InscriptionConsent

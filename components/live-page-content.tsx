@@ -7,7 +7,6 @@ import { RiArrowRightLine, RiGroupLine, RiShareLine, RiTimerLine } from '@remixi
 import { eventCards } from '@/data/events-data'
 import type { LiveMatch } from '@/lib/live'
 
-const heroBgImg = '/flag-day/hero-champion.jpg'
 const heroStageImg = '/flag-day/victory-stage.jpg'
 
 function normalizeVenueLabel(value?: string | null) {
@@ -52,32 +51,21 @@ export default function LivePageContent({ liveMatch }: { liveMatch: LiveMatch })
 
   return (
     <div className="min-h-screen bg-[#061225] text-white">
-      <main className="pb-16 pt-[116px] lg:pt-[78px]">
-        <section className="relative overflow-hidden bg-[#091a35]">
-          <div className="absolute inset-0">
-            <Image
-              src={heroBgImg}
-              alt="FC TORO Live"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-center"
-            />
-          </div>
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,18,37,0.84)_0%,rgba(6,18,37,0.74)_48%,rgba(6,18,37,0.96)_100%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,18,37,0.94)_0%,rgba(6,18,37,0.48)_56%,rgba(6,18,37,0.88)_100%)]" />
+      <main className="pb-16 pt-[180px] lg:pt-[160px]">
+        {/* En-tête simplifié */}
+        <section className="px-4 pb-10 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1200px]">
+            <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+              <div>
+                <h1 className="text-4xl font-black uppercase tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">
+                  Live Diffusion
+                </h1>
+                <p className="mt-2 text-[10px] font-black uppercase tracking-[0.2em] text-[#ef233c]">
+                  Direct & Matchs FC TORO
+                </p>
+              </div>
 
-          <div className="relative mx-auto max-w-[1200px] px-4 pb-12 pt-16 sm:px-6 sm:pt-20 lg:px-8 lg:pb-16 lg:pt-24">
-            <div className="max-w-[860px]">
-              <h1 className="text-[clamp(2.3rem,6vw,4.8rem)] font-black uppercase leading-[0.9] tracking-[-0.06em] text-white">
-                Live / Diffusion
-              </h1>
-
-              <p className="mt-5 max-w-[760px] text-sm font-medium leading-relaxed text-white/76 sm:text-base lg:text-lg">
-                Une page plus simple, plus rapide a lire et centree d abord sur la video du direct.
-              </p>
-
-              <div className="mt-7 flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <button
                   type="button"
                   onClick={handleShare}
@@ -105,31 +93,33 @@ export default function LivePageContent({ liveMatch }: { liveMatch: LiveMatch })
           </div>
         </section>
 
-        <section className="relative -mt-2 px-4 sm:px-6 lg:px-8">
+        {/* Section Video Centrée */}
+        <section className="px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1200px]">
-            <div className="relative aspect-video overflow-hidden rounded-[30px] border border-white/10 bg-black shadow-[0_22px_44px_rgba(0,0,0,0.3)]">
+            <div className="relative aspect-video overflow-hidden rounded-[32px] border border-white/10 bg-black shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)]">
               {hasVideo ? (
                 <>
                   <iframe
                     className="absolute inset-0 h-full w-full"
-                    src={`https://www.youtube-nocookie.com/embed/${liveMatch.youtubeId}?rel=0&modestbranding=1`}
+                    src={`https://www.youtube-nocookie.com/embed/${liveMatch.youtubeId}?rel=0&modestbranding=1&autoplay=1`}
                     title="FC TORO Live"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
                     allowFullScreen
                   />
 
-                  <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-3 bg-[linear-gradient(180deg,rgba(6,11,22,0.88)_0%,rgba(6,11,22,0.2)_72%,transparent_100%)] p-4 sm:p-5">
-                    <span className="rounded-full border border-[#ef233c]/35 bg-[#ef233c]/18 px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white">
+                  <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-3 bg-[linear-gradient(180deg,rgba(6,11,22,0.88)_0%,rgba(6,11,22,0.2)_72%,transparent_100%)] p-4 sm:p-6">
+                    <span className="flex items-center gap-2 rounded-full border border-[#ef233c]/35 bg-[#ef233c]/18 px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white backdrop-blur-md">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#ef233c]" />
                       {liveMatch.isLive ? 'En direct' : 'Video officielle'}
                     </span>
-                    <span className="rounded-full bg-black/55 px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-white/82">
+                    <span className="rounded-full bg-black/55 px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-white/82 backdrop-blur-md">
                       FC TORO Live
                     </span>
                   </div>
 
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,transparent_0%,rgba(6,11,22,0.92)_100%)] p-4 sm:p-5">
-                    <p className="text-base font-black uppercase tracking-[0.08em] text-white sm:text-xl">
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,transparent_0%,rgba(6,11,22,0.92)_100%)] p-4 sm:p-6">
+                    <p className="text-xl font-black uppercase tracking-[0.04em] text-white sm:text-2xl lg:text-3xl">
                       {liveMatch.headline}
                     </p>
                   </div>
@@ -140,19 +130,20 @@ export default function LivePageContent({ liveMatch }: { liveMatch: LiveMatch })
                     src={heroStageImg}
                     alt="Diffusion FC TORO"
                     fill
-                    sizes="(min-width: 1024px) 1200px, 100vw"
-                    className="object-cover object-center"
+                    priority
+                    sizes="(min-width: 1200px) 1200px, 100vw"
+                    className="object-cover object-center opacity-40"
                   />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,11,22,0.24)_0%,rgba(6,11,22,0.36)_32%,rgba(6,11,22,0.92)_100%)]" />
                   <div className="absolute inset-0 flex items-center justify-center px-6 text-center">
                     <div className="max-w-[620px]">
                       <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#ef233c]">
                         Diffusion a venir
                       </p>
-                      <p className="mt-4 text-2xl font-black uppercase sm:text-3xl">
+                      <p className="mt-4 text-3xl font-black uppercase sm:text-4xl lg:text-5xl">
                         {liveMatch.headline}
                       </p>
-                      <p className="mt-4 text-sm font-semibold uppercase tracking-[0.12em] text-white/70">
+                      <div className="mx-auto mt-6 h-px w-12 bg-[#ef233c]/40" />
+                      <p className="mt-6 text-sm font-semibold uppercase tracking-[0.12em] text-white/60">
                         La video sera visible ici des qu un lien YouTube sera ajoute au live.
                       </p>
                     </div>
