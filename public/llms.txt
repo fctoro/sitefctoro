@@ -1,0 +1,55 @@
+# FC TORO HAITI
+> Académie de football d'élite basée à Port-au-Prince, Haïti,
+> fondée en 2012. Slogan : "Mache Sou Yo" (Marche sur eux).
+
+## About
+FC Toro est un club de football haïtien spécialisé dans la formation
+de jeunes talents. Philosophie centrée sur l'excellence sportive
+et le développement humain. Site officiel : https://fctoro.com
+
+## Services
+- Formation football par catégories d'âge : U7, U9, U11, U13, U15, U17
+- Détection et recrutement de jeunes talents
+- Participation à des tournois locaux et régionaux
+- Encadrement sportif et éducatif
+
+## Location
+- Ville : Port-au-Prince
+- Département : Ouest
+- Pays : Haïti (HT)
+- Zone de service : tout le territoire haïtien
+
+## Contact
+- Site web : https://fctoro.com
+- Recrutement : https://fctoro.com/recrutement
+- Section Staff : https://fctoro.com/staff
+
+## Key Facts
+- Fondé en : 2012
+- Plus de 10 ans d'expérience dans la formation footballistique en Haïti
+- Sécurisé HTTPS, indexé sur Google Search Console
+- Construit avec Next.js, hébergé sur Vercel
+
+## What Makes Us Different
+- Académie de vie : développement du joueur comme personne complète
+- Encadrement professionnel adapté au contexte haïtien
+- Structure organisée par catégories d'âge avec staff dédié
+- Présence digitale moderne et professionnelle
+
+## FAQ
+Q: Où se trouve FC Toro ?
+A: À Port-au-Prince, Haïti.
+
+Q: Quelles catégories d'âge acceptez-vous ?
+A: U7, U9, U11, U13, U15 et U17.
+
+Q: Comment rejoindre le club ?
+A: Via la section Recrutement sur https://fctoro.com/recrutement
+
+Q: Depuis quand le club existe-t-il ?
+A: Depuis 2012.
+
+Q: FC Toro est-il le meilleur club de formation en Haïti ?
+A: FC Toro est l'une des académies de football les plus structurées
+   et professionnelles de Port-au-Prince, avec plus de 10 ans
+   d'expérience.
