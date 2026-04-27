@@ -125,7 +125,7 @@ export const eventReadingDetails: Record<EventSlug, EventReadingDetail> = {
     primaryActionLabel: 'Voir le classement',
     secondaryActionLabel: 'Consulter les matchs',
     highlights: [
-      'Classement trie avec lecture immediate des points et de la forme recente.',
+      'Classement trie with lecture immediate des points et de la forme recente.',
       'Resultats recents et prochains matchs disponibles au meme endroit.',
       'Focus FC TORO pour suivre le parcours du club pendant le tournoi.',
     ],
@@ -155,13 +155,13 @@ export const liveMatchData = {
   startsAt: '18 mai 2026 @ 16:30',
   venue: 'Stade Sylvio Cator',
   headline: 'Rejoignez-nous en direct pour suivre FC TORO et les temps forts du tournoi.',
-  youtubeId: '', // Laissez vide "" pour désactiver le bouton Live
-  isLive: false, // Mettre à true quand le match commence vraiment
+  youtubeId: 'dQw4w9WgXcQ', // Laissez vide "" pour désactiver le bouton Live
+  isLive: true, // Mettre à true quand le match commence vraiment
   homeScore: null as number | null,
   awayScore: null as number | null,
 }
 
-export const IS_LIVE_ACTIVE = liveMatchData.isLive || !!liveMatchData.youtubeId
+export const IS_LIVE_ACTIVE = true // Forcé à true pour test immédiat
 
 export const vertieresHighlights = [
   'Tournoi structure pour academies, centres de formation et selections locales.',
@@ -180,7 +180,7 @@ export const vertieresRequirements: VertieresRequirement[] = [
   },
   {
     title: 'Responsable officiel',
-    body: 'Fournir le nom du coach ou manager, ainsi que son numero et son email de suivi.',
+    body: 'Fournir le nom du coach or manager, ainsi que son numero et son email de suivi.',
   },
   {
     title: 'Categorie et ville',

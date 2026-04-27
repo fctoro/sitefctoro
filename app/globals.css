@@ -458,6 +458,10 @@
   .toro-timeline-featured {
     animation: toro-featured-shimmer 4s ease-in-out infinite;
   }
+
+  .animate-toro-live {
+    animation: toro-live-blink 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
 }
 
 @keyframes toro-timeline-flow {
@@ -478,4 +482,15 @@
 @keyframes toro-featured-shimmer {
   0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.08), 0 0 60px rgba(245, 158, 11, 0.04); }
   50% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.15), 0 0 80px rgba(245, 158, 11, 0.08); }
+}
+
+@keyframes toro-live-blink {
+  0%, 100% {
+    background-color: #ef233c;
+    box-shadow: 0 0 20px rgba(239, 35, 60, 0.35);
+  }
+  50% {
+    background-color: #ff3b53;
+    box-shadow: 0 0 35px rgba(239, 35, 60, 0.65);
+  }
 }
