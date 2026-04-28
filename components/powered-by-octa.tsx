@@ -5,7 +5,7 @@ import Image from 'next/image'
 export function PoweredByOcta() {
   return (
     <a
-      href="https://octacore-ht.netlify.app/"
+      href="https://www.octacore.io/"
       target="_blank"
       rel="noopener noreferrer"
       className="group relative inline-flex items-center gap-0 rounded-full border border-white/10 bg-white/5 p-[5px_12px_5px_10px] transition-all duration-500 hover:border-[#ef233c]/40 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(239,35,60,0.15)]"

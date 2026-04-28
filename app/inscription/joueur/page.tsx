@@ -880,7 +880,7 @@ export default function InscriptionJoueurPage() {
                 <InscriptionFormSection
                   index="03"
                   title="Contact d'urgence"
-                  description="En cas de besoin, qui le club doit-il contacter ?"
+                  description="En cas d'urgence si on ne trouve pas les parents et les tuteurs"
                 >
                   <div className="grid gap-5 sm:grid-cols-2">
                     <InscriptionField label="Nom & Prenom" required>
