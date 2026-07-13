@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     icon: '/fc-toro-logo.png',
   },
   verification: {
-    google: 'pZXJgrf--Ym5BqOvkJo2KuyBtUhvMlR8kMfczSfHMC4',
+    google: '7qcFxC5H1L0pW3HaK9JbjDFb-eWOHqcqyTE55XJrlwI',
   },
 }
 
