@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import path from 'path'
-import { mkdir, writeFile } from 'fs/promises'
 import { ensurePlayersTables, ensureSiteMessagesTable, pool } from '@/lib/db'
 import { sendRegistrationEmail } from '@/lib/email'
+import { supabase } from '@/lib/supabase'
 
 export const runtime = 'nodejs'
 
@@ -260,28 +260,30 @@ export async function POST(request: Request) {
       const result = await client.query(insertQuery, values)
       registrationId = result.rows[0]?.id as number
 
-      const uploadDir = process.env.UPLOAD_DIR || 'public/uploads'
-      await mkdir(uploadDir, { recursive: true })
-
       for (const docKey of DOCUMENT_FIELDS) {
         const fileValue = formData.get(docKey)
         const info = getFileInfo(fileValue)
         if (!info || !fileValue || typeof fileValue === 'string') continue
         const file = fileValue as File
-        const buffer = Buffer.from(await file.arrayBuffer())
+        const arrayBuffer = await file.arrayBuffer()
         const safeName = sanitizeFilename(info.filename)
         const ext = path.extname(safeName)
         const base = ext ? safeName.slice(0, -ext.length) : safeName
         const uniqueName = `${registrationId}-${docKey}-${Date.now()}-${base}${ext}`
-        const filePath = path.join(uploadDir, uniqueName)
-        await writeFile(filePath, buffer)
+        
+        const { error: uploadError } = await supabase.storage
+          .from('videos')
+          .upload(`documents/${uniqueName}`, arrayBuffer, {
+            contentType: file.type || 'application/octet-stream',
+            upsert: false,
+          })
 
-        const publicPath = uploadDir.startsWith('public')
-          ? path.posix.join(
-              uploadDir.replace(/^public[\\/]/, '').replace(/\\/g, '/'),
-              uniqueName
-            )
-          : filePath.replace(/\\/g, '/')
+        if (uploadError) {
+          throw uploadError
+        }
+
+        const { data } = supabase.storage.from('videos').getPublicUrl(`documents/${uniqueName}`)
+        const publicPath = data.publicUrl
 
         await client.query(
           `
