@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
@@ -24,6 +24,7 @@ import {
   RiWallet3Line,
   RiParentLine,
   RiUploadCloud2Line,
+  RiDownloadCloud2Line,
 } from '@remixicon/react'
 
 type ProgramKey = 'fcToro' | 'tiToro'
@@ -51,40 +52,32 @@ type ProgramPricing = {
 
 const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
   fcToro: {
-    annualLabel: 'Paiement annuel FC Toro',
-    annualTotal: '$1,700',
+    annualLabel: 'Adhésion annuelle FC Toro',
+    annualTotal: '$1,350',
     annualCurrency: 'USD',
     feeIncludes: [
-      "Frais annuels ($1,300.00)",
-      "Equipement d'entrainement ($300.00)",
-      "Enregistrement annuel ($100.00)",
+      "Adhésion annuelle ($1,350.00)",
+      "Frais d'inscription / réinscription ($75.00)",
+      "Uniformes non inclus (à la carte)",
     ],
     paymentPlans: [
       {
-        name: 'PLAN #1 (Complet)',
-        description: "Paiement unique a l'enregistrement",
-        total: '$1,700.00 USD',
-        details: 'Un versement de $1,700.00 a l\'enregistrement',
+        name: 'PLAN #1 (Annuel)',
+        description: "Un versement unique à l'inscription",
+        total: '$1,215',
+        details: '10% de rabais',
       },
       {
-        name: 'PLAN #2 (Trimestriel)',
-        description: 'Paiement fractionne en 4 versements',
-        total: '$1,750.00 USD',
-        details: [
-          "Premier versement : $750.00 a l'enregistrement",
-          'Deuxieme versement : $450.00',
-          'Troisieme versement : $450.00',
-          'Quatrieme versement : $100.00',
-        ],
+        name: 'PLAN #2 (Semestriel)',
+        description: '2 versements égaux : inscription & janvier',
+        total: '$641.25 x 2',
+        details: '5% de rabais',
       },
       {
         name: 'PLAN #3 (Mensuel)',
-        description: 'Paiement fractionne en 8 versements',
-        total: '$1,650.00 USD',
-        details: [
-          "Premier versement : $600.00 a l'enregistrement",
-          '7 versements mensuels de $150.00',
-        ],
+        description: '9 versements, de septembre à mai, payables avant le 10 de chaque mois',
+        total: '$155 / mois',
+        details: 'Mensualité',
       },
     ],
     paymentMethods:
@@ -99,49 +92,41 @@ const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
       '5% de reduction sur le prix annuel par enfant additionnel a partir du 2e enfant.',
     lateTitle: 'Frais de retard',
     lateBody:
-      '20 USD de frais par semaine de retard apres la date limite fixee.',
-    absenceTitle: "Politique d'absence",
+      'Tout retard ou défaut de paiement peut entraîner la suspension de la participation du joueur aux activités.',
+    absenceTitle: "Engagement & Absence",
     absenceBody: [
-      "Tout depart ou absence prolongee doit etre annonce par ecrit par courriel a Patrick Bonnefil avec copie a son assistante.",
-      "Aucun remboursement n'est effectue pour les montants deja verses.",
-      'En cas de maladie, un certificat medical doit etre soumis imperativement.',
+      "Tout mois engagé est dû dans son intégralité, même en cas d'absence, de suspension temporaire ou d'arrêt.",
+      "Aucun versement déjà effectué n'est remboursable.",
+      'Le paiement mensuel est une facilité de paiement. L\'engagement financier demeure applicable pour toute période engagée.',
     ],
   },
   tiToro: {
-    annualLabel: 'Paiement annuel Ti Toro',
+    annualLabel: 'Adhésion annuelle Ti Toro',
     annualTotal: '$1,000',
     annualCurrency: 'USD',
     feeIncludes: [
-      "Frais annuels ($700.00)",
-      "Uniforme ($200.00)",
-      "Enregistrement ($100.00)",
+      "Adhésion annuelle ($1,000.00)",
+      "Frais d'inscription / réinscription ($75.00)",
+      "Uniformes non inclus (à la carte)",
     ],
     paymentPlans: [
       {
-        name: 'PLAN #1 (Complet)',
-        description: "Paiement unique a l'inscription",
-        total: '$1,000.00 USD',
-        details: 'Un versement de $1,000.00 a l\'inscription',
+        name: 'PLAN #1 (Annuel)',
+        description: "Un versement unique à l'inscription",
+        total: '$900',
+        details: '10% de rabais',
       },
       {
-        name: 'PLAN #2 (Trimestriel)',
-        description: 'Paiement fractionne en 4 versements',
-        total: '$1,050.00 USD',
-        details: [
-          "Premier versement : $500.00 a l'inscription",
-          'Deuxieme versement : $300.00',
-          'Troisieme versement : $200.00',
-          'Quatrieme versement : $50.00',
-        ],
+        name: 'PLAN #2 (Semestriel)',
+        description: '2 versements égaux : inscription & janvier',
+        total: '$475 x 2',
+        details: '5% de rabais',
       },
       {
         name: 'PLAN #3 (Mensuel)',
-        description: 'Paiement fractionne en 8 versements',
-        total: '$1,450.00 USD',
-        details: [
-          "Premier versement : $400.00 a l'inscription",
-          '7 versements mensuels de $150.00',
-        ],
+        description: '9 versements, de septembre à mai, payables avant le 10 de chaque mois',
+        total: '$115 / mois',
+        details: 'Mensualité',
       },
     ],
     paymentMethods:
@@ -156,12 +141,12 @@ const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
       "Les familles avec plus d'un enfant dans le club beneficieront d'une reduction de 5% du prix annuel par enfant additionnel a partir du 2e enfant.",
     lateTitle: 'Frais de retard',
     lateBody:
-      'Un montant de $20 USD est ajoute par semaine de retard apres la date limite fixee pour les paiements.',
-    absenceTitle: "Politique d'absence",
+      'Tout retard ou défaut de paiement peut entraîner la suspension de la participation du joueur aux activités.',
+    absenceTitle: "Engagement & Absence",
     absenceBody: [
-      "Tout cas d'absence ou de depart d'un enfant doit etre annonce a l'avance par ecrit.",
-      'Un courriel formel doit etre envoye afin que le depart soit effectif.',
-      "Aucun montant deja verse ne sera rembourse.",
+      "Tout mois engagé est dû dans son intégralité, même en cas d'absence, de suspension temporaire ou d'arrêt.",
+      "Aucun versement déjà effectué n'est remboursable.",
+      'Le paiement mensuel est une facilité de paiement. L\'engagement financier demeure applicable pour toute période engagée.',
     ],
   },
 }
@@ -214,8 +199,10 @@ function isWithinRange(birthDate: Date, minDate: Date, maxDate: Date) {
 }
 
 export default function InscriptionJoueurPage() {
+  const formRef = useRef<HTMLFormElement>(null)
   const [activeProgram, setActiveProgram] = useState<ProgramKey>('fcToro')
   const [submitState, setSubmitState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [showDownload, setShowDownload] = useState(false)
   const [submitMessage, setSubmitMessage] = useState<string | null>(null)
   const [birthDateValue, setBirthDateValue] = useState('')
   const [ageError, setAgeError] = useState<string | null>(null)
@@ -331,13 +318,7 @@ export default function InscriptionJoueurPage() {
       }
       setSubmitState('success')
       setSubmitMessage(data?.message || "Inscription envoyee avec succes.")
-      form.reset()
-      setActiveProgram('fcToro')
-      setBirthDateValue('')
-      setAgeStatus('idle')
-      setAgeError(null)
-      setFileStates({})
-      setFileErrors({})
+      setShowDownload(true)
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Une erreur est survenue lors de l'inscription."
@@ -643,7 +624,7 @@ export default function InscriptionJoueurPage() {
               description="Soumettez votre dossier complet en ligne. L'inscription est consideree comme complete une fois le formulaire soumis avec le premier paiement integral."
               badges={['Dossier Joueur', 'Inscription Directe', 'Paiement Securise']}
             >
-              <form className="space-y-8" onSubmit={handleSubmit}>
+              <form ref={formRef} className="space-y-8" onSubmit={handleSubmit}>
                 <div className="rounded-[32px] bg-[#0a2347] p-8 text-white shadow-xl">
                   <div className="mb-6 flex items-center gap-4">
                     <RiShieldStarLine className="h-8 w-8 text-[#ef233c]" />
@@ -1094,19 +1075,19 @@ export default function InscriptionJoueurPage() {
                       name="consent_media"
                       dataLabel="Autorisation photos"
                     >
-                      J'autorise l'utilisation des photos de mon enfant sur les réseaux sociaux et sur tout matériel relatif à <strong>FC TORO</strong>.
+                      J'autorise l'utilisation des photos et vidéos de mon enfant sur les réseaux sociaux et sur tout support de communication relatif à <strong>FC TORO</strong>.
                     </InscriptionConsent>
                     <InscriptionConsent
                       name="consent_health"
                       dataLabel="Attestation medicale"
                     >
-                      Je certifie que mon enfant n'a pas de contre-indication médicale à la pratique du sport.
+                      Je certifie que mon enfant ne présente aucune contre-indication médicale à la pratique du football.
                     </InscriptionConsent>
                     <InscriptionConsent
                       name="consent_emergency"
                       dataLabel="Autorisation urgence"
                     >
-                      Je, soussigné(e) Monsieur ou Madame, autorise les responsables de prendre toutes les dispositions nécessaires en cas d'urgence.
+                      Je soussigné(e) autorise les responsables de FC TORO à prendre toutes les dispositions nécessaires en cas d'urgence médicale concernant mon enfant.
                     </InscriptionConsent>
                   </div>
 
@@ -1129,11 +1110,37 @@ export default function InscriptionJoueurPage() {
                   paiements et le comportement des membres.
                 </InscriptionConsent>
 
-                <InscriptionSubmit
-                  label="Finaliser l'inscription"
-                  note="Votre dossier sera analyse par le club. Un message de confirmation vous sera envoye par e-mail avec les instructions finales pour le paiement."
-                  isSubmitting={submitState === 'submitting'}
-                />
+                {showDownload ? (
+                  <motion.a
+                    href="/Livret FC Toro.pdf"
+                    download="Livret FC Toro.pdf"
+                    onClick={() => {
+                      setShowDownload(false)
+                      formRef.current?.reset()
+                      setActiveProgram('fcToro')
+                      setBirthDateValue('')
+                      setAgeStatus('idle')
+                      setAgeError(null)
+                      setFileStates({})
+                      setFileErrors({})
+                    }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="group relative flex w-full cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-[#0a2347] to-[#0d2d62] px-8 py-5 text-center font-black uppercase tracking-widest text-white shadow-xl transition-all hover:shadow-[0_20px_40px_rgba(10,35,71,0.3)]"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#ef233c] to-[#d91e32] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <RiDownloadCloud2Line className="relative z-10 h-6 w-6 animate-bounce" />
+                    <span className="relative z-10">Veuillez télécharger le Guide d’adhésion 2026-2027</span>
+                  </motion.a>
+                ) : (
+                  <InscriptionSubmit
+                    label="Finaliser l'inscription"
+                    note="Votre dossier sera analyse par le club. Un message de confirmation vous sera envoye par e-mail avec les instructions finales pour le paiement."
+                    isSubmitting={submitState === 'submitting'}
+                  />
+                )}
                 {submitMessage ? (
                   <motion.div
                     initial={{ opacity: 0 }}

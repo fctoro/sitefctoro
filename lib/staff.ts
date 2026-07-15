@@ -36,21 +36,21 @@ const optimizedStaffPhotoMap: Record<string, string> = {
 
 const staticStaff: StaffMember[] = [
   { name: 'Patrick Bonnefil', role: 'Staff', photo_url: '/staff-photos/mr.-bonnefil.jpg' },
-  { name: 'Mme Jessica', role: 'Staff', photo_url: '/staff-photos/mme-jessica.jpg' },
+  { name: 'Sterline Jessica Beaubrun', role: 'Staff', photo_url: '/staff-photos/mme-jessica.jpg' },
   { name: 'Antoinette Anilus', role: 'Staff', photo_url: '/staff-photos/antoinette-anilus.jpg' },
   { name: 'Fevilien James', role: 'Staff', photo_url: '/staff-photos/fevilien-james.jpg' },
   { name: 'Louis Nico', role: 'Staff', photo_url: '/staff-photos/louis-nico.jpg' },
   { name: 'Lucner Jean', role: 'Staff', photo_url: '/staff-photos/lucner-jean.jpg' },
   { name: 'Neil Moise', role: 'Staff', photo_url: '/staff-photos/neil-moise.jpg' },
-  { name: 'Samuel Bellevue', role: 'Staff', photo_url: '/staff-photos/samuel-bellevue.jpg' },
+  { name: 'Jean Samuel Bellevue', role: 'Staff', photo_url: '/staff-photos/samuel-bellevue.jpg' },
   { name: 'Valdony Point Du Jour', role: 'Staff', photo_url: '/staff-photos/valdony-point-du-jour.jpg' },
-  { name: 'Pierre Richard', role: 'Staff', photo_url: '/staff-photos/c-pierre-richard.jpg' },
-  { name: 'Sherlo', role: 'Staff', photo_url: '/staff-photos/c-sherlo.jpg' },
-  { name: 'Wildor', role: 'Staff', photo_url: '/staff-photos/c-wildor.jpg' },
-  { name: 'Brunel', role: 'Staff', photo_url: '/staff-photos/m-brunel.jpg' },
-  { name: 'Erns', role: 'Staff', photo_url: '/staff-photos/m-erns.jpg' },
-  { name: 'Sammuel Saint-Claire', role: 'Staff', photo_url: '/staff-photos/sammuel-saint-claire.jpg' },
-  { name: 'Sheelove', role: 'Staff', photo_url: '/staff-photos/sheelove-2.jpg' },
+  { name: 'Pierre-Richard Millet', role: 'Staff', photo_url: '/staff-photos/c-pierre-richard.jpg' },
+  { name: 'Sherlo Louismé', role: 'Staff', photo_url: '/staff-photos/c-sherlo.jpg' },
+  { name: 'Wildor Altidor', role: 'Staff', photo_url: '/staff-photos/c-wildor.jpg' },
+  { name: 'Brunel Fleury', role: 'Staff', photo_url: '/staff-photos/m-brunel.jpg' },
+  { name: 'Ernst Virgile', role: 'Staff', photo_url: '/staff-photos/m-erns.jpg' },
+  { name: 'Sammuel Saint Clair', role: 'Staff', photo_url: '/staff-photos/sammuel-saint-claire.jpg' },
+  { name: 'Shelove Ismael', role: 'Staff', photo_url: '/staff-photos/sheelove-2.jpg' },
 ]
 
 type StaffRow = {
@@ -148,7 +148,7 @@ export async function getStaffMembers(): Promise<StaffMember[]> {
         photo_url: resolveStaffPhoto(member.name?.trim() || 'Staff', member.photo_url),
       }))
 
-    return mergeStaffMembers(dynamicStaff, staticStaff)
+    return mergeStaffMembers(staticStaff, dynamicStaff)
   } catch (error) {
     console.error('[STAFF] Impossible de recuperer le staff du club.', error)
     return mergeStaffMembers(staticStaff, [])

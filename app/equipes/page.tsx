@@ -111,7 +111,7 @@ export default function EquipesPage() {
                       <p className="truncate text-[7px] font-black uppercase tracking-[0.1em] text-white/70 sm:text-[10px] sm:tracking-[0.22em]">
                         {player.role}
                       </p>
-                      <p className="mt-1 flex flex-col text-[0.65rem] font-black uppercase leading-[1.1] tracking-tight text-white sm:mt-2 sm:block sm:text-[clamp(1.15rem,1.8vw,2.4rem)] sm:leading-[0.88] sm:tracking-[-0.06em]">
+                      <p className="mt-1 flex flex-col text-[0.6rem] font-black uppercase leading-[1.1] tracking-tight text-white sm:mt-2 sm:block sm:text-[clamp(0.9rem,1.3vw,1.8rem)] sm:leading-[0.88] sm:tracking-[-0.06em]">
                         {player.name.split(' ').map((word, i) => (
                           <span key={i} className="block hyphens-auto break-words sm:inline sm:break-normal">
                             {word}{' '}
@@ -124,7 +124,7 @@ export default function EquipesPage() {
                       <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/72">
                         Details joueur
                       </p>
-                      <p className="mt-2 text-[1.05rem] font-black uppercase leading-none tracking-[-0.04em] text-white">
+                      <p className="mt-2 text-[0.95rem] font-black uppercase leading-none tracking-[-0.04em] text-white">
                         {player.name}
                       </p>
 
