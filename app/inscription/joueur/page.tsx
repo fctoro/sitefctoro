@@ -56,7 +56,6 @@ const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
     annualTotal: '$1,350',
     annualCurrency: 'USD',
     feeIncludes: [
-      "Adhésion annuelle ($1,350.00)",
       "Frais d'inscription / réinscription ($75.00)",
       "Uniformes non inclus (à la carte)",
     ],
@@ -105,7 +104,6 @@ const pricingPrograms: Record<ProgramKey, ProgramPricing> = {
     annualTotal: '$1,000',
     annualCurrency: 'USD',
     feeIncludes: [
-      "Adhésion annuelle ($1,000.00)",
       "Frais d'inscription / réinscription ($75.00)",
       "Uniformes non inclus (à la carte)",
     ],
@@ -317,7 +315,7 @@ export default function InscriptionJoueurPage() {
         throw new Error(data?.error || "Une erreur est survenue lors de l'inscription.")
       }
       setSubmitState('success')
-      setSubmitMessage(data?.message || "Inscription envoyee avec succes.")
+      setSubmitMessage("Merci d’avoir soumis votre pré-inscription. Votre demande a bien été enregistrée. Cette étape ne confirme pas encore l’inscription du joueur. Notre équipe administrative vous contactera prochainement afin de valider les documents requis et finaliser le paiement. L’inscription sera confirmée une fois toutes les étapes complétées.")
       setShowDownload(true)
     } catch (error) {
       const message =
@@ -327,14 +325,7 @@ export default function InscriptionJoueurPage() {
     }
   }
 
-  useEffect(() => {
-    if (!submitMessage) return
-    const timeout = window.setTimeout(() => {
-      setSubmitMessage(null)
-      setSubmitState('idle')
-    }, 3000)
-    return () => window.clearTimeout(timeout)
-  }, [submitMessage])
+
 
   const validateAge = (value: string, program = activeProgram) => {
     if (!value) {
@@ -485,7 +476,7 @@ export default function InscriptionJoueurPage() {
                   </div>
                   <div className="mt-10 space-y-4 border-t border-white/10 pt-8">
                     <p className="text-sm font-black uppercase tracking-widest text-[#ef233c]">
-                      Ce prix inclut :
+                      Ce prix n'inclut pas :
                     </p>
                     <div className="grid gap-3">
                       {pricing.feeIncludes.map((item) => (
@@ -495,35 +486,6 @@ export default function InscriptionJoueurPage() {
                         >
                           <RiCheckLine className="h-5 w-5 text-[#ef233c]" />
                           {item}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-[32px] border border-[#dce5f2] bg-[#f8fafc] p-8">
-                  <div className="mb-6 flex items-center gap-3">
-                    <RiUploadCloud2Line className="h-6 w-6 text-[#ef233c]" />
-                    <h3 className="text-lg font-black uppercase">
-                      Pièces à fournir
-                    </h3>
-                  </div>
-                  <div className="space-y-4">
-                    <p className="text-sm font-medium text-[#5b6f91]">
-                      Pour compléter votre dossier, vous devrez télécharger les documents suivants :
-                    </p>
-                    <div className="grid gap-3">
-                      {requiredFiles.map((doc) => (
-                        <div key={doc.name} className="flex flex-col rounded-2xl bg-white p-4 border border-[#eef2f8]">
-                          <div className="flex items-center gap-3">
-                            <RiCheckLine className="h-5 w-5 text-[#ef233c]" />
-                            <p className="text-sm font-black text-[#0d2d62]">
-                              {doc.label}
-                            </p>
-                          </div>
-                          <p className="mt-1 ml-8 text-[11px] font-medium text-[#5b6f91]">
-                             {doc.description}
-                          </p>
                         </div>
                       ))}
                     </div>
@@ -568,7 +530,77 @@ export default function InscriptionJoueurPage() {
                     </div>
                   ))}
                 </div>
+              </div>
 
+              <div className="lg:col-span-2">
+                <div className="rounded-[32px] border border-[#dce5f2] bg-white p-8 overflow-hidden shadow-[0_8px_16px_rgba(10,29,58,0.04)]">
+                  <h3 className="mb-6 text-xl font-black uppercase text-[#0a2347]">
+                    Tarification de la saison 2026-2027
+                  </h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-sm text-[#5b6f91] border-separate border-spacing-0">
+                      <thead className="bg-[#eef4ff] text-xs uppercase text-[#0d2d62]">
+                        <tr>
+                          <th className="whitespace-nowrap px-4 py-3 font-black border-y border-l border-[#dce5f2] rounded-tl-xl">Rubrique</th>
+                          <th className="whitespace-nowrap px-4 py-3 font-black border-y border-l border-[#dce5f2]">Montant</th>
+                          <th className="px-4 py-3 font-black border border-[#dce5f2] rounded-tr-xl min-w-[250px]">Précision</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[
+                          ['Frais d\'inscription / réinscription', '$75', 'Applicables à tous les joueurs, nouveaux et anciens.'],
+                          ['Adhésion annuelle - FC TORO', '$1,350', 'Catégories École de Football / Académie / Élite, hors uniformes.'],
+                          ['Adhésion annuelle - TI TORO', '$1,000', 'Catégorie Ti Toro / U6-U8, hors uniformes.'],
+                          ['Uniforme – Jeux 1', '$80.00', 'Jeux Entrainement - Obligatoire'],
+                          ['Uniforme – Jeux 2', '$100.00', 'Jeux Match 1 - Obligatoire'],
+                          ['Uniforme – Jeux 3', '$100.00', 'Jeux Match 2 - Obligatoire'],
+                          ['Tracksuit', '$150', 'Jacket & Jogger - ( Facultatif)'],
+                          ['Backpack', '$90', 'Sac à dos - ( Facultatif)'],
+                        ].map(([rubrique, montant, precision], idx, arr) => (
+                          <tr key={idx} className="hover:bg-[#f8fafc] transition-colors">
+                            <td className={`whitespace-nowrap px-4 py-3 font-bold text-[#0a2347] border-b border-l border-[#dce5f2] ${idx === arr.length - 1 ? 'rounded-bl-xl' : ''}`}>{rubrique}</td>
+                            <td className="whitespace-nowrap px-4 py-3 border-b border-l border-[#dce5f2] font-semibold text-[#ef233c]">{montant}</td>
+                            <td className={`px-4 py-3 border-b border-x border-[#dce5f2] ${idx === arr.length - 1 ? 'rounded-br-xl' : ''}`}>{precision}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-8">
+                <div className="rounded-[32px] border border-[#dce5f2] bg-[#f8fafc] p-8">
+                  <div className="mb-6 flex items-center gap-3">
+                    <RiUploadCloud2Line className="h-6 w-6 text-[#ef233c]" />
+                    <h3 className="text-lg font-black uppercase">
+                      Pièces à fournir
+                    </h3>
+                  </div>
+                  <div className="space-y-4">
+                    <p className="text-sm font-medium text-[#5b6f91]">
+                      Pour compléter votre dossier, vous devrez télécharger les documents suivants :
+                    </p>
+                    <div className="grid gap-3">
+                      {requiredFiles.map((doc) => (
+                        <div key={doc.name} className="flex flex-col rounded-2xl bg-white p-4 border border-[#eef2f8]">
+                          <div className="flex items-center gap-3">
+                            <RiCheckLine className="h-5 w-5 text-[#ef233c]" />
+                            <p className="text-sm font-black text-[#0d2d62]">
+                              {doc.label}
+                            </p>
+                          </div>
+                          <p className="mt-1 ml-8 text-[11px] font-medium text-[#5b6f91]">
+                             {doc.description}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-8">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-[28px] border border-[#ef233c]/10 bg-[#ef233c]/5 p-6">
                     <RiParentLine className="mb-4 h-6 w-6 text-[#ef233c]" />
@@ -1014,6 +1046,40 @@ export default function InscriptionJoueurPage() {
 
                 <InscriptionFormSection
                   index="07"
+                  title="Commande des Uniformes"
+                  description="Selectionnez votre situation concernant les uniformes."
+                >
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {[
+                      { label: "Uniforme – Jeux 1 (Entraînement) - 80$", value: "uniforme_jeux1" },
+                      { label: "Uniforme – Jeux 2 (Match 1) - 100$", value: "uniforme_jeux2" },
+                      { label: "Uniforme – Jeux 3 (Match 2) - 100$", value: "uniforme_jeux3" },
+                      { label: "Tracksuit (Jacket & Jogger) - 150$", value: "tracksuit" },
+                      { label: "Backpack (Sac à dos) - 90$", value: "backpack" },
+
+                    ].map((item) => (
+                      <label
+                        key={item.value}
+                        className="flex cursor-pointer items-start gap-3 rounded-2xl border border-[#dce5f2] bg-white p-5 transition-all hover:border-[#ef233c]/20 hover:bg-[#f8fafc]"
+                      >
+                        <input
+                          type="checkbox"
+                          name={`uniform_order_${item.value}`}
+                          value={item.value}
+                          className="mt-1 h-4 w-4 shrink-0 rounded accent-[#ef233c]"
+                        />
+                        <span className="text-sm font-bold text-[#0d2d62]">
+                          {item.label}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+
+
+                </InscriptionFormSection>
+
+                <InscriptionFormSection
+                  index="08"
                   title="Documents a soumettre"
                   description="Veuillez telecharger les versions numeriques (scan ou photo claire) des documents suivants."
                 >
@@ -1066,7 +1132,57 @@ export default function InscriptionJoueurPage() {
                 </InscriptionFormSection>
 
                 <InscriptionFormSection
-                  index="08"
+                  index="09"
+                  title="Engagement financier et Reconnaissance de dette"
+                  description="Veuillez lire attentivement et signer l'engagement ci-dessous."
+                >
+                  <div className="space-y-6">
+                    <div className="rounded-3xl bg-[#f8fafc] p-6 text-sm text-[#445b7f] leading-relaxed border border-[#e4ebf6] text-justify">
+                      Je soussigné(e), parent/personne responsable du joueur inscrit, reconnais avoir pris connaissance de la tarification de la saison 2026-2027 et du plan de paiement choisi. Je reconnais devoir à FC TORO/Fulmoun Production les montants indiqués ci-dessus et m'engage à les régler selon l'échéancier convenu. Tout mois engagé est dû dans son intégralité, même en cas d'absence, de suspension temporaire ou d'arrêt de participation non notifié par écrit avant le début du mois concerné. Tout retard ou défaut de paiement peut entraîner la suspension de la participation du joueur aux activités, sans annuler les sommes dues. En cas de non-règlement après relances, le dossier pourra être transmis au service de recouvrement, conformément aux procédures applicables. Aucun versement déjà effectué n'est remboursable, sauf décision exceptionnelle de l'administration.
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <InscriptionField label="Nom du responsable" required>
+                        <input
+                          type="text"
+                          name="engagement_name"
+                          required
+                          data-label="Nom du responsable"
+                          className="h-14 w-full rounded-2xl border-2 border-[#dce5f2] bg-white px-6 font-semibold text-[#0a2347] outline-none transition-all placeholder:font-normal placeholder:text-[#8ea2bf] focus:border-[#ef233c] focus:bg-white"
+                          placeholder="Nom complet"
+                        />
+                      </InscriptionField>
+                      <InscriptionField label="Date" required>
+                        <input
+                          type="date"
+                          name="engagement_date"
+                          required
+                          data-label="Date"
+                          className="h-14 w-full rounded-2xl border-2 border-[#dce5f2] bg-white px-6 font-semibold text-[#0a2347] outline-none transition-all placeholder:font-normal placeholder:text-[#8ea2bf] focus:border-[#ef233c] focus:bg-white"
+                        />
+                      </InscriptionField>
+                      <InscriptionField label="Téléphone / WhatsApp" required>
+                        <input
+                          type="tel"
+                          name="engagement_phone"
+                          required
+                          data-label="Téléphone / WhatsApp"
+                          className="h-14 w-full rounded-2xl border-2 border-[#dce5f2] bg-white px-6 font-semibold text-[#0a2347] outline-none transition-all placeholder:font-normal placeholder:text-[#8ea2bf] focus:border-[#ef233c] focus:bg-white"
+                          placeholder="+509 XXXX XXXX"
+                        />
+                      </InscriptionField>
+                      <div className="md:col-span-2">
+                        <InscriptionSignatureField
+                          label="Signature"
+                          name="engagement_signature"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </InscriptionFormSection>
+
+                <InscriptionFormSection
+                  index="10"
                   title="Autorisations & Engagement"
                   description="Veuillez cocher chaque case pour valider votre accord."
                 >
@@ -1183,6 +1299,16 @@ export default function InscriptionJoueurPage() {
                         <p className="mt-2 text-sm font-semibold text-[#5b6f91]">
                           {submitMessage}
                         </p>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSubmitMessage(null)
+                            setSubmitState('idle')
+                          }}
+                          className="mt-6 w-full rounded-full bg-[#0a2347] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-[#0d2d62]"
+                        >
+                          Ok
+                        </button>
                       </div>
                     </motion.div>
                   </motion.div>
