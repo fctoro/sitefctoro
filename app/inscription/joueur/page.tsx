@@ -414,14 +414,14 @@ export default function InscriptionJoueurPage() {
 
         <section className="bg-white px-4 pb-2 pt-12 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1100px]">
-            <div className="mb-16 grid gap-12 lg:grid-cols-2">
+            <div className="mb-12 lg:mb-16 grid gap-8 lg:gap-12 lg:grid-cols-2">
               <div className="space-y-8">
                 <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                   <div>
                     <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ef233c]">
                       Enregistrement / Frais
                     </p>
-                    <h2 className="mt-4 text-4xl font-black uppercase text-[#0d2d62]">
+                    <h2 className="mt-4 text-3xl lg:text-4xl font-black uppercase text-[#0d2d62]">
                       Procedures & Paiements
                     </h2>
                     <div className="mt-6 h-1 w-16 bg-[#ef233c]" />
@@ -459,18 +459,18 @@ export default function InscriptionJoueurPage() {
                   </div>
                 </div>
 
-                <div className="overflow-hidden rounded-[40px] bg-[#0a2347] p-10 text-white shadow-2xl">
-                  <div className="mb-8 flex items-center gap-3">
+                <div className="overflow-hidden rounded-[32px] md:rounded-[40px] bg-[#0a2347] p-6 md:p-10 text-white shadow-2xl">
+                  <div className="mb-6 md:mb-8 flex items-center gap-3">
                     <RiPriceTag3Line className="h-6 w-6 text-[#ef233c]" />
                     <p className="text-sm font-black uppercase tracking-widest">
                       {pricing.annualLabel}
                     </p>
                   </div>
-                  <div className="flex items-baseline gap-4">
-                    <span className="text-7xl font-black tracking-tighter">
+                  <div className="flex items-baseline gap-2 md:gap-4">
+                    <span className="text-5xl md:text-7xl font-black tracking-tighter">
                       {pricing.annualTotal}
                     </span>
-                    <span className="text-xl font-black text-[#ef233c]">
+                    <span className="text-lg md:text-xl font-black text-[#ef233c]">
                       {pricing.annualCurrency}
                     </span>
                   </div>
@@ -498,7 +498,7 @@ export default function InscriptionJoueurPage() {
                   {pricing.paymentPlans.map((plan) => (
                     <div
                       key={`${activeProgram}-${plan.name}`}
-                      className="rounded-[32px] border border-[#dce5f2] bg-white p-8 shadow-sm"
+                      className="rounded-[32px] border border-[#dce5f2] bg-white p-6 sm:p-8 shadow-sm"
                     >
                       <div className="flex items-center justify-between">
                         <p className="text-[10px] font-black uppercase tracking-widest text-[#ef233c]">
@@ -532,9 +532,9 @@ export default function InscriptionJoueurPage() {
                 </div>
               </div>
 
-              <div className="lg:col-span-2">
-                <div className="rounded-[32px] border border-[#dce5f2] bg-white p-8 overflow-hidden shadow-[0_8px_16px_rgba(10,29,58,0.04)]">
-                  <h3 className="mb-6 text-xl font-black uppercase text-[#0a2347]">
+              <div className="lg:col-span-2 min-w-0 w-full">
+                <div className="rounded-[32px] border border-[#dce5f2] bg-white p-4 sm:p-8 overflow-hidden shadow-[0_8px_16px_rgba(10,29,58,0.04)]">
+                  <h3 className="mb-4 sm:mb-6 text-lg sm:text-xl font-black uppercase text-[#0a2347]">
                     Tarification de la saison 2026-2027
                   </h3>
                   <div className="overflow-x-auto">
@@ -569,8 +569,8 @@ export default function InscriptionJoueurPage() {
                 </div>
               </div>
 
-              <div className="space-y-8">
-                <div className="rounded-[32px] border border-[#dce5f2] bg-[#f8fafc] p-8">
+              <div className="space-y-8 min-w-0">
+                <div className="rounded-[32px] border border-[#dce5f2] bg-[#f8fafc] p-6 sm:p-8">
                   <div className="mb-6 flex items-center gap-3">
                     <RiUploadCloud2Line className="h-6 w-6 text-[#ef233c]" />
                     <h3 className="text-lg font-black uppercase">
@@ -622,7 +622,7 @@ export default function InscriptionJoueurPage() {
                   </div>
                 </div>
 
-                <div className="rounded-[32px] border border-[#dce5f2] bg-white p-8">
+                <div className="rounded-[32px] border border-[#dce5f2] bg-white p-6 sm:p-8">
                   <div className="mb-6 flex items-center gap-3">
                     <RiInformationLine className="h-6 w-6 text-[#ef233c]" />
                     <h3 className="text-lg font-black uppercase">
@@ -657,7 +657,7 @@ export default function InscriptionJoueurPage() {
               badges={['Dossier Joueur', 'Inscription Directe', 'Paiement Securise']}
             >
               <form ref={formRef} className="space-y-8" onSubmit={handleSubmit}>
-                <div className="rounded-[32px] bg-[#0a2347] p-8 text-white shadow-xl">
+                <div className="rounded-[32px] bg-[#0a2347] p-6 sm:p-8 text-white shadow-xl">
                   <div className="mb-6 flex items-center gap-4">
                     <RiShieldStarLine className="h-8 w-8 text-[#ef233c]" />
                     <div>
@@ -671,7 +671,7 @@ export default function InscriptionJoueurPage() {
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <label
-                      className={`relative flex cursor-pointer items-center gap-4 rounded-2xl border p-6 transition-all ${
+                      className={`relative flex cursor-pointer items-center gap-3 sm:gap-4 rounded-2xl border p-4 sm:p-6 transition-all ${
                         activeProgram === 'tiToro'
                           ? 'border-[#ef233c]/40 bg-white/12'
                           : 'border-white/10 bg-white/5 hover:bg-white/10'
@@ -693,7 +693,7 @@ export default function InscriptionJoueurPage() {
                       </div>
                     </label>
                     <label
-                      className={`relative flex cursor-pointer items-center gap-4 rounded-2xl border p-6 transition-all ${
+                      className={`relative flex cursor-pointer items-center gap-3 sm:gap-4 rounded-2xl border p-4 sm:p-6 transition-all ${
                         activeProgram === 'fcToro'
                           ? 'border-[#ef233c]/40 bg-white/12'
                           : 'border-white/10 bg-white/5 hover:bg-white/10'
