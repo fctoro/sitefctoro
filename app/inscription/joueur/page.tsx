@@ -212,13 +212,13 @@ export default function InscriptionJoueurPage() {
   const today = toDateOnly(new Date())
   const minBirthDateDate = new Date(
     today.getFullYear() - ageRange.max,
-    today.getMonth(),
-    today.getDate()
+    0,
+    1
   )
   const maxBirthDateDate = new Date(
     today.getFullYear() - ageRange.min,
-    today.getMonth(),
-    today.getDate()
+    11,
+    31
   )
   const minBirthDate = formatDateInput(minBirthDateDate)
   const maxBirthDate = formatDateInput(maxBirthDateDate)
@@ -342,13 +342,13 @@ export default function InscriptionJoueurPage() {
     const range = programAgeRanges[program]
     const minDate = new Date(
       today.getFullYear() - range.max,
-      today.getMonth(),
-      today.getDate()
+      0,
+      1
     )
     const maxDate = new Date(
       today.getFullYear() - range.min,
-      today.getMonth(),
-      today.getDate()
+      11,
+      31
     )
     if (!isWithinRange(birthDate, minDate, maxDate)) {
       setAgeError(`Age requis: ${range.min} a ${range.max} ans pour ce programme.`)
