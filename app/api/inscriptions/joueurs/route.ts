@@ -128,13 +128,13 @@ export async function POST(request: Request) {
     const today = toDateOnly(new Date())
     const minDate = new Date(
       today.getFullYear() - range.max,
-      today.getMonth(),
-      today.getDate()
+      0,
+      1
     )
     const maxDate = new Date(
       today.getFullYear() - range.min,
-      today.getMonth(),
-      today.getDate()
+      11,
+      31
     )
     if (!isWithinRange(birthDate, minDate, maxDate)) {
       return NextResponse.json(
