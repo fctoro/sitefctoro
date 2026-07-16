@@ -218,9 +218,14 @@ export async function POST(request: Request) {
         payment_plan,
         payment_method,
         signature_name,
-        consents
+        consents,
+        ordered_uniforms,
+        financial_commitment_name,
+        financial_commitment_date,
+        financial_commitment_phone,
+        financial_commitment_signature
       ) values (
-        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29
       )
       returning id
     `
@@ -250,6 +255,17 @@ export async function POST(request: Request) {
       payload.payment_method,
       payload.parent_signature,
       JSON.stringify(consents),
+      JSON.stringify([
+        getText(formData, 'uniform_order_uniforme_jeux1') === 'uniforme_jeux1' ? 'uniforme_jeux1' : null,
+        getText(formData, 'uniform_order_uniforme_jeux2') === 'uniforme_jeux2' ? 'uniforme_jeux2' : null,
+        getText(formData, 'uniform_order_uniforme_jeux3') === 'uniforme_jeux3' ? 'uniforme_jeux3' : null,
+        getText(formData, 'uniform_order_tracksuit') === 'tracksuit' ? 'tracksuit' : null,
+        getText(formData, 'uniform_order_backpack') === 'backpack' ? 'backpack' : null,
+      ].filter(Boolean)),
+      getText(formData, 'engagement_name'),
+      getText(formData, 'engagement_date'),
+      getText(formData, 'engagement_phone'),
+      getText(formData, 'engagement_signature'),
     ]
 
     const client = await pool.connect()
