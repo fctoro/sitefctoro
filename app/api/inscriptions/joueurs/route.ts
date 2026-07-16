@@ -336,11 +336,11 @@ export async function POST(request: Request) {
       client.release()
     }
 
-    sendRegistrationEmail({
+    await sendRegistrationEmail({
       to: payload.guardian_email,
       guardianName: payload.guardian_name,
       program: payload.program,
-    }).catch((err) => console.error("Erreur d'envoi email en arrière-plan:", err))
+    }).catch((err) => console.error("Erreur d'envoi email:", err))
 
     return NextResponse.json({
       message:
