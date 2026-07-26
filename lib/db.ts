@@ -2,7 +2,10 @@ import { Pool } from 'pg'
 
 const connectionString = process.env.DATABASE_URL
  
-const ssl = connectionString?.includes('supabase.com') || connectionString?.includes('pooler')
+const ssl =
+  connectionString?.includes('supabase.co') ||
+  connectionString?.includes('supabase.com') ||
+  connectionString?.includes('pooler')
 
 export const pool = new Pool({
   connectionString: connectionString || undefined,
@@ -72,9 +75,22 @@ export async function ensurePlayersTables() {
       payment_plan text not null,
       payment_method text not null,
       signature_name text not null,
-      consents jsonb not null
+      consents jsonb not null,
+      ordered_uniforms jsonb not null default '[]'::jsonb,
+      financial_commitment_name text not null,
+      financial_commitment_date date not null,
+      financial_commitment_phone text not null,
+      financial_commitment_signature text not null
     );
   `)
+
+  await pool.query(`alter table player_registrations add column if not exists ordered_uniforms jsonb not null default '[]'::jsonb;`)
+  await pool.query(`alter table player_registrations add column if not exists financial_commitment_name text;`)
+  await pool.query(`alter table player_registrations add column if not exists financial_commitment_date date;`)
+  await pool.query(`alter table player_registrations add column if not exists financial_commitment_phone text;`)
+  await pool.query(`alter table player_registrations add column if not exists financial_commitment_signature text;`)
+
+  await pool.query(`update player_registrations set ordered_uniforms = '[]'::jsonb where ordered_uniforms is null;`)
 
   await pool.query(`
     create table if not exists player_registration_documents (

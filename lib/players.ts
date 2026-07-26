@@ -2,8 +2,8 @@ import 'server-only'
 
 import type { PlayerCard } from '@/lib/joueur'
 import { playerCards } from '@/lib/joueur'
-import { pool } from '@/lib/db'
 import { resolveCmsImage } from '@/lib/utils'
+import { supabaseAdmin } from '@/lib/supabase'
 
 type ClubPlayerRow = {
   first_name: string | null
@@ -129,24 +129,24 @@ type GetEliteRosterOptions = {
 }
 
 export async function getHomePlayers(): Promise<PlayerCard[]> {
-  if (!process.env.DATABASE_URL) {
+  if (process.env.NODE_ENV !== 'production') {
     return playerCards
   }
 
   try {
-    const { rows } = await pool.query<ClubPlayerRow>(`
-      select
-        first_name,
-        last_name,
-        photo_url,
-        position,
-        category
-      from club_players
-      where coalesce(status, 'actif') = 'actif'
-      order by created_at desc nulls last
-    `)
+    const { data, error } = await supabaseAdmin
+      .from('club_players')
+      .select('first_name,last_name,photo_url,position,category')
+      .eq('status', 'actif')
+      .order('created_at', { ascending: false })
 
-    const players = rows.map(mapClubPlayer).filter((player) => Boolean(player.image))
+    if (error) {
+      throw error
+    }
+
+    const players = (data ?? [])
+      .map(mapClubPlayer)
+      .filter((player) => Boolean(player.image))
     return players.length > 0 ? players : playerCards
   } catch (error) {
     console.error('[PLAYERS] Impossible de recuperer les joueurs du site.', error)
@@ -157,32 +157,21 @@ export async function getHomePlayers(): Promise<PlayerCard[]> {
 export async function getEliteRoster({ useFallback = true }: GetEliteRosterOptions = {}): Promise<EliteRosterPlayer[]> {
   const fallback = useFallback ? buildEliteFallback() : []
 
-  if (!process.env.DATABASE_URL) {
+  if (process.env.NODE_ENV !== 'production') {
     return fallback
   }
 
   try {
-    const { rows } = await pool.query<ElitePlayerRow>(`
-      select
-        number,
-        first_name,
-        last_name,
-        position,
-        club,
-        weight,
-        height,
-        photo_url,
-        video_url
-      from club_elite_players
-      order by
-        case
-          when nullif(regexp_replace(coalesce(number, ''), '[^0-9]', '', 'g'), '') is null then null
-          else regexp_replace(coalesce(number, ''), '[^0-9]', '', 'g')::int
-        end asc nulls last,
-        created_at asc nulls last
-    `)
+    const { data, error } = await supabaseAdmin
+      .from('club_elite_players')
+      .select('number,first_name,last_name,position,club,weight,height,photo_url,video_url')
+      .order('created_at', { ascending: true })
 
-    const eliteRoster = rows.map(mapElitePlayer)
+    if (error) {
+      throw error
+    }
+
+    const eliteRoster = (data ?? []).map(mapElitePlayer)
     return eliteRoster.length > 0 ? eliteRoster : fallback
   } catch (error) {
     console.error('[PLAYERS] Impossible de recuperer les joueurs elite.', error)

@@ -1,8 +1,8 @@
 import 'server-only'
 
 import { heroSlides as fallbackSlides, type HeroSlide } from '@/lib/joueur'
-import { pool } from '@/lib/db'
 import { resolveCmsImage } from '@/lib/utils'
+import { supabaseAdmin } from '@/lib/supabase'
 
 type HeroSlideRow = {
   badge: string | null
@@ -64,24 +64,23 @@ function mapHeroSlide(row: HeroSlideRow, index: number): HeroSlide | null {
 }
 
 export async function getActiveHeroSlides(): Promise<HeroSlide[]> {
-  if (!process.env.DATABASE_URL) {
+  if (process.env.NODE_ENV !== 'production') {
     return fallbackSlides
   }
 
   try {
-    const { rows } = await pool.query<HeroSlideRow>(`
-      select
-        badge,
-        title,
-        btn_label,
-        btn_url,
-        image_url
-      from hero_slides
-      where coalesce(is_active, false) = true
-      order by sort_order asc nulls last, created_at asc
-    `)
+    const { data, error } = await supabaseAdmin
+      .from('hero_slides')
+      .select('badge,title,btn_label,btn_url,image_url')
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: true })
 
-    const slides = rows
+    if (error) {
+      throw error
+    }
+
+    const slides = (data ?? [])
       .map(mapHeroSlide)
       .filter((slide): slide is HeroSlide => slide !== null)
 

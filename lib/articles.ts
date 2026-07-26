@@ -1,8 +1,8 @@
 import 'server-only'
 
 import type { NewsCard } from '@/lib/joueur'
-import { pool } from '@/lib/db'
 import { resolveCmsImage } from '@/lib/utils'
+import { supabaseAdmin } from '@/lib/supabase'
 
 type ArticleRow = {
   slug: string | null
@@ -45,19 +45,22 @@ function mapArticleRow(row: ArticleRow): NewsCard | null {
 }
 
 export async function getPublishedCmsArticles(): Promise<NewsCard[]> {
-  if (!process.env.DATABASE_URL) {
+  if (process.env.NODE_ENV !== 'production') {
     return []
   }
 
   try {
-    const { rows } = await pool.query<ArticleRow>(
-      `${ARTICLE_SELECT}
-       where status = $1
-       order by published_at desc nulls last`,
-      ['published'],
-    )
+    const { data, error } = await supabaseAdmin
+      .from('articles')
+      .select('slug,title_fr,excerpt_fr,content_fr,category,published_at,cover_image')
+      .eq('status', 'published')
+      .order('published_at', { ascending: false, nullsFirst: false })
 
-    return rows
+    if (error) {
+      throw error
+    }
+
+    return (data ?? [])
       .map(mapArticleRow)
       .filter((article): article is NewsCard => article !== null)
   } catch (error) {
@@ -67,19 +70,23 @@ export async function getPublishedCmsArticles(): Promise<NewsCard[]> {
 }
 
 export async function getPublishedCmsArticleBySlug(slug: string): Promise<NewsCard | null> {
-  if (!process.env.DATABASE_URL) {
+  if (process.env.NODE_ENV !== 'production') {
     return null
   }
 
   try {
-    const { rows } = await pool.query<ArticleRow>(
-      `${ARTICLE_SELECT}
-       where slug = $1 and status = $2
-       limit 1`,
-      [slug, 'published'],
-    )
+    const { data, error } = await supabaseAdmin
+      .from('articles')
+      .select('slug,title_fr,excerpt_fr,content_fr,category,published_at,cover_image')
+      .eq('slug', slug)
+      .eq('status', 'published')
+      .maybeSingle()
 
-    return rows.length > 0 ? mapArticleRow(rows[0]) : null
+    if (error) {
+      throw error
+    }
+
+    return data ? mapArticleRow(data) : null
   } catch (error) {
     console.error(`[ARTICLES] Impossible de recuperer l'article "${slug}".`, error)
     return null

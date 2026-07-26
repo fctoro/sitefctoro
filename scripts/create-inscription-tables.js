@@ -28,6 +28,7 @@ if (!connectionString) {
 }
 
 const ssl =
+  connectionString.includes('supabase.co') ||
   connectionString.includes('supabase.com') || connectionString.includes('pooler')
     ? { rejectUnauthorized: false }
     : undefined
@@ -65,9 +66,20 @@ async function run() {
         payment_plan text not null,
         payment_method text not null,
         signature_name text not null,
-        consents jsonb not null
+        consents jsonb not null,
+        ordered_uniforms jsonb not null default '[]'::jsonb,
+        financial_commitment_name text not null,
+        financial_commitment_date date not null,
+        financial_commitment_phone text not null,
+        financial_commitment_signature text not null
       );
     `)
+    await client.query(`alter table player_registrations add column if not exists ordered_uniforms jsonb not null default '[]'::jsonb;`)
+    await client.query(`alter table player_registrations add column if not exists financial_commitment_name text;`)
+    await client.query(`alter table player_registrations add column if not exists financial_commitment_date date;`)
+    await client.query(`alter table player_registrations add column if not exists financial_commitment_phone text;`)
+    await client.query(`alter table player_registrations add column if not exists financial_commitment_signature text;`)
+    await client.query(`update player_registrations set ordered_uniforms = '[]'::jsonb where ordered_uniforms is null;`)
     await client.query(`
       create table if not exists player_registration_documents (
         id bigserial primary key,
