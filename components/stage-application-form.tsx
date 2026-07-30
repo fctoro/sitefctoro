@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import { RiInformationLine } from '@remixicon/react'
 
 const languageLevels = ['Debutant', 'Intermediaire', 'Avance', 'Courant']
 
@@ -56,9 +58,38 @@ export function StageApplicationForm({ stageId }: { stageId: string }) {
   return (
     <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
       {error && (
-        <div className="rounded-xl bg-red-50 p-4 text-sm text-red-600 border border-red-200">
-          {error}
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-[3px]"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: -8 }}
+            className="w-full max-w-[380px] overflow-hidden rounded-[28px] border bg-white text-center shadow-[0_30px_80px_rgba(10,29,58,0.35)] border-rose-200"
+          >
+            <div className="px-6 py-6">
+              <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full bg-rose-100 text-rose-600">
+                <RiInformationLine className="h-6 w-6" />
+              </div>
+              <p className="text-base font-black uppercase tracking-wide text-[#0a1d3a]">
+                Action requise
+              </p>
+              <p className="mt-2 text-sm font-semibold text-[#5b6f91]">
+                {error}
+              </p>
+              <button
+                type="button"
+                onClick={() => setError(null)}
+                className="mt-6 w-full rounded-full bg-[#0a2347] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-[#0d2d62]"
+              >
+                Ok
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
       )}
       <div>
         <label className="text-sm font-medium text-[#445b7f]">
@@ -114,6 +145,13 @@ export function StageApplicationForm({ stageId }: { stageId: string }) {
           type="file"
           accept=".pdf,.doc,.docx"
           className="mt-2 block w-full rounded-[14px] border border-[#d7dfeb] bg-white px-4 py-3 text-sm text-[#445b7f]"
+          onChange={(e) => {
+            const file = e.target.files?.[0]
+            if (file && file.size > 4 * 1024 * 1024) {
+              setError(`Le fichier sélectionné est trop volumineux (${(file.size / (1024 * 1024)).toFixed(1)} MB). La taille maximale permise par fichier est de 4 MB. Veuillez choisir un fichier plus petit.`)
+              e.target.value = ''
+            }
+          }}
         />
         <p className="mt-2 text-xs text-[#7b8fab]">
           Types autorises: .pdf, .doc, .docx
@@ -129,6 +167,13 @@ export function StageApplicationForm({ stageId }: { stageId: string }) {
           type="file"
           accept=".pdf,.doc,.docx"
           className="mt-2 block w-full rounded-[14px] border border-[#d7dfeb] bg-white px-4 py-3 text-sm text-[#445b7f]"
+          onChange={(e) => {
+            const file = e.target.files?.[0]
+            if (file && file.size > 4 * 1024 * 1024) {
+              setError(`Le fichier sélectionné est trop volumineux (${(file.size / (1024 * 1024)).toFixed(1)} MB). La taille maximale permise par fichier est de 4 MB. Veuillez choisir un fichier plus petit.`)
+              e.target.value = ''
+            }
+          }}
         />
       </div>
 

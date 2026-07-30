@@ -285,7 +285,7 @@ export default function InscriptionJoueurPage() {
     if (fileErrorMessages.length > 0) {
       setSubmitMessage(
         fileErrorMessages[0] ||
-          'Erreur: un fichier depasse 5MB. Veuillez choisir un fichier plus petit.'
+          'Erreur: un fichier depasse 4MB. Veuillez compresser vos images.'
       )
       setSubmitState('error')
       return
@@ -359,17 +359,22 @@ export default function InscriptionJoueurPage() {
     setAgeStatus('valid')
   }
 
-  const handleFileChange = (docName: string, file: File | null) => {
+  const handleFileChange = (docName: string, file: File | null, event?: React.ChangeEvent<HTMLInputElement>) => {
     if (!file) {
       setFileStates((prev) => ({ ...prev, [docName]: null }))
       setFileErrors((prev) => ({ ...prev, [docName]: null }))
       return
     }
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > 4 * 1024 * 1024) {
+      setSubmitState('error')
+      setSubmitMessage(`Le fichier sélectionné est trop volumineux (${(file.size / (1024 * 1024)).toFixed(1)} MB). La taille maximale permise par fichier est de 4 MB. Veuillez choisir une image plus petite ou la compresser.`)
+      if (event && event.target) {
+        event.target.value = ''
+      }
       setFileStates((prev) => ({ ...prev, [docName]: null }))
       setFileErrors((prev) => ({
         ...prev,
-        [docName]: 'Le fichier ne doit pas depasser 5MB.',
+        [docName]: 'Le fichier ne doit pas depasser 4MB.',
       }))
       return
     }
@@ -733,7 +738,7 @@ export default function InscriptionJoueurPage() {
                           data-label="Photo d'identité"
                           onChange={(event) => {
                             const file = event.target.files?.[0] ?? null
-                            handleFileChange('document_photo_id', file)
+                            handleFileChange('document_photo_id', file, event)
                           }}
                           className="absolute inset-0 z-10 cursor-pointer opacity-0"
                         />
@@ -1100,7 +1105,7 @@ export default function InscriptionJoueurPage() {
                             data-label={doc.label}
                             onChange={(event) => {
                               const file = event.target.files?.[0] ?? null
-                              handleFileChange(doc.name, file)
+                              handleFileChange(doc.name, file, event)
                             }}
                             className="absolute inset-0 z-10 cursor-pointer opacity-0"
                           />
@@ -1112,7 +1117,7 @@ export default function InscriptionJoueurPage() {
                                 : 'Uploader le fichier'}
                             </p>
                             <p className="mt-1 text-[10px] text-[#5b6f91]">
-                              JPG ou PNG (Max 5MB)
+                              JPG ou PNG (Max 4MB)
                             </p>
                             {fileStates[doc.name] ? (
                               <p className="mt-2 text-[11px] font-semibold text-[#0a2347]">
