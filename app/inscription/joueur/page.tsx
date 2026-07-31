@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import imageCompression from 'browser-image-compression'
 import { HomeNavbar } from '@/components/home-navbar'
 import { Breadcrumb } from '@/components/breadcrumb'
 import {
@@ -296,6 +297,13 @@ export default function InscriptionJoueurPage() {
     const formData = new FormData(form)
     formData.set('program', activeProgram)
 
+    // Remplacer les fichiers du formulaire par les fichiers compressés
+    Object.entries(fileStates).forEach(([key, file]) => {
+      if (file) {
+        formData.set(key, file, file.name)
+      }
+    })
+
     try {
       const response = await fetch('/api/inscriptions/joueurs', {
         method: 'POST',
@@ -359,15 +367,30 @@ export default function InscriptionJoueurPage() {
     setAgeStatus('valid')
   }
 
-  const handleFileChange = (docName: string, file: File | null, event?: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (docName: string, file: File | null, event?: React.ChangeEvent<HTMLInputElement>) => {
     if (!file) {
       setFileStates((prev) => ({ ...prev, [docName]: null }))
       setFileErrors((prev) => ({ ...prev, [docName]: null }))
       return
     }
-    if (file.size > 4 * 1024 * 1024) {
+
+    let processedFile = file
+    if (file.type.startsWith('image/')) {
+      try {
+        const options = {
+          maxSizeMB: 0.8,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        }
+        processedFile = await imageCompression(file, options)
+      } catch (error) {
+        console.error("Erreur lors de la compression de l'image:", error)
+      }
+    }
+
+    if (processedFile.size > 4 * 1024 * 1024) {
       setSubmitState('error')
-      setSubmitMessage(`Le fichier sélectionné est trop volumineux (${(file.size / (1024 * 1024)).toFixed(1)} MB). La taille maximale permise par fichier est de 4 MB. Veuillez choisir une image plus petite ou la compresser.`)
+      setSubmitMessage(`Le fichier sélectionné est trop volumineux (${(processedFile.size / (1024 * 1024)).toFixed(1)} MB). La taille maximale permise par fichier est de 4 MB. Veuillez choisir une image plus petite ou la compresser.`)
       if (event && event.target) {
         event.target.value = ''
       }
@@ -378,7 +401,8 @@ export default function InscriptionJoueurPage() {
       }))
       return
     }
-    setFileStates((prev) => ({ ...prev, [docName]: file }))
+    
+    setFileStates((prev) => ({ ...prev, [docName]: processedFile }))
     setFileErrors((prev) => ({ ...prev, [docName]: null }))
   }
 
