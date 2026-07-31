@@ -304,6 +304,20 @@ export default function InscriptionJoueurPage() {
       }
     })
 
+    // VÉRIFICATION FINALE DE LA TAILLE TOTALE (Pour éviter l'erreur Vercel 413)
+    let totalSize = 0
+    for (const [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        totalSize += value.size
+      }
+    }
+
+    if (totalSize > 4 * 1024 * 1024) {
+      setSubmitState('error')
+      setSubmitMessage(`La taille totale de vos documents (${(totalSize / (1024 * 1024)).toFixed(1)} Mo) dépasse la limite autorisée (4 Mo). Si vous envoyez des PDF ou des photos iPhone (HEIC), veuillez d'abord réduire leur taille.`)
+      return
+    }
+
     try {
       const response = await fetch('/api/inscriptions/joueurs', {
         method: 'POST',
