@@ -48,6 +48,20 @@ export async function POST(request: Request) {
     await ensureFansTable()
     await ensureSiteMessagesTable()
 
+    // Vérification de doublon
+    const existing = await pool.query(
+      `SELECT id FROM fan_registrations WHERE email = $1 LIMIT 1`,
+      [payload.email]
+    )
+
+    if (existing.rows.length > 0) {
+      return NextResponse.json({
+        message:
+          "Cette adresse email est déjà enregistrée. Merci pour votre soutien !",
+        id: existing.rows[0].id,
+      })
+    }
+
     const result = await pool.query(
       `
         insert into fan_registrations

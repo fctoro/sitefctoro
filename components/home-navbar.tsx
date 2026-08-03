@@ -75,6 +75,7 @@ const linkDescriptionMap: Record<string, string> = {
   U17: 'Progression compétitive et maîtrise des phases de jeu.',
   U19: 'Préparation haut niveau et responsabilisation.',
   U21: 'Passerelle vers le groupe pro et performance continue.',
+  'Détections': "Inscrivez-vous aux prochaines sessions de détections du club.",
 }
 
 const getLinkDescription = (label: string) =>
@@ -215,6 +216,7 @@ export function HomeNavbar({ anchorPrefix = '' }: HomeNavbarProps) {
             title: 'Complément',
             links: [
               { label: 'Recrutement', href: '/recrutement' },
+              { label: 'Détections', href: '/inscription/detections' },
             ],
           },
 

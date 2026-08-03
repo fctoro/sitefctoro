@@ -1,15 +1,29 @@
 import { Pool } from 'pg'
 
 const connectionString = process.env.DATABASE_URL
+const smgConnectionString = process.env.SMG_DATABASE_URL
  
 const ssl =
   connectionString?.includes('supabase.co') ||
   connectionString?.includes('supabase.com') ||
   connectionString?.includes('pooler')
 
+const smgSsl =
+  smgConnectionString?.includes('supabase.co') ||
+  smgConnectionString?.includes('supabase.com') ||
+  smgConnectionString?.includes('pooler')
+
 export const pool = new Pool({
   connectionString: connectionString || undefined,
   ssl: ssl ? { rejectUnauthorized: false } : undefined,
+  max: 10,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 10000,
+})
+
+export const smgPool = new Pool({
+  connectionString: smgConnectionString || undefined,
+  ssl: smgSsl ? { rejectUnauthorized: false } : undefined,
   max: 10,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 10000,
@@ -22,6 +36,10 @@ if (!connectionString) {
 // Database error logging
 pool.on('error', (err) => {
   console.error('Unexpected error on idle database client', err)
+})
+
+smgPool.on('error', (err) => {
+  console.error('Unexpected error on idle SMG database client', err)
 })
 
 const dbHost = (() => {
@@ -48,7 +66,7 @@ let hasEnsuredFansTable = false
 export async function ensurePlayersTables() {
   if (hasEnsuredPlayersTables) return
 
-  await pool.query(`
+  await smgPool.query(`
     create table if not exists player_registrations (
       id bigserial primary key,
       created_at timestamptz not null default now(),
@@ -84,15 +102,15 @@ export async function ensurePlayersTables() {
     );
   `)
 
-  await pool.query(`alter table player_registrations add column if not exists ordered_uniforms jsonb not null default '[]'::jsonb;`)
-  await pool.query(`alter table player_registrations add column if not exists financial_commitment_name text;`)
-  await pool.query(`alter table player_registrations add column if not exists financial_commitment_date date;`)
-  await pool.query(`alter table player_registrations add column if not exists financial_commitment_phone text;`)
-  await pool.query(`alter table player_registrations add column if not exists financial_commitment_signature text;`)
+  await smgPool.query(`alter table player_registrations add column if not exists ordered_uniforms jsonb not null default '[]'::jsonb;`)
+  await smgPool.query(`alter table player_registrations add column if not exists financial_commitment_name text;`)
+  await smgPool.query(`alter table player_registrations add column if not exists financial_commitment_date date;`)
+  await smgPool.query(`alter table player_registrations add column if not exists financial_commitment_phone text;`)
+  await smgPool.query(`alter table player_registrations add column if not exists financial_commitment_signature text;`)
 
-  await pool.query(`update player_registrations set ordered_uniforms = '[]'::jsonb where ordered_uniforms is null;`)
+  await smgPool.query(`update player_registrations set ordered_uniforms = '[]'::jsonb where ordered_uniforms is null;`)
 
-  await pool.query(`
+  await smgPool.query(`
     create table if not exists player_registration_documents (
       id bigserial primary key,
       registration_id bigint not null references player_registrations(id) on delete cascade,
@@ -107,8 +125,8 @@ export async function ensurePlayersTables() {
     );
   `)
 
-  await pool.query(`alter table player_registration_documents add column if not exists path text;`)
-  await pool.query(`alter table player_registration_documents alter column data drop not null;`)
+  await smgPool.query(`alter table player_registration_documents add column if not exists path text;`)
+  await smgPool.query(`alter table player_registration_documents alter column data drop not null;`)
 
   hasEnsuredPlayersTables = true
 }
@@ -131,6 +149,42 @@ export async function ensureFansTable() {
   `)
 
   hasEnsuredFansTable = true
+}
+
+let hasEnsuredDetectionsTable = false
+
+export async function ensureDetectionsTable() {
+  if (hasEnsuredDetectionsTable) return
+
+  await smgPool.query(`
+    create table if not exists detection_registrations (
+      id bigserial primary key,
+      created_at timestamptz not null default now(),
+      nom text not null,
+      prenom text not null,
+      sexe text not null,
+      date_naissance date not null,
+      lieu_naissance text not null,
+      telephone text not null,
+      email text,
+      zone_residence text not null,
+      pied_dominant text not null,
+      club_actuel text,
+      niveau_actuel text not null,
+      experience_competitive text not null,
+      comment_identifie jsonb not null default '[]'::jsonb,
+      parent_nom text not null,
+      parent_lien text not null,
+      parent_telephone text not null,
+      parent_email text,
+      urgence_nom text not null,
+      urgence_telephone text not null,
+      photo_recente_url text,
+      numero_detection text
+    );
+  `)
+
+  hasEnsuredDetectionsTable = true
 }
 
 let hasEnsuredSiteMessagesTable = false

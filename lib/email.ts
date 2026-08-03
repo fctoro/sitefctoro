@@ -13,6 +13,13 @@ type FanEmailInput = {
   name: string
 }
 
+export type DetectionEmailInput = {
+  to: string
+  parentName: string
+  childName: string
+  detectionNumber: string
+}
+
 type EmailStat = {
   label: string
   value: string
@@ -753,5 +760,57 @@ export async function sendFanRegistrationEmail({ to, name }: FanEmailInput) {
     text,
     html,
     attachments: [...getLogoAttachment(), ...getFanSocialAttachments()],
+  })
+}
+
+export async function sendDetectionRegistrationEmail({
+  to,
+  parentName,
+  childName,
+  detectionNumber,
+}: DetectionEmailInput) {
+  const transporter = getTransporter()
+  if (!transporter) return
+
+  const safeParentName = parentName || 'Parent'
+  const safeChildName = childName || 'votre enfant'
+  const subject = 'Confirmation de candidature aux Détections FC TORO'
+
+  const text = [
+    `Bonjour ${safeParentName},`,
+    '',
+    `Votre demande de participation aux détections pour ${safeChildName} a bien été reçue par FC TORO.`,
+    `Votre numéro de détection est : ${detectionNumber}`,
+    '',
+    'Notre équipe analysera ce profil et vous contactera sous peu pour la suite du processus.',
+    '',
+    'Merci de votre confiance,',
+    'FC TORO',
+  ]
+    .filter(Boolean)
+    .join('\n')
+
+  const html = renderEmailTemplate({
+    preheader: "Votre candidature aux détections a bien été reçue.",
+    eyebrow: "Confirmation de candidature",
+    title: "Candidature reçue",
+    intro: `Bonjour ${safeParentName}, votre demande de participation aux détections pour ${safeChildName} a bien été reçue par FC TORO.`,
+    highlight: `Numéro de détection : ${detectionNumber}`,
+    details: [
+      "Notre équipe technique est en train de traiter votre dossier.",
+      "Nous vous contacterons très prochainement avec les prochaines étapes (horaires, convocations, etc.).",
+      "Restez attentif à votre boîte e-mail et à votre téléphone."
+    ],
+    footerNote:
+      "Cet e-mail confirme uniquement la bonne réception de votre demande. Les prochaines instructions vous seront transmises par le club.",
+  })
+
+  await transporter.sendMail({
+    from: `${smtpFromName} <${smtpFrom}>`,
+    to,
+    subject,
+    text,
+    html,
+    attachments: [...getLogoAttachment()],
   })
 }

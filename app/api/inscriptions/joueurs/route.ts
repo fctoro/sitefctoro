@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import path from 'path'
 import { sendRegistrationEmail } from '@/lib/email'
-import { ensureVideosBucket, supabaseAdmin } from '@/lib/supabase'
+import { ensureSmgVideosBucket, supabaseSmgAdmin } from '@/lib/supabase'
 
 export const runtime = 'nodejs'
 
@@ -164,7 +164,7 @@ export async function POST(request: Request) {
       )
     }
 
-    await ensureVideosBucket()
+    await ensureSmgVideosBucket()
 
     const orderedUniforms = [
       getText(formData, 'uniform_order_uniforme_jeux1') === 'uniforme_jeux1'
@@ -180,7 +180,7 @@ export async function POST(request: Request) {
       getText(formData, 'uniform_order_backpack') === 'backpack' ? 'backpack' : null,
     ].filter((value): value is string => Boolean(value))
 
-    const { data: registration, error: registrationError } = await supabaseAdmin
+    const { data: registration, error: registrationError } = await supabaseSmgAdmin
       .from('player_registrations')
       .insert({
         program: payload.program,
@@ -239,7 +239,7 @@ export async function POST(request: Request) {
       const base = ext ? safeName.slice(0, -ext.length) : safeName
       const uniqueName = `${registrationId}-${docKey}-${Date.now()}-${base}${ext}`
 
-      const { error: uploadError } = await supabaseAdmin.storage
+      const { error: uploadError } = await supabaseSmgAdmin.storage
         .from('videos')
         .upload(`documents/${uniqueName}`, arrayBuffer, {
           contentType: file.type || 'application/octet-stream',
@@ -252,10 +252,10 @@ export async function POST(request: Request) {
         )
       }
 
-      const { data } = supabaseAdmin.storage.from('videos').getPublicUrl(`documents/${uniqueName}`)
+      const { data } = supabaseSmgAdmin.storage.from('videos').getPublicUrl(`documents/${uniqueName}`)
       const publicPath = data.publicUrl
 
-      const { error: documentError } = await supabaseAdmin
+      const { error: documentError } = await supabaseSmgAdmin
         .from('player_registration_documents')
         .insert({
           registration_id: registrationId,
@@ -271,21 +271,6 @@ export async function POST(request: Request) {
           `Supabase document insert failed for ${docKey}: ${documentError.message || JSON.stringify(documentError)}`
         )
       }
-    }
-
-    const { error: messageError } = await supabaseAdmin.from('site_messages').insert({
-      type: 'joueur',
-      name: `${payload.guardian_name} (Enfant: ${payload.child_first_name} ${payload.child_last_name})`,
-      email: payload.guardian_email,
-      phone: payload.guardian_phone,
-      message: `Nouvelle inscription Joueur confirmée pour le programme ${payload.program}.`,
-      payload,
-    })
-
-    if (messageError) {
-      throw new Error(
-        `Supabase message insert failed: ${messageError.message || JSON.stringify(messageError)}`
-      )
     }
 
     await sendRegistrationEmail({

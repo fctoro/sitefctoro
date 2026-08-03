@@ -144,33 +144,6 @@ export async function POST(request: Request) {
         [stageId]
       )
 
-      // Insert into site_messages for CMS visibility
-      await client.query(
-        `
-          INSERT INTO site_messages (
-            type,
-            name,
-            email,
-            phone,
-            message,
-            payload
-          ) VALUES ($1, $2, $3, $4, $5, $6)
-        `,
-        [
-          'stagiaire',
-          `${firstName} ${lastName}`,
-          email,
-          phone,
-          `Nouvelle candidature pour: ${stage.title}`,
-          JSON.stringify({
-            stage: stage.title,
-            cv: publicPath,
-            location: location,
-            phone: phone,
-          })
-        ]
-      )
-
       await client.query('commit')
     } catch (dbError) {
       await client.query('rollback')
