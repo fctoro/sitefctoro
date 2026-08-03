@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server'
 import path from 'path'
 import { sendDetectionRegistrationEmail } from '@/lib/email'
 import { ensureSmgVideosBucket, supabaseSmgAdmin } from '@/lib/supabase'
-import { ensureDetectionsTable, smgPool } from '@/lib/db'
 
 export const runtime = 'nodejs'
 
@@ -100,8 +99,6 @@ export async function POST(request: Request) {
       photo_recente_url = data.publicUrl
     }
 
-    await ensureDetectionsTable()
-
     // Generate Detection Number
     const numero_detection = `DET-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
 
@@ -111,55 +108,47 @@ export async function POST(request: Request) {
     const niveau_actuel = getText(formData, 'niveau_actuel') || 'N/A'
     const parent_email = getText(formData, 'parent_email')
 
-    // Insert into PostgreSQL
-    const result = await smgPool.query(
-      `
-        insert into detection_registrations (
-          nom, prenom, sexe, date_naissance, lieu_naissance, telephone, email, zone_residence,
-          pied_dominant, club_actuel, niveau_actuel, experience_competitive, comment_identifie,
-          parent_nom, parent_lien, parent_telephone, parent_email, urgence_nom, urgence_telephone,
-          photo_recente_url, numero_detection
-        ) values (
-          $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21
-        ) returning id
-      `,
-      [
-        payload.nom,
-        payload.prenom,
-        payload.sexe,
-        payload.date_naissance,
-        'N/A', // lieu_naissance (not in form)
-        'N/A', // telephone (not in form)
-        email,
-        payload.zone_residence,
-        payload.pied_dominant,
-        club_actuel,
-        niveau_actuel,
-        payload.experience, // experience_competitive
-        JSON.stringify(comment_identifie),
-        payload.parent_nom,
-        payload.parent_lien,
-        payload.parent_telephone,
-        parent_email,
-        payload.parent_urgence, // urgence_nom
-        'Voir urgence_nom', // urgence_telephone
-        photo_recente_url,
-        numero_detection
-      ]
-    )
+    // Insert into PostgreSQL via Supabase REST API to avoid IPv4 pool connection issues
+    const { data: registration, error: regError } = await supabaseSmgAdmin.from('detection_registrations').insert({
+      nom: payload.nom,
+      prenom: payload.prenom,
+      sexe: payload.sexe,
+      date_naissance: payload.date_naissance,
+      lieu_naissance: 'N/A', // lieu_naissance (not in form)
+      telephone: 'N/A', // telephone (not in form)
+      email: email,
+      zone_residence: payload.zone_residence,
+      pied_dominant: payload.pied_dominant,
+      club_actuel: club_actuel,
+      niveau_actuel: niveau_actuel,
+      experience_competitive: payload.experience,
+      comment_identifie: JSON.stringify(comment_identifie),
+      parent_nom: payload.parent_nom,
+      parent_lien: payload.parent_lien,
+      parent_telephone: payload.parent_telephone,
+      parent_email: parent_email,
+      urgence_nom: payload.parent_urgence,
+      urgence_telephone: 'Voir urgence_nom',
+      photo_recente_url: photo_recente_url,
+      numero_detection: numero_detection
+    }).select('id').single()
 
-    const registrationId = result.rows[0]?.id as number
+    if (regError) {
+      throw new Error(`Failed to insert detection registration: ${regError.message}`)
+    }
+
+    const registrationId = registration.id
 
     // Send confirmation email
     const contactEmail = getText(formData, 'parent_email') || payload.email
 
     const { error: messageError } = await supabaseSmgAdmin.from('site_messages').insert({
-      type: 'detection',
-      name: `${payload.parent_nom} (Enfant: ${payload.prenom} ${payload.nom})`,
-      email: contactEmail,
-      phone: payload.parent_telephone,
+      type_message: 'detection',
+      contact_nom: `${payload.parent_nom} (Enfant: ${payload.prenom} ${payload.nom})`,
+      contact_email: contactEmail,
+      contact_telephone: payload.parent_telephone,
       message: `Nouvelle inscription aux Détections avec le numéro ${numero_detection}.`,
-      payload,
+      metadata: payload,
     })
 
     if (messageError) {
