@@ -129,9 +129,7 @@ type GetEliteRosterOptions = {
 }
 
 export async function getHomePlayers(): Promise<PlayerCard[]> {
-  if (process.env.NODE_ENV !== 'production') {
-    return playerCards
-  }
+
 
   try {
     const { data, error } = await supabaseAdmin
@@ -157,9 +155,7 @@ export async function getHomePlayers(): Promise<PlayerCard[]> {
 export async function getEliteRoster({ useFallback = true }: GetEliteRosterOptions = {}): Promise<EliteRosterPlayer[]> {
   const fallback = useFallback ? buildEliteFallback() : []
 
-  if (process.env.NODE_ENV !== 'production') {
-    return fallback
-  }
+
 
   try {
     const { data, error } = await supabaseAdmin

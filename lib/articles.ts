@@ -45,9 +45,7 @@ function mapArticleRow(row: ArticleRow): NewsCard | null {
 }
 
 export async function getPublishedCmsArticles(): Promise<NewsCard[]> {
-  if (process.env.NODE_ENV !== 'production') {
-    return []
-  }
+
 
   try {
     const { data, error } = await supabaseAdmin
@@ -70,9 +68,7 @@ export async function getPublishedCmsArticles(): Promise<NewsCard[]> {
 }
 
 export async function getPublishedCmsArticleBySlug(slug: string): Promise<NewsCard | null> {
-  if (process.env.NODE_ENV !== 'production') {
-    return null
-  }
+
 
   try {
     const { data, error } = await supabaseAdmin

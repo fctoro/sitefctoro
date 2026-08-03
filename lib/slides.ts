@@ -64,9 +64,7 @@ function mapHeroSlide(row: HeroSlideRow, index: number): HeroSlide | null {
 }
 
 export async function getActiveHeroSlides(): Promise<HeroSlide[]> {
-  if (process.env.NODE_ENV !== 'production') {
-    return fallbackSlides
-  }
+
 
   try {
     const { data, error } = await supabaseAdmin
