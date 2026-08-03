@@ -152,6 +152,20 @@ export async function POST(request: Request) {
 
     // Send confirmation email
     const contactEmail = getText(formData, 'parent_email') || payload.email
+
+    const { error: messageError } = await supabaseSmgAdmin.from('site_messages').insert({
+      type: 'detection',
+      name: `${payload.parent_nom} (Enfant: ${payload.prenom} ${payload.nom})`,
+      email: contactEmail,
+      phone: payload.parent_telephone,
+      message: `Nouvelle inscription aux Détections avec le numéro ${numero_detection}.`,
+      payload,
+    })
+
+    if (messageError) {
+      console.error('Failed to insert into SMG site_messages:', messageError)
+    }
+
     if (contactEmail) {
       await sendDetectionRegistrationEmail({
         to: contactEmail,

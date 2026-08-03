@@ -273,6 +273,19 @@ export async function POST(request: Request) {
       }
     }
 
+    const { error: messageError } = await supabaseSmgAdmin.from('site_messages').insert({
+      type: 'joueur',
+      name: `${payload.guardian_name} (Enfant: ${payload.child_first_name} ${payload.child_last_name})`,
+      email: payload.guardian_email,
+      phone: payload.guardian_phone,
+      message: `Nouvelle inscription Joueur confirmée pour le programme ${payload.program}.`,
+      payload,
+    })
+
+    if (messageError) {
+      console.error('Failed to insert into SMG site_messages:', messageError)
+    }
+
     await sendRegistrationEmail({
       to: payload.guardian_email,
       guardianName: payload.guardian_name,
