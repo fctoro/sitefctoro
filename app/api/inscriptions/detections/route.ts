@@ -143,12 +143,12 @@ export async function POST(request: Request) {
     const contactEmail = getText(formData, 'parent_email') || payload.email
 
     const { error: messageError } = await supabaseSmgAdmin.from('site_messages').insert({
-      type_message: 'detection',
-      contact_nom: `${payload.parent_nom} (Enfant: ${payload.prenom} ${payload.nom})`,
-      contact_email: contactEmail,
-      contact_telephone: payload.parent_telephone,
+      type: 'detection',
+      name: `${payload.parent_nom} (Enfant: ${payload.prenom} ${payload.nom})`,
+      email: contactEmail,
+      phone: payload.parent_telephone,
       message: `Nouvelle inscription aux Détections avec le numéro ${numero_detection}.`,
-      metadata: payload,
+      payload: { id: registrationId, numero_detection, ...payload },
     })
 
     if (messageError) {

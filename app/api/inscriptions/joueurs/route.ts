@@ -274,12 +274,12 @@ export async function POST(request: Request) {
     }
 
     const { error: messageError } = await supabaseSmgAdmin.from('site_messages').insert({
-      type_message: 'inscription_joueur',
-      contact_nom: `${payload.guardian_name} (Enfant: ${payload.child_first_name} ${payload.child_last_name})`,
-      contact_email: payload.guardian_email,
-      contact_telephone: payload.guardian_phone,
+      type: 'joueur',
+      name: `${payload.guardian_name} (Enfant: ${payload.child_first_name} ${payload.child_last_name})`,
+      email: payload.guardian_email,
+      phone: payload.guardian_phone,
       message: `Nouvelle inscription Joueur confirmée pour le programme ${payload.program}.`,
-      metadata: payload,
+      payload: { id: registrationId, ...payload },
     })
 
     if (messageError) {
