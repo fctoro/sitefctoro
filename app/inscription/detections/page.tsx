@@ -21,6 +21,10 @@ export default function DetectionsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
   const [fileName, setFileName] = useState<string | null>(null)
+  const [ficheName, setFicheName] = useState<string | null>(null)
+  const [vaccinName, setVaccinName] = useState<string | null>(null)
+  const [acteName, setActeName] = useState<string | null>(null)
+  const [pieceName, setPieceName] = useState<string | null>(null)
   const [age, setAge] = useState<string>('')
 
   const todayStr = new Date().toISOString().split('T')[0]
@@ -74,6 +78,10 @@ export default function DetectionsPage() {
       setSubmitMessage({ type: 'success', text: data.message })
       formRef.current?.reset()
       setFileName(null)
+      setFicheName(null)
+      setVaccinName(null)
+      setActeName(null)
+      setPieceName(null)
     } catch (error) {
       setSubmitMessage({
         type: 'error',
@@ -324,6 +332,95 @@ export default function DetectionsPage() {
                     </div>
                   </InscriptionFormSection>
 
+                  {/* SECTION 4: DOCUMENTS */}
+                  <InscriptionFormSection
+                    index="4"
+                    title="Documents (Obligatoire)"
+                    description="Téléchargez vos documents (formats acceptés : JPG, PNG, PDF)."
+                  >
+                    <div className="grid gap-5 sm:grid-cols-2">
+                      <InscriptionField label="Fiche 9ème" required>
+                        <div className="relative flex h-32 w-full items-center justify-center rounded-3xl border-2 border-dashed border-[#dce5f2] bg-white transition-all hover:border-[#ef233c]/30 hover:bg-[#fffcfc]">
+                          <input
+                            type="file"
+                            name="fiche_9e"
+                            accept="image/jpeg,image/png,application/pdf"
+                            required
+                            onChange={(e) => setFicheName(e.target.files?.[0]?.name || null)}
+                            className="absolute inset-0 z-10 cursor-pointer opacity-0"
+                          />
+                          <div className="text-center">
+                            <RiUploadCloud2Line className="mx-auto h-6 w-6 text-[#ef233c]/40" />
+                            <p className="mt-1 text-[10px] font-black uppercase tracking-widest text-[#0a1d3a]">
+                              {ficheName ? 'Prêt' : 'Fichier'}
+                            </p>
+                          </div>
+                        </div>
+                        {ficheName && <p className="mt-2 text-center text-xs font-semibold text-[#0a2347] truncate px-2">{ficheName}</p>}
+                      </InscriptionField>
+
+                      <InscriptionField label="Carnet de vaccination" required>
+                        <div className="relative flex h-32 w-full items-center justify-center rounded-3xl border-2 border-dashed border-[#dce5f2] bg-white transition-all hover:border-[#ef233c]/30 hover:bg-[#fffcfc]">
+                          <input
+                            type="file"
+                            name="carnet_vaccination"
+                            accept="image/jpeg,image/png,application/pdf"
+                            required
+                            onChange={(e) => setVaccinName(e.target.files?.[0]?.name || null)}
+                            className="absolute inset-0 z-10 cursor-pointer opacity-0"
+                          />
+                          <div className="text-center">
+                            <RiUploadCloud2Line className="mx-auto h-6 w-6 text-[#ef233c]/40" />
+                            <p className="mt-1 text-[10px] font-black uppercase tracking-widest text-[#0a1d3a]">
+                              {vaccinName ? 'Prêt' : 'Fichier'}
+                            </p>
+                          </div>
+                        </div>
+                        {vaccinName && <p className="mt-2 text-center text-xs font-semibold text-[#0a2347] truncate px-2">{vaccinName}</p>}
+                      </InscriptionField>
+
+                      <InscriptionField label="Acte de naissance" required>
+                        <div className="relative flex h-32 w-full items-center justify-center rounded-3xl border-2 border-dashed border-[#dce5f2] bg-white transition-all hover:border-[#ef233c]/30 hover:bg-[#fffcfc]">
+                          <input
+                            type="file"
+                            name="acte_naissance"
+                            accept="image/jpeg,image/png,application/pdf"
+                            required
+                            onChange={(e) => setActeName(e.target.files?.[0]?.name || null)}
+                            className="absolute inset-0 z-10 cursor-pointer opacity-0"
+                          />
+                          <div className="text-center">
+                            <RiUploadCloud2Line className="mx-auto h-6 w-6 text-[#ef233c]/40" />
+                            <p className="mt-1 text-[10px] font-black uppercase tracking-widest text-[#0a1d3a]">
+                              {acteName ? 'Prêt' : 'Fichier'}
+                            </p>
+                          </div>
+                        </div>
+                        {acteName && <p className="mt-2 text-center text-xs font-semibold text-[#0a2347] truncate px-2">{acteName}</p>}
+                      </InscriptionField>
+
+                      <InscriptionField label="Pièce d'identité parent" required>
+                        <div className="relative flex h-32 w-full items-center justify-center rounded-3xl border-2 border-dashed border-[#dce5f2] bg-white transition-all hover:border-[#ef233c]/30 hover:bg-[#fffcfc]">
+                          <input
+                            type="file"
+                            name="piece_identite_parent"
+                            accept="image/jpeg,image/png,application/pdf"
+                            required
+                            onChange={(e) => setPieceName(e.target.files?.[0]?.name || null)}
+                            className="absolute inset-0 z-10 cursor-pointer opacity-0"
+                          />
+                          <div className="text-center">
+                            <RiUploadCloud2Line className="mx-auto h-6 w-6 text-[#ef233c]/40" />
+                            <p className="mt-1 text-[10px] font-black uppercase tracking-widest text-[#0a1d3a]">
+                              {pieceName ? 'Prêt' : 'Fichier'}
+                            </p>
+                          </div>
+                        </div>
+                        {pieceName && <p className="mt-2 text-center text-xs font-semibold text-[#0a2347] truncate px-2">{pieceName}</p>}
+                      </InscriptionField>
+                    </div>
+                  </InscriptionFormSection>
+
                   <InscriptionSubmit
                     label="Soumettre la fiche"
                     note="Assurez-vous que toutes les informations sont correctes avant de soumettre. Nous vous contacterons pour confirmer votre session."
@@ -378,6 +475,10 @@ export default function DetectionsPage() {
                               if (submitMessage.type === 'success') {
                                 formRef.current?.reset()
                                 setFileName(null)
+                                setFicheName(null)
+                                setVaccinName(null)
+                                setActeName(null)
+                                setPieceName(null)
                               }
                               setSubmitMessage(null)
                             }}

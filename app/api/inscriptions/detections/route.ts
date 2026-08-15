@@ -99,6 +99,43 @@ export async function POST(request: Request) {
       photo_recente_url = data.publicUrl
     }
 
+    // Helper function for uploading required documents
+    async function uploadRequiredDocument(formKey: string, humanName: string) {
+      const val = formData.get(formKey)
+      const info = getFileInfo(val)
+      if (info && val && typeof val !== 'string') {
+        const file = val as File
+        if (file.size > MAX_FILE_SIZE_BYTES) {
+          throw new Error(`Le fichier pour ${humanName} dépasse 4MB.`)
+        }
+        await ensureSmgVideosBucket()
+        const arrayBuffer = await file.arrayBuffer()
+        const safeName = sanitizeFilename(info.filename)
+        const ext = path.extname(safeName)
+        const base = ext ? safeName.slice(0, -ext.length) : safeName
+        const uniqueName = `detection-${formKey}-${Date.now()}-${base}${ext}`
+
+        const { error: uploadError } = await supabaseSmgAdmin.storage
+          .from('videos')
+          .upload(`documents/${uniqueName}`, arrayBuffer, {
+            contentType: file.type || 'application/octet-stream',
+            upsert: false,
+          })
+
+        if (uploadError) {
+          throw new Error(`Erreur lors de l'upload de ${humanName}: ${uploadError.message}`)
+        }
+        const { data } = supabaseSmgAdmin.storage.from('videos').getPublicUrl(`documents/${uniqueName}`)
+        return data.publicUrl
+      }
+      throw new Error(`Le document "${humanName}" est obligatoire.`)
+    }
+
+    const fiche_9e_url = await uploadRequiredDocument('fiche_9e', 'Fiche 9ème')
+    const carnet_vaccination_url = await uploadRequiredDocument('carnet_vaccination', 'Carnet de vaccination')
+    const acte_naissance_url = await uploadRequiredDocument('acte_naissance', 'Acte de naissance')
+    const piece_identite_parent_url = await uploadRequiredDocument('piece_identite_parent', "Pièce d'identité parent")
+
     // Generate Detection Number
     const numero_detection = `DET-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
 
@@ -130,6 +167,10 @@ export async function POST(request: Request) {
       urgence_nom: payload.parent_urgence,
       urgence_telephone: 'Voir urgence_nom',
       photo_recente_url: photo_recente_url,
+      fiche_9e_url: fiche_9e_url,
+      carnet_vaccination_url: carnet_vaccination_url,
+      acte_naissance_url: acte_naissance_url,
+      piece_identite_parent_url: piece_identite_parent_url,
       numero_detection: numero_detection
     }).select('id').single()
 
