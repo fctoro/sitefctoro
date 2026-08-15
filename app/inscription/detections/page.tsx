@@ -324,11 +324,6 @@ export default function DetectionsPage() {
                         <InscriptionInput type="email" name="parent_email" />
                       </InscriptionField>
 
-                      <div className="sm:col-span-2">
-                         <InscriptionField label="Urgence (Nom & Téléphone)" required>
-                          <InscriptionInput type="text" name="parent_urgence" placeholder="Ex: Jean Dupont - +509 30 00 00 00" required />
-                        </InscriptionField>
-                      </div>
                     </div>
                   </InscriptionFormSection>
 

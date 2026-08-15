@@ -16,7 +16,6 @@ const REQUIRED_TEXT_FIELDS = [
   'parent_nom',
   'parent_lien',
   'parent_telephone',
-  'parent_urgence',
 ] as const
 
 const MAX_FILE_SIZE_BYTES = 4 * 1024 * 1024 // 4MB as stated in the UI
@@ -164,8 +163,8 @@ export async function POST(request: Request) {
       parent_lien: payload.parent_lien,
       parent_telephone: payload.parent_telephone,
       parent_email: parent_email,
-      urgence_nom: payload.parent_urgence,
-      urgence_telephone: 'Voir urgence_nom',
+      urgence_nom: '',
+      urgence_telephone: '',
       photo_recente_url: photo_recente_url,
       fiche_9e_url: fiche_9e_url,
       carnet_vaccination_url: carnet_vaccination_url,
