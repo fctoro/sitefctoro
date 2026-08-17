@@ -98,8 +98,8 @@ export async function POST(request: Request) {
       photo_recente_url = data.publicUrl
     }
 
-    // Helper function for uploading required documents
-    async function uploadRequiredDocument(formKey: string, humanName: string) {
+    // Helper function for uploading optional documents
+    async function uploadOptionalDocument(formKey: string, humanName: string) {
       const val = formData.get(formKey)
       const info = getFileInfo(val)
       if (info && val && typeof val !== 'string') {
@@ -127,13 +127,13 @@ export async function POST(request: Request) {
         const { data } = supabaseSmgAdmin.storage.from('videos').getPublicUrl(`documents/${uniqueName}`)
         return data.publicUrl
       }
-      throw new Error(`Le document "${humanName}" est obligatoire.`)
+      return null
     }
 
-    const fiche_9e_url = await uploadRequiredDocument('fiche_9e', 'Fiche 9ème')
-    const carnet_vaccination_url = await uploadRequiredDocument('carnet_vaccination', 'Carnet de vaccination')
-    const acte_naissance_url = await uploadRequiredDocument('acte_naissance', 'Acte de naissance')
-    const piece_identite_parent_url = await uploadRequiredDocument('piece_identite_parent', "Pièce d'identité parent")
+    const fiche_9e_url = await uploadOptionalDocument('fiche_9e', 'Fiche 9ème')
+    const carnet_vaccination_url = await uploadOptionalDocument('carnet_vaccination', 'Carnet de vaccination')
+    const acte_naissance_url = await uploadOptionalDocument('acte_naissance', 'Acte de naissance')
+    const piece_identite_parent_url = await uploadOptionalDocument('piece_identite_parent', "Pièce d'identité parent")
 
     // Generate Detection Number
     const numero_detection = `DET-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`

@@ -330,17 +330,16 @@ export default function DetectionsPage() {
                   {/* SECTION 4: DOCUMENTS */}
                   <InscriptionFormSection
                     index="4"
-                    title="Documents (Obligatoire)"
+                    title="Documents"
                     description="Téléchargez vos documents (formats acceptés : JPG, PNG, PDF)."
                   >
                     <div className="grid gap-5 sm:grid-cols-2">
-                      <InscriptionField label="Fiche 9ème" required>
+                      <InscriptionField label="Fiche 9ème">
                         <div className="relative flex h-32 w-full items-center justify-center rounded-3xl border-2 border-dashed border-[#dce5f2] bg-white transition-all hover:border-[#ef233c]/30 hover:bg-[#fffcfc]">
                           <input
                             type="file"
                             name="fiche_9e"
                             accept="image/jpeg,image/png,application/pdf"
-                            required
                             onChange={(e) => setFicheName(e.target.files?.[0]?.name || null)}
                             className="absolute inset-0 z-10 cursor-pointer opacity-0"
                           />
@@ -354,13 +353,12 @@ export default function DetectionsPage() {
                         {ficheName && <p className="mt-2 text-center text-xs font-semibold text-[#0a2347] truncate px-2">{ficheName}</p>}
                       </InscriptionField>
 
-                      <InscriptionField label="Carnet de vaccination" required>
+                      <InscriptionField label="Carnet de vaccination">
                         <div className="relative flex h-32 w-full items-center justify-center rounded-3xl border-2 border-dashed border-[#dce5f2] bg-white transition-all hover:border-[#ef233c]/30 hover:bg-[#fffcfc]">
                           <input
                             type="file"
                             name="carnet_vaccination"
                             accept="image/jpeg,image/png,application/pdf"
-                            required
                             onChange={(e) => setVaccinName(e.target.files?.[0]?.name || null)}
                             className="absolute inset-0 z-10 cursor-pointer opacity-0"
                           />
@@ -374,13 +372,12 @@ export default function DetectionsPage() {
                         {vaccinName && <p className="mt-2 text-center text-xs font-semibold text-[#0a2347] truncate px-2">{vaccinName}</p>}
                       </InscriptionField>
 
-                      <InscriptionField label="Acte de naissance" required>
+                      <InscriptionField label="Acte de naissance">
                         <div className="relative flex h-32 w-full items-center justify-center rounded-3xl border-2 border-dashed border-[#dce5f2] bg-white transition-all hover:border-[#ef233c]/30 hover:bg-[#fffcfc]">
                           <input
                             type="file"
                             name="acte_naissance"
                             accept="image/jpeg,image/png,application/pdf"
-                            required
                             onChange={(e) => setActeName(e.target.files?.[0]?.name || null)}
                             className="absolute inset-0 z-10 cursor-pointer opacity-0"
                           />
@@ -394,13 +391,12 @@ export default function DetectionsPage() {
                         {acteName && <p className="mt-2 text-center text-xs font-semibold text-[#0a2347] truncate px-2">{acteName}</p>}
                       </InscriptionField>
 
-                      <InscriptionField label="Pièce d'identité parent" required>
+                      <InscriptionField label="Pièce d'identité parent">
                         <div className="relative flex h-32 w-full items-center justify-center rounded-3xl border-2 border-dashed border-[#dce5f2] bg-white transition-all hover:border-[#ef233c]/30 hover:bg-[#fffcfc]">
                           <input
                             type="file"
                             name="piece_identite_parent"
                             accept="image/jpeg,image/png,application/pdf"
-                            required
                             onChange={(e) => setPieceName(e.target.files?.[0]?.name || null)}
                             className="absolute inset-0 z-10 cursor-pointer opacity-0"
                           />
