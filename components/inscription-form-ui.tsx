@@ -99,7 +99,7 @@ export function InscriptionField({
         {required ? <span className="text-[#ef233c]"> *</span> : null}
       </label>
       {children}
-      {helper ? <p className="text-xs font-semibold leading-relaxed text-[#7c8fad]">{helper}</p> : null}
+      {helper ? <p className="text-[11px] font-semibold leading-relaxed text-[#7c8fad]">{helper}</p> : null}
     </div>
   )
 }

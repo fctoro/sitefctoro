@@ -210,7 +210,7 @@ export default function DetectionsPage() {
                         <InscriptionInput type="text" name="prenom" required />
                       </InscriptionField>
 
-                      <InscriptionField label="Date de naissance" required>
+                      <InscriptionField label="Date de naissance" helper="Vous devez avoir au moins 8 ans pour gagner votre place." required>
                         <InscriptionInput type="date" name="date_naissance" max={maxBirthDateStr} required onChange={handleDateChange} />
                       </InscriptionField>
 
