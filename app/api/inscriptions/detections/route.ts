@@ -56,6 +56,35 @@ export async function POST(request: Request) {
       )
     }
 
+    // Validation de l'âge minimum (8 ans)
+    const dateStr = payload.date_naissance
+    if (dateStr) {
+      const parts = dateStr.split('-')
+      const birthYear = parseInt(parts[0], 10)
+      const birthMonth = parseInt(parts[1], 10) - 1
+      const birthDay = parseInt(parts[2], 10)
+
+      if (!isNaN(birthYear) && !isNaN(birthMonth) && !isNaN(birthDay)) {
+        const today = new Date()
+        let calculatedAge = today.getFullYear() - birthYear
+        const m = today.getMonth() - birthMonth
+        if (m < 0 || (m === 0 && today.getDate() < birthDay)) {
+          calculatedAge--
+        }
+        if (calculatedAge < 8) {
+          return NextResponse.json(
+            { error: 'Le joueur doit être âgé de 8 ans minimum.' },
+            { status: 400 }
+          )
+        }
+      } else {
+        return NextResponse.json(
+          { error: 'Date de naissance invalide.' },
+          { status: 400 }
+        )
+      }
+    }
+
     // Process checkbox/radio array for "comment_identifie"
     const comment_identifie = formData.getAll('comment_identifie').map(String)
 

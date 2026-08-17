@@ -27,17 +27,29 @@ export default function DetectionsPage() {
   const [pieceName, setPieceName] = useState<string | null>(null)
   const [age, setAge] = useState<string>('')
 
-  const todayStr = new Date().toISOString().split('T')[0]
+  const formatDate = (date: Date) => {
+    const y = date.getFullYear()
+    const m = String(date.getMonth() + 1).padStart(2, '0')
+    const d = String(date.getDate()).padStart(2, '0')
+    return `${y}-${m}-${d}`
+  }
+
+  const today = new Date()
+  const maxBirthDateStr = formatDate(new Date(today.getFullYear() - 8, today.getMonth(), today.getDate()))
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const dateStr = e.target.value
     if (dateStr) {
-      const birthDate = new Date(dateStr)
-      if (!isNaN(birthDate.getTime())) {
+      const parts = dateStr.split('-')
+      const birthYear = parseInt(parts[0], 10)
+      const birthMonth = parseInt(parts[1], 10) - 1
+      const birthDay = parseInt(parts[2], 10)
+
+      if (!isNaN(birthYear) && !isNaN(birthMonth) && !isNaN(birthDay)) {
         const today = new Date()
-        let calculatedAge = today.getFullYear() - birthDate.getFullYear()
-        const m = today.getMonth() - birthDate.getMonth()
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        let calculatedAge = today.getFullYear() - birthYear
+        const m = today.getMonth() - birthMonth
+        if (m < 0 || (m === 0 && today.getDate() < birthDay)) {
           calculatedAge--
         }
         setAge(calculatedAge >= 0 ? calculatedAge.toString() : '')
@@ -55,6 +67,29 @@ export default function DetectionsPage() {
     setSubmitMessage(null)
 
     const formData = new FormData(e.currentTarget)
+
+    // Validation de l'âge minimum (8 ans)
+    const dateStr = formData.get('date_naissance') as string
+    if (dateStr) {
+      const parts = dateStr.split('-')
+      const birthYear = parseInt(parts[0], 10)
+      const birthMonth = parseInt(parts[1], 10) - 1
+      const birthDay = parseInt(parts[2], 10)
+
+      if (!isNaN(birthYear) && !isNaN(birthMonth) && !isNaN(birthDay)) {
+        const todayObj = new Date()
+        let calculatedAge = todayObj.getFullYear() - birthYear
+        const m = todayObj.getMonth() - birthMonth
+        if (m < 0 || (m === 0 && todayObj.getDate() < birthDay)) {
+          calculatedAge--
+        }
+        if (calculatedAge < 8) {
+          setSubmitMessage({ type: 'error', text: 'Le joueur doit être âgé de 8 ans minimum.' })
+          setIsSubmitting(false)
+          return
+        }
+      }
+    }
 
     const comment_identifie = formData.getAll('comment_identifie').map(String)
     if (comment_identifie.length === 0) {
@@ -176,11 +211,11 @@ export default function DetectionsPage() {
                       </InscriptionField>
 
                       <InscriptionField label="Date de naissance" required>
-                        <InscriptionInput type="date" name="date_naissance" max={todayStr} required onChange={handleDateChange} />
+                        <InscriptionInput type="date" name="date_naissance" max={maxBirthDateStr} required onChange={handleDateChange} />
                       </InscriptionField>
 
                       <InscriptionField label="Âge" required>
-                        <InscriptionInput type="number" name="age" min="1" max="99" required value={age} readOnly className="bg-[#f8fafc] font-bold text-[#8ea2bf] pointer-events-none" />
+                        <InscriptionInput type="number" name="age" min="8" max="99" required value={age} readOnly className="bg-[#f8fafc] font-bold text-[#8ea2bf] pointer-events-none" />
                       </InscriptionField>
 
                       <InscriptionField label="Sexe" required>
