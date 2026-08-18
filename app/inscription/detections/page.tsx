@@ -332,8 +332,8 @@ export default function DetectionsPage() {
                         </InscriptionSelect>
                       </InscriptionField>
 
-                      <InscriptionField label="Poste secondaire">
-                        <InscriptionSelect name="poste_secondaire">
+                      <InscriptionField label="Poste secondaire" required>
+                        <InscriptionSelect name="poste_secondaire" required>
                           <option value="">Sélectionner</option>
                           <option value="Gardien de but">Gardien de but</option>
                           <option value="Défenseur">Défenseur</option>

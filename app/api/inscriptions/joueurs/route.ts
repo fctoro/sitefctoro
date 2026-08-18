@@ -86,6 +86,14 @@ function isWithinRange(birthDate: Date, minDate: Date, maxDate: Date) {
 export async function POST(request: Request) {
   try {
     const formData = await request.formData()
+
+    // Capture ALL text fields submitted to avoid data loss
+    const allTextData = Object.fromEntries(
+      Array.from(formData.entries())
+        .filter(([_, value]) => typeof value === 'string')
+        .map(([key, value]) => [key, (value as string).trim()])
+    )
+
     const payload = Object.fromEntries(
       REQUIRED_TEXT_FIELDS.map((key) => [key, getText(formData, key)])
     ) as Record<string, string>
@@ -279,7 +287,7 @@ export async function POST(request: Request) {
       email: payload.guardian_email,
       phone: payload.guardian_phone,
       message: `Nouvelle inscription Joueur confirmée pour le programme ${payload.program}.`,
-      payload: { id: registrationId, ...payload },
+      payload: { id: registrationId, ...allTextData },
     })
 
     if (messageError) {

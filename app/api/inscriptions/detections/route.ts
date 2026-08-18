@@ -12,6 +12,8 @@ const REQUIRED_TEXT_FIELDS = [
   'date_naissance',
   'zone_residence',
   'pied_dominant',
+  'poste_principal',
+  'poste_secondaire',
   'experience',
   'parent_nom',
   'parent_lien',
@@ -44,6 +46,14 @@ function sanitizeFilename(value: string) {
 export async function POST(request: Request) {
   try {
     const formData = await request.formData()
+
+    // Capture ALL text fields submitted to avoid data loss
+    const allTextData = Object.fromEntries(
+      Array.from(formData.entries())
+        .filter(([_, value]) => typeof value === 'string')
+        .map(([key, value]) => [key, (value as string).trim()])
+    )
+
     const payload = Object.fromEntries(
       REQUIRED_TEXT_FIELDS.map((key) => [key, getText(formData, key)])
     ) as Record<string, string>
@@ -52,6 +62,25 @@ export async function POST(request: Request) {
     if (missingFields.length > 0) {
       return NextResponse.json(
         { error: 'Veuillez remplir tous les champs obligatoires.' },
+        { status: 400 }
+      )
+    }
+
+    // Duplicate Check: Verify if a registration with the same nom, prenom and date_naissance already exists
+    const { data: existingRegistrations, error: checkError } = await supabaseSmgAdmin
+      .from('detection_registrations')
+      .select('id')
+      .ilike('nom', payload.nom)
+      .ilike('prenom', payload.prenom)
+      .eq('date_naissance', payload.date_naissance)
+      .limit(1)
+
+    if (checkError) {
+      console.error('Error checking for duplicate registration:', checkError)
+      // Continue anyway, it could be a transient issue, or handle it as error.
+    } else if (existingRegistrations && existingRegistrations.length > 0) {
+      return NextResponse.json(
+        { error: 'Une candidature pour ce joueur a déjà été enregistrée.' },
         { status: 400 }
       )
     }
@@ -165,7 +194,18 @@ export async function POST(request: Request) {
     const piece_identite_parent_url = await uploadOptionalDocument('piece_identite_parent', "Pièce d'identité parent")
 
     // Generate Detection Number
-    const numero_detection = `DET-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
+    let numero_detection = ''
+    for (let attempts = 0; attempts < 5; attempts++) {
+      numero_detection = `DET-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
+      const { data: existingNum } = await supabaseSmgAdmin
+        .from('detection_registrations')
+        .select('id')
+        .eq('numero_detection', numero_detection)
+        .limit(1)
+      if (!existingNum || existingNum.length === 0) {
+        break // Number is unique
+      }
+    }
 
     // Extract optional fields and map frontend to DB schema
     const email = getText(formData, 'email')
@@ -173,17 +213,29 @@ export async function POST(request: Request) {
     const niveau_actuel = getText(formData, 'niveau_actuel') || 'N/A'
     const parent_email = getText(formData, 'parent_email')
 
+    // Read additional fields for new columns
+    const poste_principal = getText(formData, 'poste_principal')
+    const poste_secondaire = getText(formData, 'poste_secondaire')
+    const ecole = getText(formData, 'ecole')
+    const club_precedent = getText(formData, 'club_precedent')
+    const annees_pratique = getText(formData, 'annees_pratique')
+
     // Insert into PostgreSQL via Supabase REST API to avoid IPv4 pool connection issues
     const { data: registration, error: regError } = await supabaseSmgAdmin.from('detection_registrations').insert({
       nom: payload.nom,
       prenom: payload.prenom,
       sexe: payload.sexe,
       date_naissance: payload.date_naissance,
-      lieu_naissance: 'N/A', // lieu_naissance (not in form)
+      lieu_naissance: payload.zone_residence, // Save zone_residence here so it appears automatically
       telephone: 'N/A', // telephone (not in form)
       email: email,
       zone_residence: payload.zone_residence,
       pied_dominant: payload.pied_dominant,
+      poste_principal: poste_principal,
+      poste_secondaire: poste_secondaire,
+      ecole: ecole,
+      club_precedent: club_precedent,
+      annees_pratique: annees_pratique,
       club_actuel: club_actuel,
       niveau_actuel: niveau_actuel,
       experience_competitive: payload.experience,
@@ -217,7 +269,11 @@ export async function POST(request: Request) {
       email: contactEmail,
       phone: payload.parent_telephone,
       message: `Nouvelle inscription aux Détections avec le numéro ${numero_detection}.`,
-      payload: { id: registrationId, numero_detection, ...payload },
+      payload: { 
+        id: registrationId, 
+        numero_detection, 
+        ...allTextData 
+      },
     })
 
     if (messageError) {

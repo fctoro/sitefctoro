@@ -22,6 +22,14 @@ function getText(formData: FormData, key: string) {
 export async function POST(request: Request) {
   try {
     const formData = await request.formData()
+
+    // Capture ALL text fields submitted to avoid data loss
+    const allTextData = Object.fromEntries(
+      Array.from(formData.entries())
+        .filter(([_, value]) => typeof value === 'string')
+        .map(([key, value]) => [key, (value as string).trim()])
+    )
+
     const payload = Object.fromEntries(
       REQUIRED_FIELDS.map((key) => [key, getText(formData, key)])
     ) as Record<string, string>
@@ -96,7 +104,7 @@ export async function POST(request: Request) {
         payload.email,
         payload.phone,
         `Nouvelle inscription de Fan de ${payload.department}.`,
-        JSON.stringify(payload),
+        JSON.stringify({ id: registrationId, ...allTextData }),
       ]
     )
 
