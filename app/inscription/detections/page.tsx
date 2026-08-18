@@ -1,9 +1,10 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { HomeNavbar } from '@/components/home-navbar'
+import { supabaseSmg } from '@/lib/supabase'
 import { Breadcrumb } from '@/components/breadcrumb'
 import {
   InscriptionField,
@@ -17,6 +18,32 @@ import {
 import { RiUploadCloud2Line, RiCheckLine, RiInformationLine } from '@remixicon/react'
 
 export default function DetectionsPage() {
+  const [isFormOpen, setIsFormOpen] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    async function checkStatus() {
+      try {
+        console.log("Checking detections form status from client...")
+        const { data, error } = await supabaseSmg
+          .from('site_status')
+          .select('detections_ouvertes')
+          .eq('id', 1)
+          .single()
+        console.log("checkStatus detections result:", data, error)
+        if (data && !error) {
+          setIsFormOpen(data.detections_ouvertes)
+        } else {
+          console.error("Error fetching detections status, defaulting to open:", error)
+          setIsFormOpen(true)
+        }
+      } catch (e) {
+        console.error("Catch block error fetching detections status:", e)
+        setIsFormOpen(true)
+      }
+    }
+    checkStatus()
+  }, [])
+
   const formRef = useRef<HTMLFormElement>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
@@ -26,6 +53,17 @@ export default function DetectionsPage() {
   const [acteName, setActeName] = useState<string | null>(null)
   const [pieceName, setPieceName] = useState<string | null>(null)
   const [age, setAge] = useState<string>('')
+
+  if (isFormOpen === null) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#f8fafc] text-[#0a2347]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 rounded-full border-4 border-slate-200 border-t-[#0a2347] animate-spin" />
+          <p className="text-xs font-black uppercase tracking-widest text-slate-400">Chargement...</p>
+        </div>
+      </div>
+    )
+  }
 
   const formatDate = (date: Date) => {
     const y = date.getFullYear()
@@ -162,15 +200,54 @@ export default function DetectionsPage() {
           </div>
         </section>
 
-        <section className="bg-white px-4 pb-12 pt-12 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[900px]">
-            <div>
-              <InscriptionFormCard
-                eyebrow="Formulaire"
-                title="Fiche d'inscription"
-                description="Remplissez les champs ci-dessous pour soumettre votre candidature aux détections 2026."
-                badges={[]}
-              >
+        {isFormOpen === false ? (
+          <section className="w-full bg-white border-t border-b border-[#dce5f2] pt-10 pb-16 text-center select-none">
+            {/* Logo FC Toro */}
+            <div className="flex justify-center mb-4">
+              <Image
+                src="/fc-toro-logo.png"
+                alt="FC Toro Logo"
+                width={80}
+                height={80}
+                className="object-contain"
+                priority
+              />
+            </div>
+
+            {/* Titre principal */}
+            <h3 className="text-3xl sm:text-4xl font-black uppercase text-[#0a2347] tracking-tight mt-4 mb-6 px-4">
+              Candidatures fermées
+            </h3>
+
+            {/* Image de déconnexion s'étendant sur toute la largeur de la page de manière proportionnelle */}
+            <div className="w-full my-6 overflow-hidden px-4">
+              <img
+                src="/deconnexion icon.png"
+                alt="Déconnexion"
+                className="w-full max-w-[800px] mx-auto h-auto max-h-[120px] object-contain"
+                style={{
+                  filter: 'invert(11%) sepia(35%) saturate(2258%) hue-rotate(193deg) brightness(95%) contrast(98%)'
+                }}
+              />
+            </div>
+
+            {/* Contenu textuel de description centré */}
+            <div className="mx-auto max-w-2xl px-4 mt-6">
+              <p className="text-[#5b6f91] text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
+                Malheureusement, nous ne recevons plus de candidature pour la détection pour le moment. Restez connectés pour connaître les dates des prochaines sessions.
+              </p>
+            </div>
+          </section>
+        ) : (
+          <section className="bg-white px-4 pb-12 pt-12 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[900px]">
+              <div>
+                <InscriptionFormCard
+                  eyebrow="Formulaire"
+                  title="Fiche d'inscription"
+                  description="Remplissez les champs ci-dessous pour soumettre votre candidature aux détections 2026."
+                  badges={[]}
+                >
                 <form ref={formRef} className="space-y-8" onSubmit={handleSubmit}>
                   
                   {/* SECTION 1: IDENTIFICATION DU JOUEUR */}
@@ -521,6 +598,7 @@ export default function DetectionsPage() {
             </div>
           </div>
         </section>
+        )}
       </main>
     </div>
   )
