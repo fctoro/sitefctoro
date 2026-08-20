@@ -930,11 +930,11 @@ export default function InscriptionJoueurPage() {
                     <InscriptionField label="Genre" required>
                       <InscriptionSelect
                         name="child_gender"
-                        defaultValue="Choisir"
+                        defaultValue=""
                         required
                         data-label="Genre"
                       >
-                        <option disabled>Choisir</option>
+                        <option value="" disabled>Choisir</option>
                         <option>Filles (F)</option>
                         <option>Garcon (M)</option>
                       </InscriptionSelect>
@@ -1062,11 +1062,11 @@ export default function InscriptionJoueurPage() {
                     <InscriptionField label="Taille du Haut (Top)" required>
                       <InscriptionSelect
                         name="uniform_top_size"
-                        defaultValue="Choisir"
+                        defaultValue=""
                         required
                         data-label="Taille du Haut (Top)"
                       >
-                        <option disabled>Choisir</option>
+                        <option value="" disabled>Choisir</option>
                         <option>YXS</option>
                         <option>YS</option>
                         <option>YM</option>
@@ -1081,11 +1081,11 @@ export default function InscriptionJoueurPage() {
                     <InscriptionField label="Taille du Short" required>
                       <InscriptionSelect
                         name="uniform_short_size"
-                        defaultValue="Choisir"
+                        defaultValue=""
                         required
                         data-label="Taille du Short"
                       >
-                        <option disabled>Choisir</option>
+                        <option value="" disabled>Choisir</option>
                         <option>YXS</option>
                         <option>YS</option>
                         <option>YM</option>
