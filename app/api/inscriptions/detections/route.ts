@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import path from 'path'
 import { sendDetectionRegistrationEmail } from '@/lib/email'
 import { ensureSmgVideosBucket, supabaseSmgAdmin } from '@/lib/supabase'
+import { ensureDetectionsTable } from '@/lib/db'
 
 export const runtime = 'nodejs'
 
@@ -45,6 +46,7 @@ function sanitizeFilename(value: string) {
 
 export async function POST(request: Request) {
   try {
+    await ensureDetectionsTable()
     const formData = await request.formData()
 
     // Capture ALL text fields submitted to avoid data loss

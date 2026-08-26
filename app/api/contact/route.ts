@@ -21,7 +21,7 @@ function getTransporter() {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { nom, prenom, email, message } = body
+    const { nom, prenom, email, phone, message } = body
 
     if (!nom || !prenom || !email || !message) {
       return NextResponse.json(
@@ -43,9 +43,9 @@ export async function POST(request: Request) {
         'contact',
         `${prenom} ${nom}`,
         email,
-        '',
+        phone || '',
         message,
-        JSON.stringify({ nom, prenom, email, message }),
+        JSON.stringify({ nom, prenom, email, phone, message }),
       ]
     )
 

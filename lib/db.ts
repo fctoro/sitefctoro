@@ -184,6 +184,12 @@ export async function ensureDetectionsTable() {
     );
   `)
 
+  await smgPool.query(`alter table detection_registrations add column if not exists ecole text;`)
+  await smgPool.query(`alter table detection_registrations add column if not exists poste_principal text;`)
+  await smgPool.query(`alter table detection_registrations add column if not exists poste_secondaire text;`)
+  await smgPool.query(`alter table detection_registrations add column if not exists club_precedent text;`)
+  await smgPool.query(`alter table detection_registrations add column if not exists annees_pratique text;`)
+
   hasEnsuredDetectionsTable = true
 }
 

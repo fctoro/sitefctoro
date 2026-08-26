@@ -24,6 +24,7 @@ export async function POST(request: Request) {
     const stageId = getText(formData, 'stageId')
     const firstName = getText(formData, 'first_name')
     const lastName = getText(formData, 'last_name')
+    const fullNameInput = getText(formData, 'full_name')
     const email = getText(formData, 'email')
     const phone = getText(formData, 'phone')
     const location = getText(formData, 'location')
@@ -119,7 +120,7 @@ export async function POST(request: Request) {
         `,
         [
           stageId,
-          `${firstName} ${lastName}`,
+          fullNameInput || `${firstName} ${lastName}`,
           firstName,
           lastName,
           email,
