@@ -281,13 +281,23 @@ export async function POST(request: Request) {
       }
     }
 
+    const childFullName = `${payload.child_first_name} ${payload.child_last_name}`.trim()
+
     const { error: messageError } = await supabaseSmgAdmin.from('site_messages').insert({
       type: 'joueur',
-      name: `${payload.guardian_name} (Enfant: ${payload.child_first_name} ${payload.child_last_name})`,
+      name: `${payload.guardian_name} (Enfant: ${childFullName})`,
       email: payload.guardian_email,
       phone: payload.guardian_phone,
-      message: `Nouvelle inscription Joueur confirmée pour le programme ${payload.program}.`,
-      payload: { id: registrationId, ...allTextData },
+      message: `Nouvelle inscription Joueur confirmée pour ${childFullName} (${payload.program}).`,
+      payload: {
+        id: registrationId,
+        registration_id: registrationId,
+        child_id: registrationId,
+        child_name: childFullName,
+        child_first_name: payload.child_first_name,
+        child_last_name: payload.child_last_name,
+        ...allTextData,
+      },
     })
 
     if (messageError) {
@@ -297,6 +307,7 @@ export async function POST(request: Request) {
     await sendRegistrationEmail({
       to: payload.guardian_email,
       guardianName: payload.guardian_name,
+      childName: childFullName,
       program: payload.program,
     }).catch((err) => console.error("Erreur d'envoi email:", err))
 

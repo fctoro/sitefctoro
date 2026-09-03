@@ -375,8 +375,13 @@ export default function InscriptionJoueurPage() {
       if (!response.ok) {
         throw new Error(data?.error || "Une erreur est survenue lors de l'inscription.")
       }
+      const childFirst = (formData.get('child_first_name') as string)?.trim() || ''
+      const childLast = (formData.get('child_last_name') as string)?.trim() || ''
+      const childFull = `${childFirst} ${childLast}`.trim()
+      const childLabel = childFull ? ` pour ${childFull}` : ''
+
       setSubmitState('success')
-      setSubmitMessage("Merci d’avoir soumis votre pré-inscription. Votre demande a bien été enregistrée. Cette étape ne confirme pas encore l’inscription du joueur. Notre équipe administrative vous contactera prochainement afin de valider les documents requis et finaliser le paiement. L’inscription sera confirmée une fois toutes les étapes complétées.")
+      setSubmitMessage(`Merci d’avoir soumis la pré-inscription${childLabel}. Votre demande a bien été enregistrée. Cette étape ne confirme pas encore l’inscription du joueur. Notre équipe administrative vous contactera prochainement afin de valider les documents requis et finaliser le paiement. L’inscription sera confirmée une fois toutes les étapes complétées.`)
       setShowDownload(true)
     } catch (error) {
       const message =

@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url'
 type RegistrationEmailInput = {
   to: string
   guardianName: string
+  childName?: string
   program: string
 }
 
@@ -595,15 +596,18 @@ function renderEmailTemplate({
 export async function sendRegistrationEmail({
   to,
   guardianName,
+  childName,
   program,
 }: RegistrationEmailInput) {
   const transporter = getTransporter()
   if (!transporter) return
 
   const safeName = guardianName || 'Parent'
+  const safeChildName = childName ? ` pour votre enfant ${childName}` : ''
+  const childSubjectSuffix = childName ? ` - ${childName}` : ''
   const programLabel = program === 'tiToro' ? 'Ti Toro' : 'FC TORO'
   const registrationPageUrl = getAbsoluteUrl('/inscription/joueur')
-  const subject = 'Confirmation de votre inscription FC TORO'
+  const subject = `Confirmation de pré-inscription FC TORO${childSubjectSuffix}`
 
   const socialButtonsHtml = `
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="text-align:center;">
@@ -684,8 +688,8 @@ export async function sendRegistrationEmail({
   const text = [
     `Bonjour ${safeName},`,
     '',
-    "Votre demande d'inscription a bien été reçue par FC TORO.",
-    `Programme concerné : FC TORO Elite.`,
+    `Votre demande de pré-inscription${safeChildName} a bien été reçue par FC TORO.`,
+    `Programme concerné : ${programLabel}.`,
     'Notre équipe vous contactera avec les prochaines instructions pour finaliser le paiement et la suite du parcours.',
     registrationPageUrl ? `Retrouvez le parcours ici : ${registrationPageUrl}` : '',
     '',
@@ -696,13 +700,14 @@ export async function sendRegistrationEmail({
     .join('\n')
 
   const html = renderEmailTemplate({
-    preheader: "Votre inscription FC TORO a bien été reçue par l'équipe.",
-    eyebrow: "Confirmation d'inscription",
-    title: "Votre inscription est en cours.",
-    intro: `Bonjour ${safeName}, votre demande d'inscription a bien été reçue par FC TORO.`,
+    preheader: `Votre demande de pré-inscription${safeChildName} a bien été reçue par l'équipe.`,
+    eyebrow: "Confirmation de pré-inscription",
+    title: "Inscription en cours de traitement",
+    intro: `Bonjour ${safeName}, votre demande de pré-inscription${safeChildName} a bien été reçue par FC TORO.`,
     highlight:
       "Le club prépare maintenant les prochaines étapes pour accompagner votre famille dans une intégration claire, sérieuse et sportive.",
     details: [
+      `Enfant concerné : ${childName || 'Non spécifié'}.`,
       `Programme concerné : ${programLabel}.`,
       "Vous recevrez bientôt les informations utiles pour finaliser le paiement et valider la suite du dossier.",
       "Notre équipe reste mobilisée pour vous guider simplement, du formulaire jusqu'au terrain.",
